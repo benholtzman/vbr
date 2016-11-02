@@ -1,0 +1,40 @@
+::::: REFERENCES :::::
+
+Gaherty, Jordan, and Gee. "Seismic structure of the upper mantle in a central Pacific corridor." JGR 101.B10 (1996): 22291-22309.
+
+Gaherty, Kato, and Jordan. "Seismological structure of the upper mantle: a regional comparison of seismic layering." Physics of the Earth and Planetary Interiors 110.1 (1999): 21-41.
+
+
+
+
+::::: NOTES :::::
+
+Model PA5 values in table 2 are for a reference frequency of 35 mHz. 
+
+actual values in PA5.csv come from Table 3 of Gaherty et al (). 
+
+in order to make the model a well-behaved function, the layer end points where shifted by a 0.01 km to avoid multiple values at the same depth. 
+
+For example, the original table had 
+
+z (km), rho (Mg/m3),Vsv (km/s), Vsh (km/s), Vpv (km/s), Vph (km/s), eta, Q_u
+.
+.
+.
+12.0,3.03,3.68,3.68,5.93,5.93,1.00,150
+12.0,3.34,4.65,4.84,8.04,8.27,0.90,150
+.
+.
+.
+
+whereas the current table has
+
+z (km), rho (Mg/m3),Vsv (km/s), Vsh (km/s), Vpv (km/s), Vph (km/s), eta, Q_u
+.
+.
+.
+11.99,3.03,3.68,3.68,5.93,5.93,1.00,150
+12.0,3.34,4.65,4.84,8.04,8.27,0.90,150
+.
+.
+.

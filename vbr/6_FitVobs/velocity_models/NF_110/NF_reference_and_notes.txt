@@ -1,0 +1,3 @@
+Nishimura and Forsyth. "The anisotropic structure of the upper mantle in the Pacific." Geophysical Journal International 96.2 (1989): 203-229.
+
+Only digitized the 110+ Myr table (see Table 4 of Nishimura and Forsyth)

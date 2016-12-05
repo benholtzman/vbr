@@ -9,27 +9,32 @@
 %% ----------------------- %%
 %% General Driver Settings %%
 %% ----------------------- %%
-
   Work.quit_at_end = 'no'; % if yes, forces matlab to exit at completion!  
         % meant for running matlab in background via command line. Use with 
         % bash script, RunMatBG, set to 'no' otherwise.
-        
+   
+  wMelt_flag = 0 
 %% ---------------------- %%                             
 %% Box input/output files %%
 %% ---------------------- %%
 
 %% box name without the 'Box_' prefix
    %Work.Box_base_name='2016-06-30-prem_init_sweep';
-   Work.Box_base_name='2016-11-01-test';
+   Work.Box_base_name='y161202_test';
 %% box directory  
    Work.cwd=pwd;cd ~; Work.hmdir=pwd;cd( Work.cwd)
    %Work.Box_dir =[ Work.hmdir '/Dropbox/Research/0_Boxes/'];
-   Work.Box_dir =[ Work.hmdir '/0_WORK/3_VBRcloset/']; 
+   Work.Box_dir =[ Work.hmdir '/0_vbr_git/VBRcloset/']; 
    Work.Box_dir = [ Work.Box_dir  Work.Box_base_name '/'];
   
-%% full box name   
-   Work.Box_name_IN = ['Box_'  Work.Box_base_name];
-   Work.Box_name_IN = [ Work.Box_dir  Work.Box_name_IN];
+%% full box name  
+   if wMelt_flag == 1
+        Work.Box_name_IN = ['Box_'  Work.Box_base_name '_wMelt'];
+   elseif wMelt_flag == 0
+        Work.Box_name_IN = ['Box_'  Work.Box_base_name ]; 
+   end
+   
+   Work.Box_name_IN = [ Work.Box_dir  Work.Box_name_IN ];
   
 %% new VBR box name  
    Work.Box_out_suffix='_VBR';   
@@ -40,7 +45,7 @@
 %% ------------ %%
 
 %% include melt fraction in vbr calc?
-   Work.MELT = 0; % integer flag (1 or 0) to multiply melt fraction by
+   Work.MELT = 1; % integer flag (1 or 0) to multiply melt fraction by
    
 %% frame selection   
    Work.frames2vbr='ONLYONETHING';

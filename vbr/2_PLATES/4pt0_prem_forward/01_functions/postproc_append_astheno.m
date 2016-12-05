@@ -45,11 +45,14 @@ for it = 1:nt
      Solidus = SoLiquidus(P_hyd,Var_new.Cf_H2O(:,it),Var_new.Cf_CO2(:,it),'katz');
      Var_new.Tsol(:,it)=Solidus.Tsol;
      Var_new.phi(:,it) = ones(nz,1) * settings.phi_min; 
+     % conditional statement: if T > Tsol, ()==1
      Var_new.phi(:,it) = Var_new.phi(:,it) .* (Var_new.T(:,it) > Var_new.Tsol(:,it));
   
 %   recalc viscosity
-     Vark.T = Var_new.T(:,it); Vark.P = P_hyd; Vark.sig_MPa = Var_new.sig_MPa(:,it); 
-     Vark.dg_um = Var_new.dg_um(:,it); Vark.phi = Var_new.phi(:,it); 
+     Vark.T = Var_new.T(:,it); Vark.P = P_hyd; 
+     Vark.sig_MPa = Var_new.sig_MPa(:,it); 
+     Vark.dg_um = Var_new.dg_um(:,it); 
+     Vark.phi = Var_new.phi(:,it); 
      Vark.Cs_H2O = Var_new.Cs_H2O(:,it); 
      Var_new.eta(:,it) = get_VBR_visc(Vark); 
      

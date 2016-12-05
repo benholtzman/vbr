@@ -1,21 +1,32 @@
 clear; close all;
 
+
+wMelt_flag = 0 
+T1orS2_flag = 2
+
+% ===============================
 % load Box data
 % box name without the 'Box_' prefix
    %Work.Box_base_name='2016-06-30-prem_init_sweep';
-   Work.Box_base_name='2016-11-01-test';
-   Work.savefigname='TNA';
+   Work.Box_base_name='y161202_test';
+   Work.savefigname='SNA';
    
 % box directory  
    Work.cwd=pwd;cd ~; Work.hmdir=pwd;cd( Work.cwd)
    %Work.Box_dir =[ Work.hmdir '/Dropbox/Research/0_Boxes/'];
-   Work.Box_dir =[ Work.hmdir '/0_WORK/3_VBRcloset/'];
+   Work.Box_dir =[ Work.hmdir '/0_vbr_git/VBRcloset/'];
    Work.Box_dir = [ Work.Box_dir  Work.Box_base_name '/'];
   
 % full box name   
-   Work.Box_name_IN = ['Box_'  Work.Box_base_name '_VBR'];
+   if wMelt_flag == 1
+        Work.Box_name_IN = ['Box_'  Work.Box_base_name '_wMelt_VBR'];
+   elseif wMelt_flag == 0
+        Work.Box_name_IN = ['Box_'  Work.Box_base_name '_VBR']; 
+   end
+
    Work.Box_name_IN = [ Work.Box_dir  Work.Box_name_IN];   
-   
+
+% ===============================
 % the velocity profile
   Fit_Params.velfile = '../../6_FitVobs/velocity_models/TNA_SNA/TNA_SNA';
 
@@ -24,11 +35,13 @@ clear; close all;
           % NOTE: eBurgers will BREAK since naming convention is not the
           % same. Should fix that in the spine. 
   Fit_Params.VBR_visc_method = 'LH2012'; % only for plotting 
-  
+
+% ===============================
 % set depth weighting (weighting for all depths initialized to 1, set changes here)  
   Fit_Params.depthrange = [0 50 ; 50 300; 300 600 ];
   Fit_Params.weighted = [ 0 1 0 ];
-    
+
+% ===============================
 % add paths   
   addpath('../../6_FitVobs/Functions_Plotting/')
   addpath('../../6_FitVobs/')  
@@ -67,7 +80,11 @@ clear; close all;
   
 % pull out depth, velocities of interest  
   Obs.depth = TNASNA.Depthkm;
-  Obs.Vs    = TNASNA.TNAkms1*1000; 
+  if T1orS2_flag == 1
+      Obs.Vs = TNASNA.TNAkms1*1000;
+  elseif T1orS2_flag == 2
+      Obs.Vs = TNASNA.SNAkms1*1000;
+  end
   Obs.Vs = Obs.Vs(Obs.depth<max(maxZ_km));
   Obs.depth = Obs.depth(Obs.depth<max(maxZ_km));   
   

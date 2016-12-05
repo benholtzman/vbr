@@ -14,9 +14,10 @@
 %% settings common to all runs   
 %  Save settings
    Work.cwd=pwd; cd ~; Work.hmdir=pwd; cd(Work.cwd);
+   % USER Needs to set these paths: 
    %Work.savedir0=[Work.hmdir '/Dropbox/Research/0_Boxes']; % the closet to store the box in 
-   Work.savedir0=[Work.hmdir '/0_WORK/3_VBRcloset']; % the closet to store the box in 
-   Work.savebase = '2016-11-01-test'; % boxes end up named ['Box_' savebase]   
+   Work.savedir0=[Work.hmdir '/0_vbr_git/VBRcloset']; % the closet to store the box in 
+   Work.savebase = 'y161202_SNA_test'; % boxes end up named ['Box_' savebase]   
    Work.saveindi = 'yes'; % save all output? yes or no. 
    
 %  Load Default Settings  
@@ -30,8 +31,9 @@
      
 %    Computational settings 
 %    time
-     settings.nt= 10; % max time steps 
-     settings.outk =2; % output frequency
+     settings.nt= 1000; % max number of time steps 
+     settings.outk = settings.nt ; % frequency of output (output every outk steps)
+     % number of timesteps to save = outn = nt/outk  
      settings.t_max_Myrs=500; % max time to calculate [Myr]     
      
 %    for melt fraction calc                    
@@ -44,13 +46,15 @@
 %  settings structure. var1 must be defined, var2 lines can be 
 %  commented/deleted if desired.
 % 
-    settings.Box.var1range = [70 80 90 100];
-    settings.Box.var1name = 'zPlate';
-    settings.Box.var1units =' km';    
-     
-    settings.Box.var2range = [1325 1375 1425];
-    settings.Box.var2name = 'Tpot';
-    settings.Box.var2units =' C';
+
+    settings.Box.var1range = [1275:50:1525];
+    settings.Box.var1name = 'Tpot';
+    settings.Box.var1units =' C';
+    
+    settings.Box.var2range = [60:20:240];
+    settings.Box.var2name = 'zPlate';
+    settings.Box.var2units =' km';    
+
 %      
 %   Specify data reduction method for Box storage     
     settings.Box.DownSampleMeth='interp';

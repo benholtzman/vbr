@@ -29,7 +29,8 @@ function [settings]=init_settings
   settings.cfl = 0.4;  % advection stability criteria  
   
 % uniform state variables  
-  settings.phi_min = 1e-4; % the minimum retained melt fraction  
+  settings.phi_min = 0.0 ; % 1e-4; % the minimum retained melt fraction 
+  % use 0.0 when adding melt later using DRIVE_AddMelt.m
   settings.grain0 = 0.01; % grain size [m]
 
 % crustal thickness

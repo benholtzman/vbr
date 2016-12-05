@@ -17,7 +17,7 @@
    % USER Needs to set these paths: 
    %Work.savedir0=[Work.hmdir '/Dropbox/Research/0_Boxes']; % the closet to store the box in 
    Work.savedir0=[Work.hmdir '/0_vbr_git/VBRcloset']; % the closet to store the box in 
-   Work.savebase = 'y161202_SNA_test'; % boxes end up named ['Box_' savebase]   
+   Work.savebase = 'y161205_SNA_test'; % boxes end up named ['Box_' savebase]   
    Work.saveindi = 'yes'; % save all output? yes or no. 
    
 %  Load Default Settings  
@@ -32,7 +32,7 @@
 %    Computational settings 
 %    time
      settings.nt= 1000; % max number of time steps 
-     settings.outk = settings.nt ; % frequency of output (output every outk steps)
+     settings.outk = settings.nt/10 ; % frequency of output (output every outk steps)
      % number of timesteps to save = outn = nt/outk  
      settings.t_max_Myrs=500; % max time to calculate [Myr]     
      

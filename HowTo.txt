@@ -1,0 +1,22 @@
+first fit the plate thickness.. 
+find depth of RF LAb
+
+1) DRIVE_SVFM_Plate.. 
+2) DRIVE_VBR
+3) DRIVE_TNA_SNA_fit
+pick the value of the zPlate that gives the best zLAB. 
+
+Then add melt: 
+1) DRIVE_AddMelt
+2) DRIVE_VBR (with wMelt_flag = 1) 
+3) DRIVE_TNA_SNA_fit (with wMelt_flag = 1) 
+
+======================================
+TO dO with chris: 
+
+why is time steps saved not linear…  ?  
+how is dt determined? adaptive?
+
+how to interpret “end of run” messages ? 
+plotting: show all vars
+

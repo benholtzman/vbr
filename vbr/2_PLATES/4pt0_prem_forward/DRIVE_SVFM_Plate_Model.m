@@ -17,7 +17,7 @@
    % USER Needs to set these paths: 
    %Work.savedir0=[Work.hmdir '/Dropbox/Research/0_Boxes']; % the closet to store the box in 
    Work.savedir0=[Work.hmdir '/0_vbr_git/VBRcloset']; % the closet to store the box in 
-   Work.savebase = 'y161205_SNA_test'; % boxes end up named ['Box_' savebase]   
+   Work.savebase = 'y161210_SNA_fit'; % boxes end up named ['Box_' savebase]   
    Work.saveindi = 'yes'; % save all output? yes or no. 
    
 %  Load Default Settings  
@@ -27,12 +27,12 @@
 %    Mesh
      settings.dz0=3; % grid cell size [km]          
      settings.Zinfo.asthenosphere_max_depth = 350; % adiabatic T from zmax to here [km]
-     settings.Z_moho_km = 20; % Moho depth [km] 
+     settings.Z_moho_km = 30; % Moho depth [km] 
      
 %    Computational settings 
 %    time
      settings.nt= 1000; % max number of time steps 
-     settings.outk = settings.nt/10 ; % frequency of output (output every outk steps)
+     settings.outk = settings.nt ; % frequency of output (output every outk steps)
      % number of timesteps to save = outn = nt/outk  
      settings.t_max_Myrs=500; % max time to calculate [Myr]     
      
@@ -46,12 +46,17 @@
 %  settings structure. var1 must be defined, var2 lines can be 
 %  commented/deleted if desired.
 % 
-
-    settings.Box.var1range = [1275:50:1525];
+    % TNA
+    %settings.Box.var1range = [1275:25:1525];
+    % SNA
+    settings.Box.var1range = [1275:25:1525];
     settings.Box.var1name = 'Tpot';
     settings.Box.var1units =' C';
     
-    settings.Box.var2range = [60:20:240];
+    %TNA
+    %settings.Box.var2range = [30:10:120];
+    %SNA
+    settings.Box.var2range = [80:10:250];    
     settings.Box.var2name = 'zPlate';
     settings.Box.var2units =' km';    
 

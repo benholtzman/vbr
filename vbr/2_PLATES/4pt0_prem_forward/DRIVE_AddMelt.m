@@ -6,7 +6,7 @@ clf; close all;
 % ===================================
 % (1) read in box.. and look at it.. 
 
-testDir = 'y161130_test'
+testDir = 'y161210_TNA_fit'
 closetPath = strcat('../../../VBRcloset/',testDir,'/')
 boxName = strcat('Box_',testDir,'.mat') % Box pre VBR
 load(strcat(closetPath,boxName))
@@ -15,6 +15,11 @@ display(Box(1,1).run_info)
 
 newBoxName = strcat('Box_',testDir,'_wMelt.mat')
 newBoxpath = strcat(closetPath,newBoxName)
+
+% index of zPlate val that best fits zLAB: 
+% SET THIS AFTER FIRST FITTING EXPERIMENT ! 
+i_var2good = 7 ; 
+
 
 szBox = size(Box) ; 
 n_var1 = szBox(1) ; 
@@ -28,9 +33,6 @@ n_var2 = szBox(2) ;
 phi_vec = [0.0:0.002:0.02] ; 
 % pick, from the previous results, the row to keep: 
 n_var2new = length(phi_vec) ; 
-
-% SET THIS AFTER FIRST FITTING EXPERIMENT ! 
-i_var2good = 3 ; 
 
 for i_var1 = 1:n_var1
     for i_var2 = 1:n_var2new
@@ -47,14 +49,20 @@ for i_var1 = 1:n_var1
         T_z = Box_new(i_var1,i_var2).Frames(end).T(:,1); 
         
         % get zLAB, zSOL, zTcrit? and its index
-        % (2) find point below which melt fraction exists: 
+        % (2) find points below which melt fraction could be added: 
         Z_phiBumpCenter_km = Box_new(i_var1,i_var2).run_info.zLAB(end)/1e3 ; 
         ind_phiBumpCenter = find(Z_km > Z_phiBumpCenter_km,1)-1 ; 
         T_phiBumpCenter = T_z(ind_phiBumpCenter) ; 
         
+        zLAB_mat(i_var1,i_var2).Z_km = Z_phiBumpCenter_km ;
+        zLAB_mat(i_var1,i_var2).ind = ind_phiBumpCenter ; 
+        zLAB_mat(i_var1,i_var2).T_LAB = T_phiBumpCenter ; 
+        %Res_mat(i_var1,i_var2) = log10(Res) ; 
+        
+        % =======================
         % add the melt fraction ! 
         N = length(Z_km) ; 
-        N_z_steps = floor(N/5); 
+        N_z_steps = floor(N/10); 
         i_mid_step = ind_phiBumpCenter ; 
         [step_vec] = make_meltStep(N,N_z_steps,i_mid_step) ; 
         phi = phi_vec(i_var2) ; 
@@ -67,12 +75,20 @@ end
  
  
  
-% ===================================
-% (2) find point below which melt fraction exists: 
-%zLAB, zSOL, zMO (what is zMO?)
+% ==================================
+% PLOTTING
+% ==================================
 
-% TEMPERATURE : 
-ax1 = subplot(1,2,1); hold on; 
+LBLFNT = 15 ;
+LW = 2 ;
+
+column1 = [0.1 0.1 0.2 0.7] ;
+column2 = [0.35 0.1 0.2 0.7] ;
+plot1 = [0.65 0.3 0.3 0.35] ;
+
+ 
+% TEMPERATURE : ====================================
+axes('Position', column1); 
 colors = colormap(hsv(3*n_var1)) ; 
 for i_var1 = 1:n_var1
     for i_var2 = 1:n_var2new     
@@ -80,15 +96,25 @@ for i_var1 = 1:n_var1
         T_z = Box_new(i_var1,i_var2).Frames(end).T(:,1); 
         col = colors(i_var1+round(2*n_var1),:) ; 
         plot(T_z,Z_km, 'color', col); hold on; 
-        plot(T_phiBumpCenter,Z_phiBumpCenter_km, 'r.', 'markersize', 10); hold on; 
+        T_dot = zLAB_mat(i_var1,i_var2).T_LAB ; 
+        Z_dot = zLAB_mat(i_var1,i_var2).Z_km ;
+        plot(T_dot,Z_dot, 'r.', 'color', col, 'markersize', 12); hold on; 
     end
 end
+
+T_min = 0 ;
+T_max = 1800 ;
+xlim([T_min,T_max])
+xlabel('Temperature [C]')
+ylabel('Depth [km]')
 set(gca,'box','on','xminortick','on','yminortick','on','Ydir','rev',...
             'fontname','Times New Roman','fontsize', LBLFNT)
-        
+
+% =============================================
 % MELT FRACTION PLOTS ! 
-ax2 = subplot(1,2,2); hold on; 
-colors = colormap(summer(n_var2new+2)) ; 
+axes('Position', column2); 
+
+colors = colormap(summer(n_var2new+10)) ; 
 for i_var1 = 1:n_var1
     for i_var2 = 1:n_var2new     
         Z_km = Box_new(i_var1,i_var2).run_info.Z_km ;
@@ -99,6 +125,10 @@ for i_var1 = 1:n_var1
     end
 end
 
+phi_min = 0 ;
+phi_max = 0.03 ;
+xlim([phi_min,phi_max])
+xlabel('\phi, melt fraction')
 set(gca,'box','on','xminortick','on','yminortick','on','Ydir','rev',...
             'fontname','Times New Roman','fontsize', LBLFNT)
         

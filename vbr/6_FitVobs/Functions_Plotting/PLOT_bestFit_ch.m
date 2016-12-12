@@ -118,7 +118,7 @@ axes('position', plot_C); hold on;
 
 if VarInfo.Var2_n > 1
     axes('position', plot_D); hold on;
-    h1 = imagesc(VarInfo.Var2_range(3:end),VarInfo.Var1_range,log10(misfit(:,3:end)+1e-20));
+    h1 = imagesc(VarInfo.Var2_range(1:end),VarInfo.Var1_range,log10(misfit(:,1:end)+1e-20));
     xlabel([VarInfo.Var2_name ' (' VarInfo.Var2_units ')'],...
         'fontname','Times New Roman','fontsize',LBLFNT);
     ylabel([VarInfo.Var1_name ' (' VarInfo.Var1_units ')'],...

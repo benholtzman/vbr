@@ -47,7 +47,8 @@ Z_km = Box(i_Var1,j_Var2).run_info.Z_km;
 % ===========================================
 % TEMPERATURE
 axes('position', topA,'box','on'); hold on;    
-   plot(Box(i_Var1,j_Var2).Frames(Frm).T-273,Z_km,'k')
+   %plot(Box(i_Var1,j_Var2).Frames(Frm).T-273,Z_km,'k')
+   plot(Box(i_Var1,j_Var2).Frames(Frm).T,Z_km,'k')
    xlabel('T [C]'); 
    ylabel('z [km]'); 
    set(gca,'ydir','rev')  

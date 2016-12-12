@@ -40,7 +40,8 @@ for k = 1:nk
         
         VBRan=Box(j,k).Frames(frame_with_VBR(j,k)).VBR.out.anelastic;
         
-        T_C = Box(j,k).Frames(frame_with_VBR(j,k)).T-273 ;		       
+        %T_C = Box(j,k).Frames(frame_with_VBR(j,k)).T-273 ;
+        T_C = Box(j,k).Frames(frame_with_VBR(j,k)).T ;		       
         M = VBRan.(Fit_Params.VBR_anelastic_method).Ma./1e9;		
         Q = log10(VBRan.(Fit_Params.VBR_anelastic_method).Qa);
         Vs = (VBRan.(Fit_Params.VBR_anelastic_method).Vave)./1e3;              

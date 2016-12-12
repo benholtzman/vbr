@@ -18,8 +18,6 @@ Info.z = z_new;
 
 [Var_new,Info] = init_new_Var(Vars,Info,nz,nz0,nt); 
 for it = 1:nt    
-    
-    
 %   first, just copy LAB value into asthenosphere nodes, then overwrite the
 %   variables that will be different in asthenosphere
     fields = fieldnames(Vars); 
@@ -56,6 +54,11 @@ for it = 1:nt
      Vark.Cs_H2O = Var_new.Cs_H2O(:,it); 
      Var_new.eta(:,it) = get_VBR_visc(Vark); 
      
+%   recalc composition weighting function
+    Zm=settings.Z_moho_km*1e3; 
+    dzMoho = settings.Moho_thickness_km * 1e3; 
+    Grade = 0.5 * (1 + erf( (z_new - Zm) / dzMoho));
+    Var_new.comp(:,it) = Grade;
      
 %   recalc LAB 
     Vark.Tsol=Var_new.Tsol(:,it); 

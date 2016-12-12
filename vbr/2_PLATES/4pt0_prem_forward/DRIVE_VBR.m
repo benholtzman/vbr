@@ -13,14 +13,22 @@
         % meant for running matlab in background via command line. Use with 
         % bash script, RunMatBG, set to 'no' otherwise.
    
-  wMelt_flag = 0 
+  wMelt_flag = 1 
+  %% include melt fraction in vbr calc?
+  Work.MELT = 1; % integer flag (1 or 0) to multiply melt fraction by
+ 
+  % GIA calc : 
+  GIA_flag = 0 ; 
+  
 %% ---------------------- %%                             
 %% Box input/output files %%
 %% ---------------------- %%
 
 %% box name without the 'Box_' prefix
    %Work.Box_base_name='2016-06-30-prem_init_sweep';
-   Work.Box_base_name='y161202_test';
+   Work.Box_base_name='y161210_TNA_fit';
+   %Work.Box_base_name='y161210_SNA_fit';
+   
 %% box directory  
    Work.cwd=pwd;cd ~; Work.hmdir=pwd;cd( Work.cwd)
    %Work.Box_dir =[ Work.hmdir '/Dropbox/Research/0_Boxes/'];
@@ -37,16 +45,25 @@
    Work.Box_name_IN = [ Work.Box_dir  Work.Box_name_IN ];
   
 %% new VBR box name  
-   Work.Box_out_suffix='_VBR';   
+   if GIA_flag==0
+       Work.Box_out_suffix='_VBR';
+   elseif GIA_flag==1
+        Work.Box_out_suffix='_VBR_GIA';  
+   end
+  
    Work.Box_name_OUT = [ Work.Box_name_IN  Work.Box_out_suffix];
 
 %% ------------ %%   
 %% VBR settings %%
 %% ------------ %%
+  %% set frequency to calculate over 
+   % body wave band
+   %VBR.in.SV.f =  logspace(-1.5,0.0,10);
+   % surface wave band
+   VBR.in.SV.f =  logspace(-2.2,-1.3,10);
+   % GIA band
+   %VBR.in.SV.f =  logspace(-12,-9,30);
 
-%% include melt fraction in vbr calc?
-   Work.MELT = 1; % integer flag (1 or 0) to multiply melt fraction by
-   
 %% frame selection   
    Work.frames2vbr='ONLYONETHING';
             % 'ALLTHETHINGS' to VBR all frames in a Box
@@ -70,9 +87,6 @@
    VBR.in.viscous.methods_list={'HK2003'; 'LH2012'};   
    VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};    
    
-%% set frequency to calculate over   
-   VBR.in.SV.f =  logspace(-2.2,-1.3,10);
-
 %% load elastic parameters
    VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
 %    VBR.in.elastic.anharmonic.Gu_0_ol=71; 

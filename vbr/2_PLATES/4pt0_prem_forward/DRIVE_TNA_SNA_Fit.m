@@ -1,15 +1,20 @@
 clear; close all;
 
-
-wMelt_flag = 0 
-T1orS2_flag = 2
+wMelt_flag = 1 
+T1orS2_flag = 1
 
 % ===============================
 % load Box data
 % box name without the 'Box_' prefix
    %Work.Box_base_name='2016-06-30-prem_init_sweep';
-   Work.Box_base_name='y161202_test';
-   Work.savefigname='SNA';
+   if T1orS2_flag==1
+       Work.Box_base_name='y161210_TNA_fit';
+       Work.savefigname='TNA_noMelt';
+   elseif T1orS2_flag==2
+       Work.Box_base_name='y161210_SNA_fit';
+       Work.savefigname='SNA_noMelt';
+   end
+   
    
 % box directory  
    Work.cwd=pwd;cd ~; Work.hmdir=pwd;cd( Work.cwd)
@@ -38,7 +43,7 @@ T1orS2_flag = 2
 
 % ===============================
 % set depth weighting (weighting for all depths initialized to 1, set changes here)  
-  Fit_Params.depthrange = [0 50 ; 50 300; 300 600 ];
+  Fit_Params.depthrange = [0 80 ; 80 300; 300 600 ];
   Fit_Params.weighted = [ 0 1 0 ];
 
 % ===============================

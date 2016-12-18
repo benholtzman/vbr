@@ -6,13 +6,14 @@ clf; close all;
 % ===================================
 % (1) read in box.. and look at it.. 
 
-testDir = 'y161210_TNA_fit'
+testDir = 'y161213_TNA_fit'
 closetPath = strcat('../../../VBRcloset/',testDir,'/')
 boxName = strcat('Box_',testDir,'.mat') % Box pre VBR
 load(strcat(closetPath,boxName))
 display(Box(1,1).info)
 display(Box(1,1).run_info)
 
+addpath('./01_functions/');
 newBoxName = strcat('Box_',testDir,'_wMelt.mat')
 newBoxpath = strcat(closetPath,newBoxName)
 
@@ -30,7 +31,7 @@ n_var2 = szBox(2) ;
 
 % ===================================
 % MAKE THE NEW BOX !@# 
-phi_vec = [0.0:0.002:0.02] ; 
+phi_vec = [0.0:0.002:0.03] ; 
 % pick, from the previous results, the row to keep: 
 n_var2new = length(phi_vec) ; 
 

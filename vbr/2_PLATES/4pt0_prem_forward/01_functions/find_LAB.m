@@ -1,9 +1,11 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function LABInfo = find_LAB(Vark,z,settings,LABInfo) 
+% initialize 
+           zSOL = max(z);zSOLid=numel(z); % shallowest solidus-geotherm intersection
+           zMO = max(z);zMOid=numel(z);   % deepest solidus-geotherm intersection (Melting Onset, MO) 
+           zLAB = max(z);zLABid=numel(z); % the LAB defined as an order of magnitude drop in 
+                                          % viscosity relative to convecting interior
 % solidus zLAB
-           zSOL = max(z);zSOLid=numel(z); 
-           zLAB = max(z);zLABid=numel(z); 
-           zMO = max(z);zMOid=numel(z); 
            izLAB = 3; LAB_success = 'failed'; 
            while izLAB < numel(Vark.T)
                if Vark.T(izLAB) > Vark.Tsol(izLAB)% && Vark.phi(izLAB) > 1e-5;%settings.phimin
@@ -15,6 +17,7 @@ function LABInfo = find_LAB(Vark,z,settings,LABInfo)
                    izLAB = izLAB + 1;
                end
            end  
+
 % vicsous zLAB
 %          ratio based on average eta below
              viscLABid='looking'; iz = 5; nz = numel(Vark.T); 

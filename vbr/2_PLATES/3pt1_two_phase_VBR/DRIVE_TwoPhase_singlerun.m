@@ -6,6 +6,7 @@
    disp(' ');disp('--------------------------------------------------')
    clear; close all   
    addpath ./01_init_conds_and_material ./02_box_functions ./02_functions
+   addpath ./03_plotting ./03_plotting/postproc
   
 %% --------------------------------------------------------------------- %%
 %%                       Problem Setup      
@@ -29,8 +30,8 @@
      
 %    Computational settings 
 %    time
-     settings.nt= 100; % max time steps 
-     settings.outk =5; % output frequency
+     settings.nt= 1200; % max time steps 
+     settings.outk =50; % output frequency
      settings.t_max_Myrs=0.5; % max time to calculate [Myr]     
      settings.z_thin=settings.Z_moho_km; % quit if lith is thinned to here [km]
      

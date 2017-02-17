@@ -6,8 +6,7 @@
 % choose a thing
   cwd=pwd; cd ~; hmdir=pwd; cd(cwd);
   loaddir0=[hmdir '/Desktop']; % the closet to store the box in 
-  loadbase = '2016-02-16-TEST'; % boxes end up named ['Box_' savebase]
-  addpath ./postproc/  
+  loadbase = '2016-02-16-TEST'; % boxes end up named ['Box_' savebase]   
   
 % choose another thing
   savedir='/home/chris/Desktop/'; % where to save the figures
@@ -41,7 +40,15 @@
    Fig(3).savedir='/home/chris/Desktop/'; % filename (saved in box location)
    Fig(3).savename='FIG_Profiles_t_Vbg.eps'; % filename (saved in box location)   
    
-   
+% make sure the path is set right
+  c = strsplit(cwd,'/');
+  if strcmp(c{end},'3pt1_two_phase_VBR')
+      addpath ./03_plotting/postproc/
+  elseif strcmp(c{end},'03_plotting')
+      addpath ./postproc
+  end
+  clear c
+  
 %% ------------------------------------------------------------------------  
 %% Load the box
 %% ------------------------------------------------------------------------  

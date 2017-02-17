@@ -23,7 +23,7 @@ clear; close all
     x_width_Example=8 ;y_width_Example=3.5;
     x_width_3=6 ;y_width_3=2;
     plotfigs=[0 0 1];
-    savefigs=[1 1 1];
+    savefigs=0*[1 1 1];
   
 % load a thing
   loadname=['Box_' savebase '_VBR.mat']; 

@@ -1,0 +1,6126 @@
+
+                            < M A T L A B (R) >
+                  Copyright 1984-2014 The MathWorks, Inc.
+                    R2014a (8.3.0.532) 64-bit (glnxa64)
+                             February 11, 2014
+
+    ----------------------------------------------------
+	Your MATLAB license will expire in 08 days.
+	Please contact your system administrator or
+	MathWorks to renew this license.
+    ----------------------------------------------------
+ 
+To get started, type one of these: helpwin, helpdesk, or demo.
+For product information, visit www.mathworks.com.
+ 
+ 
+--------------------------------------------------
+Setting up the calculation
+ 
+Saving data in directory /home/chavlin/Dropbox/Research/0_Boxes/2016-07-22-re_Vbg_zLAB_conXf
+Starting parallel pool (parpool) using the 'local' profile ... connected to 7 workers.
+[Warning: Objects of class 'parallel.cluster.Local' cannot be saved to MAT
+files.] 
+[> In CustomGetSet>CustomGetSet.saveobj at 48
+  In serialize at 21
+  In remoteparfor>remoteparfor.remoteparfor at 69
+  In parallel_function>iMakeRemoteParfor at 1060
+  In parallel_function at 444
+  In DRIVE_TwoPhase_par at 187] 
+[Warning: Objects of class 'parallel.cluster.Local' cannot be saved to MAT
+files.] 
+[> In CustomGetSet>CustomGetSet.saveobj at 48
+  In serialize at 21
+  In remoteparfor>remoteparfor.remoteparfor at 69
+  In parallel_function>iMakeRemoteParfor at 1060
+  In parallel_function at 444
+  In DRIVE_TwoPhase_par at 187] 
+Warning: Objects of class 'parallel.cluster.Local' cannot be loaded correctly from MAT files.
+[> In CustomGetSet>CustomGetSet.loadobj at 54
+  In deserialize at 9
+  In remoteParallelFunction>iDeserializeByteBuffer at 84
+  In remoteParallelFunction at 33] 
+ 
+--------------------------------------------------
+Starting run 52 of 130
+Vbg=10 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+Warning: Objects of class 'parallel.cluster.Local' cannot be loaded correctly from MAT files.
+[> In CustomGetSet>CustomGetSet.loadobj at 54
+  In deserialize at 9
+  In remoteParallelFunction>iDeserializeByteBuffer at 84
+  In remoteParallelFunction at 33] 
+ 
+--------------------------------------------------
+Starting run 26 of 130
+Vbg=5 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+Warning: Objects of class 'parallel.cluster.Local' cannot be loaded correctly from MAT files.
+[> In CustomGetSet>CustomGetSet.loadobj at 54
+  In deserialize at 9
+  In remoteParallelFunction>iDeserializeByteBuffer at 84
+  In remoteParallelFunction at 33] 
+ 
+--------------------------------------------------
+Starting run 74 of 130
+Vbg=15 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+Warning: Objects of class 'parallel.cluster.Local' cannot be loaded correctly from MAT files.
+[> In CustomGetSet>CustomGetSet.loadobj at 54
+  In deserialize at 9
+  In remoteParallelFunction>iDeserializeByteBuffer at 84
+  In remoteParallelFunction at 33] 
+ 
+--------------------------------------------------
+Starting run 82 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+Warning: Objects of class 'parallel.cluster.Local' cannot be loaded correctly from MAT files.
+[> In CustomGetSet>CustomGetSet.loadobj at 54
+  In deserialize at 9
+  In remoteParallelFunction>iDeserializeByteBuffer at 84
+  In remoteParallelFunction at 33] 
+ 
+--------------------------------------------------
+Starting run 13 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+Warning: Objects of class 'parallel.cluster.Local' cannot be loaded correctly from MAT files.
+[> In CustomGetSet>CustomGetSet.loadobj at 54
+  In deserialize at 9
+  In remoteParallelFunction>iDeserializeByteBuffer at 84
+  In remoteParallelFunction at 33] 
+ 
+--------------------------------------------------
+Starting run 39 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+switching to single phase T evolution...
+
+Warning: Objects of class 'parallel.cluster.Local' cannot be loaded correctly from MAT files.
+[> In CustomGetSet>CustomGetSet.loadobj at 54
+  In deserialize at 9
+  In remoteParallelFunction>iDeserializeByteBuffer at 84
+  In remoteParallelFunction at 33] 
+ 
+--------------------------------------------------
+Starting run 64 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.07546 minutes
+Completed Run 52 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 3 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 51 of 130
+Vbg=10 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.074731 minutes
+Completed Run 39 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 1 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 38 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.07598 minutes
+Completed Run 13 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 4 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 12 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.078194 minutes
+Completed Run 64 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 5 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 63 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.07543 minutes
+Completed Run 26 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 2 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 25 of 130
+Vbg=5 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.0726 minutes
+Completed Run 51 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 8 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 50 of 130
+Vbg=10 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.072576 minutes
+Completed Run 38 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 6 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 37 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.072476 minutes
+Completed Run 12 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 9 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 11 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.072021 minutes
+Completed Run 25 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 7 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 24 of 130
+Vbg=5 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.074038 minutes
+Completed Run 63 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 10 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 62 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.074209 minutes
+Completed Run 50 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 13 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 49 of 130
+Vbg=10 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.073835 minutes
+Completed Run 37 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 12 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 36 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.074386 minutes
+Completed Run 11 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 14 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 10 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.072942 minutes
+Completed Run 24 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 11 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 23 of 130
+Vbg=5 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.077036 minutes
+Completed Run 62 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 15 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 61 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.07419 minutes
+Completed Run 23 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 16 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 22 of 130
+Vbg=5 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.075522 minutes
+Completed Run 49 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 18 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 48 of 130
+Vbg=10 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.074791 minutes
+Completed Run 36 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 17 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 35 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.075554 minutes
+Completed Run 10 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 19 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 9 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 328.059 kyrs 
+     max phi: 0.013107
+     phi residual: 0.15262
+     T residual: 0.00013078
+     zsol [km]: 89.9749
+     zLAB [km]: 86.4662
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 250, 499.537 kyrs 
+     max phi: 0.040237
+     phi residual: 0.36676
+     T residual: 0.00014492
+     zsol [km]: 92.9825
+     zLAB [km]: 87.9699
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 250, 389.689 kyrs 
+     max phi: 0.012285
+     phi residual: 0.22977
+     T residual: 0.00013834
+     zsol [km]: 89.9749
+     zLAB [km]: 86.4662
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 250, 471.285 kyrs 
+     max phi: 0.0081378
+     phi residual: 0.0078947
+     T residual: 0.00024064
+     zsol [km]: 91.4787
+     zLAB [km]: 86.9674
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 250, 489.503 kyrs 
+     max phi: 0.010738
+     phi residual: 0.033399
+     T residual: 0.00014674
+     zsol [km]: 91.4787
+     zLAB [km]: 86.9674
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 250, 493.453 kyrs 
+     max phi: 0.012362
+     phi residual: 0.071485
+     T residual: 0.00015542
+     zsol [km]: 90.4762
+     zLAB [km]: 86.9674
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 500, 1001.867 kyrs 
+     max phi: 0.15
+     phi residual: 0.0057196
+     T residual: 9.1873e-05
+     zsol [km]: 94.4862
+     zLAB [km]: 88.4712
+     Extruded volume thickness [m]: 0.0011623
+ 
+   Storing data at step 500, 946.193 kyrs 
+     max phi: 0.0081453
+     phi residual: 0.10546
+     T residual: 0.00024553
+     zsol [km]: 91.4787
+     zLAB [km]: 86.9674
+     Extruded volume thickness [m]: 0.0011623
+ 
+   Storing data at step 500, 988.159 kyrs 
+     max phi: 0.010333
+     phi residual: 0.069196
+     T residual: 9.2745e-05
+     zsol [km]: 90.9774
+     zLAB [km]: 86.9674
+     Extruded volume thickness [m]: 0.0011623
+ 
+   Storing data at step 500, 985.676 kyrs 
+     max phi: 0.011752
+     phi residual: 0.29115
+     T residual: 9.2653e-05
+     zsol [km]: 89.9749
+     zLAB [km]: 85.9649
+     Extruded volume thickness [m]: 0.0011623
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 524, 1050.133 kyrs 
+Elapsed CPU time is 1.0835 minutes
+Completed Run 9 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 20 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 8 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 554, 1050.137 kyrs 
+Elapsed CPU time is 1.1099 minutes
+Completed Run 22 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 21 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 21 of 130
+Vbg=5 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 534, 1050.794 kyrs 
+Elapsed CPU time is 1.1508 minutes
+Completed Run 48 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 23 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 47 of 130
+Vbg=10 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 532, 1051.154 kyrs 
+Elapsed CPU time is 1.1462 minutes
+Completed Run 35 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 22 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 34 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+   Storing data at step 500, 651.576 kyrs 
+     max phi: 0.012993
+     phi residual: 0.13484
+     T residual: 8.4253e-05
+     zsol [km]: 88.4712
+     zLAB [km]: 85.4637
+     Extruded volume thickness [m]: 0.0011623
+
+   Storing data at step 500, 780.051 kyrs 
+     max phi: 0.012378
+     phi residual: 0.2077
+     T residual: 8.8348e-05
+     zsol [km]: 88.9724
+     zLAB [km]: 85.4637
+     Extruded volume thickness [m]: 0.0011623
+ 
+   Storing data at step 750, 977.051 kyrs 
+     max phi: 0.013146
+     phi residual: 0.16888
+     T residual: 6.52e-05
+     zsol [km]: 87.4687
+     zLAB [km]: 84.4612
+     Extruded volume thickness [m]: 0.0017447
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 672, 1051.201 kyrs 
+Elapsed CPU time is 1.4252 minutes
+Completed Run 61 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 24 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 60 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 809, 1051.077 kyrs 
+Elapsed CPU time is 1.7259 minutes
+Completed Run 74 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 25 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 73 of 130
+Vbg=15 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+   Storing data at step 250, 133.995 kyrs 
+     max phi: 0.026105
+     phi residual: 0.1002
+     T residual: 0.0010625
+     zsol [km]: 52.8822
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.42708
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 481.086 kyrs 
+     max phi: 0.0094545
+     phi residual: 0.44297
+     T residual: 0.00015384
+     zsol [km]: 84.4612
+     zLAB [km]: 82.4561
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 500, 968.089 kyrs 
+     max phi: 0.010502
+     phi residual: 0.05063
+     T residual: 9.7322e-05
+     zsol [km]: 84.4612
+     zLAB [km]: 81.9549
+     Extruded volume thickness [m]: 0.0011624
+ 
+   Storing data at step 500, 263.171 kyrs 
+     max phi: 0.026001
+     phi residual: 0.11
+     T residual: 0.0012367
+     zsol [km]: 47.8697
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 3.9296
+
+Calculations complete, wrapping up...
+
+   Storing data at step 543, 1051.939 kyrs 
+Elapsed CPU time is 1.183 minutes
+Completed Run 8 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 26 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 7 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 250, 494.933 kyrs 
+     max phi: 0.012698
+     phi residual: 0.019654
+     T residual: 0.00015117
+     zsol [km]: 83.4586
+     zLAB [km]: 81.4536
+     Extruded volume thickness [m]: 0.00058003
+
+   Storing data at step 500, 985.057 kyrs 
+     max phi: 0.012905
+     phi residual: 0.053998
+     T residual: 9.6164e-05
+     zsol [km]: 81.9549
+     zLAB [km]: 79.9499
+     Extruded volume thickness [m]: 0.0011624
+ 
+   Storing data at step 250, 480.718 kyrs 
+     max phi: 0.014069
+     phi residual: 0.15482
+     T residual: 0.00024948
+     zsol [km]: 81.4536
+     zLAB [km]: 79.9499
+     Extruded volume thickness [m]: 0.00058009
+
+Calculations complete, wrapping up...
+
+   Storing data at step 533, 1051.473 kyrs 
+Elapsed CPU time is 1.3381 minutes
+Completed Run 21 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 27 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 20 of 130
+Vbg=5 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 250, 463.668 kyrs 
+     max phi: 0.015384
+     phi residual: 0.043413
+     T residual: 0.00025096
+     zsol [km]: 79.9499
+     zLAB [km]: 78.9474
+     Extruded volume thickness [m]: 0.00058022
+
+   Storing data at step 500, 949.429 kyrs 
+     max phi: 0.014284
+     phi residual: 0.11797
+     T residual: 0.00017999
+     zsol [km]: 79.4486
+     zLAB [km]: 78.4461
+     Extruded volume thickness [m]: 0.0011628
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 553, 1050.927 kyrs 
+Elapsed CPU time is 1.4903 minutes
+Completed Run 34 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 28 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 33 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 250, 371.229 kyrs 
+     max phi: 0.016205
+     phi residual: 0.13507
+     T residual: 0.00028121
+     zsol [km]: 80.4511
+     zLAB [km]: 78.9474
+     Extruded volume thickness [m]: 0.00058027
+
+   Storing data at step 500, 911.921 kyrs 
+     max phi: 0.015391
+     phi residual: 0.029605
+     T residual: 0.0002831
+     zsol [km]: 77.9449
+     zLAB [km]: 76.9424
+     Extruded volume thickness [m]: 0.0011642
+ 
+   Storing data at step 250, 309.526 kyrs 
+     max phi: 0.01698
+     phi residual: 0.077294
+     T residual: 0.00040767
+     zsol [km]: 79.4486
+     zLAB [km]: 78.4461
+     Extruded volume thickness [m]: 0.00058032
+
+Calculations complete, wrapping up...
+
+   Storing data at step 576, 1051.960 kyrs 
+Elapsed CPU time is 1.6127 minutes
+Completed Run 47 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 29 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 46 of 130
+Vbg=10 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 750, 390.694 kyrs 
+     max phi: 0.026176
+     phi residual: 0.11102
+     T residual: 0.0010925
+     zsol [km]: 43.8596
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 17.1524
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 731.664 kyrs 
+     max phi: 0.016366
+     phi residual: 0.08766
+     T residual: 0.00029774
+     zsol [km]: 76.9424
+     zLAB [km]: 76.4411
+     Extruded volume thickness [m]: 0.0011649
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 720, 1051.049 kyrs 
+Elapsed CPU time is 1.9455 minutes
+Completed Run 60 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 30 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 59 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 500, 611.353 kyrs 
+     max phi: 0.016828
+     phi residual: 0.027417
+     T residual: 0.00034668
+     zsol [km]: 76.4411
+     zLAB [km]: 75.9398
+     Extruded volume thickness [m]: 0.0011655
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 497.077 kyrs 
+     max phi: 0.012592
+     phi residual: 0.028841
+     T residual: 0.00015662
+     zsol [km]: 77.4436
+     zLAB [km]: 76.9424
+     Extruded volume thickness [m]: 0.00058101
+
+   Storing data at step 500, 994.249 kyrs 
+     max phi: 0.012544
+     phi residual: 0.031455
+     T residual: 9.8979e-05
+     zsol [km]: 76.4411
+     zLAB [km]: 75.9398
+     Extruded volume thickness [m]: 0.0011651
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 529, 1051.044 kyrs 
+Elapsed CPU time is 1.333 minutes
+Completed Run 7 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 31 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 6 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 750, 912.151 kyrs 
+     max phi: 0.016689
+     phi residual: 0.032805
+     T residual: 0.00038517
+     zsol [km]: 73.9348
+     zLAB [km]: 73.4336
+     Extruded volume thickness [m]: 0.0017606
+ 
+   Storing data at step 1, 0.000 kyrs
+Calculations complete, wrapping up...
+
+   Storing data at step 865, 1050.877 kyrs 
+Elapsed CPU time is 2.2892 minutes
+Completed Run 73 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 32 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 72 of 130
+Vbg=15 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 250, 475.993 kyrs 
+     max phi: 0.015233
+     phi residual: 0.07223
+     T residual: 0.00025359
+     zsol [km]: 74.9373
+     zLAB [km]: 74.4361
+     Extruded volume thickness [m]: 0.00058579
+
+   Storing data at step 1000, 515.821 kyrs 
+     max phi: 0.02688
+     phi residual: 0.118
+     T residual: 0.0016988
+     zsol [km]: 40.8521
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 53.3417
+
+   Storing data at step 500, 933.669 kyrs 
+     max phi: 0.015025
+     phi residual: 0.10955
+     T residual: 0.00022342
+     zsol [km]: 72.4311
+     zLAB [km]: 71.9298
+     Extruded volume thickness [m]: 0.0012
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 564, 1052.011 kyrs 
+Elapsed CPU time is 1.6335 minutes
+Completed Run 20 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 33 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 19 of 130
+Vbg=5 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 250, 444.312 kyrs 
+     max phi: 0.016865
+     phi residual: 0.09272
+     T residual: 0.00043344
+     zsol [km]: 72.9323
+     zLAB [km]: 72.4311
+     Extruded volume thickness [m]: 0.00060169
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 876.686 kyrs 
+     max phi: 0.016833
+     phi residual: 0.015592
+     T residual: 0.00044605
+     zsol [km]: 69.4236
+     zLAB [km]: 68.9223
+     Extruded volume thickness [m]: 0.0013823
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 598, 1050.294 kyrs 
+Elapsed CPU time is 1.8645 minutes
+Completed Run 33 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 34 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 32 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 250, 381.775 kyrs 
+     max phi: 0.018125
+     phi residual: 0.10014
+     T residual: 0.00051783
+     zsol [km]: 71.9298
+     zLAB [km]: 71.4286
+     Extruded volume thickness [m]: 0.00062068
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1250, 642.819 kyrs 
+     max phi: 0.026158
+     phi residual: 0.11136
+     T residual: 0.0012268
+     zsol [km]: 38.3459
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 132.9953
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 487.877 kyrs 
+     max phi: 0.014066
+     phi residual: 0.023132
+     T residual: 0.00016485
+     zsol [km]: 70.4261
+     zLAB [km]: 69.9248
+     Extruded volume thickness [m]: 0.00064982
+
+   Storing data at step 500, 978.210 kyrs 
+     max phi: 0.014081
+     phi residual: 0.11219
+     T residual: 0.00012726
+     zsol [km]: 68.9223
+     zLAB [km]: 68.4211
+     Extruded volume thickness [m]: 0.0014249
+ 
+   Storing data at step 250, 322.118 kyrs 
+     max phi: 0.017631
+     phi residual: 0.00052165
+     T residual: 0.00061214
+     zsol [km]: 71.4286
+     zLAB [km]: 71.4286
+     Extruded volume thickness [m]: 0.0006341
+
+Calculations complete, wrapping up...
+
+   Storing data at step 540, 1051.972 kyrs 
+Elapsed CPU time is 1.5225 minutes
+Completed Run 6 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 35 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 5 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 500, 757.762 kyrs 
+     max phi: 0.018186
+     phi residual: 0.10029
+     T residual: 0.00058621
+     zsol [km]: 67.9198
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.0016681
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 693, 1050.328 kyrs 
+Elapsed CPU time is 2.5018 minutes
+Completed Run 46 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 36 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 45 of 130
+Vbg=10 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 279.909 kyrs 
+     max phi: 0.019877
+     phi residual: 0.098815
+     T residual: 0.00073715
+     zsol [km]: 70.9273
+     zLAB [km]: 70.4261
+     Extruded volume thickness [m]: 0.00064734
+
+   Storing data at step 1500, 767.683 kyrs 
+     max phi: 0.026115
+     phi residual: 0.11132
+     T residual: 0.001276
+     zsol [km]: 35.8396
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 284.434
+
+   Storing data at step 250, 437.184 kyrs 
+     max phi: 0.016827
+     phi residual: 0.017536
+     T residual: 0.00056235
+     zsol [km]: 66.9173
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.001057
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 640.643 kyrs 
+     max phi: 0.019007
+     phi residual: 0.070182
+     T residual: 0.00088611
+     zsol [km]: 66.9173
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.0019299
+
+   Storing data at step 500, 871.550 kyrs 
+     max phi: 0.01681
+     phi residual: 0.021994
+     T residual: 0.00050441
+     zsol [km]: 63.9098
+     zLAB [km]: 63.4085
+     Extruded volume thickness [m]: 0.0049855
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 600, 1051.177 kyrs 
+Elapsed CPU time is 1.9503 minutes
+Completed Run 19 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 37 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 18 of 130
+Vbg=5 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 750, 959.025 kyrs 
+     max phi: 0.019226
+     phi residual: 0.10011
+     T residual: 0.00064633
+     zsol [km]: 63.9098
+     zLAB [km]: 63.4085
+     Extruded volume thickness [m]: 0.0066194
+ 
+   Storing data at step 250, 342.369 kyrs 
+     max phi: 0.018446
+     phi residual: 0.090985
+     T residual: 0.00066856
+     zsol [km]: 65.9148
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 0.0015216
+
+   Storing data at step 500, 561.772 kyrs 
+     max phi: 0.019638
+     phi residual: 0.096414
+     T residual: 0.00077405
+     zsol [km]: 66.9173
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.0022051
+
+Calculations complete, wrapping up...
+
+   Storing data at step 822, 1051.388 kyrs 
+Elapsed CPU time is 2.9638 minutes
+Completed Run 59 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 38 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 58 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 1750, 893.361 kyrs 
+     max phi: 0.026187
+     phi residual: 0.10749
+     T residual: 0.0020912
+     zsol [km]: 33.3333
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 540.2619
+
+   Storing data at step 250, 481.188 kyrs 
+     max phi: 0.015224
+     phi residual: 0.10049
+     T residual: 0.00024903
+     zsol [km]: 63.9098
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.0028899
+
+   Storing data at step 2000, 1019.656 kyrs 
+     max phi: 0.026258
+     phi residual: 0.1075
+     T residual: 0.0023304
+     zsol [km]: 31.8296
+     zLAB [km]: 60.401
+     Extruded volume thickness [m]: 931.7982
+ 
+   Storing data at step 500, 957.416 kyrs 
+     max phi: 0.015656
+     phi residual: 0.087324
+     T residual: 0.00056309
+     zsol [km]: 61.4035
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.011231
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2061, 1050.126 kyrs 
+Elapsed CPU time is 7.0478 minutes
+Completed Run 82 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 39 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 81 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 550, 1051.263 kyrs 
+Elapsed CPU time is 1.6861 minutes
+Completed Run 5 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 40 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 4 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 750, 841.254 kyrs 
+     max phi: 0.019532
+     phi residual: 0.092691
+     T residual: 0.00097974
+     zsol [km]: 63.4085
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.0087473
+ 
+   Storing data at step 1, 0.000 kyrs
+Calculations complete, wrapping up...
+
+   Storing data at step 939, 1050.641 kyrs 
+Elapsed CPU time is 3.2612 minutes
+Completed Run 72 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 41 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 71 of 130
+Vbg=15 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 250, 281.610 kyrs 
+     max phi: 0.020007
+     phi residual: 0.1002
+     T residual: 0.00063379
+     zsol [km]: 65.4135
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 0.0019173
+
+   Storing data at step 500, 686.728 kyrs 
+     max phi: 0.018333
+     phi residual: 0.10017
+     T residual: 0.00068604
+     zsol [km]: 62.406
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.010912
+
+   Storing data at step 750, 1028.428 kyrs 
+     max phi: 0.018685
+     phi residual: 0.10033
+     T residual: 0.00067365
+     zsol [km]: 58.8972
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.051677
+ 
+   Storing data at step 1, 0.000 kyrs
+Calculations complete, wrapping up...
+
+   Storing data at step 766, 1051.384 kyrs 
+Elapsed CPU time is 2.7222 minutes
+Completed Run 32 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 42 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 31 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 376.877 kyrs 
+     max phi: 0.017948
+     phi residual: 0.08913
+     T residual: 0.00070016
+     zsol [km]: 60.9023
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.011621
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 562.429 kyrs 
+     max phi: 0.019667
+     phi residual: 0.09982
+     T residual: 0.00083216
+     zsol [km]: 61.4035
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.016914
+
+   Storing data at step 250, 239.532 kyrs 
+     max phi: 0.021165
+     phi residual: 0.10023
+     T residual: 0.00071386
+     zsol [km]: 64.9123
+     zLAB [km]: 64.411
+     Extruded volume thickness [m]: 0.0023145
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 465.423 kyrs 
+     max phi: 0.015406
+     phi residual: 0.0016984
+     T residual: 0.00051671
+     zsol [km]: 57.3935
+     zLAB [km]: 62.9073
+     Extruded volume thickness [m]: 0.046071
+
+   Storing data at step 250, 119.676 kyrs 
+     max phi: 0.027727
+     phi residual: 0.10861
+     T residual: 0.0012113
+     zsol [km]: 47.3684
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 3.3545
+
+   Storing data at step 500, 753.080 kyrs 
+     max phi: 0.018104
+     phi residual: 0.09998
+     T residual: 0.00058916
+     zsol [km]: 57.3935
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.086506
+ 
+   Storing data at step 750, 841.002 kyrs 
+     max phi: 0.020737
+     phi residual: 0.10441
+     T residual: 0.0014441
+     zsol [km]: 57.8947
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.088493
+ 
+   Storing data at step 500, 919.990 kyrs 
+     max phi: 0.015868
+     phi residual: 0.038278
+     T residual: 0.00041939
+     zsol [km]: 54.8872
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.20933
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 697, 1050.061 kyrs 
+Elapsed CPU time is 2.5713 minutes
+Completed Run 18 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 43 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 17 of 130
+Vbg=5 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 940, 1050.327 kyrs 
+Elapsed CPU time is 3.3824 minutes
+Completed Run 45 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 44 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 44 of 130
+Vbg=10 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 250, 210.231 kyrs 
+     max phi: 0.022014
+     phi residual: 0.10008
+     T residual: 0.00090611
+     zsol [km]: 64.9123
+     zLAB [km]: 63.9098
+     Extruded volume thickness [m]: 0.0026675
+
+Calculations complete, wrapping up...
+
+   Storing data at step 572, 1051.062 kyrs 
+Elapsed CPU time is 1.8554 minutes
+Completed Run 4 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 45 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 3 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 500, 478.673 kyrs 
+     max phi: 0.021212
+     phi residual: 0.10021
+     T residual: 0.00077446
+     zsol [km]: 60.9023
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.023221
+
+   Storing data at step 250, 282.075 kyrs 
+     max phi: 0.019785
+     phi residual: 0.099627
+     T residual: 0.00078011
+     zsol [km]: 60.401
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.017869
+
+   Storing data at step 500, 234.633 kyrs 
+     max phi: 0.027365
+     phi residual: 0.10592
+     T residual: 0.0012807
+     zsol [km]: 42.3559
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 24.5444
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 419.229 kyrs 
+     max phi: 0.022119
+     phi residual: 0.10026
+     T residual: 0.00085523
+     zsol [km]: 59.8997
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.029105
+
+   Storing data at step 750, 715.875 kyrs 
+     max phi: 0.021242
+     phi residual: 0.10021
+     T residual: 0.00083075
+     zsol [km]: 56.8922
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.13159
+
+   Storing data at step 500, 562.580 kyrs 
+     max phi: 0.019774
+     phi residual: 0.10013
+     T residual: 0.00078424
+     zsol [km]: 55.8897
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.15591
+
+   Storing data at step 1000, 952.646 kyrs 
+     max phi: 0.02133
+     phi residual: 0.10032
+     T residual: 0.0008559
+     zsol [km]: 54.386
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.52357
+ 
+   Storing data at step 750, 347.778 kyrs 
+     max phi: 0.027118
+     phi residual: 0.11065
+     T residual: 0.0013972
+     zsol [km]: 38.8471
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 90.4666
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1102, 1050.635 kyrs 
+Elapsed CPU time is 3.9425 minutes
+Completed Run 58 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 46 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 57 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 250, 455.181 kyrs 
+     max phi: 0.01663
+     phi residual: 0.078
+     T residual: 0.00068747
+     zsol [km]: 51.3784
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 0.5754
+
+   Storing data at step 250, 231.591 kyrs 
+     max phi: 0.021329
+     phi residual: 0.099891
+     T residual: 0.00079029
+     zsol [km]: 59.3985
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.024315
+
+   Storing data at step 750, 628.231 kyrs 
+     max phi: 0.02235
+     phi residual: 0.0018705
+     T residual: 0.00089094
+     zsol [km]: 55.8897
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.17458
+
+   Storing data at step 250, 319.392 kyrs 
+     max phi: 0.0191
+     phi residual: 0.091079
+     T residual: 0.0006091
+     zsol [km]: 55.3885
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.13783
+
+   Storing data at step 750, 843.216 kyrs 
+     max phi: 0.020094
+     phi residual: 0.099994
+     T residual: 0.00070157
+     zsol [km]: 52.8822
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 0.7125
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 936, 1050.620 kyrs 
+Elapsed CPU time is 3.3103 minutes
+Completed Run 31 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 47 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 30 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 500, 896.572 kyrs 
+     max phi: 0.016637
+     phi residual: 0.042295
+     T residual: 0.0004063
+     zsol [km]: 48.8722
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 2.5373
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 588, 1050.692 kyrs 
+Elapsed CPU time is 2.0234 minutes
+Completed Run 3 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 48 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 2 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 1000, 459.228 kyrs 
+     max phi: 0.027137
+     phi residual: 0.11109
+     T residual: 0.0013953
+     zsol [km]: 35.8396
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 239.2299
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 458.365 kyrs 
+     max phi: 0.021151
+     phi residual: 0.099103
+     T residual: 0.00102
+     zsol [km]: 54.8872
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.23258
+
+   Storing data at step 1000, 834.722 kyrs 
+     max phi: 0.021799
+     phi residual: 0.0022046
+     T residual: 0.00087596
+     zsol [km]: 52.8822
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.72196
+
+   Storing data at step 500, 639.158 kyrs 
+     max phi: 0.018793
+     phi residual: 0.10846
+     T residual: 0.00083107
+     zsol [km]: 51.3784
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 0.92258
+
+   Storing data at step 1250, 1041.569 kyrs 
+     max phi: 0.022327
+     phi residual: 0.10029
+     T residual: 0.00096749
+     zsol [km]: 50.3759
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 2.3325
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1260, 1050.460 kyrs 
+Elapsed CPU time is 4.4291 minutes
+Completed Run 71 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 49 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 70 of 130
+Vbg=15 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 750, 960.607 kyrs 
+     max phi: 0.019493
+     phi residual: 0.10375
+     T residual: 0.0012992
+     zsol [km]: 48.3709
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 3.4216
+ 
+   Storing data at step 1, 0.000 kyrs
+Calculations complete, wrapping up...
+
+   Storing data at step 822, 1050.132 kyrs 
+Elapsed CPU time is 3.0303 minutes
+Completed Run 17 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 50 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 16 of 130
+Vbg=5 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 1250, 570.062 kyrs 
+     max phi: 0.027261
+     phi residual: 0.11118
+     T residual: 0.0013159
+     zsol [km]: 33.3333
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 516.0833
+
+   Storing data at step 250, 195.847 kyrs 
+     max phi: 0.022558
+     phi residual: 0.099619
+     T residual: 0.00097123
+     zsol [km]: 58.8972
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.029606
+
+   Storing data at step 750, 685.456 kyrs 
+     max phi: 0.021067
+     phi residual: 0.0021578
+     T residual: 0.00083665
+     zsol [km]: 51.3784
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 1.1291
+
+   Storing data at step 250, 240.168 kyrs 
+     max phi: 0.02131
+     phi residual: 0.09716
+     T residual: 0.00083781
+     zsol [km]: 54.386
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.20764
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 425.140 kyrs 
+     max phi: 0.017698
+     phi residual: 0.085597
+     T residual: 0.00089999
+     zsol [km]: 45.8647
+     zLAB [km]: 53.3835
+     Extruded volume thickness [m]: 4.302
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1000, 913.095 kyrs 
+     max phi: 0.021629
+     phi residual: 0.10006
+     T residual: 0.00086688
+     zsol [km]: 48.3709
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 3.8705
+ 
+   Storing data at step 1500, 680.665 kyrs 
+     max phi: 0.028112
+     phi residual: 0.11783
+     T residual: 0.0019819
+     zsol [km]: 30.8271
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 965.7005
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1153, 1050.730 kyrs 
+Elapsed CPU time is 4.0953 minutes
+Completed Run 44 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 51 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 43 of 130
+Vbg=10 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 500, 385.816 kyrs 
+     max phi: 0.021797
+     phi residual: 0.001508
+     T residual: 0.00084786
+     zsol [km]: 54.386
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.3013
+
+   Storing data at step 500, 844.949 kyrs 
+     max phi: 0.017379
+     phi residual: 0.090824
+     T residual: 0.00049545
+     zsol [km]: 43.3584
+     zLAB [km]: 53.3835
+     Extruded volume thickness [m]: 17.5784
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 623, 1051.677 kyrs 
+Elapsed CPU time is 2.2556 minutes
+Completed Run 2 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 52 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 1 of 130
+Vbg=2.5 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 250, 172.711 kyrs 
+     max phi: 0.024075
+     phi residual: 0.10849
+     T residual: 0.0013098
+     zsol [km]: 58.8972
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.034184
+
+   Storing data at step 500, 479.280 kyrs 
+     max phi: 0.021205
+     phi residual: 0.11128
+     T residual: 0.00072735
+     zsol [km]: 50.3759
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 1.5419
+
+   Storing data at step 250, 280.874 kyrs 
+     max phi: 0.019927
+     phi residual: 0.091095
+     T residual: 0.00065423
+     zsol [km]: 49.8747
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 1.2262
+
+   Storing data at step 1750, 790.782 kyrs 
+     max phi: 0.028476
+     phi residual: 0.11716
+     T residual: 0.002395
+     zsol [km]: 28.8221
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 1618.0336
+
+   Storing data at step 750, 581.800 kyrs 
+     max phi: 0.022609
+     phi residual: 0.10022
+     T residual: 0.00097339
+     zsol [km]: 50.8772
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 1.5372
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 339.501 kyrs 
+     max phi: 0.0243
+     phi residual: 0.10544
+     T residual: 0.001221
+     zsol [km]: 53.8847
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.36816
+
+   Storing data at step 750, 714.925 kyrs 
+     max phi: 0.020325
+     phi residual: 0.0082667
+     T residual: 0.00082695
+     zsol [km]: 46.8672
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 6.1343
+
+   Storing data at step 1000, 954.254 kyrs 
+     max phi: 0.021244
+     phi residual: 0.1003
+     T residual: 0.0008808
+     zsol [km]: 44.3609
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 17.9077
+ 
+   Storing data at step 2000, 899.892 kyrs 
+     max phi: 0.026975
+     phi residual: 0.10882
+     T residual: 0.0015338
+     zsol [km]: 27.3183
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 2495.9642
+
+   Storing data at step 500, 556.965 kyrs 
+     max phi: 0.01957
+     phi residual: 0.098717
+     T residual: 0.00095869
+     zsol [km]: 46.3659
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 6.9517
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1102, 1051.094 kyrs 
+Elapsed CPU time is 3.8871 minutes
+Completed Run 30 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 53 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 29 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 1000, 776.514 kyrs 
+     max phi: 0.022794
+     phi residual: 0.10028
+     T residual: 0.00098761
+     zsol [km]: 47.8697
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 5.4515
+
+   Storing data at step 250, 201.112 kyrs 
+     max phi: 0.022679
+     phi residual: 0.1002
+     T residual: 0.00079863
+     zsol [km]: 53.8847
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.27046
+
+   Storing data at step 2250, 1010.174 kyrs 
+     max phi: 0.026944
+     phi residual: 0.00054484
+     T residual: 0.0010906
+     zsol [km]: 25.8145
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 3599.0917
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2339, 1050.254 kyrs 
+Elapsed CPU time is 7.997 minutes
+Completed Run 81 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 54 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 80 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 750, 509.574 kyrs 
+     max phi: 0.023859
+     phi residual: 0.10022
+     T residual: 0.0010077
+     zsol [km]: 50.3759
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 1.9298
+
+   Storing data at step 1250, 967.754 kyrs 
+     max phi: 0.023368
+     phi residual: 0.11701
+     T residual: 0.0015394
+     zsol [km]: 44.8622
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 15.3213
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1359, 1050.219 kyrs 
+Elapsed CPU time is 4.7363 minutes
+Completed Run 57 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 55 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 56 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 250, 394.730 kyrs 
+     max phi: 0.017814
+     phi residual: 0.078426
+     T residual: 0.00069294
+     zsol [km]: 40.8521
+     zLAB [km]: 48.8722
+     Extruded volume thickness [m]: 21.654
+
+   Storing data at step 750, 836.521 kyrs 
+     max phi: 0.02001
+     phi residual: 0.11109
+     T residual: 0.00065529
+     zsol [km]: 43.3584
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 22.3063
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 943, 1050.929 kyrs 
+Elapsed CPU time is 3.4887 minutes
+Completed Run 16 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 56 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 15 of 130
+Vbg=5 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 393.638 kyrs 
+     max phi: 0.022503
+     phi residual: 0.11029
+     T residual: 0.00096371
+     zsol [km]: 49.3734
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 2.146
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 780.293 kyrs 
+     max phi: 0.017956
+     phi residual: 0.091113
+     T residual: 0.00054515
+     zsol [km]: 38.8471
+     zLAB [km]: 48.8722
+     Extruded volume thickness [m]: 76.4223
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 678, 1051.597 kyrs 
+Elapsed CPU time is 2.7576 minutes
+Completed Run 1 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 57 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 89 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1000, 677.367 kyrs 
+     max phi: 0.024122
+     phi residual: 0.10988
+     T residual: 0.0016454
+     zsol [km]: 46.8672
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 6.971
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.074827 minutes
+Completed Run 89 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 58 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 88 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.07614 minutes
+Completed Run 88 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 59 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 87 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 214.803 kyrs 
+     max phi: 0.021957
+     phi residual: 0.090141
+     T residual: 0.00092633
+     zsol [km]: 48.8722
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 1.765
+
+   Storing data at step 750, 587.253 kyrs 
+     max phi: 0.022311
+     phi residual: 0.098839
+     T residual: 0.0012511
+     zsol [km]: 45.8647
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 8.8988
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 108.443 kyrs 
+     max phi: 0.028385
+     phi residual: 0.10015
+     T residual: 0.0012253
+     zsol [km]: 42.3559
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 18.361
+
+   Storing data at step 1250, 844.662 kyrs 
+     max phi: 0.023773
+     phi residual: 0.10033
+     T residual: 0.00115
+     zsol [km]: 44.8622
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 19.9969
+
+   Storing data at step 250, 170.091 kyrs 
+     max phi: 0.023963
+     phi residual: 0.098814
+     T residual: 0.0010643
+     zsol [km]: 53.3835
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.31899
+
+   Storing data at step 1500, 1010.712 kyrs 
+     max phi: 0.022942
+     phi residual: 0.0010893
+     T residual: 0.0010634
+     zsol [km]: 41.8546
+     zLAB [km]: 64.411
+     Extruded volume thickness [m]: 48.4523
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1559, 1050.677 kyrs 
+Elapsed CPU time is 5.4448 minutes
+Completed Run 70 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 60 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 69 of 130
+Vbg=15 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 250, 280.808 kyrs 
+     max phi: 0.013458
+     phi residual: 0.10276
+     T residual: 0.00012533
+     zsol [km]: 89.4737
+     zLAB [km]: 86.4662
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 250, 254.124 kyrs 
+     max phi: 0.021124
+     phi residual: 0.09525
+     T residual: 0.00099141
+     zsol [km]: 44.3609
+     zLAB [km]: 53.3835
+     Extruded volume thickness [m]: 7.7227
+
+   Storing data at step 500, 421.760 kyrs 
+     max phi: 0.021992
+     phi residual: 0.11139
+     T residual: 0.00085434
+     zsol [km]: 44.8622
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 10.8091
+
+   Storing data at step 1000, 780.259 kyrs 
+     max phi: 0.022758
+     phi residual: 0.0012565
+     T residual: 0.00098537
+     zsol [km]: 42.8571
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 26.7853
+
+   Storing data at step 500, 210.861 kyrs 
+     max phi: 0.028656
+     phi residual: 0.10944
+     T residual: 0.002007
+     zsol [km]: 37.3434
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 107.6051
+
+   Storing data at step 500, 558.282 kyrs 
+     max phi: 0.013634
+     phi residual: 0.11496
+     T residual: 8.0995e-05
+     zsol [km]: 87.9699
+     zLAB [km]: 84.9624
+     Extruded volume thickness [m]: 0.0011623
+
+   Storing data at step 1250, 973.058 kyrs 
+     max phi: 0.022411
+     phi residual: 0.098112
+     T residual: 0.0015696
+     zsol [km]: 40.8521
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 65.5078
+ 
+   Storing data at step 500, 333.929 kyrs 
+     max phi: 0.024366
+     phi residual: 0.10676
+     T residual: 0.0011244
+     zsol [km]: 48.8722
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 2.6908
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1351, 1050.420 kyrs 
+Elapsed CPU time is 4.8288 minutes
+Completed Run 43 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 61 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 42 of 130
+Vbg=10 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 750, 834.967 kyrs 
+     max phi: 0.01364
+     phi residual: 0.13441
+     T residual: 0.00012751
+     zsol [km]: 86.9674
+     zLAB [km]: 83.9599
+     Extruded volume thickness [m]: 0.0017447
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 945, 1051.103 kyrs 
+Elapsed CPU time is 1.9843 minutes
+Completed Run 87 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 62 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 86 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+   Storing data at step 750, 628.367 kyrs 
+     max phi: 0.022237
+     phi residual: 0.11121
+     T residual: 0.00081001
+     zsol [km]: 41.8546
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 36.5147
+
+   Storing data at step 500, 502.534 kyrs 
+     max phi: 0.020555
+     phi residual: 0.097947
+     T residual: 0.00092032
+     zsol [km]: 40.8521
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 36.5736
+
+   Storing data at step 750, 312.718 kyrs 
+     max phi: 0.02842
+     phi residual: 0.10583
+     T residual: 0.0014243
+     zsol [km]: 33.8346
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 335.3257
+
+   Storing data at step 750, 498.315 kyrs 
+     max phi: 0.024005
+     phi residual: 0.10024
+     T residual: 0.0010751
+     zsol [km]: 45.3634
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 11.5419
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 148.272 kyrs 
+     max phi: 0.025368
+     phi residual: 0.10827
+     T residual: 0.0013228
+     zsol [km]: 52.8822
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.37059
+
+   Storing data at step 1000, 834.242 kyrs 
+     max phi: 0.022273
+     phi residual: 0.10518
+     T residual: 0.0013225
+     zsol [km]: 38.8471
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 93.4376
+
+   Storing data at step 750, 754.917 kyrs 
+     max phi: 0.020835
+     phi residual: 0.11109
+     T residual: 0.00069016
+     zsol [km]: 37.8446
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 102.6177
+
+   Storing data at step 1250, 1042.581 kyrs 
+     max phi: 0.02223
+     phi residual: 0.10015
+     T residual: 0.00094751
+     zsol [km]: 36.8421
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 198.345
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1258, 1050.233 kyrs 
+Elapsed CPU time is 4.4578 minutes
+Completed Run 29 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 63 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 28 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 1000, 998.779 kyrs 
+     max phi: 0.020586
+     phi residual: 0.099491
+     T residual: 0.00090241
+     zsol [km]: 35.8396
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 223.2022
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1052, 1050.514 kyrs 
+Elapsed CPU time is 3.9246 minutes
+Completed Run 15 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 64 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 14 of 130
+Vbg=5 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 250, 265.489 kyrs 
+     max phi: 0.017596
+     phi residual: 0.020706
+     T residual: 0.00031263
+     zsol [km]: 79.4486
+     zLAB [km]: 78.4461
+     Extruded volume thickness [m]: 0.00058035
+
+   Storing data at step 1000, 413.433 kyrs 
+     max phi: 0.028394
+     phi residual: 0.10995
+     T residual: 0.0014433
+     zsol [km]: 31.3283
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 763.4236
+
+   Storing data at step 1000, 661.437 kyrs 
+     max phi: 0.023957
+     phi residual: 0.10019
+     T residual: 0.0011272
+     zsol [km]: 42.3559
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 35.3759
+
+   Storing data at step 250, 176.243 kyrs 
+     max phi: 0.02373
+     phi residual: 0.098995
+     T residual: 0.00095064
+     zsol [km]: 48.3709
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 2.2207
+
+   Storing data at step 500, 292.619 kyrs 
+     max phi: 0.025034
+     phi residual: 0.11139
+     T residual: 0.0010507
+     zsol [km]: 48.3709
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 3.2886
+
+   Storing data at step 500, 527.331 kyrs 
+     max phi: 0.017846
+     phi residual: 0.0095228
+     T residual: 0.00055936
+     zsol [km]: 75.9398
+     zLAB [km]: 75.4386
+     Extruded volume thickness [m]: 0.0011659
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1250, 513.493 kyrs 
+     max phi: 0.028381
+     phi residual: 0.10914
+     T residual: 0.0019744
+     zsol [km]: 29.3233
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1439.0513
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1250, 823.938 kyrs 
+     max phi: 0.024179
+     phi residual: 0.10767
+     T residual: 0.0019111
+     zsol [km]: 39.8496
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 87.4506
+
+   Storing data at step 500, 343.770 kyrs 
+     max phi: 0.024388
+     phi residual: 0.11826
+     T residual: 0.0012964
+     zsol [km]: 43.8596
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 14.4619
+
+   Storing data at step 750, 434.748 kyrs 
+     max phi: 0.025262
+     phi residual: 0.11129
+     T residual: 0.0010136
+     zsol [km]: 44.8622
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 14.2281
+
+   Storing data at step 750, 788.318 kyrs 
+     max phi: 0.017715
+     phi residual: 0.11444
+     T residual: 0.00030114
+     zsol [km]: 73.9348
+     zLAB [km]: 73.4336
+     Extruded volume thickness [m]: 0.0017635
+
+   Storing data at step 1000, 1048.275 kyrs 
+     max phi: 0.0174
+     phi residual: 0.13628
+     T residual: 0.00049376
+     zsol [km]: 71.4286
+     zLAB [km]: 70.9273
+     Extruded volume thickness [m]: 0.0023988
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1002, 1050.566 kyrs 
+Elapsed CPU time is 2.5971 minutes
+Completed Run 86 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 65 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 85 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 1500, 984.754 kyrs 
+     max phi: 0.024193
+     phi residual: 0.11131
+     T residual: 0.0010642
+     zsol [km]: 37.8446
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 186.5336
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1602, 1050.033 kyrs 
+Elapsed CPU time is 5.5793 minutes
+Completed Run 56 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 66 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 55 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 250, 191.381 kyrs 
+     max phi: 0.022975
+     phi residual: 0.091055
+     T residual: 0.0008579
+     zsol [km]: 43.8596
+     zLAB [km]: 53.3835
+     Extruded volume thickness [m]: 10.3541
+
+   Storing data at step 1500, 611.850 kyrs 
+     max phi: 0.028619
+     phi residual: 0.11026
+     T residual: 0.0011806
+     zsol [km]: 27.3183
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 2379.4912
+
+   Storing data at step 250, 234.202 kyrs 
+     max phi: 0.021525
+     phi residual: 0.085266
+     T residual: 0.00088583
+     zsol [km]: 39.3484
+     zLAB [km]: 48.8722
+     Extruded volume thickness [m]: 35.252
+
+   Storing data at step 750, 511.540 kyrs 
+     max phi: 0.023841
+     phi residual: 0.11132
+     T residual: 0.00094375
+     zsol [km]: 40.8521
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 50.0174
+
+   Storing data at step 1000, 576.837 kyrs 
+     max phi: 0.025359
+     phi residual: 0.10982
+     T residual: 0.0018146
+     zsol [km]: 41.8546
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 44.1315
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 377.299 kyrs 
+     max phi: 0.022882
+     phi residual: 0.10021
+     T residual: 0.00094057
+     zsol [km]: 39.8496
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 53.1116
+
+   Storing data at step 1750, 710.550 kyrs 
+     max phi: 0.028681
+     phi residual: 0.11116
+     T residual: 0.0010197
+     zsol [km]: 25.8145
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 3588.7131
+
+   Storing data at step 500, 460.564 kyrs 
+     max phi: 0.020546
+     phi residual: 0.020348
+     T residual: 0.00082581
+     zsol [km]: 36.3409
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 140.4633
+
+   Storing data at step 1000, 677.182 kyrs 
+     max phi: 0.023055
+     phi residual: 0.0017252
+     T residual: 0.0010231
+     zsol [km]: 37.8446
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 130.2757
+
+   Storing data at step 1250, 717.938 kyrs 
+     max phi: 0.025086
+     phi residual: 0.10907
+     T residual: 0.0013295
+     zsol [km]: 38.8471
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 110.2621
+
+   Storing data at step 250, 244.798 kyrs 
+     max phi: 0.020844
+     phi residual: 0.0022944
+     T residual: 0.0007116
+     zsol [km]: 70.4261
+     zLAB [km]: 70.4261
+     Extruded volume thickness [m]: 0.00065657
+
+   Storing data at step 250, 148.739 kyrs 
+     max phi: 0.025324
+     phi residual: 0.0974
+     T residual: 0.0013258
+     zsol [km]: 47.8697
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 2.5372
+
+   Storing data at step 750, 560.958 kyrs 
+     max phi: 0.022862
+     phi residual: 0.111
+     T residual: 0.00093927
+     zsol [km]: 36.8421
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 153.6789
+
+   Storing data at step 2000, 807.442 kyrs 
+     max phi: 0.029247
+     phi residual: 0.11993
+     T residual: 0.001119
+     zsol [km]: 24.3108
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 5056.954
+
+   Storing data at step 750, 686.949 kyrs 
+     max phi: 0.021585
+     phi residual: 0.020941
+     T residual: 0.00088561
+     zsol [km]: 33.3333
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 342.8772
+
+   Storing data at step 1250, 844.420 kyrs 
+     max phi: 0.023498
+     phi residual: 0.10825
+     T residual: 0.0013957
+     zsol [km]: 35.3383
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 279.4626
+
+   Storing data at step 1500, 860.012 kyrs 
+     max phi: 0.024717
+     phi residual: 0.09899
+     T residual: 0.0015392
+     zsol [km]: 36.3409
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 236.2077
+
+   Storing data at step 500, 490.916 kyrs 
+     max phi: 0.021458
+     phi residual: 0.10422
+     T residual: 0.0013216
+     zsol [km]: 65.9148
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 0.0023867
+
+   Storing data at step 1500, 1010.518 kyrs 
+     max phi: 0.023471
+     phi residual: 0.099984
+     T residual: 0.001214
+     zsol [km]: 33.8346
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 524.4566
+ 
+   Storing data at step 500, 293.552 kyrs 
+     max phi: 0.025245
+     phi residual: 0.10813
+     T residual: 0.0013548
+     zsol [km]: 43.3584
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 17.5833
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1561, 1050.773 kyrs 
+Elapsed CPU time is 5.5656 minutes
+Completed Run 42 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 67 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 41 of 130
+Vbg=10 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 1750, 1001.211 kyrs 
+     max phi: 0.025247
+     phi residual: 0.11126
+     T residual: 0.0011867
+     zsol [km]: 34.3358
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 448.9804
+ 
+   Storing data at step 1000, 913.172 kyrs 
+     max phi: 0.022038
+     phi residual: 0.11689
+     T residual: 0.0015462
+     zsol [km]: 31.8296
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 662.9097
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1155, 1050.381 kyrs 
+Elapsed CPU time is 4.2608 minutes
+Completed Run 14 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 69 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+Calculations complete, wrapping up...
+
+   Storing data at step 1838, 1050.232 kyrs 
+Elapsed CPU time is 6.4193 minutes
+Completed Run 69 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 68 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 68 of 130
+Vbg=15 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 1000, 745.128 kyrs 
+     max phi: 0.022319
+     phi residual: 0.0050728
+     T residual: 0.00095153
+     zsol [km]: 34.3358
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 341.7211
+
+ 
+--------------------------------------------------
+Starting run 95 of 130
+Vbg=20 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 2250, 905.612 kyrs 
+     max phi: 0.028839
+     phi residual: 0.10903
+     T residual: 0.00097655
+     zsol [km]: 23.3083
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 6757.2526
+
+   Storing data at step 2500, 1003.178 kyrs 
+     max phi: 0.028724
+     phi residual: 0.10909
+     T residual: 0.00092643
+     zsol [km]: 22.3058
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 8666.4856
+ 
+   Storing data at step 1250, 928.621 kyrs 
+     max phi: 0.023068
+     phi residual: 0.10018
+     T residual: 0.00095776
+     zsol [km]: 32.3308
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 645.0481
+ 
+   Storing data at step 750, 736.980 kyrs 
+     max phi: 0.020893
+     phi residual: 0.0022345
+     T residual: 0.00078753
+     zsol [km]: 62.406
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.010259
+
+Calculations complete, wrapping up...
+
+   Storing data at step 2618, 1050.437 kyrs 
+Elapsed CPU time is 9.1467 minutes
+Completed Run 80 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 70 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 79 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1419, 1050.552 kyrs 
+Elapsed CPU time is 5.0694 minutes
+Completed Run 28 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 71 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 27 of 130
+Vbg=7.5 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 750, 435.557 kyrs 
+     max phi: 0.02495
+     phi residual: 0.10165
+     T residual: 0.0012
+     zsol [km]: 39.8496
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 62.4029
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1000, 982.782 kyrs 
+     max phi: 0.020823
+     phi residual: 0.045865
+     T residual: 0.0006948
+     zsol [km]: 59.8997
+     zLAB [km]: 59.3985
+     Extruded volume thickness [m]: 0.042098
+ 
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+Calculations complete, wrapping up...
+
+   Storing data at step 1071, 1050.345 kyrs 
+Elapsed CPU time is 3.7598 minutes
+Completed Run 85 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 72 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 84 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1000, 577.550 kyrs 
+     max phi: 0.026062
+     phi residual: 0.11736
+     T residual: 0.0020521
+     zsol [km]: 36.8421
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 163.4426
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 160.849 kyrs 
+     max phi: 0.025493
+     phi residual: 0.10529
+     T residual: 0.0015947
+     zsol [km]: 43.3584
+     zLAB [km]: 53.3835
+     Extruded volume thickness [m]: 12.9532
+
+   Storing data at step 250, 133.396 kyrs 
+     max phi: 0.026519
+     phi residual: 0.0080301
+     T residual: 0.0010491
+     zsol [km]: 47.3684
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 2.9456
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 123.117 kyrs 
+     max phi: 0.026954
+     phi residual: 0.11053
+     T residual: 0.0013029
+     zsol [km]: 52.381
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.48012
+
+   Storing data at step 250, 100.735 kyrs 
+     max phi: 0.029461
+     phi residual: 0.097169
+     T residual: 0.0013007
+     zsol [km]: 37.3434
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 75.3735
+
+   Storing data at step 1250, 720.120 kyrs 
+     max phi: 0.025352
+     phi residual: 0.11122
+     T residual: 0.0010559
+     zsol [km]: 34.3358
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 352.736
+
+   Storing data at step 250, 177.589 kyrs 
+     max phi: 0.023508
+     phi residual: 0.087249
+     T residual: 0.00098339
+     zsol [km]: 38.8471
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 45.8013
+
+   Storing data at step 500, 311.547 kyrs 
+     max phi: 0.024441
+     phi residual: 0.11166
+     T residual: 0.0012224
+     zsol [km]: 39.3484
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 68.5294
+
+   Storing data at step 500, 260.036 kyrs 
+     max phi: 0.026445
+     phi residual: 0.10831
+     T residual: 0.0014277
+     zsol [km]: 42.8571
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 21.163
+
+   Storing data at step 250, 187.077 kyrs 
+     max phi: 0.023824
+     phi residual: 0.10433
+     T residual: 0.0014364
+     zsol [km]: 63.9098
+     zLAB [km]: 63.4085
+     Extruded volume thickness [m]: 0.0029938
+
+   Storing data at step 500, 240.918 kyrs 
+     max phi: 0.027297
+     phi residual: 0.10791
+     T residual: 0.0016133
+     zsol [km]: 47.3684
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 4.5673
+
+   Storing data at step 500, 194.078 kyrs 
+     max phi: 0.029326
+     phi residual: 0.10903
+     T residual: 0.0020489
+     zsol [km]: 33.3333
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 348.5096
+
+   Storing data at step 1500, 859.289 kyrs 
+     max phi: 0.024503
+     phi residual: 0.099708
+     T residual: 0.0014954
+     zsol [km]: 32.8321
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 664.3274
+
+   Storing data at step 500, 346.963 kyrs 
+     max phi: 0.02435
+     phi residual: 0.1043
+     T residual: 0.0015613
+     zsol [km]: 34.8371
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 192.9055
+
+   Storing data at step 750, 461.626 kyrs 
+     max phi: 0.024199
+     phi residual: 0.0059573
+     T residual: 0.0010422
+     zsol [km]: 35.8396
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 202.5298
+
+   Storing data at step 750, 384.860 kyrs 
+     max phi: 0.026118
+     phi residual: 0.10993
+     T residual: 0.0013476
+     zsol [km]: 39.3484
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 76.5325
+
+   Storing data at step 500, 371.616 kyrs 
+     max phi: 0.022815
+     phi residual: 0.10004
+     T residual: 0.00097836
+     zsol [km]: 59.8997
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.035254
+
+   Storing data at step 750, 357.427 kyrs 
+     max phi: 0.027149
+     phi residual: 0.11124
+     T residual: 0.0011487
+     zsol [km]: 44.3609
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 20.3625
+
+   Storing data at step 1750, 999.068 kyrs 
+     max phi: 0.025065
+     phi residual: 0.10752
+     T residual: 0.0018997
+     zsol [km]: 30.3258
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 1123.8024
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1842, 1050.136 kyrs 
+Elapsed CPU time is 6.4508 minutes
+Completed Run 55 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 73 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 54 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 750, 288.149 kyrs 
+     max phi: 0.029104
+     phi residual: 0.10717
+     T residual: 0.0013553
+     zsol [km]: 29.8246
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 918.7643
+
+   Storing data at step 750, 516.495 kyrs 
+     max phi: 0.022986
+     phi residual: 0.010172
+     T residual: 0.00094168
+     zsol [km]: 32.3308
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 482.8402
+
+   Storing data at step 1000, 611.500 kyrs 
+     max phi: 0.024594
+     phi residual: 0.11136
+     T residual: 0.0010352
+     zsol [km]: 33.3333
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 453.0855
+
+   Storing data at step 1000, 508.255 kyrs 
+     max phi: 0.026227
+     phi residual: 0.10858
+     T residual: 0.0015592
+     zsol [km]: 36.3409
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 200.7839
+
+   Storing data at step 750, 558.770 kyrs 
+     max phi: 0.023991
+     phi residual: 0.11734
+     T residual: 0.0015456
+     zsol [km]: 55.3885
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.22112
+
+   Storing data at step 1000, 471.635 kyrs 
+     max phi: 0.026649
+     phi residual: 0.11053
+     T residual: 0.0015935
+     zsol [km]: 40.3509
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 63.9607
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1000, 380.389 kyrs 
+     max phi: 0.029651
+     phi residual: 0.10801
+     T residual: 0.0020142
+     zsol [km]: 27.3183
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1820.1334
+
+   Storing data at step 1000, 683.578 kyrs 
+     max phi: 0.023814
+     phi residual: 0.11123
+     T residual: 0.00086311
+     zsol [km]: 30.3258
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 937.955
+
+   Storing data at step 1250, 760.225 kyrs 
+     max phi: 0.025026
+     phi residual: 0.0013103
+     T residual: 0.00111
+     zsol [km]: 30.8271
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 853.9351
+
+   Storing data at step 1250, 632.137 kyrs 
+     max phi: 0.026265
+     phi residual: 0.10862
+     T residual: 0.001516
+     zsol [km]: 33.8346
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 432.3882
+
+   Storing data at step 1250, 587.386 kyrs 
+     max phi: 0.027288
+     phi residual: 0.11119
+     T residual: 0.0012199
+     zsol [km]: 37.3434
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 159.9258
+
+   Storing data at step 1000, 744.687 kyrs 
+     max phi: 0.022026
+     phi residual: 0.0018079
+     T residual: 0.00091617
+     zsol [km]: 52.381
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.93927
+
+   Storing data at step 250, 136.033 kyrs 
+     max phi: 0.026008
+     phi residual: 0.099496
+     T residual: 0.0011894
+     zsol [km]: 42.8571
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 14.3817
+
+   Storing data at step 1250, 930.137 kyrs 
+     max phi: 0.023026
+     phi residual: 0.10082
+     T residual: 0.0010736
+     zsol [km]: 49.3734
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 3.0805
+ 
+   Storing data at step 1250, 471.195 kyrs 
+     max phi: 0.030425
+     phi residual: 0.11988
+     T residual: 0.0011334
+     zsol [km]: 25.8145
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 3048.5751
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1414, 1050.581 kyrs 
+Elapsed CPU time is 4.9191 minutes
+Completed Run 84 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 74 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 83 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 1500, 907.492 kyrs 
+     max phi: 0.0247
+     phi residual: 0.10029
+     T residual: 0.001084
+     zsol [km]: 29.8246
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1431.6641
+ 
+   Storing data at step 1250, 848.616 kyrs 
+     max phi: 0.023084
+     phi residual: 0.09975
+     T residual: 0.0010759
+     zsol [km]: 28.8221
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1578.965
+
+   Storing data at step 1500, 702.021 kyrs 
+     max phi: 0.027371
+     phi residual: 0.00146
+     T residual: 0.0013906
+     zsol [km]: 34.8371
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 342.2196
+
+   Storing data at step 1500, 755.317 kyrs 
+     max phi: 0.026387
+     phi residual: 0.11128
+     T residual: 0.0011852
+     zsol [km]: 31.8296
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 808.0998
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1744, 1050.653 kyrs 
+Elapsed CPU time is 6.2246 minutes
+Completed Run 41 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 75 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 40 of 130
+Vbg=10 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 1500, 1013.582 kyrs 
+     max phi: 0.02289
+     phi residual: 0.0016449
+     T residual: 0.00082705
+     zsol [km]: 26.817
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 2402.0829
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1554, 1050.062 kyrs 
+Elapsed CPU time is 5.6006 minutes
+Completed Run 27 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 76 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 100 of 130
+Vbg=20 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 500, 265.161 kyrs 
+     max phi: 0.026193
+     phi residual: 0.10788
+     T residual: 0.0015287
+     zsol [km]: 38.3459
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 80.6041
+
+   Storing data at step 1500, 560.765 kyrs 
+     max phi: 0.029537
+     phi residual: 0.11019
+     T residual: 0.0010297
+     zsol [km]: 24.3108
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 4579.7715
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1750, 815.998 kyrs 
+     max phi: 0.026626
+     phi residual: 0.11125
+     T residual: 0.0014808
+     zsol [km]: 33.3333
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 648.0337
+
+   Storing data at step 1750, 878.087 kyrs 
+     max phi: 0.02626
+     phi residual: 0.11138
+     T residual: 0.0012139
+     zsol [km]: 29.8246
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 1362.5214
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 2000, 1001.216 kyrs 
+     max phi: 0.026423
+     phi residual: 0.11111
+     T residual: 0.0010361
+     zsol [km]: 28.3208
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 2114.1484
+ 
+   Storing data at step 250, 245.905 kyrs 
+     max phi: 0.014106
+     phi residual: 0.051439
+     T residual: 0.00012056
+     zsol [km]: 89.4737
+     zLAB [km]: 85.9649
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 750, 394.713 kyrs 
+     max phi: 0.026125
+     phi residual: 0.11128
+     T residual: 0.0010912
+     zsol [km]: 35.3383
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 244.7967
+
+Calculations complete, wrapping up...
+
+   Storing data at step 2099, 1050.090 kyrs 
+Elapsed CPU time is 7.3172 minutes
+Completed Run 68 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 77 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 67 of 130
+Vbg=15 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 1750, 650.561 kyrs 
+     max phi: 0.029708
+     phi residual: 0.119
+     T residual: 0.0013214
+     zsol [km]: 22.807
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 6382.3135
+
+   Storing data at step 250, 156.054 kyrs 
+     max phi: 0.024618
+     phi residual: 0.10002
+     T residual: 0.0010247
+     zsol [km]: 58.396
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.039879
+
+   Storing data at step 2000, 929.702 kyrs 
+     max phi: 0.026634
+     phi residual: 0.11095
+     T residual: 0.0014807
+     zsol [km]: 31.3283
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 1111.2635
+
+   Storing data at step 500, 488.098 kyrs 
+     max phi: 0.013719
+     phi residual: 0.060607
+     T residual: 0.00010064
+     zsol [km]: 87.4687
+     zLAB [km]: 84.9624
+     Extruded volume thickness [m]: 0.0011623
+
+   Storing data at step 2250, 1043.501 kyrs 
+     max phi: 0.027157
+     phi residual: 0.1111
+     T residual: 0.0011678
+     zsol [km]: 29.3233
+     zLAB [km]: 60.401
+     Extruded volume thickness [m]: 1760.3931
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2266, 1050.488 kyrs 
+Elapsed CPU time is 7.8367 minutes
+Completed Run 95 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 78 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 94 of 130
+Vbg=20 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 250, 149.514 kyrs 
+     max phi: 0.025403
+     phi residual: 0.09957
+     T residual: 0.0010108
+     zsol [km]: 38.3459
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 55.8291
+
+   Storing data at step 1000, 520.235 kyrs 
+     max phi: 0.025806
+     phi residual: 0.10948
+     T residual: 0.0016349
+     zsol [km]: 32.3308
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 552.5261
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 750, 731.758 kyrs 
+     max phi: 0.014199
+     phi residual: 0.07846
+     T residual: 8.8827e-05
+     zsol [km]: 86.4662
+     zLAB [km]: 83.9599
+     Extruded volume thickness [m]: 0.0017447
+
+   Storing data at step 2000, 740.000 kyrs 
+     max phi: 0.028399
+     phi residual: 0.0002426
+     T residual: 0.00080894
+     zsol [km]: 21.8045
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 8412.5703
+
+   Storing data at step 500, 306.847 kyrs 
+     max phi: 0.024631
+     phi residual: 0.10962
+     T residual: 0.0012633
+     zsol [km]: 53.3835
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.44664
+
+   Storing data at step 1000, 975.411 kyrs 
+     max phi: 0.014126
+     phi residual: 0.063131
+     T residual: 8.6481e-05
+     zsol [km]: 85.4637
+     zLAB [km]: 82.9574
+     Extruded volume thickness [m]: 0.002327
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1077, 1050.498 kyrs 
+Elapsed CPU time is 2.2175 minutes
+Completed Run 100 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 79 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 99 of 130
+Vbg=20 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 286.811 kyrs 
+     max phi: 0.026179
+     phi residual: 0.10561
+     T residual: 0.0012987
+     zsol [km]: 34.3358
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 240.8439
+
+   Storing data at step 1250, 644.994 kyrs 
+     max phi: 0.026196
+     phi residual: 0.10905
+     T residual: 0.001257
+     zsol [km]: 30.3258
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1041.2407
+
+   Storing data at step 250, 120.336 kyrs 
+     max phi: 0.027602
+     phi residual: 0.10009
+     T residual: 0.0015309
+     zsol [km]: 42.3559
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 16.458
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 2250, 829.556 kyrs 
+     max phi: 0.029268
+     phi residual: 0.11112
+     T residual: 0.00071412
+     zsol [km]: 21.3033
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 10644.438
+
+   Storing data at step 750, 457.078 kyrs 
+     max phi: 0.024753
+     phi residual: 0.11126
+     T residual: 0.0009828
+     zsol [km]: 49.8747
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 2.3736
+
+   Storing data at step 250, 109.827 kyrs 
+     max phi: 0.02956
+     phi residual: 0.11796
+     T residual: 0.0016026
+     zsol [km]: 46.8672
+     zLAB [km]: 57.8947
+     Extruded volume thickness [m]: 3.7335
+
+   Storing data at step 750, 423.288 kyrs 
+     max phi: 0.026151
+     phi residual: 0.11836
+     T residual: 0.0014595
+     zsol [km]: 31.3283
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 607.6779
+
+   Storing data at step 250, 232.458 kyrs 
+     max phi: 0.01912
+     phi residual: 0.075642
+     T residual: 0.00062806
+     zsol [km]: 79.4486
+     zLAB [km]: 78.4461
+     Extruded volume thickness [m]: 0.00058037
+
+   Storing data at step 1500, 769.631 kyrs 
+     max phi: 0.026397
+     phi residual: 0.1056
+     T residual: 0.0015528
+     zsol [km]: 28.3208
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1737.3409
+
+   Storing data at step 500, 233.385 kyrs 
+     max phi: 0.027329
+     phi residual: 0.11144
+     T residual: 0.0015956
+     zsol [km]: 38.3459
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 94.1707
+
+   Storing data at step 2500, 920.370 kyrs 
+     max phi: 0.02909
+     phi residual: 0.10877
+     T residual: 0.0009575
+     zsol [km]: 20.802
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 13051.001
+
+   Storing data at step 1000, 606.195 kyrs 
+     max phi: 0.024272
+     phi residual: 0.099591
+     T residual: 0.0014622
+     zsol [km]: 46.8672
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 8.7442
+
+   Storing data at step 500, 461.709 kyrs 
+     max phi: 0.018005
+     phi residual: 0.06853
+     T residual: 0.00035303
+     zsol [km]: 75.9398
+     zLAB [km]: 75.4386
+     Extruded volume thickness [m]: 0.0011664
+
+   Storing data at step 2750, 1009.634 kyrs 
+     max phi: 0.029289
+     phi residual: 0.10935
+     T residual: 0.00071429
+     zsol [km]: 19.7995
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 15592.6335
+ 
+   Storing data at step 500, 214.134 kyrs 
+     max phi: 0.028466
+     phi residual: 0.11117
+     T residual: 0.0012128
+     zsol [km]: 41.8546
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 27.9365
+
+Calculations complete, wrapping up...
+
+   Storing data at step 2863, 1050.115 kyrs 
+Elapsed CPU time is 9.924 minutes
+Completed Run 79 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 80 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 78 of 130
+Vbg=15 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1000, 559.474 kyrs 
+     max phi: 0.025358
+     phi residual: 0.11113
+     T residual: 0.0010106
+     zsol [km]: 29.3233
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 1188.3859
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.070664 minutes
+Completed Run 78 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 81 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 77 of 130
+Vbg=15 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.072272 minutes
+Completed Run 77 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 82 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 76 of 130
+Vbg=15 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1750, 894.015 kyrs 
+     max phi: 0.025357
+     phi residual: 0.0015429
+     T residual: 0.00099174
+     zsol [km]: 26.817
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 2648.9809
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.074488 minutes
+Completed Run 76 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 83 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 75 of 130
+Vbg=15 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.075366 minutes
+Completed Run 75 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 84 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 750, 347.443 kyrs 
+     max phi: 0.027487
+     phi residual: 0.10581
+     T residual: 0.0013564
+     zsol [km]: 34.3358
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 290.6052
+
+ 
+--------------------------------------------------
+Starting run 105 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 750, 691.073 kyrs 
+     max phi: 0.017978
+     phi residual: 0.08847
+     T residual: 0.00037551
+     zsol [km]: 73.4336
+     zLAB [km]: 72.9323
+     Extruded volume thickness [m]: 0.0017665
+
+   Storing data at step 1250, 755.621 kyrs 
+     max phi: 0.02499
+     phi residual: 0.001659
+     T residual: 0.0011757
+     zsol [km]: 43.3584
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 25.1792
+
+   Storing data at step 2000, 1020.721 kyrs 
+     max phi: 0.026176
+     phi residual: 0.11109
+     T residual: 0.00081553
+     zsol [km]: 25.8145
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 3772.9426
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2063, 1050.174 kyrs 
+Elapsed CPU time is 7.3428 minutes
+Completed Run 54 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 85 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 53 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 1000, 919.570 kyrs 
+     max phi: 0.018434
+     phi residual: 0.10869
+     T residual: 0.0003467
+     zsol [km]: 71.4286
+     zLAB [km]: 70.9273
+     Extruded volume thickness [m]: 0.0024116
+ 
+   Storing data at step 750, 317.016 kyrs 
+     max phi: 0.028011
+     phi residual: 0.11061
+     T residual: 0.0015504
+     zsol [km]: 38.3459
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 104.8055
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1143, 1050.158 kyrs 
+Elapsed CPU time is 2.8655 minutes
+Completed Run 99 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 86 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 98 of 130
+Vbg=20 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 1250, 692.563 kyrs 
+     max phi: 0.025684
+     phi residual: 0.10588
+     T residual: 0.0013281
+     zsol [km]: 27.3183
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1994.9461
+
+   Storing data at step 1000, 459.020 kyrs 
+     max phi: 0.027004
+     phi residual: 0.11063
+     T residual: 0.0013885
+     zsol [km]: 31.8296
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 658.4888
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1500, 903.607 kyrs 
+     max phi: 0.024387
+     phi residual: 0.10932
+     T residual: 0.0017061
+     zsol [km]: 41.3534
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 61.3613
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1746, 1050.030 kyrs 
+Elapsed CPU time is 5.9948 minutes
+Completed Run 83 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 87 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 109 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1000, 419.080 kyrs 
+     max phi: 0.028252
+     phi residual: 0.10997
+     T residual: 0.0014904
+     zsol [km]: 35.3383
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 279.3422
+
+   Storing data at step 1500, 826.089 kyrs 
+     max phi: 0.024731
+     phi residual: 0.0014018
+     T residual: 0.00088362
+     zsol [km]: 25.8145
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 3020.6677
+
+   Storing data at step 1250, 569.758 kyrs 
+     max phi: 0.027485
+     phi residual: 0.11127
+     T residual: 0.0011187
+     zsol [km]: 29.8246
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1236.9174
+
+   Storing data at step 250, 85.752 kyrs 
+     max phi: 0.031772
+     phi residual: 0.10011
+     T residual: 0.0018932
+     zsol [km]: 36.8421
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 86.6411
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1750, 959.394 kyrs 
+     max phi: 0.025562
+     phi residual: 0.1113
+     T residual: 0.00079101
+     zsol [km]: 25.3133
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 4255.7947
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1916, 1050.474 kyrs 
+Elapsed CPU time is 6.8794 minutes
+Completed Run 40 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 88 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 250, 125.367 kyrs 
+     max phi: 0.02706
+     phi residual: 0.094077
+     T residual: 0.001184
+     zsol [km]: 37.8446
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 60.7717
+
+ 
+--------------------------------------------------
+Starting run 112 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+   Storing data at step 1250, 520.995 kyrs 
+     max phi: 0.028431
+     phi residual: 0.11036
+     T residual: 0.0013611
+     zsol [km]: 32.8321
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 603.7503
+
+   Storing data at step 250, 221.701 kyrs 
+     max phi: 0.021297
+     phi residual: 0.020087
+     T residual: 0.00081069
+     zsol [km]: 70.4261
+     zLAB [km]: 69.9248
+     Extruded volume thickness [m]: 0.00066457
+
+   Storing data at step 1500, 678.534 kyrs 
+     max phi: 0.027339
+     phi residual: 0.11025
+     T residual: 0.0011959
+     zsol [km]: 27.8195
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 2057.4401
+
+   Storing data at step 500, 163.332 kyrs 
+     max phi: 0.031335
+     phi residual: 0.12314
+     T residual: 0.0019085
+     zsol [km]: 32.3308
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 412.6127
+
+   Storing data at step 250, 131.451 kyrs 
+     max phi: 0.026224
+     phi residual: 0.11105
+     T residual: 0.0010712
+     zsol [km]: 57.8947
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.050252
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 243.243 kyrs 
+     max phi: 0.026658
+     phi residual: 0.1109
+     T residual: 0.0012874
+     zsol [km]: 33.8346
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 273.9438
+
+   Storing data at step 1500, 621.793 kyrs 
+     max phi: 0.027809
+     phi residual: 0.11102
+     T residual: 0.0016006
+     zsol [km]: 30.8271
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 1127.7918
+
+   Storing data at step 500, 438.385 kyrs 
+     max phi: 0.021615
+     phi residual: 0.02983
+     T residual: 0.00082496
+     zsol [km]: 65.9148
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 0.0025481
+
+   Storing data at step 250, 208.956 kyrs 
+     max phi: 0.018777
+     phi residual: 0.12598
+     T residual: 0.00046313
+     zsol [km]: 79.4486
+     zLAB [km]: 78.4461
+     Extruded volume thickness [m]: 0.00058039
+
+   Storing data at step 1750, 787.500 kyrs 
+     max phi: 0.027435
+     phi residual: 0.11128
+     T residual: 0.0010339
+     zsol [km]: 26.3158
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 3120.1876
+
+   Storing data at step 750, 242.103 kyrs 
+     max phi: 0.031344
+     phi residual: 0.10985
+     T residual: 0.0015444
+     zsol [km]: 29.3233
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1096.4741
+
+   Storing data at step 500, 257.844 kyrs 
+     max phi: 0.026281
+     phi residual: 0.11133
+     T residual: 0.0010664
+     zsol [km]: 52.8822
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.61162
+
+   Storing data at step 750, 361.901 kyrs 
+     max phi: 0.026521
+     phi residual: 0.10515
+     T residual: 0.0012173
+     zsol [km]: 30.8271
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 710.426
+
+   Storing data at step 1750, 721.676 kyrs 
+     max phi: 0.028117
+     phi residual: 0.10817
+     T residual: 0.0018767
+     zsol [km]: 28.3208
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 1880.9667
+
+   Storing data at step 750, 655.066 kyrs 
+     max phi: 0.021341
+     phi residual: 0.024596
+     T residual: 0.00080962
+     zsol [km]: 62.406
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 0.01158
+
+   Storing data at step 500, 414.374 kyrs 
+     max phi: 0.01878
+     phi residual: 0.043112
+     T residual: 0.00033592
+     zsol [km]: 75.9398
+     zLAB [km]: 75.4386
+     Extruded volume thickness [m]: 0.0011667
+
+   Storing data at step 2000, 895.690 kyrs 
+     max phi: 0.026909
+     phi residual: 0.11094
+     T residual: 0.0011107
+     zsol [km]: 25.3133
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 4421.5327
+
+   Storing data at step 1000, 319.962 kyrs 
+     max phi: 0.032309
+     phi residual: 0.11916
+     T residual: 0.0015421
+     zsol [km]: 26.817
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 2176.4952
+
+   Storing data at step 750, 381.673 kyrs 
+     max phi: 0.026116
+     phi residual: 0.11128
+     T residual: 0.001239
+     zsol [km]: 49.3734
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 3.3197
+
+   Storing data at step 750, 619.116 kyrs 
+     max phi: 0.018944
+     phi residual: 0.061085
+     T residual: 0.00033686
+     zsol [km]: 73.4336
+     zLAB [km]: 72.9323
+     Extruded volume thickness [m]: 0.0017687
+
+   Storing data at step 2250, 1004.813 kyrs 
+     max phi: 0.027354
+     phi residual: 0.11117
+     T residual: 0.00091906
+     zsol [km]: 23.8095
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 5938.1085
+ 
+   Storing data at step 1000, 871.939 kyrs 
+     max phi: 0.021404
+     phi residual: 0.03915
+     T residual: 0.00084519
+     zsol [km]: 59.3985
+     zLAB [km]: 58.8972
+     Extruded volume thickness [m]: 0.048623
+ 
+   Storing data at step 1000, 478.270 kyrs 
+     max phi: 0.02789
+     phi residual: 0.11779
+     T residual: 0.0018958
+     zsol [km]: 28.3208
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1402.4463
+
+Calculations complete, wrapping up...
+
+   Storing data at step 2353, 1050.142 kyrs 
+Elapsed CPU time is 8.2439 minutes
+Completed Run 67 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 89 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 66 of 130
+Vbg=15 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1206, 1050.936 kyrs 
+Elapsed CPU time is 4.2308 minutes
+Completed Run 98 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 90 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 97 of 130
+Vbg=20 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 2000, 820.812 kyrs 
+     max phi: 0.027597
+     phi residual: 0.0013433
+     T residual: 0.0011618
+     zsol [km]: 26.817
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 2878.346
+
+   Storing data at step 1250, 397.072 kyrs 
+     max phi: 0.03077
+     phi residual: 0.11056
+     T residual: 0.0015494
+     zsol [km]: 25.3133
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 3644.2363
+
+   Storing data at step 1000, 823.104 kyrs 
+     max phi: 0.018531
+     phi residual: 0.040791
+     T residual: 0.00048283
+     zsol [km]: 70.9273
+     zLAB [km]: 70.4261
+     Extruded volume thickness [m]: 0.0024223
+
+   Storing data at step 1000, 505.499 kyrs 
+     max phi: 0.026301
+     phi residual: 0.10279
+     T residual: 0.0012965
+     zsol [km]: 45.3634
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 12.2695
+
+   Storing data at step 1250, 1027.840 kyrs 
+     max phi: 0.018642
+     phi residual: 0.052416
+     T residual: 0.00058408
+     zsol [km]: 69.4236
+     zLAB [km]: 68.4211
+     Extruded volume thickness [m]: 0.0032118
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1280, 1050.824 kyrs 
+Elapsed CPU time is 3.2359 minutes
+Completed Run 112 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 91 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 111 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 1250, 592.244 kyrs 
+     max phi: 0.026909
+     phi residual: 0.11135
+     T residual: 0.0010164
+     zsol [km]: 27.3183
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 2353.1844
+
+   Storing data at step 2250, 920.282 kyrs 
+     max phi: 0.028037
+     phi residual: 0.10906
+     T residual: 0.0014553
+     zsol [km]: 25.3133
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 4127.9182
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 2500, 1020.088 kyrs 
+     max phi: 0.028266
+     phi residual: 0.11084
+     T residual: 0.0010565
+     zsol [km]: 24.3108
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 5612.0097
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2574, 1050.363 kyrs 
+Elapsed CPU time is 8.9109 minutes
+Completed Run 94 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 92 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 93 of 130
+Vbg=20 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 1250, 628.706 kyrs 
+     max phi: 0.027444
+     phi residual: 0.11705
+     T residual: 0.0022494
+     zsol [km]: 42.3559
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 35.651
+
+   Storing data at step 1500, 472.668 kyrs 
+     max phi: 0.030789
+     phi residual: 0.10998
+     T residual: 0.001458
+     zsol [km]: 23.3083
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 5452.5868
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1500, 704.915 kyrs 
+     max phi: 0.026895
+     phi residual: 0.11086
+     T residual: 0.00095829
+     zsol [km]: 25.3133
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 3559.4904
+
+   Storing data at step 250, 170.042 kyrs 
+     max phi: 0.023767
+     phi residual: 0.11003
+     T residual: 0.00096536
+     zsol [km]: 63.9098
+     zLAB [km]: 63.4085
+     Extruded volume thickness [m]: 0.0033692
+
+   Storing data at step 250, 111.781 kyrs 
+     max phi: 0.028238
+     phi residual: 0.099543
+     T residual: 0.0011767
+     zsol [km]: 37.8446
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 68.297
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1500, 751.600 kyrs 
+     max phi: 0.025961
+     phi residual: 0.10988
+     T residual: 0.0015779
+     zsol [km]: 39.8496
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 87.4268
+
+   Storing data at step 1750, 547.963 kyrs 
+     max phi: 0.031222
+     phi residual: 0.11128
+     T residual: 0.00098945
+     zsol [km]: 22.807
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 7554.8076
+
+   Storing data at step 250, 199.758 kyrs 
+     max phi: 0.021967
+     phi residual: 0.083423
+     T residual: 0.00071174
+     zsol [km]: 70.4261
+     zLAB [km]: 69.9248
+     Extruded volume thickness [m]: 0.00067061
+
+   Storing data at step 1750, 819.848 kyrs 
+     max phi: 0.027106
+     phi residual: 0.10785
+     T residual: 0.001514
+     zsol [km]: 24.3108
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 4999.096
+
+   Storing data at step 500, 336.897 kyrs 
+     max phi: 0.023673
+     phi residual: 0.10982
+     T residual: 0.0011789
+     zsol [km]: 58.8972
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.041773
+
+   Storing data at step 500, 214.761 kyrs 
+     max phi: 0.028397
+     phi residual: 0.10815
+     T residual: 0.0016385
+     zsol [km]: 33.3333
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 313.5205
+
+   Storing data at step 1750, 874.196 kyrs 
+     max phi: 0.026641
+     phi residual: 0.10494
+     T residual: 0.0020301
+     zsol [km]: 37.3434
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 187.9638
+
+   Storing data at step 250, 101.012 kyrs 
+     max phi: 0.029526
+     phi residual: 0.09864
+     T residual: 0.0017168
+     zsol [km]: 41.8546
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 20.0557
+
+   Storing data at step 2000, 622.602 kyrs 
+     max phi: 0.032366
+     phi residual: 0.11975
+     T residual: 0.00093635
+     zsol [km]: 21.3033
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 9910.1989
+
+   Storing data at step 500, 395.573 kyrs 
+     max phi: 0.022174
+     phi residual: 0.092848
+     T residual: 0.00070137
+     zsol [km]: 65.9148
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 0.0026726
+
+   Storing data at step 2000, 997.723 kyrs 
+     max phi: 0.026476
+     phi residual: 0.1114
+     T residual: 0.0013514
+     zsol [km]: 35.3383
+     zLAB [km]: 64.411
+     Extruded volume thickness [m]: 363.7461
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2109, 1050.543 kyrs 
+Elapsed CPU time is 7.1483 minutes
+Completed Run 109 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 93 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 108 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 2000, 933.280 kyrs 
+     max phi: 0.026655
+     phi residual: 0.00049251
+     T residual: 0.00079745
+     zsol [km]: 22.807
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 6640.6828
+
+   Storing data at step 750, 506.913 kyrs 
+     max phi: 0.024013
+     phi residual: 0.11125
+     T residual: 0.0008743
+     zsol [km]: 55.3885
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.26762
+
+   Storing data at step 2250, 1045.874 kyrs 
+     max phi: 0.027166
+     phi residual: 0.10915
+     T residual: 0.00070267
+     zsol [km]: 22.3058
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 8460.9608
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2258, 1050.208 kyrs 
+Elapsed CPU time is 8.0798 minutes
+Completed Run 53 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 94 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 750, 318.971 kyrs 
+     max phi: 0.027899
+     phi residual: 0.10629
+     T residual: 0.0012861
+     zsol [km]: 30.3258
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 819.2231
+
+ 
+--------------------------------------------------
+Starting run 115 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.073327 minutes
+Completed Run 115 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 95 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 114 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.074263 minutes
+Completed Run 114 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 96 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 113 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 2250, 698.944 kyrs 
+     max phi: 0.0302
+     phi residual: 0.000228
+     T residual: 0.00073407
+     zsol [km]: 20.3008
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 12486.2044
+
+   Storing data at step 500, 194.201 kyrs 
+     max phi: 0.029435
+     phi residual: 0.11136
+     T residual: 0.0013867
+     zsol [km]: 37.3434
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 119.6662
+
+   Storing data at step 750, 591.350 kyrs 
+     max phi: 0.022908
+     phi residual: 0.074023
+     T residual: 0.0014851
+     zsol [km]: 61.9048
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 0.012659
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1000, 673.134 kyrs 
+     max phi: 0.023491
+     phi residual: 0.10016
+     T residual: 0.0011688
+     zsol [km]: 52.381
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 1.1528
+
+   Storing data at step 1000, 422.988 kyrs 
+     max phi: 0.027919
+     phi residual: 0.10963
+     T residual: 0.0016623
+     zsol [km]: 28.3208
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1623.1349
+
+   Storing data at step 250, 218.198 kyrs 
+     max phi: 0.014567
+     phi residual: 0.0495
+     T residual: 0.00011657
+     zsol [km]: 89.4737
+     zLAB [km]: 85.9649
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 2500, 772.383 kyrs 
+     max phi: 0.031314
+     phi residual: 0.11032
+     T residual: 0.00074638
+     zsol [km]: 19.7995
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 15213.168
+
+   Storing data at step 750, 287.590 kyrs 
+     max phi: 0.029324
+     phi residual: 0.11111
+     T residual: 0.0013362
+     zsol [km]: 33.8346
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 375.9952
+
+   Storing data at step 1000, 784.745 kyrs 
+     max phi: 0.022689
+     phi residual: 0.038328
+     T residual: 0.0013211
+     zsol [km]: 58.8972
+     zLAB [km]: 58.396
+     Extruded volume thickness [m]: 0.054511
+
+   Storing data at step 1250, 977.165 kyrs 
+     max phi: 0.022036
+     phi residual: 0.0028758
+     T residual: 0.00089842
+     zsol [km]: 56.391
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 0.19435
+ 
+   Storing data at step 250, 113.137 kyrs 
+     max phi: 0.027771
+     phi residual: 0.11098
+     T residual: 0.0011372
+     zsol [km]: 52.381
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.52318
+
+   Storing data at step 1250, 839.547 kyrs 
+     max phi: 0.023594
+     phi residual: 0.10819
+     T residual: 0.0014005
+     zsol [km]: 48.8722
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 3.8356
+
+   Storing data at step 500, 433.632 kyrs 
+     max phi: 0.01453
+     phi residual: 0.028294
+     T residual: 8.4514e-05
+     zsol [km]: 87.4687
+     zLAB [km]: 84.9624
+     Extruded volume thickness [m]: 0.0011623
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1346, 1050.614 kyrs 
+Elapsed CPU time is 4.5614 minutes
+Completed Run 111 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 97 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 110 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 1250, 523.919 kyrs 
+     max phi: 0.028293
+     phi residual: 0.11078
+     T residual: 0.0010396
+     zsol [km]: 26.3158
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 2716.1983
+
+   Storing data at step 1500, 1005.971 kyrs 
+     max phi: 0.023769
+     phi residual: 0.098326
+     T residual: 0.0013089
+     zsol [km]: 46.3659
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 10.665
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1566, 1050.125 kyrs 
+Elapsed CPU time is 5.4635 minutes
+Completed Run 97 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 98 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 96 of 130
+Vbg=20 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 2750, 846.821 kyrs 
+     max phi: 0.031163
+     phi residual: 0.11073
+     T residual: 0.00063333
+     zsol [km]: 19.2982
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 18090.2413
+
+   Storing data at step 1000, 379.677 kyrs 
+     max phi: 0.029303
+     phi residual: 0.10992
+     T residual: 0.0015852
+     zsol [km]: 30.8271
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 861.5822
+
+   Storing data at step 750, 649.695 kyrs 
+     max phi: 0.014126
+     phi residual: 0.018118
+     T residual: 0.00010646
+     zsol [km]: 85.9649
+     zLAB [km]: 83.4586
+     Extruded volume thickness [m]: 0.0017447
+
+   Storing data at step 500, 222.278 kyrs 
+     max phi: 0.027847
+     phi residual: 0.11131
+     T residual: 0.0011529
+     zsol [km]: 47.3684
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 5.1466
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1000, 864.005 kyrs 
+     max phi: 0.014461
+     phi residual: 0.0229
+     T residual: 9.6869e-05
+     zsol [km]: 84.9624
+     zLAB [km]: 82.9574
+     Extruded volume thickness [m]: 0.002327
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1213, 1050.132 kyrs 
+Elapsed CPU time is 2.4865 minutes
+Completed Run 113 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 99 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 1500, 623.687 kyrs 
+     max phi: 0.028296
+     phi residual: 0.11123
+     T residual: 0.00093948
+     zsol [km]: 24.812
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 4089.4533
+
+ 
+--------------------------------------------------
+Starting run 118 of 130
+Vbg=25 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 3000, 920.706 kyrs 
+     max phi: 0.030465
+     phi residual: 0.00053578
+     T residual: 0.00052678
+     zsol [km]: 18.797
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 21081.934
+
+   Storing data at step 1250, 471.346 kyrs 
+     max phi: 0.029645
+     phi residual: 0.10796
+     T residual: 0.0022005
+     zsol [km]: 28.3208
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1625.043
+
+   Storing data at step 750, 329.384 kyrs 
+     max phi: 0.027695
+     phi residual: 0.11108
+     T residual: 0.0013077
+     zsol [km]: 43.3584
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 23.532
+
+   Storing data at step 250, 156.857 kyrs 
+     max phi: 0.024573
+     phi residual: 0.11131
+     T residual: 0.00082848
+     zsol [km]: 63.9098
+     zLAB [km]: 63.4085
+     Extruded volume thickness [m]: 0.0036696
+
+   Storing data at step 3250, 996.896 kyrs 
+     max phi: 0.031219
+     phi residual: 0.1104
+     T residual: 0.0005524
+     zsol [km]: 18.2957
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 24177.9032
+ 
+   Storing data at step 1750, 723.292 kyrs 
+     max phi: 0.027841
+     phi residual: 0.10894
+     T residual: 0.0011833
+     zsol [km]: 23.3083
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 5720.2873
+
+Calculations complete, wrapping up...
+
+   Storing data at step 3425, 1050.166 kyrs 
+Elapsed CPU time is 11.7882 minutes
+Completed Run 105 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 100 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 104 of 130
+Vbg=20 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.069022 minutes
+Completed Run 104 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 101 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 103 of 130
+Vbg=20 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.070791 minutes
+Completed Run 103 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 102 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 102 of 130
+Vbg=20 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 250, 141.523 kyrs 
+     max phi: 0.025944
+     phi residual: 0.10809
+     T residual: 0.0014065
+     zsol [km]: 57.8947
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.044998
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.072436 minutes
+Completed Run 102 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 103 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 101 of 130
+Vbg=20 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.073822 minutes
+Completed Run 101 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 104 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 120 of 130
+Vbg=25 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 1500, 562.019 kyrs 
+     max phi: 0.029573
+     phi residual: 0.11125
+     T residual: 0.0011875
+     zsol [km]: 26.817
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 2685.2171
+
+   Storing data at step 1000, 434.981 kyrs 
+     max phi: 0.028674
+     phi residual: 0.11813
+     T residual: 0.0018405
+     zsol [km]: 39.8496
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 74.6343
+
+   Storing data at step 500, 308.501 kyrs 
+     max phi: 0.024579
+     phi residual: 0.11135
+     T residual: 0.00089091
+     zsol [km]: 58.8972
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.047943
+
+   Storing data at step 2000, 823.102 kyrs 
+     max phi: 0.027894
+     phi residual: 0.10905
+     T residual: 0.0010478
+     zsol [km]: 22.807
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 7571.6549
+
+   Storing data at step 250, 79.812 kyrs 
+     max phi: 0.032288
+     phi residual: 0.10015
+     T residual: 0.0017057
+     zsol [km]: 37.3434
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 90.4672
+
+   Storing data at step 500, 278.339 kyrs 
+     max phi: 0.02582
+     phi residual: 0.0017348
+     T residual: 0.0010462
+     zsol [km]: 52.8822
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.52448
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1750, 652.010 kyrs 
+     max phi: 0.029663
+     phi residual: 0.11116
+     T residual: 0.0010566
+     zsol [km]: 25.3133
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 4035.9946
+
+   Storing data at step 1250, 541.253 kyrs 
+     max phi: 0.028166
+     phi residual: 0.10774
+     T residual: 0.0024566
+     zsol [km]: 36.8421
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 187.6737
+
+   Storing data at step 750, 462.260 kyrs 
+     max phi: 0.024498
+     phi residual: 0.10025
+     T residual: 0.0010781
+     zsol [km]: 54.8872
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.31577
+
+   Storing data at step 2250, 924.330 kyrs 
+     max phi: 0.028237
+     phi residual: 0.11117
+     T residual: 0.00065858
+     zsol [km]: 21.8045
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 9612.7326
+
+   Storing data at step 500, 152.064 kyrs 
+     max phi: 0.032142
+     phi residual: 0.11139
+     T residual: 0.0016947
+     zsol [km]: 32.3308
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 436.3065
+
+   Storing data at step 750, 413.761 kyrs 
+     max phi: 0.02548
+     phi residual: 0.11136
+     T residual: 0.0010847
+     zsol [km]: 49.3734
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 2.8107
+
+   Storing data at step 2500, 1022.999 kyrs 
+     max phi: 0.028606
+     phi residual: 0.10656
+     T residual: 0.00086214
+     zsol [km]: 20.802
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 11815.0297
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2570, 1050.258 kyrs 
+Elapsed CPU time is 9.0427 minutes
+Completed Run 66 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 105 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 65 of 130
+Vbg=12.5 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.070205 minutes
+Completed Run 65 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 106 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 250, 93.613 kyrs 
+     max phi: 0.029885
+     phi residual: 0.11094
+     T residual: 0.0012628
+     zsol [km]: 46.8672
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 4.2248
+
+   Storing data at step 2000, 739.453 kyrs 
+     max phi: 0.029196
+     phi residual: 0.11087
+     T residual: 0.0011345
+     zsol [km]: 23.8095
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 5655.2736
+
+ 
+--------------------------------------------------
+Starting run 122 of 130
+Vbg=25 cm/yr
+T_init_Zlab=70 km
+calculated muso: 1.719086667291491e+19
+
+   Storing data at step 1500, 646.461 kyrs 
+     max phi: 0.027665
+     phi residual: 0.1093
+     T residual: 0.0021599
+     zsol [km]: 34.8371
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 401.5645
+
+   Storing data at step 1000, 616.354 kyrs 
+     max phi: 0.024223
+     phi residual: 0.10987
+     T residual: 0.0012804
+     zsol [km]: 51.3784
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 1.3833
+
+   Storing data at step 750, 224.578 kyrs 
+     max phi: 0.032238
+     phi residual: 0.10995
+     T residual: 0.0015232
+     zsol [km]: 28.8221
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1163.7397
+
+   Storing data at step 1000, 549.037 kyrs 
+     max phi: 0.025422
+     phi residual: 0.11057
+     T residual: 0.0015382
+     zsol [km]: 46.3659
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 10.3608
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 182.689 kyrs 
+     max phi: 0.031242
+     phi residual: 0.11752
+     T residual: 0.002193
+     zsol [km]: 41.3534
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 33.8074
+
+   Storing data at step 2250, 828.605 kyrs 
+     max phi: 0.029584
+     phi residual: 0.11026
+     T residual: 0.00098838
+     zsol [km]: 22.807
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 7518.2263
+
+   Storing data at step 1750, 751.690 kyrs 
+     max phi: 0.027208
+     phi residual: 0.001025
+     T residual: 0.001331
+     zsol [km]: 32.3308
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 757.0106
+
+   Storing data at step 1250, 768.809 kyrs 
+     max phi: 0.024781
+     phi residual: 0.10548
+     T residual: 0.0015536
+     zsol [km]: 48.3709
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 4.6666
+
+   Storing data at step 1000, 297.281 kyrs 
+     max phi: 0.033638
+     phi residual: 0.11788
+     T residual: 0.0024189
+     zsol [km]: 26.3158
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 2317.8219
+
+   Storing data at step 1250, 684.073 kyrs 
+     max phi: 0.026628
+     phi residual: 0.11704
+     T residual: 0.0021453
+     zsol [km]: 42.8571
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 30.0376
+
+   Storing data at step 250, 122.077 kyrs 
+     max phi: 0.027157
+     phi residual: 0.11004
+     T residual: 0.0010281
+     zsol [km]: 57.3935
+     zLAB [km]: 66.9173
+     Extruded volume thickness [m]: 0.054189
+
+   Storing data at step 750, 271.809 kyrs 
+     max phi: 0.029908
+     phi residual: 0.11128
+     T residual: 0.0014124
+     zsol [km]: 37.8446
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 130.6693
+
+   Storing data at step 2500, 918.071 kyrs 
+     max phi: 0.029626
+     phi residual: 0.1091
+     T residual: 0.00099303
+     zsol [km]: 21.8045
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 9601.3669
+
+   Storing data at step 1500, 922.321 kyrs 
+     max phi: 0.024543
+     phi residual: 0.10033
+     T residual: 0.001235
+     zsol [km]: 45.8647
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 13.0924
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1710, 1050.389 kyrs 
+Elapsed CPU time is 5.8746 minutes
+Completed Run 110 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 107 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 2000, 856.501 kyrs 
+     max phi: 0.027833
+     phi residual: 0.11124
+     T residual: 0.0014217
+     zsol [km]: 30.3258
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 1293.0884
+
+ 
+--------------------------------------------------
+Starting run 124 of 130
+Vbg=25 cm/yr
+T_init_Zlab=80 km
+calculated muso: 1.547305365172866e+19
+
+   Storing data at step 2750, 1009.136 kyrs 
+     max phi: 0.029498
+     phi residual: 0.1112
+     T residual: 0.00068442
+     zsol [km]: 21.3033
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 11864.3149
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2870, 1050.018 kyrs 
+Elapsed CPU time is 10.1096 minutes
+Completed Run 93 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 108 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 92 of 130
+Vbg=20 cm/yr
+T_init_Zlab=50 km
+calculated muso: 3.029116622389344e+19
+
+   Storing data at step 1250, 368.510 kyrs 
+     max phi: 0.033407
+     phi residual: 0.11956
+     T residual: 0.0012618
+     zsol [km]: 24.812
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 3881.9628
+
+   Storing data at step 1500, 817.794 kyrs 
+     max phi: 0.025005
+     phi residual: 0.099457
+     T residual: 0.0013073
+     zsol [km]: 40.3509
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 73.7638
+
+   Storing data at step 500, 239.279 kyrs 
+     max phi: 0.028008
+     phi residual: 0.11803
+     T residual: 0.0015154
+     zsol [km]: 52.381
+     zLAB [km]: 66.416
+     Extruded volume thickness [m]: 0.6926
+
+   Storing data at step 1000, 359.573 kyrs 
+     max phi: 0.029714
+     phi residual: 0.10974
+     T residual: 0.0019802
+     zsol [km]: 34.3358
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 355.023
+
+   Storing data at step 2250, 960.912 kyrs 
+     max phi: 0.027256
+     phi residual: 0.15885
+     T residual: 0.0012725
+     zsol [km]: 28.3208
+     zLAB [km]: 60.401
+     Extruded volume thickness [m]: 2039.6712
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2465, 1050.331 kyrs 
+Elapsed CPU time is 8.3719 minutes
+Completed Run 108 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 109 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 107 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=60 km
+calculated muso: 2.146035589328055e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1750, 952.657 kyrs 
+     max phi: 0.026409
+     phi residual: 0.11688
+     T residual: 0.0020986
+     zsol [km]: 37.8446
+     zLAB [km]: 64.411
+     Extruded volume thickness [m]: 158.8815
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1932, 1050.007 kyrs 
+Elapsed CPU time is 6.7057 minutes
+Completed Run 96 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 110 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 126 of 130
+Vbg=25 cm/yr
+T_init_Zlab=90 km
+calculated muso: 1.634477593339754e+19
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1500, 439.025 kyrs 
+     max phi: 0.032191
+     phi residual: 0.11066
+     T residual: 0.0011025
+     zsol [km]: 23.3083
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 5808.8048
+
+   Storing data at step 750, 354.928 kyrs 
+     max phi: 0.026937
+     phi residual: 0.10958
+     T residual: 0.0016071
+     zsol [km]: 48.3709
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 3.851
+
+   Storing data at step 1250, 447.365 kyrs 
+     max phi: 0.0298
+     phi residual: 0.1112
+     T residual: 0.0015291
+     zsol [km]: 31.8296
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 772.0805
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 250, 180.564 kyrs 
+     max phi: 0.022708
+     phi residual: 0.05785
+     T residual: 0.00068404
+     zsol [km]: 70.4261
+     zLAB [km]: 69.9248
+     Extruded volume thickness [m]: 0.00067407
+
+   Storing data at step 1750, 508.849 kyrs 
+     max phi: 0.031256
+     phi residual: 0.00014178
+     T residual: 0.00094269
+     zsol [km]: 21.8045
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 8048.4287
+
+   Storing data at step 250, 92.180 kyrs 
+     max phi: 0.030359
+     phi residual: 0.099799
+     T residual: 0.0013553
+     zsol [km]: 37.3434
+     zLAB [km]: 48.3709
+     Extruded volume thickness [m]: 81.4264
+
+   Storing data at step 250, 196.002 kyrs 
+     max phi: 0.014713
+     phi residual: 0.46093
+     T residual: 0.00011306
+     zsol [km]: 88.9724
+     zLAB [km]: 85.9649
+     Extruded volume thickness [m]: 0.00058001
+
+   Storing data at step 1000, 470.417 kyrs 
+     max phi: 0.027412
+     phi residual: 0.0010313
+     T residual: 0.0012501
+     zsol [km]: 44.8622
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 14.3986
+
+   Storing data at step 1500, 533.802 kyrs 
+     max phi: 0.029364
+     phi residual: 0.0014796
+     T residual: 0.0013804
+     zsol [km]: 29.3233
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 1438.5913
+
+   Storing data at step 250, 100.983 kyrs 
+     max phi: 0.029051
+     phi residual: 0.11085
+     T residual: 0.0013507
+     zsol [km]: 46.8672
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 4.0034
+
+   Storing data at step 500, 359.645 kyrs 
+     max phi: 0.022715
+     phi residual: 0.073121
+     T residual: 0.0010632
+     zsol [km]: 65.9148
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 0.0027853
+
+   Storing data at step 500, 390.492 kyrs 
+     max phi: 0.014683
+     phi residual: 0.48319
+     T residual: 0.00010547
+     zsol [km]: 87.4687
+     zLAB [km]: 84.4612
+     Extruded volume thickness [m]: 0.0011623
+
+   Storing data at step 2000, 579.369 kyrs 
+     max phi: 0.032325
+     phi residual: 0.12199
+     T residual: 0.0013496
+     zsol [km]: 21.3033
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 10547.9339
+
+   Storing data at step 500, 177.050 kyrs 
+     max phi: 0.030781
+     phi residual: 0.12217
+     T residual: 0.0014189
+     zsol [km]: 32.8321
+     zLAB [km]: 47.8697
+     Extruded volume thickness [m]: 383.3165
+
+   Storing data at step 750, 585.604 kyrs 
+     max phi: 0.014932
+     phi residual: 0.47964
+     T residual: 8.5959e-05
+     zsol [km]: 85.9649
+     zLAB [km]: 83.4586
+     Extruded volume thickness [m]: 0.0017447
+
+   Storing data at step 1250, 586.118 kyrs 
+     max phi: 0.027327
+     phi residual: 0.10776
+     T residual: 0.002284
+     zsol [km]: 41.8546
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 42.2261
+
+   Storing data at step 1750, 620.047 kyrs 
+     max phi: 0.02954
+     phi residual: 0.0012377
+     T residual: 0.0013277
+     zsol [km]: 27.3183
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 2383.3547
+
+   Storing data at step 500, 196.858 kyrs 
+     max phi: 0.029082
+     phi residual: 0.10994
+     T residual: 0.001511
+     zsol [km]: 41.8546
+     zLAB [km]: 57.3935
+     Extruded volume thickness [m]: 31.0459
+
+   Storing data at step 750, 536.288 kyrs 
+     max phi: 0.022396
+     phi residual: 0.046346
+     T residual: 0.00091537
+     zsol [km]: 61.9048
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 0.013633
+
+   Storing data at step 1000, 778.572 kyrs 
+     max phi: 0.014508
+     phi residual: 0.46866
+     T residual: 0.00010941
+     zsol [km]: 84.4612
+     zLAB [km]: 82.4561
+     Extruded volume thickness [m]: 0.002327
+
+   Storing data at step 1250, 973.174 kyrs 
+     max phi: 0.015342
+     phi residual: 0.97198
+     T residual: 0.00011638
+     zsol [km]: 83.4586
+     zLAB [km]: 81.9549
+     Extruded volume thickness [m]: 0.0029094
+ 
+   Storing data at step 2250, 647.489 kyrs 
+     max phi: 0.032193
+     phi residual: 0.11071
+     T residual: 0.00078615
+     zsol [km]: 20.3008
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 13245.0668
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1350, 1050.704 kyrs 
+Elapsed CPU time is 2.6689 minutes
+Completed Run 126 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 111 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 125 of 130
+Vbg=25 cm/yr
+T_init_Zlab=85 km
+calculated muso: 1.523227842816606e+19
+
+   Storing data at step 750, 262.327 kyrs 
+     max phi: 0.030769
+     phi residual: 0.12147
+     T residual: 0.0020453
+     zsol [km]: 29.3233
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 1011.6642
+
+   Storing data at step 1500, 700.456 kyrs 
+     max phi: 0.026965
+     phi residual: 0.10881
+     T residual: 0.0016103
+     zsol [km]: 39.3484
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 104.0728
+
+   Storing data at step 2000, 705.538 kyrs 
+     max phi: 0.029488
+     phi residual: 0.11083
+     T residual: 0.0014973
+     zsol [km]: 26.3158
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 3616.647
+
+   Storing data at step 750, 291.941 kyrs 
+     max phi: 0.029427
+     phi residual: 0.1079
+     T residual: 0.0020712
+     zsol [km]: 37.8446
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 117.9736
+
+   Storing data at step 1000, 712.007 kyrs 
+     max phi: 0.022504
+     phi residual: 0.058146
+     T residual: 0.00087897
+     zsol [km]: 58.8972
+     zLAB [km]: 58.396
+     Extruded volume thickness [m]: 0.059234
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 2500, 718.583 kyrs 
+     max phi: 0.032237
+     phi residual: 0.11116
+     T residual: 0.00061846
+     zsol [km]: 19.7995
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 16131.4157
+
+   Storing data at step 1000, 347.009 kyrs 
+     max phi: 0.030329
+     phi residual: 0.111
+     T residual: 0.0012219
+     zsol [km]: 27.3183
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 2006.0595
+
+   Storing data at step 1750, 814.919 kyrs 
+     max phi: 0.026866
+     phi residual: 0.10887
+     T residual: 0.0016941
+     zsol [km]: 36.8421
+     zLAB [km]: 64.9123
+     Extruded volume thickness [m]: 223.7147
+
+   Storing data at step 2250, 790.503 kyrs 
+     max phi: 0.029106
+     phi residual: 0.31312
+     T residual: 0.0011225
+     zsol [km]: 24.3108
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 5130.2943
+
+   Storing data at step 1250, 888.915 kyrs 
+     max phi: 0.023546
+     phi residual: 0.11724
+     T residual: 0.0016092
+     zsol [km]: 55.8897
+     zLAB [km]: 55.3885
+     Extruded volume thickness [m]: 0.21224
+ 
+   Storing data at step 250, 186.809 kyrs 
+     max phi: 0.019457
+     phi residual: 0.087612
+     T residual: 0.00042641
+     zsol [km]: 78.9474
+     zLAB [km]: 78.4461
+     Extruded volume thickness [m]: 0.00058042
+
+   Storing data at step 1000, 386.514 kyrs 
+     max phi: 0.028953
+     phi residual: 0.11144
+     T residual: 0.0015912
+     zsol [km]: 35.3383
+     zLAB [km]: 56.8922
+     Extruded volume thickness [m]: 317.6636
+
+Calculations complete, wrapping up...
+
+   Storing data at step 1482, 1050.062 kyrs 
+Elapsed CPU time is 5.0578 minutes
+Completed Run 124 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 112 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 123 of 130
+Vbg=25 cm/yr
+T_init_Zlab=75 km
+calculated muso: 1.625394514998014e+19
+
+   Storing data at step 2750, 788.899 kyrs 
+     max phi: 0.032731
+     phi residual: 0.12197
+     T residual: 0.0010128
+     zsol [km]: 19.2982
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 19169.4736
+
+   Storing data at step 1250, 429.746 kyrs 
+     max phi: 0.03013
+     phi residual: 0.11132
+     T residual: 0.001211
+     zsol [km]: 25.3133
+     zLAB [km]: 47.3684
+     Extruded volume thickness [m]: 3358.3055
+
+   Storing data at step 500, 372.446 kyrs 
+     max phi: 0.020334
+     phi residual: 0.11598
+     T residual: 0.00066312
+     zsol [km]: 75.4386
+     zLAB [km]: 74.9373
+     Extruded volume thickness [m]: 0.001167
+
+   Storing data at step 2000, 929.849 kyrs 
+     max phi: 0.027365
+     phi residual: 0.11118
+     T residual: 0.0013116
+     zsol [km]: 34.8371
+     zLAB [km]: 64.411
+     Extruded volume thickness [m]: 431.2654
+
+   Storing data at step 2250, 1042.382 kyrs 
+     max phi: 0.02713
+     phi residual: 0.077105
+     T residual: 0.0013964
+     zsol [km]: 32.3308
+     zLAB [km]: 64.411
+     Extruded volume thickness [m]: 761.8194
+ 
+   Storing data at step 2500, 875.142 kyrs 
+     max phi: 0.029945
+     phi residual: 0.1109
+     T residual: 0.0012077
+     zsol [km]: 23.8095
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 6896.4804
+
+Calculations complete, wrapping up...
+
+   Storing data at step 2268, 1050.076 kyrs 
+Elapsed CPU time is 7.7598 minutes
+Completed Run 122 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 113 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 121 of 130
+Vbg=25 cm/yr
+T_init_Zlab=65 km
+calculated muso: 1.896428951646089e+19
+
+   Storing data at step 1250, 480.552 kyrs 
+     max phi: 0.029278
+     phi residual: 0.11031
+     T residual: 0.0014383
+     zsol [km]: 32.3308
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 688.8004
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 750, 557.480 kyrs 
+     max phi: 0.019026
+     phi residual: 0.006816
+     T residual: 0.00044743
+     zsol [km]: 73.4336
+     zLAB [km]: 72.4311
+     Extruded volume thickness [m]: 0.0017713
+
+   Storing data at step 3000, 858.535 kyrs 
+     max phi: 0.032233
+     phi residual: 0.11118
+     T residual: 0.00049333
+     zsol [km]: 18.797
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 22313.7694
+
+   Storing data at step 1500, 511.285 kyrs 
+     max phi: 0.030595
+     phi residual: 0.10891
+     T residual: 0.0011916
+     zsol [km]: 23.8095
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 5033.074
+
+   Storing data at step 2750, 959.868 kyrs 
+     max phi: 0.029219
+     phi residual: 0.038679
+     T residual: 0.00091582
+     zsol [km]: 22.3058
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 8897.1678
+
+   Storing data at step 3000, 1046.757 kyrs 
+     max phi: 0.031113
+     phi residual: 0.1177
+     T residual: 0.0015971
+     zsol [km]: 21.3033
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 11109.7122
+ 
+   Storing data at step 1, 0.000 kyrs
+Calculations complete, wrapping up...
+
+   Storing data at step 3012, 1050.013 kyrs 
+Elapsed CPU time is 10.4182 minutes
+Completed Run 120 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 114 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 119 of 130
+Vbg=25 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 1500, 573.200 kyrs 
+     max phi: 0.028604
+     phi residual: 0.0014578
+     T residual: 0.0013331
+     zsol [km]: 29.8246
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 1285.4984
+
+   Storing data at step 250, 145.028 kyrs 
+     max phi: 0.025121
+     phi residual: 0.11065
+     T residual: 0.0011418
+     zsol [km]: 63.4085
+     zLAB [km]: 62.9073
+     Extruded volume thickness [m]: 0.0040428
+
+   Storing data at step 1000, 742.523 kyrs 
+     max phi: 0.019217
+     phi residual: 0.034949
+     T residual: 0.00041308
+     zsol [km]: 70.9273
+     zLAB [km]: 70.4261
+     Extruded volume thickness [m]: 0.0024318
+
+   Storing data at step 3250, 925.547 kyrs 
+     max phi: 0.033304
+     phi residual: 0.11966
+     T residual: 0.00045884
+     zsol [km]: 18.2957
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 25548.1023
+
+   Storing data at step 1250, 926.884 kyrs 
+     max phi: 0.018081
+     phi residual: 0.0021057
+     T residual: 0.00065407
+     zsol [km]: 68.9223
+     zLAB [km]: 68.9223
+     Extruded volume thickness [m]: 0.0032486
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1417, 1050.735 kyrs 
+Elapsed CPU time is 3.5387 minutes
+Completed Run 125 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 115 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 1750, 594.330 kyrs 
+     max phi: 0.030588
+     phi residual: 0.11112
+     T residual: 0.00085387
+     zsol [km]: 22.807
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 6993.7449
+
+ 
+--------------------------------------------------
+Starting run 128 of 130
+Vbg=25 cm/yr
+T_init_Zlab=100 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.011 kyrs 
+Elapsed CPU time is 0.072258 minutes
+Completed Run 128 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 116 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 127 of 130
+Vbg=25 cm/yr
+T_init_Zlab=95 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.012 kyrs 
+Elapsed CPU time is 0.073299 minutes
+Completed Run 127 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 117 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 130 of 130
+Vbg=25 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 250, 107.113 kyrs 
+     max phi: 0.029787
+     phi residual: 0.11786
+     T residual: 0.0016735
+     zsol [km]: 51.8797
+     zLAB [km]: 62.406
+     Extruded volume thickness [m]: 0.56302
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.068898 minutes
+Completed Run 130 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 118 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 129 of 130
+Vbg=25 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.07009 minutes
+Completed Run 129 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 119 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 1750, 666.239 kyrs 
+     max phi: 0.028649
+     phi residual: 0.10998
+     T residual: 0.001772
+     zsol [km]: 27.8195
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 2139.0627
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 500, 287.130 kyrs 
+     max phi: 0.025299
+     phi residual: 0.10849
+     T residual: 0.0011906
+     zsol [km]: 58.396
+     zLAB [km]: 67.4185
+     Extruded volume thickness [m]: 0.055134
+
+   Storing data at step 3500, 993.793 kyrs 
+     max phi: 0.031197
+     phi residual: 0.00031321
+     T residual: 0.00043561
+     zsol [km]: 17.7945
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 28874.4298
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 3690, 1050.145 kyrs 
+Elapsed CPU time is 12.8451 minutes
+Completed Run 118 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 120 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 117 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.071064 minutes
+Completed Run 117 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 121 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 116 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.072622 minutes
+Completed Run 116 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 122 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 2000, 674.912 kyrs 
+     max phi: 0.031445
+     phi residual: 0.11975
+     T residual: 0.00080378
+     zsol [km]: 21.8045
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 9191.8254
+
+   Storing data at step 500, 208.679 kyrs 
+     max phi: 0.028365
+     phi residual: 0.11099
+     T residual: 0.0014451
+     zsol [km]: 46.8672
+     zLAB [km]: 61.9048
+     Extruded volume thickness [m]: 5.77
+
+   Storing data at step 2000, 757.412 kyrs 
+     max phi: 0.029291
+     phi residual: 0.10899
+     T residual: 0.0014555
+     zsol [km]: 26.3158
+     zLAB [km]: 56.391
+     Extruded volume thickness [m]: 3256.2828
+
+   Storing data at step 250, 85.534 kyrs 
+     max phi: 0.031124
+     phi residual: 0.10008
+     T residual: 0.0013947
+     zsol [km]: 41.8546
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 22.7458
+
+   Storing data at step 750, 428.952 kyrs 
+     max phi: 0.02578
+     phi residual: 0.10501
+     T residual: 0.0015055
+     zsol [km]: 54.386
+     zLAB [km]: 65.9148
+     Extruded volume thickness [m]: 0.36337
+
+   Storing data at step 2250, 754.916 kyrs 
+     max phi: 0.031354
+     phi residual: 0.11992
+     T residual: 0.00082343
+     zsol [km]: 20.802
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 11589.4308
+
+   Storing data at step 2250, 848.681 kyrs 
+     max phi: 0.029407
+     phi residual: 0.10593
+     T residual: 0.0016368
+     zsol [km]: 24.812
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 4640.682
+
+   Storing data at step 750, 308.268 kyrs 
+     max phi: 0.028328
+     phi residual: 0.11064
+     T residual: 0.0015692
+     zsol [km]: 42.8571
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 26.8146
+
+   Storing data at step 500, 165.496 kyrs 
+     max phi: 0.031733
+     phi residual: 0.12222
+     T residual: 0.0014672
+     zsol [km]: 36.8421
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 141.1843
+
+   Storing data at step 1000, 571.097 kyrs 
+     max phi: 0.025533
+     phi residual: 0.10959
+     T residual: 0.0017485
+     zsol [km]: 51.3784
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 1.5971
+
+   Storing data at step 2500, 837.561 kyrs 
+     max phi: 0.030298
+     phi residual: 0.11117
+     T residual: 0.00062933
+     zsol [km]: 20.3008
+     zLAB [km]: 46.8672
+     Extruded volume thickness [m]: 14162.1498
+
+   Storing data at step 2500, 939.951 kyrs 
+     max phi: 0.029182
+     phi residual: 0.11124
+     T residual: 0.0010839
+     zsol [km]: 23.8095
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 6272.2251
+
+   Storing data at step 1000, 408.018 kyrs 
+     max phi: 0.029702
+     phi residual: 0.11738
+     T residual: 0.002156
+     zsol [km]: 39.3484
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 85.7435
+
+   Storing data at step 750, 245.124 kyrs 
+     max phi: 0.032375
+     phi residual: 0.11796
+     T residual: 0.0022805
+     zsol [km]: 32.8321
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 451.8661
+
+   Storing data at step 1250, 712.094 kyrs 
+     max phi: 0.025406
+     phi residual: 0.10966
+     T residual: 0.0018106
+     zsol [km]: 48.3709
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 5.4372
+
+   Storing data at step 2750, 1031.846 kyrs 
+     max phi: 0.029097
+     phi residual: 0.11086
+     T residual: 0.00098737
+     zsol [km]: 22.807
+     zLAB [km]: 55.8897
+     Extruded volume thickness [m]: 8128.9998
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2796, 1050.229 kyrs 
+Elapsed CPU time is 9.5446 minutes
+Completed Run 107 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 123 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 106 of 130
+Vbg=22.5 cm/yr
+T_init_Zlab=55 km
+calculated muso: 2.725749186903991e+19
+
+   Storing data at step 2750, 920.185 kyrs 
+     max phi: 0.030421
+     phi residual: 0.11109
+     T residual: 0.0005364
+     zsol [km]: 19.7995
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 16872.8787
+
+   Storing data at step 1250, 507.233 kyrs 
+     max phi: 0.02981
+     phi residual: 0.11708
+     T residual: 0.0026178
+     zsol [km]: 36.3409
+     zLAB [km]: 61.4035
+     Extruded volume thickness [m]: 216.8403
+
+   Storing data at step 1500, 852.974 kyrs 
+     max phi: 0.025017
+     phi residual: 0.11045
+     T residual: 0.0012727
+     zsol [km]: 45.3634
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 15.305
+
+   Storing data at step 1000, 324.434 kyrs 
+     max phi: 0.031176
+     phi residual: 0.11071
+     T residual: 0.0014211
+     zsol [km]: 29.8246
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1040.824
+
+   Storing data at step 1, 0.000 kyrs
+   Storing data at step 3000, 1001.340 kyrs 
+     max phi: 0.030507
+     phi residual: 0.11117
+     T residual: 0.00048548
+     zsol [km]: 19.2982
+     zLAB [km]: 46.3659
+     Extruded volume thickness [m]: 19707.0557
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 3160, 1050.083 kyrs 
+Elapsed CPU time is 10.9637 minutes
+Completed Run 92 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 124 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 91 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=110 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.008 kyrs 
+Elapsed CPU time is 0.068996 minutes
+Completed Run 91 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 125 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+ 
+--------------------------------------------------
+Starting run 90 of 130
+Vbg=17.5 cm/yr
+T_init_Zlab=105 km
+T < Tsol everywhere! Cannot calculate melt migration
+switching to single phase T evolution...
+
+   Storing data at step 1, 0.000 kyrs 
+Calculations complete, wrapping up...
+
+   Storing data at step 2, 2.009 kyrs 
+Elapsed CPU time is 0.070313 minutes
+Completed Run 90 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 126 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 1750, 994.378 kyrs 
+     max phi: 0.025708
+     phi residual: 0.10702
+     T residual: 0.0014272
+     zsol [km]: 42.8571
+     zLAB [km]: 65.4135
+     Extruded volume thickness [m]: 37.5477
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 1851, 1050.510 kyrs 
+Elapsed CPU time is 6.3399 minutes
+Completed Run 123 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 127 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 1500, 605.589 kyrs 
+     max phi: 0.028231
+     phi residual: 0.10971
+     T residual: 0.002092
+     zsol [km]: 33.8346
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 465.138
+
+   Storing data at step 1250, 402.371 kyrs 
+     max phi: 0.031096
+     phi residual: 0.10999
+     T residual: 0.0015626
+     zsol [km]: 27.8195
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1968.6472
+
+   Storing data at step 250, 92.476 kyrs 
+     max phi: 0.030207
+     phi residual: 0.099469
+     T residual: 0.0014803
+     zsol [km]: 41.8546
+     zLAB [km]: 52.8822
+     Extruded volume thickness [m]: 21.558
+
+   Storing data at step 1750, 703.845 kyrs 
+     max phi: 0.02871
+     phi residual: 0.11035
+     T residual: 0.0015008
+     zsol [km]: 31.8296
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 874.9797
+
+   Storing data at step 1500, 479.745 kyrs 
+     max phi: 0.030656
+     phi residual: 0.1107
+     T residual: 0.001557
+     zsol [km]: 25.8145
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 3241.7519
+
+   Storing data at step 500, 177.981 kyrs 
+     max phi: 0.030692
+     phi residual: 0.12192
+     T residual: 0.001758
+     zsol [km]: 36.8421
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 131.0396
+
+   Storing data at step 2000, 801.441 kyrs 
+     max phi: 0.02874
+     phi residual: 0.11133
+     T residual: 0.001416
+     zsol [km]: 29.8246
+     zLAB [km]: 60.9023
+     Extruded volume thickness [m]: 1487.2305
+
+   Storing data at step 1750, 556.508 kyrs 
+     max phi: 0.031913
+     phi residual: 0.11936
+     T residual: 0.0013993
+     zsol [km]: 24.3108
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 4843.5104
+
+   Storing data at step 750, 264.554 kyrs 
+     max phi: 0.030075
+     phi residual: 0.1106
+     T residual: 0.0016115
+     zsol [km]: 33.3333
+     zLAB [km]: 52.381
+     Extruded volume thickness [m]: 416.0673
+
+   Storing data at step 2250, 898.110 kyrs 
+     max phi: 0.028279
+     phi residual: 0.10835
+     T residual: 0.0018996
+     zsol [km]: 27.8195
+     zLAB [km]: 60.401
+     Extruded volume thickness [m]: 2330.9281
+
+   Storing data at step 2000, 634.751 kyrs 
+     max phi: 0.032489
+     phi residual: 0.11796
+     T residual: 0.0021423
+     zsol [km]: 23.3083
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 6747.9031
+
+   Storing data at step 1000, 349.624 kyrs 
+     max phi: 0.030011
+     phi residual: 0.11028
+     T residual: 0.0018613
+     zsol [km]: 30.8271
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 955.8061
+
+   Storing data at step 2500, 994.791 kyrs 
+     max phi: 0.028314
+     phi residual: 0.10886
+     T residual: 0.0017194
+     zsol [km]: 26.3158
+     zLAB [km]: 60.401
+     Extruded volume thickness [m]: 3416.403
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 2643, 1050.356 kyrs 
+Elapsed CPU time is 8.9464 minutes
+Completed Run 121 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 128 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 2250, 710.288 kyrs 
+     max phi: 0.030758
+     phi residual: 0.10955
+     T residual: 0.0016217
+     zsol [km]: 22.3058
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 8911.6181
+
+   Storing data at step 1250, 434.615 kyrs 
+     max phi: 0.029787
+     phi residual: 0.00016429
+     T residual: 0.001273
+     zsol [km]: 28.3208
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 1801.9419
+
+   Storing data at step 2500, 785.767 kyrs 
+     max phi: 0.031058
+     phi residual: 0.11117
+     T residual: 0.00083222
+     zsol [km]: 21.3033
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 11290.9772
+
+   Storing data at step 1500, 518.071 kyrs 
+     max phi: 0.03023
+     phi residual: 0.11132
+     T residual: 0.0012919
+     zsol [km]: 26.817
+     zLAB [km]: 51.8797
+     Extruded volume thickness [m]: 2975.5707
+
+   Storing data at step 2750, 861.547 kyrs 
+     max phi: 0.031687
+     phi residual: 0.11976
+     T residual: 0.00096547
+     zsol [km]: 20.3008
+     zLAB [km]: 50.8772
+     Extruded volume thickness [m]: 13862.2144
+
+   Storing data at step 1750, 601.008 kyrs 
+     max phi: 0.030476
+     phi residual: 0.11127
+     T residual: 0.0011483
+     zsol [km]: 25.3133
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 4456.9986
+
+   Storing data at step 3000, 936.580 kyrs 
+     max phi: 0.031158
+     phi residual: 0.1102
+     T residual: 0.00074396
+     zsol [km]: 19.7995
+     zLAB [km]: 50.8772
+     Extruded volume thickness [m]: 16590.1885
+
+   Storing data at step 2000, 682.592 kyrs 
+     max phi: 0.029777
+     phi residual: 0.11017
+     T residual: 0.001315
+     zsol [km]: 23.8095
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 6226.2017
+
+   Storing data at step 3250, 1011.679 kyrs 
+     max phi: 0.030307
+     phi residual: 0.12564
+     T residual: 0.00058843
+     zsol [km]: 19.2982
+     zLAB [km]: 50.8772
+     Extruded volume thickness [m]: 19447.824
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 3367, 1050.243 kyrs 
+Elapsed CPU time is 11.3982 minutes
+Completed Run 119 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 129 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   Storing data at step 2250, 764.053 kyrs 
+     max phi: 0.031021
+     phi residual: 0.11982
+     T residual: 0.0011093
+     zsol [km]: 22.3058
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 8239.8283
+
+   Storing data at step 2500, 846.985 kyrs 
+     max phi: 0.029365
+     phi residual: 0.00097552
+     T residual: 0.00081621
+     zsol [km]: 21.3033
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 10480.5609
+
+   Storing data at step 2750, 928.170 kyrs 
+     max phi: 0.031231
+     phi residual: 0.11964
+     T residual: 0.00078844
+     zsol [km]: 20.802
+     zLAB [km]: 51.3784
+     Extruded volume thickness [m]: 12896.9578
+
+   Storing data at step 3000, 1011.785 kyrs 
+     max phi: 0.030496
+     phi residual: 0.11118
+     T residual: 0.0006231
+     zsol [km]: 20.3008
+     zLAB [km]: 50.8772
+     Extruded volume thickness [m]: 15476.6487
+ 
+Calculations complete, wrapping up...
+
+   Storing data at step 3124, 1050.040 kyrs 
+Elapsed CPU time is 10.5398 minutes
+Completed Run 106 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+   TOTAL PROGRESS ---> 130 of 130
+/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\/\
+Parallel pool using the 'local' profile is shutting down.
+Parallel runs complete, Box name: /home/chavlin/Dropbox/Research/0_Boxes/2016-07-22-re_Vbg_zLAB_conXf/Box_2016-07-22-re_Vbg_zLAB_conXf
+ 
+--------------------------------------------------
+ 
+>> 

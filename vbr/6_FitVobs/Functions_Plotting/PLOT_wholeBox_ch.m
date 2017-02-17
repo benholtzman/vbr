@@ -11,13 +11,13 @@ nk = sz(2) ; % variable dT
 frame_with_VBR=Fit_Params.Frame_Selection;
 
 SP(1).xlab='T [^oC]';
-SP(1).xlims=[0 1500];
+SP(1).xlims=[0 1900];
 SP(2).xlab='M [GPa]';
 SP(2).xlims=[40 90];
 SP(3).xlab='log Q';
-SP(3).xlims=[0 4];
+SP(3).xlims=[1 4];
 SP(4).xlab='V_s [km/s]';
-SP(4).xlims=[3 8];
+SP(4).xlims=[3.9 5.1];
 
 %% PLOTTING ====================================
 F2=figure('color',[1 1 1]);
@@ -94,12 +94,12 @@ for ip = 1:4
     ylim(ylimits)
     xlabel(SP(ip).xlab,'fontname','Times New Roman','fontsize',LBLFNT); 
     xlim(SP(ip).xlims)
-    axis tight
+    %axis tight
 end   
 
 subplot(1,4,4)
 hold on
-plot(Obs.Vs/1e3,Obs.depth,'--k','LineWidth',1.5)
+plot(Obs.Vs/1e3,Obs.depth,'--k','LineWidth',2.5)
 
 
 

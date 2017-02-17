@@ -55,10 +55,22 @@ for i_var1 = 1:n_var1
         zLAB_mat(i_var1,i_var2).ind = ind_zLAB ; 
         zLAB_mat(i_var1,i_var2).T_LAB = T_LAB ; 
         Res_mat(i_var1,i_var2) = log10(Res) ; 
+        
+        zSOL_km = Box(i_var1,i_var2).run_info.zSOL(end)/1e3 ;
+        ind_zSOL = find(Z_km > zSOL_km,1)-1 ; 
+        T_SOL = T_z(ind_zSOL) ;
+        zSOL_mat(i_var1,i_var2).zSOL_km = zSOL_km ; 
+        zSOL_mat(i_var1,i_var2).ind_zSOL = ind_zSOL ; 
+        zSOL_mat(i_var1,i_var2).T_SOL = T_SOL ; 
+        
     end
 end
 
-
+T_vec = Box(1,1).info.var1range
+Tval_best = 5 ; 
+zPlate_vec = Box(Tval_best,1).info.var2range  
+[val,ind_best] = min(Res_mat(Tval_best,:))
+display(['best fit is ', num2str(zPlate_vec(ind_best)), ' at index ', num2str(ind_best)] )
 % ==================================
 % PLOTTING
 % ==================================
@@ -75,8 +87,8 @@ plot1 = [0.65 0.3 0.3 0.35] ;
 axes('Position', column1); 
 
 colors = colormap(hsv(3*n_var1)) ; 
-for i_var1 = 1:n_var1
-    for i_var2 = 1:n_var2
+for i_var1 = Tval_best %1:n_var1
+    for i_var2 = ind_best  % 1:n_var2
         T_vec_C = Box(i_var1,i_var2).Frames(end).T(:) ; 
         Z_km = Box(i_var1,i_var2).run_info.Z_km(:) ; 
         col = colors(i_var1+round(2*n_var1),:) ;
@@ -84,7 +96,13 @@ for i_var1 = 1:n_var1
         
         T_lab = zLAB_mat(i_var1,i_var2).T_LAB ; 
         Z_lab = zLAB_mat(i_var1,i_var2).Z_km ;
-        plot(T_lab,Z_lab, 'r.', 'color', col, 'markersize', 12 ); hold on; 
+        plot(T_lab,Z_lab, 'r.', 'color', col, 'markersize', 12 ); hold on;
+        
+        T_sol = zSOL_mat(i_var1,i_var2).T_SOL ; 
+        Z_sol = zSOL_mat(i_var1,i_var2).zSOL_km ;
+        if isempty(T_sol)==0
+        plot(T_sol,Z_sol, 'go', 'markersize', 8 ,'color', [0 0.6 0 ]); hold on; % 
+        end
     end
 end
 
@@ -109,8 +127,8 @@ axes('Position', column2);
 
 
 colors = colormap(hsv(3*n_var1)) ; 
-for i_var1 = 1:n_var1
-    for i_var2 = 1:n_var2
+for i_var1 = Tval_best  % 1:n_var1
+    for i_var2 = ind_best % 1:n_var2
         log10_eta = log10(Box(i_var1,i_var2).Frames(end).eta(:)) ; 
         Z_km = Box(i_var1,i_var2).run_info.Z_km(:) ; 
         col = colors(i_var1+round(2*n_var1),:) ;

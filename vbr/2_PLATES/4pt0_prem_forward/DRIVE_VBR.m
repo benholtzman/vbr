@@ -26,7 +26,7 @@
 
 %% box name without the 'Box_' prefix
    %Work.Box_base_name='2016-06-30-prem_init_sweep';
-   Work.Box_base_name='y161210_TNA_fit';
+   Work.Box_base_name='y161213_TNA_fit';
    %Work.Box_base_name='y161210_SNA_fit';
    
 %% box directory  
@@ -59,8 +59,10 @@
   %% set frequency to calculate over 
    % body wave band
    %VBR.in.SV.f =  logspace(-1.5,0.0,10);
+   % long period (Grand Helmberger)
+   VBR.in.SV.f =  logspace(-1.7,-1.3,10);
    % surface wave band
-   VBR.in.SV.f =  logspace(-2.2,-1.3,10);
+   %VBR.in.SV.f =  logspace(-2.2,-1.3,10);
    % GIA band
    %VBR.in.SV.f =  logspace(-12,-9,30);
 
@@ -136,6 +138,18 @@
            VBR.in.SV.sig_MPa = Frames(ifr).sig_MPa ;
            VBR.in.SV.chi = Frames(ifr).comp;
            VBR.in.SV.Ch2o = Frames(ifr).Cs_H2O;
+           
+%            % CHRIS TEMP FIX...============ 
+%            % This does not need to happen for any forward models 
+%            % performed after 12/12/2016
+%            settings = Box(iBox).run_info.settings;  % pull out settings
+%            Zm=settings.Z_moho_km*1e3; 
+%            dzMoho = settings.Moho_thickness_km * 1e3;
+%            z=Box(iBox).run_info.Z_km * 1e3;
+%            % recalc composition -- this was screwy...
+%            Grade = 0.5 * (1 + erf( (z - Zm) / dzMoho));
+%            VBR.in.SV.chi = Grade;
+           % CHRIS TEMP FIX...============ 
            
 %%         VBR time!
            [VBR] = VBR_spine(VBR) ;

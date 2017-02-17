@@ -1,14 +1,14 @@
 clear; close all;
 
-wMelt_flag = 1 
-T1orS2_flag = 1
+wMelt_flag = 0
+T1orS2_flag = 2
 
 % ===============================
 % load Box data
 % box name without the 'Box_' prefix
    %Work.Box_base_name='2016-06-30-prem_init_sweep';
    if T1orS2_flag==1
-       Work.Box_base_name='y161210_TNA_fit';
+       Work.Box_base_name='y161213_TNA_fit';
        Work.savefigname='TNA_noMelt';
    elseif T1orS2_flag==2
        Work.Box_base_name='y161210_SNA_fit';

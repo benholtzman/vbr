@@ -44,8 +44,10 @@
   c = strsplit(cwd,'/');
   if strcmp(c{end},'3pt1_two_phase_VBR')
       addpath ./03_plotting/postproc/
+      addpath ./02_functions
   elseif strcmp(c{end},'03_plotting')
       addpath ./postproc
+      addpath ../02_functions
   end
   clear c
   
@@ -54,8 +56,7 @@
 %% ------------------------------------------------------------------------  
     if strcmp(loadnew,'yes')
         loadname=['Box_' loadbase '.mat'];
-        loaddir=[loaddir0 '/' loadbase '/'];
-        addpath ../02_box_functions
+        loaddir=[loaddir0 '/' loadbase '/'];        
         load([loaddir loadname])
     end
     
@@ -168,7 +169,7 @@
        ylim(ylims)
    end
 % 
-   addpath ../02_functions
+   
    settings=Box(1,1).run_info.settings;
    fxc=calc_XtalFactor(Z*1e3,settings);
    subplot(1,4,4)

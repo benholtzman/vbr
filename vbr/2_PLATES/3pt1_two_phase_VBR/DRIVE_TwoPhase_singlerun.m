@@ -30,8 +30,8 @@
      
 %    Computational settings 
 %    time
-     settings.nt= 1200; % max time steps 
-     settings.outk =50; % output frequency
+     settings.nt= 500; % max time steps 
+     settings.outk =10; % output frequency
      settings.t_max_Myrs=0.5; % max time to calculate [Myr]     
      settings.z_thin=settings.Z_moho_km; % quit if lith is thinned to here [km]
      

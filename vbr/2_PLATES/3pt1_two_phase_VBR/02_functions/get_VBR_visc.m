@@ -5,6 +5,9 @@ function eta = get_VBR_visc(Vark)
   addpath ../../4_VBR/VBR_v0p95/
 
   VBR.in.viscous.methods_list={'LH2012'}; 
+  VBR.in.viscous.LH2012=Params_Viscous('LH2012');
+  VBR.in.viscous.LH2012.P_dep_calc='no';
+  
   
   VBR.in.SV.P_GPa = Vark.P./1e9 ;
   VBR.in.SV.T_K = Vark.T +273;  

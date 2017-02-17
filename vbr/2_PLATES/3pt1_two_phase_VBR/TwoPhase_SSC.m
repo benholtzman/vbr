@@ -385,7 +385,7 @@ function Vark = MeltingRate(Vark,VTot,dTdt,dCfdt,settings,phimin,dt,z,zLABid,dph
  
 % temperature and pressure terms  
   dTdtPsol=-VTot.* settings.rhos .* settings.g .* Solidus.dTdPsol;     
-  Tterms = (0*dTdt.adv_S + dTdt.adi+dTdt.diff+dTdtPsol); % should be an advective term here?
+  Tterms = (0*dTdt.adv_S + 0*dTdt.adi+0*dTdt.diff+dTdtPsol); % should be an advective term here?
 % water terms
   if strcmp(settings.Flags.H2O,'variable')
       Hterms = -dTdH2O .* (dCfdt.diff+0*dCfdt.adv_G); %CJH
@@ -399,17 +399,7 @@ function Vark = MeltingRate(Vark,VTot,dTdt,dCfdt,settings,phimin,dt,z,zLABid,dph
   Gdot(1:zLABid-1)=0; 
   for iz = zLABid:numel(T)
      if T(iz) < Solidus.Tsol(iz) 
-         freeze_constant = 1e11; 
-         if freeze_constant < dt;  freeze_constant = dt; end
-%          Gdot(iz) = - (phi(iz) - phimin)/(freeze_constant);
-%          if Gdot(iz) > 0
-             Gdot(iz) = 0;
-%          end
-%          if phi(iz) <= phimin
-%              Gdot(iz) = 0; 
-%          else %if z(iz) < zLAB;
-%              Gdot(iz) = -(phi(iz) - phimin)/dt - dphidt.adv(iz); 
-%          end
+         Gdot(iz) = 0; % crystallization taken care of elsewhere
      elseif T(iz) > Solidus.Tliq(iz)
          if Gdot(iz) < 0 
              Gdot(iz) = 0; 
@@ -1017,27 +1007,23 @@ function [Vark1,resid,tnow_s_1,dt,LABInfo,Extruded] = ...
     Tcrit = (TLab - dTlatent) - Tsolz; 
 %     disp(Tcrit)
     Tcrit = 10; 
-    if Tcrit > 0   % then move it? 
-%         disp('Tcrit > 0, move LAB')
-    
-    
-%   now fill it    
-    Vark.phi(idz)=Vark.phi(idz0);
-    
-    
+    if Tcrit > 0   % then move it 
+%         disp('Tcrit > 0, move LAB')        
+%      now fill it    
+       Vark.phi(idz)=Vark.phi(idz0);     
+       
+       % %   and adjust Cf appropriately -- IS THIS THE PROBLEM????????  CJH PARG
+       %     dCfdt1 = dCfdt_init(Vark,settings,dz,z); % (need the new mixing ratio)
+       %     dCfdt1.Total = 0.0 * (dCfdt1.diff);
+       %     Cfid=Vark.Cf(rng);
+       %     Vark = step_Cf(Vark,Xtal_Gdot,in_i,settings,BCs,dCfdt1,H2OFlag,dz);
+       %     Cfidnew=Vark.Cf(rng);
+       %     if H2OFlag == 1;
+       %     disp(['adjusted boundary Cf:' num2str(Cfid') ' to ' num2str(Cfidnew')]);
+       %     end
 
-% %   and adjust Cf appropriately -- IS THIS THE PROBLEM????????  CJH PARG
-%     dCfdt1 = dCfdt_init(Vark,settings,dz,z); % (need the new mixing ratio) 
-%     dCfdt1.Total = 0.0 * (dCfdt1.diff);
-%     Cfid=Vark.Cf(rng);
-%     Vark = step_Cf(Vark,Xtal_Gdot,in_i,settings,BCs,dCfdt1,H2OFlag,dz);
-%     Cfidnew=Vark.Cf(rng);
-%     if H2OFlag == 1; 
-%     disp(['adjusted boundary Cf:' num2str(Cfid') ' to ' num2str(Cfidnew')]);
-%     end
-
-%   update the LAB nodes
-    LABInfo.zLAB0=LABInfo.zLAB; LABInfo.zLABid0=LABInfo.zLABid;
+%       update the LAB nodes
+        LABInfo.zLAB0=LABInfo.zLAB; LABInfo.zLABid0=LABInfo.zLABid;
     else
         LABInfo.zLAB = LABInfo.zLAB0; 
         LABInfo.zLABid = LABInfo.zLABid0; 

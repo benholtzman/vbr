@@ -11,15 +11,15 @@ T1orS2_flag = 2
        Work.Box_base_name='y161213_TNA_fit';
        Work.savefigname='TNA_noMelt';
    elseif T1orS2_flag==2
-       Work.Box_base_name='y161210_SNA_fit';
+       Work.Box_base_name='2017-07-20-SNA_forGIA';
        Work.savefigname='SNA_noMelt';
    end
    
    
 % box directory  
    Work.cwd=pwd;cd ~; Work.hmdir=pwd;cd( Work.cwd)
-   %Work.Box_dir =[ Work.hmdir '/Dropbox/Research/0_Boxes/'];
-   Work.Box_dir =[ Work.hmdir '/0_vbr_git/VBRcloset/'];
+   Work.Box_dir =[ Work.hmdir '/Dropbox/0_VBR_WORK/0_y17_Projects/Boxes/'];
+   %Work.Box_dir =[ Work.hmdir '/0_vbr_git/VBRcloset/'];
    Work.Box_dir = [ Work.Box_dir  Work.Box_base_name '/'];
   
 % full box name   

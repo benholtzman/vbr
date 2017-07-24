@@ -10,13 +10,13 @@
 %% settings common to all runs   
 %  Save settings
    Work.cwd=pwd; cd ~; Work.hmdir=pwd; cd(Work.cwd);
-   Work.savedir0=[Work.hmdir '/Dropbox/Research/0_Boxes']; % the closet to store the box in 
-   Work.savebase = '2016-07-13-TSNA_sweep'; % boxes end up named ['Box_' savebase]   
+   Work.savedir0=[Work.hmdir '/Dropbox/0_VBR_WORK/0_y17_Projects/Boxes']; % the closet to store the box in 
+   Work.savebase = '2017-07-20-SNA_forGIA'; % boxes end up named ['Box_' savebase]   
   
 %  Load Default Settings  
    [settings]=init_settings;
    
-%  Overwrite any of the deafault settings as desired
+%  Overwrite any of the default settings as desired
 %    Mesh
      settings.dz0=3; % grid cell size [km]          
      settings.Zinfo.asthenosphere_max_depth = 350; % adiabatic T from zmax to here [km]
@@ -24,7 +24,7 @@
      
 %    Computational settings 
 %    parallel settings
-     par_settings.procs_to_use = 7; % number of processors to use
+     par_settings.procs_to_use = 2; % number of processors to use
      par_settings.future_jobs = 'no'; % will leave parallel pool open if 'yes'
      
 %    time     
@@ -35,6 +35,10 @@
 %    for melt fraction calc                    
      settings.sstol = 1e-6; % steady state target residual
      settings.Flags.T_init='continental'; % 'continental' 'oceanic' or 'adiabatic'
+     
+%    state variables
+     settings.sig_MPa = 1.0; % [MPa] %0.1 MPa also reasonable for asthenosphere focused study
+     settings.grain0 = 0.005; % grain size [m]
      
 %% settings for parameter variations     
 %  Box settings

@@ -1,5 +1,5 @@
 % DRIVE fitting a plate thickness, either from receiver functions or other 
-% i.e. Dalton EPSL 2016 based on attenuation. 
+% i.e. Dalton EPSL 2016 based on attenuation. or Hopper et al. 2017...
 
 clear; close all;
 

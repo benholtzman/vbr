@@ -10,7 +10,7 @@ function [settings]=init_settings
 
    settings.Flags.PropType='PT_dep';  % for density, thermal exp., conductivity   
    settings.Flags.VbzFlag = 'constant'; 
-   settings.Flags.T_init='oceanic'; % 'continental' 'oceanic' or 'adiabatic'
+   settings.Flags.T_init='continental'; % 'continental' 'oceanic' or 'adiabatic'
    settings.Flags.ModelDomain='asth_lith'; % 'asth_lith' or 'lith'
    
    
@@ -62,7 +62,7 @@ function [settings]=init_settings
   settings.dTdz_ad = 0.5*1e-3; % adiabatic gradient [K/m] % should calculate self-consistently
  
 % used for other things....   
-  settings.sig_MPa = 0.1; % [MPa]
+  settings.sig_MPa = 0.1; % [MPa] %0.1 MPa reasonable for asthenosphere focused study
   
 %  Mesh settings
    settings.Zinfo.dz = .5; % node spacing in [km]

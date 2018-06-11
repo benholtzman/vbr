@@ -50,6 +50,7 @@ function[VBR]=Q_eBurgers_f(VBR)
   Delta = Burger_params.Delta ;%1.4 ;% ; % relaxation strength..  
   Tau_LR = Burger_params.Tau_LR ;
   Tau_HR = Burger_params.Tau_HR ;
+  Tau_MR = Burger_params.Tau_MR ;
   
 % EFFECT OF MELT, hypothetical: 
 % sharper response than creep at phi_c, but less sensitive at higher phi (for HTB only) 
@@ -62,11 +63,13 @@ function[VBR]=Q_eBurgers_f(VBR)
 % LOOP over the spatial DOMAIN of the state variables 
 % ====================================================
 scale_mat = ((d_mat./dR).^m).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR)) ; % more like viscosity, so divide by melt factor 
+
 %(Xtilde is like strain rate!, where you multiply by rate factor) 
 scale_mat = scale_mat.*x_phi_c ; % to account for lack of truly melt free samples and the drop at the onset of melting.  
 
 % melt enhancement
 [scale_mat_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
+
 scale_mat = scale_mat./scale_mat_prime ; 
 
 % use linear indexing!! will loop over n-dimensions of Ju_mat. 
@@ -89,8 +92,7 @@ for x1 = 1:n_th; % loop using linear index!
         ntau = 200 ; 
         Tau_X_vec = logspace(log10(Tau_L),log10(Tau_H),ntau) ; 
         
-        % maxwell relaxation time (period)
-        Tau_MR = 10^5.2 ;
+        % maxwell relaxation time (period)        
         Tau_M = Tau_MR.*scale ;
 
         if method==0

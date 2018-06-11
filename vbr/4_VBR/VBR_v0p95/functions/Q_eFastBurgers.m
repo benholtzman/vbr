@@ -73,6 +73,7 @@ function[VBR]=Q_eFastBurgers(VBR)
    Delta = Burger_params.Delta ;%1.4 ;% ; % relaxation strength..   
    Tau_LR = Burger_params.Tau_LR ;
    Tau_HR = Burger_params.Tau_HR ;
+   Tau_MR = Burger_params.Tau_MR ;
    
 %  melt effects
    alpha = Burger_params.melt_alpha ; 
@@ -149,8 +150,7 @@ for i_th = 1:nTau
         i_glob = i_th + (iw - 1) * nTau; % the linear index of the arrays with
                                          % a frequency index
                 
-        w = w_vec(iw) ;
-        Tau_MR = 10^5.2 ;
+        w = w_vec(iw) ;        
         Tau_M = Tau_MR.*scale;
         
         int_J1 = ints(iw).J1;

@@ -18,11 +18,11 @@ function params = Params_Anelastic(method)
 %       calculations, it is the reference modulus for scaling experiments)
         params.G_UR = 62 ; % GPa, unrel. G, reference val. # NOT USED RIGHT NOW 
         
-        params.E = 303e3 ; % J/mol
+        params.E = 303000 ; % J/mol
         params.R = 8.314 ; % gas constant
         params.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
         params.m = 1 ;
-        params.method='FastBurger'; % 'FastBurger' or 'PointWise' or 'None'
+        params.method='PointWise'; % 'FastBurger' or 'PointWise' or 'None'
         if strcmp(params.method,'FastBurger')
             params.nTauGlob=3000; % points for global Tau discretization
         end
@@ -47,9 +47,9 @@ function params = Params_Anelastic(method)
         params.alf = 0.33 ; % is this the same as n in Andrade ?
         params.Delta = 1.4 ;% ; % relaxation strength..
         
-        params.Tau_LR = 1e-2 ; % definition?
-        params.Tau_HR = 1e6 ; % definition?
-        params.Tau_MR = 10^5.2 ; % Maxwell relaxation time...
+        params.Tau_LR = 1e-2 ; % Relaxation time lower limit reference
+        params.Tau_HR = 1e6 ; % Relaxation time higher limit reference
+        params.Tau_MR = 10^5.2 ; % Reference Maxwell relaxation time
         
 %%      melt effects
 %       use diffusion creep values

@@ -34,7 +34,11 @@ function[VBR]=Q_eFastBurgers(VBR)
 %% ===========================
    f_vec = VBR.in.SV.f ;   
    phi =  VBR.in.SV.phi ; 
-   Mu = VBR.out.elastic.poro_Takei.Gu ;    
+   if isfield(VBR.in.elastic,'poro_Takei')
+     Mu = VBR.out.elastic.poro_Takei.Gu ;   
+   else if isfield(VBR.in.elastic,'anharmonic')
+     Mu = VBR.out.elastic.anharmonic.Gu ;    
+   end    
    T_K_mat = VBR.in.SV.T_K ;
    P_Pa_mat = VBR.in.SV.P_GPa.*1e9 ; % convert pressure GPa to Pa = GPa*1e9
    rho_mat = VBR.in.SV.rho ;
@@ -58,7 +62,7 @@ function[VBR]=Q_eFastBurgers(VBR)
 %% read in reference values 
    Burger_params=VBR.in.anelastic.eBurgers;
    TR = Burger_params.TR ;% Kelvins
-   PR = Burger_params.PR ; % Pa
+   PR = Burger_params.PR *1e9; % GPa to Pa
    dR = Burger_params.dR ; % microns grain size  
    E = Burger_params.E ; % J/mol
    R = Burger_params.R ;

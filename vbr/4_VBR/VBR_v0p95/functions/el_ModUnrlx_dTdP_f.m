@@ -24,7 +24,7 @@ function [ VBR ] = el_ModUnrlx_dTdP_f( VBR )
   
 % calculate shear modulus at T,P of interest  
   Gu_TP = calc_Gu(Gu_0,dT,dP,dG_dT0,dG_dP0); 
-
+  
 % calculate bulk modulus 
   Ku_TP = calc_Ku(Gu_TP,nu);
 

@@ -4,8 +4,12 @@ function[VBR]=Q_Andrade_PseudoP_f(VBR)
 %% read in variables and parameters
 %% ================================
 
-%  (BAD RENAMING OF VARIABLES !G==M, sorta... M,J general, G is shear !)
-   Mu_in = VBR.out.elastic.poro_Takei.Gu ; % Pa unrelaxed shear modulus matrix (T and P dependent!),    
+%  (BAD RENAMING OF VARIABLES !G==M, sorta... M,J general, G is shear !)   
+   if isfield(VBR.in.elastic,'poro_Takei')
+     Mu_in = VBR.out.elastic.poro_Takei.Gu ;   
+   else if isfield(VBR.in.elastic,'anharmonic')
+     Mu_in = VBR.out.elastic.anharmonic.Gu ;    
+   end 
    rho_in = VBR.in.SV.rho ;
    T_K_mat = VBR.in.SV.T_K ;
    P_Pa_mat = VBR.in.SV.P_GPa.*1e9 ; % convert pressure GPa to Pa = GPa*1e9
@@ -19,7 +23,7 @@ function[VBR]=Q_Andrade_PseudoP_f(VBR)
    Tau_MR = Andrade_params.Tau_MR ; %??
    Beta = Andrade_params.Beta ;
    TR = Andrade_params.TR;% Kelvins
-   PR = Andrade_params.PR ; %2e8 ; % convert pressure GPa to Pa = GPa*1e9
+   PR = Andrade_params.PR *1e9 ; %2e8 ; % convert pressure GPa to Pa = GPa*1e9
    dR = Andrade_params.dR ; % 3.1 microns grain size
    
    E = Andrade_params.E ; % J/mol

@@ -33,6 +33,14 @@ if isfield(VBR.in,'elastic')
        [VBR] = el_Vs_SnLG_f(VBR); % Stixrude and Lithgow-Bertelloni
    end
    
+%% ====================================================
+%% TEMPORARY FIX FOR PYTHON:
+%% VBR.in matches with a reserved keyword when loading 
+%% the box in python. For now, make a copy to VBR.input for python 
+%% viewing.
+%% ====================================================
+   VBR.input=VBR.in;   
+   
    telapsed.elastic=toc(telapsed.elastic);
 end
 

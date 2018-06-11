@@ -12,11 +12,11 @@ function params = Params_Anelastic(method)
 %       REFERENCE Temp, Pressure and d (grain size)
         params.TR = 1173;% Kelvins
         params.PR = 0.2; % confining pressure of experiments, GPa
-        params.dR = 5 ; % 3.1 microns grain size
+        params.dR = 3.1 ; % 3.1 microns grain size
 
 %       REFERENCE Modulus (not the same as the reference Gu_0 for unrelaxed 
 %       calculations, it is the reference modulus for scaling experiments)
-        params.G_UR = 62 ; % GPa, unrel. G, reference val. 
+        params.G_UR = 62 ; % GPa, unrel. G, reference val. # NOT USED RIGHT NOW 
         
         params.E = 303e3 ; % J/mol
         params.R = 8.314 ; % gas constant

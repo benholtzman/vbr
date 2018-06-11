@@ -14,5 +14,5 @@ function [VBR] = el_calc_Gu_0(VBR)
    Gc = VBR.in.elastic.anharmonic.Gu_0_crust;    
    Gu = Gu_0 * chi + (1-chi) * Gc; 
    
-   VBR.out.elastic.Gu_0=1e9*Gu; % convert to Pa; 
+   VBR.out.elastic.Gu_0=1e9*Gu; % convert to Pa;   
  end

@@ -6,7 +6,13 @@ function[VBR]=Q_eBurgers_f(VBR)
 % Read in State Variables
    f_vec = VBR.in.SV.f ;
    phi =  VBR.in.SV.phi ;
-   Mu = VBR.out.elastic.poro_Takei.Gu ; % Pa unrelaxed shear modulus
+   %Mu = VBR.out.elastic.poro_Takei.Gu ; % Pa unrelaxed shear modulus
+   if isfield(VBR.in.elastic,'poro_Takei')
+     Mu = VBR.out.elastic.poro_Takei.Gu ;   
+   else if isfield(VBR.in.elastic,'anharmonic')
+     Mu = VBR.out.elastic.anharmonic.Gu ;    
+   end 
+  
    T_K_mat = VBR.in.SV.T_K ; % temperature [K]
    P_Pa_mat = VBR.in.SV.P_GPa.*1e9 ; % convert pressure GPa to Pa = GPa*1e9
    rho_mat = VBR.in.SV.rho ; % density
@@ -31,7 +37,7 @@ function[VBR]=Q_eBurgers_f(VBR)
 % Read in reference values (Temp, Pressure and Grain Size) and parameters
   Burger_params=VBR.in.anelastic.eBurgers;
   TR = Burger_params.TR ;% Kelvins
-  PR = Burger_params.PR ; % convert pressure GPa to Pa = GPa*1e9
+  PR = Burger_params.PR *1e9; % convert pressure GPa to Pa = GPa*1e9
   dR = Burger_params.dR ; % microns grain size
   
   E = Burger_params.E ; % J/mol
@@ -82,7 +88,7 @@ for x1 = 1:n_th; % loop using linear index!
 
         ntau = 200 ; 
         Tau_X_vec = logspace(log10(Tau_L),log10(Tau_H),ntau) ; 
-
+        
         % maxwell relaxation time (period)
         Tau_MR = 10^5.2 ;
         Tau_M = Tau_MR.*scale ;
@@ -95,7 +101,8 @@ for x1 = 1:n_th; % loop using linear index!
             J1(i_glob) = Ju.*(1+Delta.*int_J1) ;
 
             int_J2 = trapz(Tau_X_vec,((Tau_X_vec.*D_vec)./(1+w^2.*Tau_X_vec.^2))) ;
-            J2(i_glob) = Ju.*(w*Delta*int_J2 + 1/(w*Tau_M)) ;       
+            J2(i_glob) = Ju.*(w*Delta*int_J2 + 1/(w*Tau_M)) ;
+               
         elseif method==1
         %% GEOFF's METHOD-- works ! 
         % GA: try iterative quadrature   
@@ -114,7 +121,7 @@ for x1 = 1:n_th; % loop using linear index!
         
         
         Q(i_glob) = J1(i_glob)./J2(i_glob) ; 
-        Qinv(i_glob) = 1./Q(i_glob) ;
+        Qinv(i_glob) = 1./Q(i_glob) ; % J2 / J1
         M(i_glob) = (J1(i_glob).^2 + J2(i_glob).^2).^(-0.5) ;                 
         V(i_glob) = sqrt(M(i_glob)./rho) ;   
         

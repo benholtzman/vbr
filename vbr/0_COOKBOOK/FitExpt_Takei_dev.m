@@ -18,8 +18,8 @@
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
   %VBR.in.elastic.methods_list={'anharmonic';'poro_Takei';'SLB2005'};
    VBR.in.elastic.methods_list={'anharmonic'};
-   VBR.in.viscous.methods_list={'HK2003'; 'LH2012'}; 
-   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};
+   VBR.in.viscous.methods_list={'HK2003'; 'LH2012'};
+   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT_maxwell'};
 
 %  load anharmonic parameters, adjust Gu_0_ol
 %  all paramss in ../4_VBR/VBR_version/params/ will be loaded in call to VBR spine,
@@ -73,15 +73,19 @@
 %% ====================================================
 %% Display some things ================================
 %% ====================================================
-
+%
 close all;
 figure;
 subplot(1,2,1)
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)/1e9));
-ylabel('M [GPa]'); xlabel('period [s]')
-ylim([0,80])
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)/1e9), 'r-'); hold on;
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.M(1,:,:)/1e9), 'k--');
+ylabel('M [GPa]');
+xlabel('period [s]')
+%ylim([0,80])
 
 subplot(1,2,2)
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)));
-ylabel('Q^-1'); xlabel('period [s]')
-ylim([3e-3,3])
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'r-'); hold on;
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,:,:)), 'k--');
+ylabel('Q^-1');
+xlabel('period [s]')
+%ylim([3e-3,3])

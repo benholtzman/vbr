@@ -47,7 +47,7 @@
 
 %  size of the state variable arrays. arrays can be any shape
 %  but all arays must be the same shape.
-   VBR.in.SV.T_K=700:50:1200;
+   VBR.in.SV.T_K=[1000,1200];%700:50:1200;
    VBR.in.SV.T_K=VBR.in.SV.T_K+273;
    sz=size(VBR.in.SV.T_K); % temperature [K]
 
@@ -76,16 +76,45 @@
 %
 close all;
 figure;
-subplot(1,2,1)
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)/1e9), 'r-'); hold on;
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.M(1,:,:)/1e9), 'k--');
+subplot(1,3,1)
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)), 'r-'); hold on;
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.M(1,:,:)), 'k--');
 ylabel('M [GPa]');
 xlabel('period [s]')
 %ylim([0,80])
 
-subplot(1,2,2)
+subplot(1,3,2)
 loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'r-'); hold on;
 loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,:,:)), 'k--');
 ylabel('Q^-1');
 xlabel('period [s]')
 %ylim([3e-3,3])
+
+
+subplot(1,3,3)
+loglog(VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'r-'); hold on;
+loglog(VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,:,:)), 'k--');
+ylabel('Q^-1');
+xlabel('frequenzy [Hz]')
+%ylim([3e-3,3])
+
+figure
+subplot(1,2,1)
+for ip = 1:numel(VBR.out.anelastic.YT_maxwell.Qinv(1,:,1))
+    loglog(VBR.in.SV.f,...
+        squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,ip,:)));
+    hold all 
+end 
+ylabel('Q^-1');
+xlabel('frequency [Hz]')
+
+subplot(1,2,2)
+for ip = 1:numel(VBR.out.anelastic.YT_maxwell.Qinv(1,:,1))
+    loglog(squeeze(VBR.out.anelastic.YT_maxwell.f_norm(1,ip,:)),...
+           squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,ip,:))); 
+    hold all 
+end 
+ylabel('Q^-1');
+xlabel('normalized frequency (f * tau_maxwell)')
+ylim([0.01, 1.5])
+xlim([1e-2,1e6])

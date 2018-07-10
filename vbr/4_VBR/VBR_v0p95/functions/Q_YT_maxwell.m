@@ -113,7 +113,7 @@ for x1 = 1:n_th  % loop using linear index!
       int1 = trapz(X_tau) ;
 
       J1(i_glob) = Ju.*(1 + int1);
-      %J2(i_glob) = Ju.*((pi/2)*X_tau(end) + 1/(2*pi*tau_mxw));
+      %J2(i_glob) = Ju.*((pi/2)*X_tau(end) + 1/(2*pi*tau_mxw)); %this was wrong
       J2(i_glob) = Ju.*((pi/2)*X_tau(end) + tau_norm(i));
 
       % if method==0

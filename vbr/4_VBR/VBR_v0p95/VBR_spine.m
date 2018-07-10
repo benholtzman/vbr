@@ -101,10 +101,23 @@ if isfield(VBR.in,'anelastic')
       end
       [VBR]=Q_Andrade_PseudoP_f(VBR) ;
       %disp('did this AndradePsP calc happen?')
-      disp(VBR.out.anelastic)
+      %disp(VBR.out.anelastic)
       telapsed.AndradePsP=toc(telapsed.AndradePsP);
    end
 
+%  Andrade Pesudo-Period method
+  if sum(strncmp('YT_maxwell',methods_list,10)) > 0
+     telapsed.YT_maxwell=tic;
+     % if there are parameters in the parameter file for this method
+     %if isfield(VBR.in.anelastic,'AndradePsP')==0
+     %  VBR.in.anelastic.AndradePsP=Params_Anelastic('AndradePsP');
+     %end
+     [VBR]=Q_YT_maxwell(VBR) ;
+     disp('YT_maxwell calculation ! ')
+     telapsed.YT_maxwell=toc(telapsed.YT_maxwell);
+  end
+  
+  disp(VBR.out.anelastic)
 end
 
 %% ========================================================================

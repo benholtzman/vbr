@@ -117,7 +117,7 @@ if isfield(VBR.in,'anelastic')
      telapsed.YT_maxwell=toc(telapsed.YT_maxwell);
   end
   
-  disp(VBR.out.anelastic)
+%  disp(VBR.out.anelastic)
 end
 
 %% ========================================================================

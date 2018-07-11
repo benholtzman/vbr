@@ -55,10 +55,9 @@ function[X_tau] = X_func(tau_norm_vec)
     Beta(tau_norm_vec<1e-11)=beta2;
     Alpha(tau_norm_vec<1e-11)=alpha2;
     X_tau = Beta .* tau_norm_vec.^Alpha;
-
+% ben's old way: (pre-CH-vectorization)
 %    X_tau = zeros(1,length(tau_norm_vec)) ;
 %    for ff = 1:length(tau_norm_vec)
-%
 %      tau_norm_f = tau_norm_vec(ff) ;
 %      alpha1 = 0.39 - 0.28./(1+2.6*(tau_norm_f.^0.1)) ; %
 %
@@ -67,7 +66,6 @@ function[X_tau] = X_func(tau_norm_vec)
 %      elseif tau_norm_f < 1e-11
 %        X_tau(ff) = beta2.*tau_norm_f.^alpha2;
 %      end
-%
 %    end
 
 end
@@ -88,8 +86,6 @@ end
 %  vectorized rho and Vave
    rho_vec = reshape(rho_in,size(Mu_in(1:n_th)));
    Vave=reshape(zeros(sz),size(Mu_in(1:n_th)));
-
-
 
 % ====================================================
 % LOOP over the DOMAIN of the state variables

@@ -18,7 +18,7 @@
   Work.MELT = 0; % integer (1 or 0) to multiply melt fraction by
 
   % GIA calc :
-  GIA_flag = 1 ;
+  GIA_flag = 0 ;
 
 %% ---------------------- %%
 %% Box input/output files %%
@@ -95,11 +95,13 @@
 %% write VBR methods lists (these are the things to calculate)
    VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'};
    VBR.in.viscous.methods_list={'HK2003'; 'LH2012'};
-   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};
+   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT_maxwell'};
 
 %% load elastic parameters
    VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
 %    VBR.in.elastic.anharmonic.Gu_0_ol=71;
+
+
 %% ---------------- %%
 %% VBR Calculations %%
 %% ---------------- %%

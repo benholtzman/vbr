@@ -13,13 +13,17 @@ import fit_LAB_fcns as flab
 reload(flab)
 
 # ============================================================
-path = '/Users/ben/0_vbr_git/VBRcloset/2018-07-02-BigBox/'
+#path = '/Users/ben/0_vbr_projects/VBRcloset/2018-07-02-BigBox/'
+path = '/Users/ben/0_vbr_projects/VBRcloset/2018-07-02-BigBox/'
 matobj = 'Box_2018-07-02-BigBox_VBR_GIA_py.mat'
 b=sio.loadmat(path+matobj,squeeze_me=True,struct_as_record=False)
 
 
 zLAB_obs_km_COLD = 180 # plot this line as the seismically identified plate thickness..
 zLAB_obs_km_HOT = 80 # plot this line as the seismically identified plate thickness..
+
+#  PICK A THRESHOLD M value # TO DEFINE APPARENT PLATE THICKNESS !
+Mod_LAB = 65.0  # THIS NEEDS TO BE SELF CONSISTENT !
 
 Z_find_M_COLD = 0.8*zLAB_obs_km_COLD # find the values of M at this depth--
 Z_find_M_HOT = 0.8*zLAB_obs_km_HOT # find the values of M at this depth--
@@ -99,6 +103,7 @@ num_freqs = len(freq_vec)
 
 # extract the Frequency-DEPENDENT properties we need over f band of interest:
 Mod_f_mat_COLD = frame.VBR.out.anelastic.AndradePsP.Ma
+# Mod_f_mat_COLD = frame.VBR.out.anelastic.YT_maxwell.M
 dims = Mod_f_mat_COLD.shape
 print('cold_M dims'+str(dims))
 
@@ -121,14 +126,12 @@ Z_km_HOT = box[ij_best[0],ij_best[1]].run_info.Z_km
 # TauMxw_diff = eta_diff/Gu
 
 # extract the Frequency-DEPENDENT properties we need over f band of interest:
+# Mod_f_mat_HOT = frame.VBR.out.anelastic.YT_maxwell.M
 Mod_f_mat_HOT = frame.VBR.out.anelastic.AndradePsP.Ma
 dims = Mod_f_mat_HOT.shape
 print('cold_M dims'+str(dims))
 
 # ================================================
-#  PICK A THRESHOLD M value # TO DEFINE APPARENT PLATE THICKNESS !
-# make sure it coincides at lowest freq with the eta_LAB = 10*eta_asth_avg.
-Mod_LAB = 20.0  # THIS NEEDS TO BE SELF CONSISTENT !
 
 #np.savetxt(pathtodata+'zplate_freq.txt', zplate_freq)
 Z_find_M = Z_find_M_COLD
@@ -147,9 +150,9 @@ zplate_freq, zplate_time_HOT, i_zM, i_zLAB = flab.find_zplate_GIA_freq(Z_km_HOT,
 # >>>>>>>>>>>>>>>>>>
 # PLOT THE CURVES !
 # >>>>>>>>>>>>>>>>>>
-plt.figure(1)
+plt.figure(1,figsize=(9,7))
 # plasma colormap
-cmap = plt.cm.get_cmap('autumn')
+#cmap = plt.cm.get_cmap('autumn')
 
 # # =======================
 # #f, axs = plt.subplots(1,2,figsize=(7,7))
@@ -206,7 +209,7 @@ W2 = W1
 H2 = H1
 ax2 = plt.axes([L2,B2,W2,H2])
 
-cmap_HOT = 'Oranges'
+cmap_HOT = 'Reds'
 cmap_COLD = 'Blues'
 
 
@@ -221,14 +224,14 @@ for i_freq,freq in enumerate(freq_vec):
     cmap=plt.get_cmap(cmap_COLD)
     col = cmap(color_num)
     m_f = (Mod_f_mat_COLD[:,i_freq])/1e9
-    ax2.plot(m_f,Z_km_COLD,color=col,lw=2.0 )
+    ax2.plot(m_f,Z_km_COLD,color=col,lw=1.0 )
 
 for i_freq,freq in enumerate(freq_vec):
     color_num = i_freq/float(num_freqs)
     cmap=plt.get_cmap(cmap_HOT)
     col = cmap(color_num)
     m_f = (Mod_f_mat_HOT[:,i_freq])/1e9
-    ax2.plot(m_f,Z_km_HOT,color=col,lw=2.0 )
+    ax2.plot(m_f,Z_km_HOT,color=col,lw=1.0 )
 
 m_f = (Mod_f_mat_HOT[:,0])/1e9
 ax2.plot(m_f,Z_km_HOT,color='black',lw=1.0 )
@@ -248,36 +251,44 @@ ax2.plot(np.linspace(xmin,xmax,len(Z_km_HOT)),zLAB_line_HOT,color='red',lw=6.0, 
 zLAB_line_COLD = zLAB_obs_km_COLD*np.ones(len(Z_km_COLD))
 ax2.plot(np.linspace(xmin,xmax,len(Z_km_COLD)),zLAB_line_COLD,color='blue',lw=6.0, alpha=0.4)
 #
-# ModLAB_line = Mod_LAB*np.ones(len(Z_km[0:i_zLAB]))
-# ax2.plot(ModLAB_line,Z_km[0:i_zLAB],color='purple',lw=10.0, alpha=0.2)
+ModLAB_line = Mod_LAB*np.ones(len(Z_km_COLD))
+ax2.plot(ModLAB_line,Z_km_COLD,color='black',lw=2.0, alpha=0.2)
+#ModLAB_line = Mod_LAB*np.ones(len(Z_km_COLD[0:i_zLAB]))
+#ax2.plot(ModLAB_line,Z_km_COLD[0:i_zLAB],color='purple',lw=10.0, alpha=0.2)
 #
+#Vs_MEASRD_line_HOT = Vs_adavg_obs_HOT*np.ones(len(Z_km))
+#ax2.plot(Vs_MEASRD_line_HOT,np.linspace(ymin,ymax,len(Z_km)),color='red',lw=5.0, linestyle='-', alpha=0.2)
+
 # # add M @ depth line:
 # z_Mt_line = Z_find_M *np.ones(len(Z_km))
 # ax2.plot(np.linspace(xmin,xmax,len(Z_km)),z_Mt_line,color='black',lw=1.0, alpha=0.7)
 
 axes = plt.gca()
-axes.set_xlim([xmin,xmax])
-axes.invert_yaxis()
-axes.set_yticklabels([])
+ax2.set_xlim([xmin,xmax])
+#ax2.invert_yaxis()
+#axes.set_yticklabels([])
 
-plt.title('Modulus(f)')
-plt.xlabel('Modulus [GPa]')
-plt.ylabel('')
-plt.autoscale(enable=True, axis='x', tight=True)
-plt.autoscale(enable=True, axis='y', tight=True)
+ax2.set_title('Modulus(f)')
+ax2.set_xlabel('Modulus [GPa]')
+ax2.set_ylabel('Depth [km]')
+ax2.autoscale(enable=True, axis='x', tight=True)
+ax2.autoscale(enable=True, axis='y', tight=True)
+#ax2.set_autoscale(enable=True, axis='x', tight=True)
+#ax2.set_autoscale(enable=True, axis='y', tight=True)
 
 
+ax2.invert_yaxis()
 
 
 # ================================================
 # PLOT THE EXTRACTED DATA !
 # ================================================
 #f0 = plt.subplots(2,1,figsize=(6,8))
-#up = 0.36
-L2 = L1 + 0.33
-#B2 = B + up
-W2 = W1
-H2 = 0.4*H1
+up = 0.26
+L2 = L1 + W1+ 0.1
+B2 = B1 + up
+W2 = 1.2*W1
+H2 = 0.55*H1
 #ax3 = plt.axes([L,B,W,H])
 
 
@@ -314,22 +325,25 @@ ax4 = plt.axes([L3,B3,W3,H3])
 
 sec_yr = np.pi*1e7
 time_vec = zplate_time_COLD[:,0]/sec_yr
-zlab_ara_t = zplate_time_COLD[:,2]
+time_log_vec = np.log10(time_vec)
 n_time = len(time_vec)
-ax4.plot(time_vec,zlab_ara_t, c='black')
-ax4.plot([time_vec[0], time_vec[-1]],[zLAB_obs_km_COLD,zLAB_obs_km_COLD], color='blue',lw=6.0, alpha=0.4)
+
+zlab_ara_t = zplate_time_COLD[:,2]
+
+ax4.plot(time_log_vec,zlab_ara_t, c='black')
+ax4.plot([time_log_vec[0], time_log_vec[-1]],[zLAB_obs_km_COLD,zLAB_obs_km_COLD], color='blue',lw=6.0, alpha=0.4)
 
 time_vec = zplate_time_HOT[:,0]/sec_yr
 zlab_ara_t = zplate_time_HOT[:,2]
 n_time = len(time_vec)
-ax4.plot(time_vec,zlab_ara_t, c='black')
-ax4.plot([time_vec[0], time_vec[-1]],[zLAB_obs_km_HOT,zLAB_obs_km_HOT], color='red',lw=6.0, alpha=0.4)
+ax4.plot(time_log_vec,zlab_ara_t, c='black')
+ax4.plot([time_log_vec[0], time_log_vec[-1]],[zLAB_obs_km_HOT,zLAB_obs_km_HOT], color='red',lw=6.0, alpha=0.4)
 
 #for i_freq in range(num_freqs-1):
 #    color_num = i_freq/float(num_freqs)
 #for i_freq,freq in enumerate(freq_vec):
-for i_time,time in enumerate(time_vec):
-    color_num = i_time/float(n_time)
+for i_time,time in enumerate(time_log_vec):
+    color_num = 1-i_time/float(n_time)
     #color_num = freq / max(freq_vec)
     cmap=plt.get_cmap(cmap_COLD)
     col = cmap(color_num)
@@ -337,8 +351,8 @@ for i_time,time in enumerate(time_vec):
                        marker='o',
                        markersize=10, markeredgecolor = 'black' )
 
-for i_time,time in enumerate(time_vec):
-    color_num = i_time/float(n_time)
+for i_time,time in enumerate(time_log_vec):
+    color_num = 1-i_time/float(n_time)
     #color_num = freq / max(freq_vec)
     cmap=plt.get_cmap(cmap_HOT)
     col = cmap(color_num)
@@ -348,14 +362,15 @@ for i_time,time in enumerate(time_vec):
 
 #axes = plt.gca()
 #ax4.set_ylim([0.9*min(zlab_ara_t),1.1*max(zlab_ara_t)])
-ax4.invert_yaxis()
 
 ax4.set_title('apparent plate thickness')
-ax4.set_xlabel('time [yrs]')
+ax4.set_xlabel('log$_{10}$ time [yrs]')
 ax4.set_ylabel('thickness [km]')
 
+ax4.invert_yaxis()
 
 #
+plt.savefig('GIA_transientplate.png')
 plt.show()
 # # ============
 # plt.show()

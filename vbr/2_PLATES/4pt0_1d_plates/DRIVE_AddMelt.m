@@ -61,6 +61,8 @@ for i_var1 = 1:n_var1
         Box_new(i_var1,i_var2).run_info = Box(i_varFIXgood,i_var1).run_info ;
         Box_new(i_var1,i_var2).Frames = Box(i_varFIXgood,i_var1).Frames ;
 
+        % so maybe this has to be var1range...or query which var name = temperature...
+        % and use that one...  
         Box_new(i_var1,i_var2).info.var1range = Box(i_varFIXgood,i_var1).info.var2range
         Box_new(i_var1,i_var2).info.var1units = Box(i_varFIXgood,i_var1).info.var2units
         Box_new(i_var1,i_var2).info.var1name = Box(i_varFIXgood,i_var1).info.var2name
@@ -80,8 +82,8 @@ for i_var1 = 1:n_var1
         ind_phiBumpCenter = find(Z_km > Z_phiBumpCenter_km,1)-1 ;
         T_phiBumpCenter = T_z(ind_phiBumpCenter) ;
 
-        % BH (mmarch 2018): integrate the new LAB finding approach in -- 
-        
+        % BH (mmarch 2018): integrate the new LAB finding approach in --
+
         zLAB_mat(i_var1,i_var2).Z_km = Z_phiBumpCenter_km ;
         zLAB_mat(i_var1,i_var2).ind = ind_phiBumpCenter ;
         zLAB_mat(i_var1,i_var2).T_LAB = T_phiBumpCenter ;
@@ -136,7 +138,7 @@ T_min = 0 ;
 T_max = 1800 ;
 
 % lower left corner x,y , width height
-depth_var = 10 ; 
+depth_var = 10 ;
 w = T_max - T_min ;
 h = 2*depth_var ;
 rectangle('position',[T_min,z_LAB_OBS_km-depth_var,w,h]);

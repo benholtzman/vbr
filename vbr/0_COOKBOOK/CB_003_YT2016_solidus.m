@@ -1,7 +1,11 @@
 %% ===================================================================== %%
-%%                     CB_001_0D_scalar.m
+%%                     CB_003_YT2016_solidus.m
 %% ===================================================================== %%
-%  Calls VBR using a single thermodynamic state
+%  Calls VBR using YT2016_solidus method from:
+%  Hatsuki Yamauchi and Yasuko Takei, JGR 2016, "Polycrystal anelasticity at
+%  near-solidus temperatures,"
+%
+%  sets elastic parameters to match their results
 %% ===================================================================== %%
    clear
 

@@ -1,4 +1,4 @@
-function[VBR] = VBR_spine(VBR)
+function [VBR] = VBR_spine(VBR)
 %% =====================================================================
 %% ELASTIC properties ==================================================
 %% =====================================================================
@@ -105,19 +105,21 @@ if isfield(VBR.in,'anelastic')
       telapsed.AndradePsP=toc(telapsed.AndradePsP);
    end
 
-%  Andrade Pesudo-Period method
+% Takei Maxwell Scaling
   if sum(strncmp('YT_maxwell',methods_list,10)) > 0
      telapsed.YT_maxwell=tic;
-     % if there are parameters in the parameter file for this method
-     %if isfield(VBR.in.anelastic,'AndradePsP')==0
-     %  VBR.in.anelastic.AndradePsP=Params_Anelastic('AndradePsP');
-     %end
      [VBR]=Q_YT_maxwell(VBR) ;
      disp('YT_maxwell calculation ! ')
      telapsed.YT_maxwell=toc(telapsed.YT_maxwell);
   end
-  
-%  disp(VBR.out.anelastic)
+
+% Yamauchi & Takei 2016 - solidus scaling
+  if sum(strncmp('YT2016_solidus',methods_list,10)) > 0
+     telapsed.YT2016_solidus=tic;
+     [VBR]=Q_YT2016_solidus(VBR) ;
+     disp('YT2016_solidus calculation ! ')
+     telapsed.YT2016_solidus=toc(telapsed.YT2016_solidus);
+  end
 end
 
 %% ========================================================================

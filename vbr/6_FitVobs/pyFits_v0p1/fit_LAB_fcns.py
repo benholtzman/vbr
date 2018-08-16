@@ -1,6 +1,16 @@
 # functions for fitting LAB depth !
 import numpy as np
 
+# To Do:
+
+# (1) the anelastic model is hard wired in here..
+# better to let that choice be an option, in some way.
+
+# (2) option for LAB finding method,
+# between normalized and absolute values-- need both,
+# at least in find_LAB_Q_one , for GIA band.
+# to pass into find_zplate_GIA_freq
+
 # function to get mean and standard deviation at each depth:
 # (std = sqrt(mean(abs(x - x.mean())**2)))
 # Pp_f_mnstd = zip_meanstd_fband(Pprop_fband)
@@ -22,6 +32,20 @@ def getnearest(array,val):
     return idx
 
 
+def find_LAB_Q_one(Qz,Z_km,z_plate,fQ_LAB,zLAB_obs_km):
+    # find the average Q in the adiabatic part:
+    ind_zplate =  getnearest(Z_km,z_plate)
+    Q_adbt_vec = Qz[ind_zplate:-1]
+    Q_adbt_mean = np.mean(Q_adbt_vec)
+    # calculate Q at the LAB:
+    Q_LAB = fQ_LAB*Q_adbt_mean
+    Qlab_near = Qz[Qz<=Q_LAB][0]
+    ind_Qlab = int(getnearest(Qz,Qlab_near)) # int(np.where(Qs_mnstd[:,0]==Qlab_near)[0])
+
+    Z_LAB_Qs_km = Z_km[ind_Qlab]
+
+    return Z_LAB_Qs_km, ind_Qlab
+
 # ==================
 # function to find best fitting models (calculate residuals):
 # Res_lab_Q_mat, ind_zLAB_Q_mat = flab.find_LAB_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax)
@@ -42,6 +66,8 @@ def find_LAB_Q_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax):
             Z_km = box[i_var1,i_var2].run_info.Z_km
             frame = box[i_var1,i_var2].Frames[-1]
 
+            # BH: TAKE THIS STEP OUT-- put in its own method..
+            # only pass in to this method the 1D values...
             #Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa
             Qs_f_mat = frame.VBR.out.anelastic.YT_maxwell.Q
             Qs_f_band = Qs_f_mat[:,i_fmin:i_fmax]

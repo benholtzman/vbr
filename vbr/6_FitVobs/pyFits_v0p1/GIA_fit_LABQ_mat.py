@@ -1,4 +1,5 @@
-# PLOT THE GIA predictions...
+# FIT the measured LAB and Vs to find reasonable models
+# need to rewrite this as a class..., after working out the best criterion for LAB finding.
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -51,13 +52,14 @@ print('zPlate_vec = ', str(zPlate_vec) )
 f_band = box[0,1].Frames[-1].VBR.input.SV.f
 print('full frequency band:')
 print(f_band[0],f_band[-1])
+
 # ======================================================================
 # FIND THE MODELS THAT BEST FIT THE LAB DEPTH, using the right frequency band:
 
 #f_band of interest:
 # find the index corresponding to the minimum and max freq
-per_bw_max = 200.
-per_bw_min = 20.
+per_bw_max = 30. # 200
+per_bw_min = 10. # 20
 f_bw_min = 1/per_bw_max
 f_bw_max = 1/per_bw_min
 print('subset frequency band:')
@@ -77,6 +79,7 @@ print(fmin,fmax,i_fmin,i_fmax)
 t1 = time()
 print(str(t1-t0)+' seconds to load')
 
+#sys.exit()
 # # ================================================
 # FIND BEST MODELS FOR LAB DEPTH
 # # ================================================
@@ -125,10 +128,16 @@ Res_Vs_N_COLD = Res_Vs_adavg_mat_COLD/np.max(Res_Vs_adavg_mat_COLD)
 Res_zLAB_N_HOT = Res_lab_Q_mat_HOT/np.max(Res_lab_Q_mat_HOT)
 Res_zLAB_N_COLD = Res_lab_Q_mat_COLD/np.max(Res_lab_Q_mat_COLD)
 
-P_Vs_HOT = (1-Res_Vs_N_HOT)/np.max((1-Res_Vs_N_HOT))
-P_zPlate_HOT = (1-Res_zLAB_N_HOT)/np.max((1-Res_zLAB_N_HOT))
-P_Vs_COLD = (1-Res_Vs_N_COLD)/np.max((1-Res_Vs_N_COLD))
-P_zPlate_COLD= (1-Res_zLAB_N_COLD)/np.max((1-Res_zLAB_N_COLD))
+# P_Vs_HOT = (1-Res_Vs_N_HOT)/np.max((1-Res_Vs_N_HOT))
+# P_zPlate_HOT = (1-Res_zLAB_N_HOT)/np.max((1-Res_zLAB_N_HOT))
+# P_Vs_COLD = (1-Res_Vs_N_COLD)/np.max((1-Res_Vs_N_COLD))
+# P_zPlate_COLD= (1-Res_zLAB_N_COLD)/np.max((1-Res_zLAB_N_COLD))
+
+# see manual... maybe not implemented correctly. Menke book, Ch 11 !
+P_Vs_HOT = (2*np.pi*Res_Vs_N_HOT)**(-0.5)*np.exp(-0.5*Res_Vs_N_HOT)
+P_zPlate_HOT = (2*np.pi*Res_zLAB_N_HOT)**(-0.5)*np.exp(-0.5*Res_zLAB_N_HOT)
+P_Vs_COLD = (2*np.pi*Res_Vs_N_COLD)**(-0.5)*np.exp(-0.5*Res_Vs_N_COLD)
+P_zPlate_COLD = (2*np.pi*Res_zLAB_N_COLD)**(-0.5)*np.exp(-0.5*Res_zLAB_N_COLD)
 
 P_JOINT_HOT = (P_Vs_HOT*P_zPlate_HOT)**2
 P_JOINT_COLD = (P_Vs_COLD*P_zPlate_COLD)**2
@@ -154,8 +163,8 @@ ij_best_COLD = ij_best_all[0][0],ij_best_all[1][0]
 # ADD IN HERE THE JOINT FITTING WITH Vs !
 
 LAB_bestfits = pd.DataFrame(
-             {"COLDplate" : ij_best_COLD,
-              "HOTplate" : ij_best_HOT})
+             {"COLDplate" : ij_best_COLD, 'cold_indLAB': ind_zLAB_Q_mat_COLD[ij_best_COLD],
+              "HOTplate" : ij_best_HOT, 'hot_indLAB': ind_zLAB_Q_mat_HOT[ij_best_HOT]})
 LAB_bestfits.to_pickle('LAB_bestfits.pkl')
 
 t2 = time()
@@ -373,7 +382,7 @@ ddd = 0.0000000001
 
 ax2 = plt.axes([rhL1,rhB1,rhW1,rhH1])
 xy_rangelist = [zPlate_vec[0],zPlate_vec[-1],Tpot_vec[-1],Tpot_vec[0]] # flip vertical directions?
-ax2.imshow(np.log10(Res_lab_Q_mat_HOT), cmap=plt.cm.gray, extent=xy_rangelist) #, aspect="auto")
+ax2.imshow(np.log(Res_lab_Q_mat_HOT), cmap=plt.cm.gray, extent=xy_rangelist) #, aspect="auto")
 ax2.scatter(zPlate_vec[ij_best_HOT[1]], Tpot_vec[ij_best_HOT[0]], color='red', s=10)
 
 ax2.set_title('Res: $Z_{LAB}$ (HOT)')
@@ -389,7 +398,7 @@ ax2.set_ylabel('$T_{pot}$ [C]')
 # plot the residuals for Vs_adavg HOT
 
 ax3 = plt.axes([rhL2,rhB2,rhW2,rhH2])
-ax3.imshow(np.log10(Res_Vs_adavg_mat_HOT), cmap=plt.cm.gray, extent=xy_rangelist)
+ax3.imshow(np.log(Res_Vs_adavg_mat_HOT), cmap=plt.cm.gray, extent=xy_rangelist)
 ax3.scatter(zPlate_vec[ij_best_HOT[1]], Tpot_vec[ij_best_HOT[0]], color='red', s=10)
 
 ax3.set_title('Res: $V_s$')
@@ -421,7 +430,7 @@ ax4.set_yticklabels([])
 # plot the residuals for Q_LAB COLD
 
 ax5 = plt.axes([rbL1,rbB1,rbW1,rbH1])
-ax5.imshow(np.log10(Res_lab_Q_mat_COLD), cmap=plt.cm.gray, extent=xy_rangelist)
+ax5.imshow(np.log(Res_lab_Q_mat_COLD), cmap=plt.cm.gray, extent=xy_rangelist)
 ax5.scatter(zPlate_vec[ij_best_COLD[1]], Tpot_vec[ij_best_COLD[0]], color='blue', s=10)
 
 #ax3.invert_yaxis()
@@ -438,7 +447,7 @@ ax5.set_ylabel('$T_{pot}$ [C]')
 # plot the residuals for Vs_adavg COLD
 
 ax5 = plt.axes([rbL2,rbB2,rbW2,rbH2])
-ax5.imshow(np.log10(Res_Vs_adavg_mat_COLD), cmap=plt.cm.gray, extent=xy_rangelist)
+ax5.imshow(np.log(Res_Vs_adavg_mat_COLD), cmap=plt.cm.gray, extent=xy_rangelist)
 ax5.scatter(zPlate_vec[ij_best_COLD[1]], Tpot_vec[ij_best_COLD[0]], color='blue', s=10)
 
 #ax5.invert_yaxis()

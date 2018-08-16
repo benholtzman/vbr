@@ -124,11 +124,16 @@ for x1 = 1:n_th  % loop using linear index!
       %J2(i_glob) = Ju.*((pi/2)*X_tau(end) + 1/(2*pi*tau_mxw)); %this was wrong
       J2(i_glob) = Ju.*((pi/2)*X_tau(end) + tau_norm(i));
 
+      % See McCarthy et al, 2011, Appendix B, Eqns B6 !
       J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;
       Qinv(i_glob) = J2(i_glob)./J1(i_glob).*(J2_J1_frac.^-1);
       Q(i_glob) = 1./Qinv(i_glob);
-      M1(i_glob) = 1./J1(i_glob) ;
-      M2(i_glob) = 1./J2(i_glob) ;
+
+      % THIS IS WRONG !! BH probably put this here !
+      # (though may be approximate in some conditions!)
+      % M1(i_glob) = 1./J1(i_glob) ;
+      % M2(i_glob) = 1./J2(i_glob) ;
+      % M1(i_glob) =
       M(i_glob) = 1./sqrt(J1(i_glob).^2+J2(i_glob).^2);%(M1(i_glob).^2 + M2(i_glob).^2).^(0.5) ;
       V(i_glob) = sqrt(1./(J1(i_glob)*rho)).*(J2_J1_frac.^(-1/2));
 
@@ -143,8 +148,8 @@ end
 %% WRITE VBR
  VBR.out.anelastic.YT_maxwell.J1 = J1;
  VBR.out.anelastic.YT_maxwell.J2 = J2;
- VBR.out.anelastic.YT_maxwell.M1 = M1;
- VBR.out.anelastic.YT_maxwell.M2 = M2;
+ %VBR.out.anelastic.YT_maxwell.M1 = M1;
+ %VBR.out.anelastic.YT_maxwell.M2 = M2;
  VBR.out.anelastic.YT_maxwell.Q = Q;
  VBR.out.anelastic.YT_maxwell.Qinv = Qinv;
  VBR.out.anelastic.YT_maxwell.M=M;

@@ -57,7 +57,7 @@
    dTdz=0.5 ; % solidus slope [C/km]
    dTdP=dTdz / 3300 / 9.8 / 1000 * 1e9; % [C/GPa ]
    VBR.in.SV.Tsolidus_K=1000+dTdP*VBR.in.SV.P_GPa;
-   
+
 %% ====================================================
 %% CALL THE VBR CALCULATOR ============================
 %% ====================================================
@@ -68,14 +68,18 @@
 %% Display some things ================================
 %% ====================================================
 
-% close all;
-% figure;
-% subplot(1,2,1)
-% semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)/1e9));
-% ylabel('M [GPa]'); xlabel('period [s]')
-% ylim([0,80])
-%
-% subplot(1,2,2)
-% loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)));
-% ylabel('Q^-1'); xlabel('period [s]')
-% ylim([3e-3,3])
+close all;
+figure;
+subplot(1,3,1)
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.M(1,:,:)/1e9));
+ylabel('M [GPa]'); xlabel('period [s]')
+ylim([0,80])
+
+subplot(1,3,2)
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.Qinv(1,:,:)));
+ylabel('Q^-1'); xlabel('period [s]')
+ylim([1e-3,.1])
+
+subplot(1,3,3)
+semilogx(1./VBR.in.SV.f,1e-3*squeeze(VBR.out.anelastic.YT2016_solidus.V(1,:,:)));
+ylabel('V_s [km/s]'); xlabel('period [s]')

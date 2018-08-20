@@ -2,7 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import fit_LAB_fcns as flab
 
-def plot_Q_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax):
+def plot_Q_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax,q_method):
     ''' plots all the Q profiles and the best fitting profiles '''
     axes_location=[layout['L'],layout['B'],layout['W'],layout['H']]
     ax = plt.axes(axes_location)
@@ -11,7 +11,10 @@ def plot_Q_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax):
         for i_var2 in range(BoxObj.n_var2):
             Z_km = box[i_var1,i_var2].run_info.Z_km
             frame = box[i_var1,i_var2].Frames[-1]
-            Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa
+            if q_method=='AndradePsP':
+                Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa
+            else:
+                Qs_f_mat = frame.VBR.out.anelastic.__dict__[q_method].Q
             Qs_f_band = Qs_f_mat[:,i_fmin:i_fmax]
             Qs_mnstd = flab.zip_meanstd_fband(Qs_f_band)
             ax.plot(np.log10(Qs_mnstd[:,0]),Z_km,color='black',lw=1.0, ls='-', alpha=0.2 )
@@ -26,7 +29,10 @@ def plot_Q_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax):
         ij_best=fits[temp]['ij_best']
         Z_km = box[ij_best].run_info.Z_km
         frame = box[ij_best].Frames[-1]
-        Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa
+        if q_method=='AndradePsP':
+            Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa
+        else:
+            Qs_f_mat = frame.VBR.out.anelastic.__dict__[q_method].Q
         Qs_f_band = Qs_f_mat[:,i_fmin:i_fmax]
         Qs_mnstd = flab.zip_meanstd_fband(Qs_f_band)
         ax.plot(np.log10(Qs_mnstd[:,0]),Z_km,color=clr,lw=2.0, ls='-', alpha=0.9 )
@@ -53,7 +59,7 @@ def plot_Q_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax):
     return ax
 
 
-def plot_Vs_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax):
+def plot_Vs_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax,q_method):
 
     box=BoxObj.box
     axes_location=[layout['L'],layout['B'],layout['W'],layout['H']]
@@ -63,7 +69,10 @@ def plot_Vs_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax):
         for i_var2 in range(BoxObj.n_var2):
             Z_km = box[i_var1,i_var2].run_info.Z_km
             frame = box[i_var1,i_var2].Frames[-1]
-            Vs_f_mat = frame.VBR.out.anelastic.AndradePsP.Va
+            if q_method=='AndradePsP':
+                Vs_f_mat = frame.VBR.out.anelastic.AndradePsP.Va
+            else:
+                Vs_f_mat = frame.VBR.out.anelastic.__dict__[q_method].V
             Vs_f_band = Vs_f_mat[:,i_fmin:i_fmax]
             Vs_mnstd = flab.zip_meanstd_fband(Vs_f_band)
             ax2.plot((Vs_mnstd[:,0])/1e3,Z_km,color='black',lw=1.0, ls='-', alpha=0.2 )
@@ -81,7 +90,10 @@ def plot_Vs_profiles(layout,BoxObj,fits,obs,i_fmin,i_fmax):
         ij_best=fits[temp]['ij_best']
         Z_km = box[ij_best].run_info.Z_km
         frame = box[ij_best].Frames[-1]
-        Vs_f_mat = frame.VBR.out.anelastic.AndradePsP.Va
+        if q_method=='AndradePsP':
+            Vs_f_mat = frame.VBR.out.anelastic.AndradePsP.Va
+        else:
+            Vs_f_mat = frame.VBR.out.anelastic.__dict__[q_method].V
         Vs_f_band = Vs_f_mat[:,i_fmin:i_fmax]
         Vs_mnstd = flab.zip_meanstd_fband(Vs_f_band)
         ax2.plot((Vs_mnstd[:,0])/1e3,Z_km,color=clr,lw=2.0, ls='-', alpha=0.9 )
@@ -166,7 +178,7 @@ def buildLayout():
     H1 = 0.7
     Layout={'Qz':{'L':L1,'B':B1,'W':W1,'H':H1},
             'Vsz':{'L':L1+W1+0.01,'B':B1,'W':W1,'H':H1}}
-            
+
     # RESIDUAL PLOTS:
     hdel = 0.01
     vdel = 0.02

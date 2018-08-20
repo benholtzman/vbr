@@ -2,7 +2,7 @@
 # need to rewrite this as a class..., after working out the best criterion for LAB finding.
 # python GIA_fit_LABQ_mat_v2.py 'path/to/box' 'matlab_box.mat'
 #
-# e.g., python GIA_fit_LABQ_mat_v2.py ~/Dropbox/Shared_Release/00_Test_Boxes/VBRcloset/2018-07-02-BigBox Box_2018-07-02-BigBox_VBR_py.ma
+# e.g., python GIA_fit_LABQ_mat_v2.py ~/Dropbox/Shared_Release/00_Test_Boxes/VBRcloset/2018-07-02-BigBox Box_2018-07-02-BigBox_VBR_py.mat
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -34,7 +34,7 @@ else:
 # settings for fitting
 per_bw_max = 30. # max period to use for fitting  [s]
 per_bw_min = 10. # min period to use for fitting [s]
-
+q_method='AndradePsP' # must be in the box: 'AndradePsP','YT_maxwell'
 # observations to fit to
 # zLAB: seismically identified plate thickness for plot [km]
 # Vs_adavg: average Vs in adiabatic portion [km/s]
@@ -60,6 +60,10 @@ print('Tpot_vec = ', str(Tpot_vec) )
 print('zPlate_vec = ', str(zPlate_vec) )
 print('full frequency band:')
 print(f_band[0],f_band[-1])
+checkQ=flab.checkForSelectedQMethod(box,q_method)
+if not checkQ:
+    print('q_method '+q_method+' does not exist')
+    sys.exit()
 
 # ======================================================================
 # find the values and indeces for the frequency range of interest
@@ -72,14 +76,14 @@ times['t1'] = time()
 fits={'hot':{},'cold':{}}
 for temp in ['hot','cold']:
     print("\n"+temp+' plate best fit:')
-    fits[temp]['Res_LAB'],fits[temp]['ind'],fits[temp]['LAB'] =flab.find_LAB_Q_Res(box,obs['Q_LAB'],obs[temp]['zLAB'],i_fmin,i_fmax)
+    fits[temp]['Res_LAB'],fits[temp]['ind'],fits[temp]['LAB'] =flab.find_LAB_Q_Res(box,obs['Q_LAB'],obs[temp]['zLAB'],i_fmin,i_fmax,q_method)
     fits[temp]['Rmin']=fits[temp]['Res_LAB'].min()
     print(fits[temp]['Rmin'])
     ij_best_all=np.where(fits[temp]['Res_LAB']==fits[temp]['Rmin'])
     fits[temp]['ij_best']=ij_best_all[0][0],ij_best_all[1][0]
 
     # find average Vs best fitting
-    fits[temp]['Res_Vs_adavg_mat'],fits[temp]['Vs_adavg_mat']= flab.find_Vs_adavg_Res(box,obs[temp]['Vs_adavg'],i_fmin,i_fmax)
+    fits[temp]['Res_Vs_adavg_mat'],fits[temp]['Vs_adavg_mat']= flab.find_Vs_adavg_Res(box,obs[temp]['Vs_adavg'],i_fmin,i_fmax,q_method)
 
     # FIND THE JOINT BEST FITTING MODEL !
     # normalize and multiply pointwise the residual matrixes?
@@ -118,9 +122,9 @@ print(str(times['t2']-times['t1'])+' seconds to do all the finding')
 Layout=fplt.buildLayout() # Define locations, widths & heights for all plots
 plt.figure(1,figsize=(9,7))
 # Q(Z) PLOT
-ax = fplt.plot_Q_profiles(Layout['Qz'],BoxObj,fits,obs,i_fmin,i_fmax)
+ax = fplt.plot_Q_profiles(Layout['Qz'],BoxObj,fits,obs,i_fmin,i_fmax,q_method)
 # Vs(Z) PLOT
-ax2 = fplt.plot_Vs_profiles(Layout['Vsz'],BoxObj,fits,obs,i_fmin,i_fmax)
+ax2 = fplt.plot_Vs_profiles(Layout['Vsz'],BoxObj,fits,obs,i_fmin,i_fmax,q_method)
 # Residuals TOP row: HOT
 ax3,ax4,ax5=fplt.residPlots(Layout,'rh',Tpot_vec,zPlate_vec,fits,'hot','red')
 # Residuals BOTTOM row: COLD

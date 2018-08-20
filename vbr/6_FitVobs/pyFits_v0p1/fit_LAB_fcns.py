@@ -49,7 +49,7 @@ def find_LAB_Q_one(Qz,Z_km,z_plate,fQ_LAB,zLAB_obs_km):
 # ==================
 # function to find best fitting models (calculate residuals):
 # Res_lab_Q_mat, ind_zLAB_Q_mat = flab.find_LAB_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax)
-def find_LAB_Q_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax):
+def find_LAB_Q_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax,q_method):
 
     # get the size of the box
     dims = box.shape
@@ -68,8 +68,11 @@ def find_LAB_Q_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax):
 
             # BH: TAKE THIS STEP OUT-- put in its own method..
             # only pass in to this method the 1D values...
-            #Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa
-            Qs_f_mat = frame.VBR.out.anelastic.YT_maxwell.Q
+            if q_method=='AndradePsP':
+                Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa
+            else:
+                Qs_f_mat = frame.VBR.out.anelastic.__dict__[q_method].Q
+
             Qs_f_band = Qs_f_mat[:,i_fmin:i_fmax]
             Qs_mnstd = zip_meanstd_fband(Qs_f_band)
             # INTERPOLATE Qz and Z_km TO HIGHER RES:
@@ -114,7 +117,7 @@ def find_LAB_Q_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax):
 # ==================
 # function to find model that best fits AVERAGE Vs in the adiabatic part:
 # Res_lab_Q_mat, ind_zLAB_Q_mat = flab.find_LAB_Res(box,Q_LAB,zLAB_obs_km,i_fmin,i_fmax)
-def find_Vs_adavg_Res(box,Vs_adavg_obs,i_fmin,i_fmax):
+def find_Vs_adavg_Res(box,Vs_adavg_obs,i_fmin,i_fmax,q_method):
 
     # get the size of the box
     dims = box.shape
@@ -130,8 +133,11 @@ def find_Vs_adavg_Res(box,Vs_adavg_obs,i_fmin,i_fmax):
             Z_km = box[i_var1,i_var2].run_info.Z_km
             frame = box[i_var1,i_var2].Frames[-1]
 
-            #Vs_f_mat = (frame.VBR.out.anelastic.AndradePsP.Va)/1e3
-            Vs_f_mat = (frame.VBR.out.anelastic.YT_maxwell.V)/1e3
+            if q_method=='AndradePsP':
+                Vs_f_mat = frame.VBR.out.anelastic.AndradePsP.Va/1e3
+            else:
+                Vs_f_mat = frame.VBR.out.anelastic.__dict__[q_method].V/1e3
+
             Vs_f_band = Vs_f_mat[:,i_fmin:i_fmax]
             Vs_mnstd = zip_meanstd_fband(Vs_f_band)
             # INTERPOLATE Qz and Z_km TO HIGHER RES:
@@ -249,3 +255,14 @@ def find_zplate_GIA_freq(Z_km,Z_find_M,zLAB_obs_km,Mod_f_mat,Mod_LAB,freq_vec):
 
 
     return zplate_freq, zplate_time, i_zM, i_zLAB
+
+def checkForSelectedQMethod(box,q_method):
+    frame = box[0,0].Frames[-1]
+    meths=frame.VBR.out.anelastic._fieldnames
+    if q_method in meths:
+        q_method_exists=True
+    else:
+        print("available Q methods:")
+        print(meths)
+        q_method_exists=False
+    return q_method_exists

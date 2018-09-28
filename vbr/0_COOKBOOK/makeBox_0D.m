@@ -42,16 +42,16 @@ VBR.in.SV.f = f_vec ;
 %% define variable vectors =====================
 %% ====================================================
 T_C_vec = 800:50:1500 ;
-%gs_um_vec = logspace(log10(1),log10(1e4),20);
+gs_um_vec = logspace(log10(1),log10(1e4),20);
 %phi_vec = linspace(0,0.05,25) ;
 
 VBR.in.SV_vectors.T_K_vec_dim1 = T_C_vec+273 ;
-%VBR.in.SV_vectors.gs_um_vec_dim2 = gs_um_vec ;
+VBR.in.SV_vectors.gs_um_vec_dim2 = gs_um_vec ;
 %VBR.in.SV_vectors.phi_vec_dim3 = phi_vec ;
 
 %[T_K_ra,gs_um_ra] = ndgrid(T_C_vec+273, gs_um_vec) ;
-[T_K_ra] = ndgrid(T_C_vec+273) ;
-
+[T_K_ra,gs_um_ra] = ndgrid(T_C_vec+273,gs_um_vec) ;
+%T_K_ra = T_K_ra'
 oneses = ones(size(T_K_ra)) ; %,len(gs_um_vec),len(phi_vec));
 sz=size(oneses)  %
 
@@ -71,22 +71,21 @@ sz=size(oneses)  %
 %  but all arays must be the same shape.
    %VBR.in.SV.T_C = T_K_ra;
    VBR.in.SV.T_K= T_K_ra ; % VBR.in.SV.T_C+273; % temperature [K]
-
+   VBR.in.SV.dg_um = gs_um_ra;
 
 %  intensive state variables (ISV)
 % laboratory conditions
-%   VBR.in.SV.dg_um = 3.1*ones(sz);
-   VBR.in.SV.P_GPa = 0.3 * oneses(sz); % pressure [GPa]
-   VBR.in.SV.rho = 3300 * oneses(sz); % density [kg m^-3]
-   VBR.in.SV.sig_MPa = 10 * oneses(sz); % differential stress [MPa]
+   VBR.in.SV.P_GPa = 0.3 * oneses; % pressure [GPa]
+   VBR.in.SV.rho = 3300 * oneses; % density [kg m^-3]
+   VBR.in.SV.sig_MPa = 10 * oneses; % differential stress [MPa]
 
 % asthenosphere conditions
-   % VBR.in.SV.dg_um = 5e3*oneses;
+   %VBR.in.SV.dg_um = 5e3*oneses;
    % VBR.in.SV.P_GPa = 0.3 * oneses; % pressure [GPa]
    % VBR.in.SV.rho = 3300 * oneses; % density [kg m^-3]
    % VBR.in.SV.sig_MPa = 0.5 * oneses; % differential stress [MPa]
 
-   VBR.in.SV.chi = oneses(sz); % composition fraction  1 = olivine, 0 = crust
+   VBR.in.SV.chi = oneses; % composition fraction  1 = olivine, 0 = crust
 
 %  structural state variables (SSV)
    VBR.in.SV.phi = 0.0 * oneses; % melt fraction
@@ -114,31 +113,33 @@ save(filename,'VBR')
 %% ====================================================
 %% Display some things ================================
 %% ====================================================
+i1_T = 5 ;
+i2_gs = 3 ;
 
 close all;
 figure;
 subplot(1,3,1)
 %semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.M(1,:,:)/1e9), 'k'); hold on;
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.M(1,:,:)/1e9), 'r');hold on;
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.AndradePsP.Ma(1,:,:)/1e9), 'b' );hold on;
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)/1e9), 'g' );hold on;
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.M(i1_T,:,:)/1e9), 'r');hold on;
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.AndradePsP.Ma(i1_T,:,:)/1e9), 'b' );hold on;
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(i1_T,:,:)/1e9), 'g' );hold on;
 ylabel('M [GPa]'); xlabel('period [s]')
 ylim([0,80])
 axis('tight')
 
 subplot(1,3,2)
 %loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.Qinv(1,:,:)), 'k');hold on;
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,:,:)), 'r');hold on;
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.AndradePsP.Qinv(1,:,:)), 'b');hold on;
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'g');hold on;
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.Qinv(i1_T,:,:)), 'r');hold on;
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.AndradePsP.Qinv(i1_T,:,:)), 'b');hold on;
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(i1_T,:,:)), 'g');hold on;
 ylabel('Q^-1'); xlabel('period [s]')
 ylim([1e-3,.1])
 axis('tight')
 
 subplot(1,3,3)
 %semilogx(1./VBR.in.SV.f,1e-3*squeeze(VBR.out.anelastic.YT2016_solidus.V(1,:,:)), 'k');hold on;
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.V(1,:,:))./1e3, 'r');hold on;
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.AndradePsP.Va(1,:,:)./1e3), 'b');hold on;
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.V(1,:,:)./1e3), 'g');hold on;
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.V(i1_T,:,:))./1e3, 'r');hold on;
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.AndradePsP.Va(i1_T,:,:)./1e3), 'b');hold on;
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.V(i1_T,:,:)./1e3), 'g');hold on;
 ylabel('V_s [km/s]'); xlabel('period [s]')
 axis('tight')

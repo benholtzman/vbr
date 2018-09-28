@@ -121,9 +121,14 @@ for x1 = 1:n_th; % loop using linear index!
             J2(i_glob) = Ju.*(int2 + 1./(w.*Tau_M));
         end
 
+        % See McCarthy et al, 2011, Appendix B, Eqns B6 !
+        J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;
+        Qinv(i_glob) = J2(i_glob)./J1(i_glob).*(J2_J1_frac.^-1);
+        Q(i_glob) = 1./Qinv(i_glob);
 
-        Q(i_glob) = J1(i_glob)./J2(i_glob) ;
-        Qinv(i_glob) = 1./Q(i_glob) ; % J2 / J1
+        %Q(i_glob) = J1(i_glob)./J2(i_glob) ;
+        %Qinv(i_glob) = 1./Q(i_glob) ; % J2 / J1
+
         M(i_glob) = (J1(i_glob).^2 + J2(i_glob).^2).^(-0.5) ;
         V(i_glob) = sqrt(M(i_glob)./rho) ;
 

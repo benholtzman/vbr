@@ -130,7 +130,7 @@ for x1 = 1:n_th  % loop using linear index!
       Q(i_glob) = 1./Qinv(i_glob);
 
       % THIS IS WRONG !! BH probably put this here !
-      # (though may be approximate in some conditions!)
+      % (though may be approximate in some conditions!)
       % M1(i_glob) = 1./J1(i_glob) ;
       % M2(i_glob) = 1./J2(i_glob) ;
       % M1(i_glob) =

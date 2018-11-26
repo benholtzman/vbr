@@ -1,5 +1,5 @@
 function Work = run_vbr(Work, with_melt)
-
+clc
 % include melt fraction in vbr calc?
 Work.wMelt_flag = with_melt;   % BH: we need to clarify this... the flag signals the calling of some scripts
 Work.MELT = 1; % integer (1 or 0) to multiply melt fraction by

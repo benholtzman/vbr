@@ -1,5 +1,5 @@
 function generate_boxes(Work)
-
+clc
 [calc_boxes_yn] = input('Do you want to calculate new boxes, y/[n]?  ','s');
 if ~strcmp(calc_boxes_yn,'y'); return; end
 

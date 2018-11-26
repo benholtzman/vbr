@@ -3,11 +3,7 @@ function zPlate_fit = fit_LAB_Tp(Work, seismic_obs, q_method)
 %  Fit the measured LAB and Vs to find reasonable models       %
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 % Note that this does do a joint fit between temperature and seismic LAB
-% depth, but really we are only looking for Plate Thickness (zPlate).
-% If there is melt present (i.e. seismic velocities are low), we will not
-% get good constraints on the potential temperature from this inversion
-% alone.  However, zPlate estimates are much more strongly dependent on
-% seismic LAB depth than on temperature estimates.
+% depth, but really we are only looking for Plate 
 
 Q_LAB = 800;
 eta_LAB = 1e24;

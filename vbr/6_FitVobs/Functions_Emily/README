@@ -1,5 +1,7 @@
 USING THE VBR TO INVERT FOR STATE VARIABLES FROM SEISMIC DATA
 
+
+
 **********************   1. Initial run of the VBR   ***********************
 The first step in running the VBR is calculating a suite of 'Boxes' - each Box is  associated with an input value, e.g. potential temperature, plate thickness.  The values for these inputs are set in generate_boxes as
    settings.Box.var1range  - vector of values
@@ -26,6 +28,8 @@ Calculating the boxes is the most time consuming part of the process, so you sho
 
 
 Once the boxes have been calculated, the VBR is run.  This calculates seismic and viscous properties for the conditions for each of the suite of Boxes.  At this stage, we are really trying to nail down zPlate - which doesn't have as large trade-offs with the other parameters.  The parameters of these calculations are in run_vbr, but they probably don't need to be changed.  Output saved in Box(i_var1,i_var2).Frames(end).VBR.
+
+
 
 ****************   2. Importing shear velocity data   *********************
 
@@ -66,3 +70,17 @@ Alternatively, can hardwire in which models & location to use:
 Note: if any of these files exist, will automatically try to use that model, so need to delete the file if no longer want to hardwire in that choice.
 
 * This is the depth range in which the VBR will try to match observed asthenospheric shear velocities.
+
+
+
+****************   3. Fitting plate thickness   *********************
+
+Plate thickness is estimated based on calculated attenuation at a variety of conditions.  The boxes in (1) calculate, among other things, the Q expected for a variety of pairs of conditions (typically Box(potential temperature, plate thickness)).  This is a grid search, running through all possible sets of conditions and finding the Q profile for the frequency band of interest.
+
+It is assumed that the seismic LAB corresponds to some drop off in seismic attenuation with depth.  This depth, Z_LAB_Qs_km, is the LAB depth as defined by the Q structure (specifically, where quality factor drops below some value; equivalently, where attenuation rises above some value).  Note that the observed seismic LAB (based on changes in shear velocity) should be at the same depth as the Q defined LAB; in general, this will be SHALLOWER than the zPlate.  So the grid search runs through all values of zPlate, calculates the Q defined LAB depth based on the calculated Q profiles, and finds the zPlate that gives the Q defined LAB closest to the seismically observed LAB.
+
+If the variable dont_use_input_Qlab is set to 1 (currently hardwired in fit_LAB_Tp), the conditions will be determined by finding the best match between the input (seismically observed) LAB and the depth range at which seismic attenuation is at some factor above the mean adiabatic Q.  With the currently hardwired values, this is the depth at which the high Q lithosphere transitions to less than 20 x (fQlab, set in find_LAB_Q_Res) the mean adiabatic Q (mean Q below zPlate, as set by the Box index).
+
+If the variable dont_use_input_Qlab is set to 0 (currently hardwired as not), the depth will instead be identified as where Q drops below a hardwired value (Q_LAB, set in fit_LAB_Tp - set to 800).
+
+Note that it does actually do a joint inversion for Tp and zPlate in this case.  This allows you to see if the observations can be well fit by just varying Tp and zPlate.  However, if there is melt present, the Tp estimates will be very inaccurate, so a multivariate analysis (the next step) is required.  Even in this case, zPlate is most strongly dependent on the seismically observed LAB - so the best fit value of zPlate should be ok.

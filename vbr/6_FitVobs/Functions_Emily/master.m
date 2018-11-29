@@ -13,10 +13,13 @@ with_melt = 0; run_vbr(Work, with_melt);
 %%%% GET SEISMIC OBSERVABLES %%%%
 seismic_obs = get_seismic_data(Work);
 
-%%%%% FIT LAB DEPTH %%%%
+%%%%% FIT PLATE THICKNESS %%%%
 q_method = 'eBurgers'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
 zPlate = fit_LAB_Tp(Work, seismic_obs, q_method);
 
 
 %%%% MULTIVARIATE SEARCH - TEMP, GRAIN SIZE, PHI %%%%
 % Bayesian inversion
+[Tp, g, phi] = multivariate_Bayesian_inversion(...
+    Work, seismic_obs, zPlate);
+

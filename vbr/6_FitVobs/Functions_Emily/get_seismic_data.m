@@ -1,9 +1,11 @@
 function seismic_obs = get_seismic_data(Work)
 % Pick your seismic models and locations, and extract relevent data
 % Note, can hardwire in which models & location to use:
-%  - vel_models/use_this_model.mat: string of file name e.g. USA_ShenRitzwoller2016
-%  - lab_models/use_this_model.mat: string of file name e.g. USA_HopperFischer2018
-%  - vel_models/use_this_location.mat: vector [latitude, longitude]
+%       (saved in Functions_Emily/hardwired_values/)
+%  - use_this_vel_model.mat:  string of file name e.g. USA_ShenRitzwoller2016
+%  - use_this_lab_model.mat:  string of file name e.g. USA_HopperFischer2018
+%  - use_this_location.mat:   vector [latitude, longitude]
+%  - use_this_depthrange.mat: vector [min depth, max depth]
 
 vel_name = choose_vs_model(Work);
 lab_name = choose_LAB_model(Work,vel_name);
@@ -13,7 +15,7 @@ seismic_obs = getSeismicData(Work, vel_name, lab_name);
 
 end
 
-function use_this_model = choose_vs_model(Work)
+function use_this_vel_model = choose_vs_model(Work)
 
 % All velocity models should be saved in Functions_Emily/vel_models 
 % Following format required:
@@ -31,19 +33,19 @@ function use_this_model = choose_vs_model(Work)
 clc
 
 % Look for hardwired velocity model choice
-if exist([Work.veldir '/use_this_model.mat'],'file')
-    load([Work.veldir '/use_this_model.mat']);
-    if ~exist([Work.veldir '/' use_this_model '.mat'],'file')
+if exist([Work.valsdir '/use_this_vel_model.mat'],'file')
+    load([Work.valsdir '/use_this_vel_model.mat']);
+    if ~exist([Work.veldir '/' use_this_vel_model '.mat'],'file')
         disp('Velocity model not found!  Please choose saved model!');
-        pause(0.5); clc; clear use_this_model
+        pause(0.5); clc; clear use_this_vel_model
     end
 end
 
-if ~exist('use_this_model','var')
+if ~exist('use_this_vel_model','var')
     % List the possible velocity models
     vels = dir(Work.veldir); clear model_names; model_names{length(vels),2} = '';
     for i_v = length(vels):-1:1
-        if vels(i_v).name(1) == '.' || strcmp(vels(i_v).name(1:9),'use_this_')
+        if vels(i_v).name(1) == '.'
             vels(i_v) = []; model_names(i_v,:) = []; 
         else  model_names(i_v,:) = strsplit(vels(i_v).name,'_');
         end
@@ -69,19 +71,19 @@ if ~exist('use_this_model','var')
         im = input('');
     else im = 1;
     end
-    use_this_model = [model_names{im,1} '_' model_names{im,2}(1:end-4)];
+    use_this_vel_model = [model_names{im,1} '_' model_names{im,2}(1:end-4)];
 
     fprintf('\n\nYou are using %s as your shear velocity model.\n',...
-        use_this_model);
+        use_this_vel_model);
     if_save = input('Save this choice for future use y/[n]?','s');
     if strcmp(if_save,'y')
-        save([Work.veldir 'use_this_model.mat'], 'use_this_model');
+        save([Work.valsdir 'use_this_vel_model.mat'], 'use_this_vel_model');
     end
 end
 
 end
 
-function use_this_model = choose_LAB_model(Work, vel_model_name)
+function use_this_lab_model = choose_LAB_model(Work, vel_model_name)
 clc
 % Pick the LAB depth model
 
@@ -99,23 +101,23 @@ clc
 clc
 
 % Look for hardwired velocity model choice
-if exist([Work.labdir '/use_this_model.mat'],'file')
-    load([Work.labdir '/use_this_model.mat']);
-    if isempty(use_this_model)
+if exist([Work.valsdir '/use_this_lab_model.mat'],'file')
+    load([Work.valsdir '/use_this_lab_model.mat']);
+    if isempty(use_this_lab_model)
         disp('Using your shear velocity model...'); pause(0.5); clc;
-    elseif ~exist([Work.labdir '/' use_this_model '.mat'],'file')
+    elseif ~exist([Work.labdir '/' use_this_lab_model '.mat'],'file')
         disp('LAB model not found!  Please choose saved model!');
-        pause(0.5); clc; clear use_this_model
+        pause(0.5); clc; clear use_this_lab_model
     end
 end
 
-if ~exist('use_this_model','var')
+if ~exist('use_this_lab_model','var')
     use_vel_model = ...
         input('Use shear velocity model to define LAB depth y/[n]?','s');
     if strcmp(use_vel_model,'y')
         if_save = input('Save this choice for future use y/[n]?','s');
-        if strcmp(if_save,'y'); use_this_model = [];
-            save([Work.labdir 'use_this_model.mat'], 'use_this_model');
+        if strcmp(if_save,'y'); use_this_lab_model = [];
+            save([Work.labdir 'use_this_lab_model.mat'], 'use_this_lab_model');
         end
         return
     end
@@ -123,7 +125,7 @@ if ~exist('use_this_model','var')
 
     labs = dir(Work.labdir); clear lab_names; lab_names{length(labs),2} = '';
     for i_l = length(labs):-1:1
-        if labs(i_l).name(1) == '.' || strcmp(labs(i_l).name(1:9),'use_this_')
+        if labs(i_l).name(1) == '.'
             labs(i_l) = []; lab_names(i_l,:) = []; 
         else lab_names(i_l,:) = strsplit(labs(i_l).name,'_');
         end
@@ -158,13 +160,13 @@ if ~exist('use_this_model','var')
         im = input('');
     else; im = 1;
     end
-    use_this_model = [lab_names{im,1} '_' lab_names{im,2}(1:end-4)];
+    use_this_lab_model = [lab_names{im,1} '_' lab_names{im,2}(1:end-4)];
     
     
-    fprintf('\n\nYou are using %s for LAB depth.\n', use_this_model);
+    fprintf('\n\nYou are using %s for LAB depth.\n', use_this_lab_model);
     if_save = input('Save this choice for future use y/[n]?','s');
     if strcmp(if_save,'y')
-        save([Work.labdir 'use_this_model.mat'], 'use_this_model');
+        save([Work.valsdir 'use_this_lab_model.mat'], 'use_this_lab_model');
     end
 end
    
@@ -198,8 +200,8 @@ end
 
 % Pick the location
 % Look for hardwired velocity model choice
-if exist([Work.veldir 'use_this_location.mat'],'file')
-    load([Work.veldir 'use_this_location.mat']);
+if exist([Work.valsdir 'use_this_location.mat'],'file')
+    load([Work.valsdir 'use_this_location.mat']);
      loc = use_this_location;
     
     % Is this location within the limits of our models?
@@ -225,6 +227,30 @@ medianVs = nan(size(Vs_Model.Depth));
 for id = 1:length(Vs_Model.Depth)
     medianVs(id) = median(reshape(allVs(:,:,id),1,numel(allVs(:,:,id))));
 end
+
+% Find the uncertainty
+if ~isfield(Vs_Model,'Error')
+    fprintf(['\n\nNo errors saved for velocity model!!\n\n\t' ...
+        'Use a constant value for the error?\n\t\t(Enter a numeric value ' ...
+        'if so, or any letter to quit)\n']);
+    constant_error = str2double(input('','s'));
+    if isnan(constant_error)
+        error('Input velocity model should have error field!');
+    else
+        medianVs_error = constant_error*ones(size(medianVs));
+    end
+else
+    allVs_error = Vs_Model.Error(Vs_Model.Latitude >= loc(1)-smooth_rad & ...
+        Vs_Model.Latitude <= loc(1)+smooth_rad,...
+        Vs_Model.Longitude >= loc(2)-smooth_rad...
+        & Vs_Model.Longitude <= loc(2)+smooth_rad,:);
+    medianVs_error = nan(size(Vs_Model.Depth));
+    for id = 1:length(Vs_Model.Depth)
+        medianVs_error(id) = median(reshape(...
+            allVs_error(:,:,id),1,numel(allVs_error(:,:,id))));
+    end
+end
+
 
 % Find the Moho
 allVs = reshape(allVs,size(allVs,1)*size(allVs,2),size(allVs,3));
@@ -252,21 +278,28 @@ end
 
 
 % Look for hardwired depth range
-if exist([Work.veldir 'use_this_depthrange.mat'],'file')
-    load([Work.veldir 'use_this_depthrange.mat']);
+if exist([Work.valsdir 'use_this_depthrange.mat'],'file')
+    load([Work.valsdir 'use_this_depthrange.mat']);
     depthrange = use_this_depthrange;
 else depthrange = pick_depth_range(medianVs, Vs_Model.Depth, Moho, LAB, Work);
 end
 
 asth_v = mean(medianVs(Vs_Model.Depth >= depthrange(1) & ...
     Vs_Model.Depth <= depthrange(2)));
+asth_v_error = mean(medianVs_error(Vs_Model.Depth >= depthrange(1) & ...
+    Vs_Model.Depth <= depthrange(2)));
+
+
 
 fprintf(['\n\nAverage Vs (%.0f - %.0f km)' ...
-    ': %.2f km/s\n'],depthrange(1), depthrange(2), asth_v);
+    ': %.2f %s %.2f km/s\n'],depthrange(1), depthrange(2), asth_v,...
+    char(177), asth_v_error);
 
 
 seismic_obs.asth_v = asth_v;
+seismic_obs.asth_v_error = asth_v_error;
 seismic_obs.medianVs = medianVs;
+seismic_obs.medianVs_error = medianVs_error;
 seismic_obs.depthrange = depthrange;
 seismic_obs.Moho = Moho;
 seismic_obs.LAB = LAB;
@@ -329,7 +362,7 @@ loc = [lat, lon];
 if_save = input('Save this choice for future use y/[n]?','s');
 if strcmp(if_save,'y')
     use_this_location = loc;
-    save([Work.veldir 'use_this_location.mat'], 'use_this_location');
+    save([Work.valsdir 'use_this_location.mat'], 'use_this_location');
 end
 
 end
@@ -414,7 +447,7 @@ fprintf(['\n\nYou have chosen %.0f-%.0f km depth.\n\t%.0f to %.0f km '...
 if_save = input('Save this depth range for future use y/[n]?','s');
 if strcmp(if_save,'y')
     use_this_depthrange = asth_v_deps;
-    save([Work.veldir 'use_this_depthrange.mat'], 'use_this_depthrange');
+    save([Work.valsdir 'use_this_depthrange.mat'], 'use_this_depthrange');
 end
     
 

@@ -10,7 +10,6 @@ function zPlate_fit = fit_LAB_Tp(Work, seismic_obs, q_method)
 % seismic LAB depth than on temperature estimates.
 
 Q_LAB = 800;
-eta_LAB = 1e24;
 per_bw_max = 30;  % max period to use for fitting (s)
 per_bw_min = 10;  % min period to use for fitting (s)
 

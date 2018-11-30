@@ -21,6 +21,6 @@ zPlate = fit_LAB_Tp(Work, seismic_obs);
 %%
 %%%% MULTIVARIATE SEARCH - TEMP, GRAIN SIZE, PHI %%%%
 % Bayesian inversion
-[Tp, g, phi] = multivariate_Bayesian_inversion(...
+[P_mod] = multivariate_Bayesian_inversion(...
     Work, seismic_obs, zPlate);
 

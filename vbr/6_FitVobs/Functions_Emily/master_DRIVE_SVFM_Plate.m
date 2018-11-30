@@ -69,9 +69,8 @@ function master_DRIVE_SVFM_Plate(Work, settings_in)
 
    [Box,settings] = BuildBox(settings); %% Build The Box (do this once):
    Work.nBox=settings.Box.nvar1 * settings.Box.nvar2;
-   load([Work.savedir '/Box_' Work.Box_base_name]);
 
-   for iBox = 451:Work.nBox
+   for iBox = 1:Work.nBox
 
       disp(' ');disp('--------------------------------------------------')
       disp(['Starting run ' num2str(iBox) ' of ' num2str(Work.nBox)])

@@ -371,20 +371,18 @@ end
 function  LAB = find_LAB_from_Vs(allVs, Moho, Depth)
 
 % Identify the LAB as the maximum negative velocity gradient below the Moho
-mantle_inds = find(Depth > Moho & Depth < 300);
+mantle_inds = find(Depth > Moho);
 
 LABs = nan(size(allVs,1),1);
 
 for i_v = 1:size(allVs,1)
     % See if Vs profile has nice shape (i.e. high velocity lid with LVZ below)
     [~,i_high_vel] = findpeaks(allVs(i_v,mantle_inds), ...
-        'minpeakprominence',0.05);
-    [~,i_low_vel] = findpeaks(-allVs(i_v,mantle_inds), ...
-        'minpeakprominence',0.05);
-    
+        'minpeakprominence);
+    [~,i_low_vel] = findpeaks(-allVs(i_v,mantle_inds));
+    i_low_vel(i_low_vel<i_high_vel(1)) = []; % remove any lows beneath first peak
     
     if isempty(i_high_vel); i_high_vel = 1; end
-    i_low_vel(i_low_vel<i_high_vel(1)) = []; % remove any lows beneath first peak
     if isempty(i_low_vel);  i_low_vel = length(mantle_inds); end
    
     

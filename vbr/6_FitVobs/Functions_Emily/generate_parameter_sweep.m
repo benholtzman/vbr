@@ -1,4 +1,35 @@
-function master_DRIVE_SVFM_Plate(Work, settings_in)
+function generate_parameter_sweep(Work)
+
+% Parameter sweep
+settings.Box.phi_range = (0.0:0.002:0.03).*1e2; % melt fraction
+settings.Box.phi_units = ' %';
+
+settings.Box.gs_range = (10.^(0:0.5:4)).*1e6; % grain size
+settings.Box.gs_units = ' m';
+
+
+%  Overwrite any of the deafault settings (from init_settings) as desired
+%    Mesh
+settings.dz0=3; % grid cell size [km]
+settings.Zinfo.asthenosphere_max_depth = 350; % adiabatic T from zmax to here [km]
+settings.Z_moho_km = 30; % Moho depth [km]
+
+%    Computational settings
+%    time
+settings.nt= 5000; % max number of time steps
+settings.outk = settings.nt ; % frequency of output (output every outk steps)
+% number of timesteps to save = outn = nt/outk
+settings.t_max_Myrs=500; % max time to calculate [Myr]
+
+%    for melt fraction calc
+settings.sstol = 1e-5; % steady state target residual
+settings.Flags.T_init='continental'; % 'continental' 'oceanic' or 'adiabatic'
+
+drive_plate(Work, settings)
+
+end
+
+function drive_plate(Work, settings_in)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % this script builds the initial settings to call TwoPhase. Commonly
 % changed parameters are set here, less frequently changed parameters are
@@ -23,17 +54,17 @@ function master_DRIVE_SVFM_Plate(Work, settings_in)
 %  Load Default Settings
    [settings]=init_settings;
 
-%  Overwrite any of the deafault settings as desired
-    ovwr_set = fieldnames(settings_in);
-    for is = 1:length(ovwr_set)
-        if isstruct(settings_in.(ovwr_set{is}))
-           ovwr_set2 = fieldnames(settings_in.(ovwr_set{is}));
+%  Overwrite any of the default settings as desired
+    overwrite_settings = fieldnames(settings_in);
+    for is = 1:length(overwrite_settings)
+        if isstruct(settings_in.(overwrite_settings{is}))
+           ovwr_set2 = fieldnames(settings_in.(overwrite_settings{is}));
            for iss = 1:length(ovwr_set2)
-               settings.(ovwr_set{is}).(ovwr_set2{iss}) ...
-                   = settings_in.(ovwr_set{is}).(ovwr_set2{iss});
+               settings.(overwrite_settings{is}).(ovwr_set2{iss}) ...
+                   = settings_in.(overwrite_settings{is}).(ovwr_set2{iss});
            end
         else
-            settings.(ovwr_set{is}) = settings_in.(ovwr_set{is});
+            settings.(overwrite_settings{is}) = settings_in.(overwrite_settings{is});
         end
     end
 
@@ -60,18 +91,15 @@ function master_DRIVE_SVFM_Plate(Work, settings_in)
 
     Work.mfile_name = [mfilename('fullpath') '.m'];
     
-    %Work.cp_src=system(['04_scripts/sh_source_copy.sh ' ...
-    %                                    Work.savedir ' ' Work.mfile_name]);
-
 %%% --------------------------------------------------------------------- %%
 %%% --------------  thermodynamic state forward model ------------------- %%
 %%% --------------------------------------------------------------------- %%
 
    [Box,settings] = BuildBox(settings); %% Build The Box (do this once):
-   Work.nBox=settings.Box.nvar1 * settings.Box.nvar2;
-   load([Work.savedir '/Box_' Work.Box_base_name]);
+   Work.nBox = settings.n_zPlate * settings.n_Tpot * settings.n_phi * ...
+       settings.n_gs;
 
-   for iBox = 451:Work.nBox
+   for iBox = 1:Work.nBox
 
       disp(' ');disp('--------------------------------------------------')
       disp(['Starting run ' num2str(iBox) ' of ' num2str(Work.nBox)])
@@ -80,14 +108,18 @@ function master_DRIVE_SVFM_Plate(Work, settings_in)
 %%%    set the Box parameters    %
 %%% ---------------------------- %
 
-      settings.(settings.Box.var1name) = Box(iBox).info.var1val;
-      disp([settings.Box.var1name '=' num2str(settings.(settings.Box.var1name))...
-           settings.Box.var1units]);
-      if isfield(settings.Box,'var2name')
-        settings.(settings.Box.var2name) = Box(iBox).info.var2val;
-        disp([settings.Box.var2name '=' num2str(settings.(settings.Box.var2name))...
-           settings.Box.var2units]);
-      end
+      settings.zPlate = Box(iBox).info.zPlate_val;
+      settings.Tpot   = Box(iBox).info.Tpot_val;
+      settings.phi0   = 0.0; % calculate thermal profile w/o melt initially
+      settings.phi2   = Box(iBox).info.phi_val;
+      settings.grain0 = Box(iBox).info.gs;
+      
+      frpintf(['\n\tPlate Thickness: %g %s\n\tPotential temperature: '...
+          '%g %s\n\tMelt Fraction: %g %s\n\tGrain size: %g micro%s'],...
+          settings.zPlate, settings.Box.zPlate_units,...
+          settings.Tpot, settings.Box.Tpot_units, ...
+          Box(iBox).info.phi_val, settings.Box.phi_units, ...
+          settings.grain0.*1e-6, settings.Box.gs_units)
 
 %%% ------------------------------ %%
 %%%    Initialize Thermal Solve    %%
@@ -147,4 +179,46 @@ function master_DRIVE_SVFM_Plate(Work, settings_in)
 disp(' ');disp('--------------------------------------------------');disp(' ')
 
 cd(cur_dir);
+end
+
+
+function [Box,settings] = BuildBox(settings)
+
+
+% vars = {'zPlate','Tpot','phi','gs'};
+
+n_zPlate = numel(settings.Box.zPlate_range);
+n_Tpot   = numel(settings.Box.Tpot_range);
+n_phi    = numel(settings.Box.phi_range);
+n_gs     = numel(settings.Box.gs_range);
+
+Box = struct();
+Box.settings = settings.Box;
+
+for i_zPlate = 1:n_zPlate
+    for i_Tpot = 1:n_Tpot
+        for i_phi = 1:n_phi
+            for i_gs = 1:n_gs
+                
+                Box(i_zPlate,i_Tpot, i_phi, i_gs).info.zPlate_val = ...
+                    settings.Box.zPlate_range(i_zPlate);
+                Box(i_zPlate,i_Tpot, i_phi, i_gs).info.Tpot_val = ...
+                    settings.Box.Tpot_range(i_Tpot);
+                Box(i_zPlate,i_Tpot, i_phi, i_gs).info.phi_val = ...
+                    settings.Box.phi_range(i_phi);
+                Box(i_zPlate,i_Tpot, i_phi, i_gs).info.gs_val = ...
+                    settings.Box.gs_range(i_gs);
+                
+            end
+        end
+    end
+end
+
+settings.n_zPlate = n_zPlate;
+settings.n_Tpot   = n_Tpot;
+settings.n_phi    = n_phi;
+settings.n_gs     = n_gs;
+
+
+
 end

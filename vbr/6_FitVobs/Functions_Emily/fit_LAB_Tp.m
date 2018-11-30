@@ -1,4 +1,4 @@
-function zPlate_fit = fit_LAB_Tp(Work, seismic_obs, q_method)
+function zPlate_fit = fit_LAB_Tp(Work, seismic_obs)
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 %  Fit the measured LAB and Vs to find reasonable models       %
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
@@ -34,7 +34,7 @@ fprintf(['\n\nTpot: %.0f - %.0f C\nzPlate: %.0f - %.0f km\n' ...
     Tpot_vec(1), Tpot_vec(end), zPlate_vec(1), zPlate_vec(end),...
     f_band(1), f_band(end), 1/f_band(1), 1/f_band(end));
 
-checkQ = checkForSelectedQMethod(Box, q_method);
+checkQ = checkForSelectedQMethod(Box, seismic_obs.q_method);
 if ~checkQ; return; end
 
 % Find the values and indices for the frequency range of interest
@@ -48,7 +48,7 @@ times.t1 = datetime;
 dont_use_input_Qlab = 1;
 [fits.Res_LAB, fits.ind, fits.LAB] = ...
     find_LAB_Q_Res(Box,Q_LAB, seismic_obs.LAB, ...
-    i_fmin, i_fmax, q_method, dont_use_input_Qlab);
+    i_fmin, i_fmax, seismic_obs.q_method, dont_use_input_Qlab);
 fits.Rmin = min(fits.Res_LAB(:));
 
 fprintf('\nPlate best fit - \n  min residual: %f\n',...
@@ -56,7 +56,8 @@ fprintf('\nPlate best fit - \n  min residual: %f\n',...
 
 % Find average Vs best fitting
 [fits.Res_Vs_adavg_mat, fits.Vs_adavg_mat] = ...
-    find_Vs_adavg_Res(Box,seismic_obs.asth_v, i_fmin, i_fmax, q_method);
+    find_Vs_adavg_Res(Box,seismic_obs.asth_v, i_fmin, i_fmax, ...
+    seismic_obs.q_method);
 
 % Find the joint best fitting model!
 fits.Res_Vs_N = fits.Res_Vs_adavg_mat./...
@@ -89,9 +90,9 @@ Layout = buildLayout(1);
 figure('color','w','position',[50 30 1200 600]);
 
 % Q(Z) plot
-plot_Q_profiles(Layout.Qz, Box, fits, q_method, seismic_obs, i_fmin, i_fmax);
+plot_Q_profiles(Layout.Qz, Box, fits, seismic_obs, i_fmin, i_fmax);
 % Vs(Z) plot
-plot_Vs_profiles(Layout.Vsz, Box, fits, q_method, seismic_obs, i_fmin, i_fmax);
+plot_Vs_profiles(Layout.Vsz, Box, fits, seismic_obs, i_fmin, i_fmax);
 % Residuals (can plot up to two 'temps' at a time)
 layout = Layout.rh;  clr = [1 0 0];
     
@@ -264,7 +265,7 @@ end
 
 % PLOTTING FUNCTIONS
 
-function plot_Q_profiles(layout, Box, fits, q_method, seismic_obs,...
+function plot_Q_profiles(layout, Box, fits, seismic_obs,...
     i_fmin, i_fmax)
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 %  Plots all of the Q profiles and the best fitting profiles   %
@@ -279,12 +280,12 @@ for i_var1 = 1:n_var1
     for i_var2 = 1:n_var2
         Z_km = Box(i_var1, i_var2).run_info.Z_km;
         frame = Box(i_var1, i_var2).Frames(end);
-        switch q_method
+        switch seismic_obs.q_method
             case 'AndradePsP'
                 Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa;
             otherwise
                 Qs_f_mat = ...
-                    frame.VBR.out.anelastic.(q_method).Q;
+                    frame.VBR.out.anelastic.(seismic_obs.q_method).Q;
         end
         Qs_f_band = Qs_f_mat(:,i_fmin:i_fmax);
         Qs_mnstd = meanstd_fband(Qs_f_band);
@@ -300,11 +301,11 @@ clr = [1 0 0 0.9];
 i_best = fits.i_best;
 Z_km = Box(i_best).run_info.Z_km;
 frame = Box(i_best).Frames(end);
-switch q_method
+switch seismic_obs.q_method
     case 'AndradePsP'
         Qs_f_mat = frame.VBR.out.anelastic.AndradePsP.Qa;
     otherwise
-        Qs_f_mat = frame.VBR.out.anelastic.(q_method).Q;
+        Qs_f_mat = frame.VBR.out.anelastic.(seismic_obs.q_method).Q;
 end
 Qs_f_band = Qs_f_mat(:,i_fmin:i_fmax);
 Qs_mnstd = meanstd_fband(Qs_f_band);
@@ -330,7 +331,7 @@ ylabel('Depth (km)'); axis ij; set(gca,'XAxisLocation','Top')
 
 end
 
-function plot_Vs_profiles(layout, Box, fits, q_method, seismic_obs,...
+function plot_Vs_profiles(layout, Box, fits, seismic_obs,...
     i_fmin, i_fmax)
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 %  Plots all of the Vs profiles and the best fitting profiles  %
@@ -344,12 +345,12 @@ for i_var1 = 1:n_var1
     for i_var2 = 1:n_var2
         Z_km = Box(i_var1, i_var2).run_info.Z_km;
         frame = Box(i_var1, i_var2).Frames(end);
-        switch q_method
+        switch seismic_obs.q_method
             case 'AndradePsP'
                 Vs_f_mat = frame.VBR.out.anelastic.AndradePsP.Va;
             otherwise
                 Vs_f_mat = ...
-                    frame.VBR.out.anelastic.(q_method).V;
+                    frame.VBR.out.anelastic.(seismic_obs.q_method).V;
         end
         Vs_f_band = Vs_f_mat(:,i_fmin:i_fmax);
         Vs_mnstd = meanstd_fband(Vs_f_band);
@@ -365,11 +366,11 @@ clr = [1 0 0 0.9];
 i_best = fits.i_best;
 Z_km = Box(i_best).run_info.Z_km;
 frame = Box(i_best).Frames(end);
-switch q_method
+switch seismic_obs.q_method
     case 'AndradePsP'
         Vs_f_mat = frame.VBR.out.anelastic.AndradePsP.Va;
     otherwise
-        Vs_f_mat = frame.VBR.out.anelastic.(q_method).V;
+        Vs_f_mat = frame.VBR.out.anelastic.(seismic_obs.q_method).V;
 end
 Vs_f_band = Vs_f_mat(:,i_fmin:i_fmax);
 Vs_mnstd = meanstd_fband(Vs_f_band);

@@ -21,22 +21,12 @@ vs_vals = extract_Vs(sweepBox, seismic_obs);
 % (the RHS there is a fraction, btw...)
 
 % Let's calculate some probabilities!
-% Remember the PDF for a normal distribution
-%    PDF  = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2))
+% Remember the PDF for a normal distribution = 1/sqrt(
 
 % P(Vs)
 % This is the probability of the observed Vs being correct
 % We'll assume a normal distribution, mean = observed Vs, std = obs error
-sigma = seismic_obs.medianVs_error;
-P_Vs = 1/sqrt(2*pi*sigma^2); % assume mean = observed Vs so (x-mu) = 0
 
-% P(T, phi, gs)  == P(T) * P(phi) * P(gs)
-% Assume that all of these are independent of one another.......
-% And have pretty broad normal distributions - can either hard wire in
-% values or guesstimate from the size of the box calculated
-
-% P(T)
-sigma = 0.5*sweepBox.
 
 
 
@@ -48,8 +38,7 @@ function sweepBox = generate_parameter_sweep(Work, zPlate, sweep)
 Work.boxname = ['Box_' Work.Box_base_name '.mat'];
 Work.boxpath = [Work.hmdir 'Boxes/' Work.Box_base_name '/'];
 load([Work.boxpath Work.boxname]);
-Work.sweep_boxname = [Work.boxname(1:end-4) '_sweep_' ...
-    num2str(zPlate.zPlate) 'km.mat'];
+Work.sweep_boxname = [Work.boxname(1:end-4) '_sweep.mat'];
 
 fprintf('\n\nPlate thickness: %g\n', ...
     Box(1,1).info.var2range(zPlate.zPlate_ind))

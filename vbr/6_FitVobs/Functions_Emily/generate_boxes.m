@@ -1,4 +1,8 @@
 function generate_boxes(Work)
+% This is time consuming as need to calculate the thermal evolution.
+% Therefore, only do this step when sweeping through Tpot and zPlate
+% (other variables do not impact thermal evolution).
+
 clc
 [calc_boxes_yn] = input('Do you want to calculate new boxes, y/[n]?  ','s');
 if ~strcmp(calc_boxes_yn,'y'); return; end
@@ -9,7 +13,7 @@ if ~strcmp(calc_boxes_yn,'y'); return; end
 %  define parameter sweep here. var1name must match EXACTLY a field in
 %  settings structure. var1 must be defined, var2 lines can be
 %  commented/deleted if desired.
-settings.Box.var1range = 1150:20:1550;
+settings.Box.var1range = 1160:20:1600;
 settings.Box.var1name = 'Tpot';
 settings.Box.var1units =' C';
 

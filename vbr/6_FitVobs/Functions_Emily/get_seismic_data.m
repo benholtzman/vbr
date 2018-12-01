@@ -301,6 +301,7 @@ seismic_obs.asth_v = asth_v;
 seismic_obs.asth_v_error = asth_v_error;
 seismic_obs.medianVs = medianVs;
 seismic_obs.medianVs_error = medianVs_error;
+seismic_obs.depth = Vs_Model.Depth;
 seismic_obs.depthrange = depthrange;
 seismic_obs.Moho = Moho;
 seismic_obs.LAB = LAB;

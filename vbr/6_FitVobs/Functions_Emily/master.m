@@ -18,7 +18,6 @@ seismic_obs = get_seismic_data(Work);
 seismic_obs.q_method = 'eBurgers'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
 zPlate = fit_LAB_Tp(Work, seismic_obs);
 
-%%
 %%%% MULTIVARIATE SEARCH - TEMP, GRAIN SIZE, PHI %%%%
 % Bayesian inversion
 [P_mod] = multivariate_Bayesian_inversion(...

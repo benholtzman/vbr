@@ -52,6 +52,8 @@ if exist([Work.boxpath Work.sweep_boxname],'file')
     end
 end
 
+addpath([Work.fundir '2_PLATES/4pt0_1d_plates/01_functions/'])
+
 
 % For a given zPlate, we want to run through all combinations of Tpot, melt
 % fraction, and grain size.
@@ -145,8 +147,8 @@ for k = 1:numel(vs_vals)
     
 end
 
-residual = vs_vals - seismic_obs.asth_v;
-normalised_residual = residual./max(abs(residual(:)));
+residual = abs(vs_vals - seismic_obs.asth_v);
+normalised_residual = residual./max(residual(:));
 
 end
 
@@ -165,6 +167,10 @@ P_mod = zeros(size(sweepBox));
 sigma = seismic_obs.asth_v_error;
 P_Vs = 1/sqrt(2*pi*sigma^2); % assume mean = observed Vs so (x-mu) = 0
 
+normalised_residual = normalised_residual.^2;
+%normalised_residual = normalised_residual - min(normalised_residual(:))+0.1;
+%normalised_residual = normalised_residual./max(normalised_residual(:));
+
 for k = 1:numel(sweepBox)
     
     values = sweepBox(k).info;
@@ -175,28 +181,28 @@ for k = 1:numel(sweepBox)
     % values or guesstimate from the size of the box calculated
     
     % P(T)
-    sigma = 0.5*abs(diff(values.Tpot_range([1 end])));
+    sigma = 1.5*abs(diff(values.Tpot_range([1 end])));
     mu    = mean(values.Tpot_range);
     x     = values.Tpot;
     P_T   = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
     
     % P(phi)
-    sigma = 0.5*abs(diff(values.phi_range([1 end])));
+    sigma = 1.5*abs(diff(values.phi_range([1 end])));
     mu    = mean(values.phi_range);
     x     = max(values.phi);
     P_phi = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
     
     % P(grain size)
-    sigma = 1e3;%0.5*abs(diff(values.gs_range([1 end])));
+    sigma = 1e4;%0.5*abs(diff(values.gs_range([1 end])));
     mu    = 1e3; %mean(values.gs_range);
     x     = values.gs;
-    P_gs = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
+    P_gs  = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
     
     
     % P(Vs | T, phi, gs)
     % We have a residual between observed and calculated Vs
     % So... probability = 1 - residual^2 ???
-    P_Vs_given_mod = 1 - normalised_residual(k).^2;
+    P_Vs_given_mod = 1 - normalised_residual(k);
     
     
     % All together now!
@@ -233,8 +239,8 @@ gstr = 'Grain size (log_1_0(\mum))';
 cols = [142 255 255; ... % best fit: blue
     250 135 251; ... % smaller value: pink
     250 255 0]./255; % larger value: yellow
-contour_levels = [50 70 90 95 99];
-
+%contour_levels = [50 70 90 95 99];
+contour_levels = [93 95 97 99];
 
 
 % Probability in Tpot/phi space at constant gs
@@ -244,7 +250,8 @@ xlabel(tstr); ylabel(phistr);
 % Small grain size
 i_small = 1; 
 while (max(max(probs.P_mod(:,:,i_small))) < contour_levels(1)/100 ...
-        && i_small < length(probs.gs)) || i_small == i_gs
+        && i_small < length(probs.gs)) ||...
+        (i_small == i_gs && i_small < length(probs.gs))
     i_small = i_small + 1;
 end
 contour_plot(probs.P_mod(:,:,i_small)', probs.Tpot, probs.phi, ...
@@ -252,7 +259,7 @@ contour_plot(probs.P_mod(:,:,i_small)', probs.Tpot, probs.phi, ...
 % Large grain size
 i_large = length(probs.gs);
 while (max(max(probs.P_mod(:,:,i_large))) < contour_levels(1)/100 ...
-        && i_large > 1) || i_large == i_gs
+        && i_large > 1) || (i_large == i_gs && i_large > 1)
     i_large = i_large - 1;
 end
 contour_plot(probs.P_mod(:,:,i_large)', probs.Tpot, probs.phi, ...
@@ -341,7 +348,8 @@ xlabel(tstr); ylim([0 eps]); daspect([1 1 1])
 
 
 % And plot the possible velocity models
-figure('color','w','position',[100 100 400 600]); hold on; 
+figure('color','w','position',[100 50 800 600]);
+subplot(1,2,1); hold on; 
 obs_vel_c = [81 209 70]./255;
 patch([seismic_obs.medianVs + seismic_obs.medianVs_error; ...
     flipud(seismic_obs.medianVs - seismic_obs.medianVs_error)], ...
@@ -349,7 +357,7 @@ patch([seismic_obs.medianVs + seismic_obs.medianVs_error; ...
     obs_vel_c,'edgecolor','none','facealpha',0.25)
 plot(seismic_obs.medianVs, seismic_obs.depth,'color',...
     obs_vel_c,'linewidth',2); axis ij; 
-yl = get(gca,'ylim'); xl = [3.5 5.0]; xlim(xl);
+yl = get(gca,'ylim'); xl = [3.8 5.0]; xlim(xl);
 if yl(2) > 300; yl(2) = 350; end; ylim(yl);
 ylabel('Depth (km)'); xlabel('Vs (km/s)');
 set(gca,'xaxislocation','top'); box on
@@ -364,10 +372,16 @@ plot(xl,seismic_obs.LAB*[1 1],'b--');
 
 
 % Plot on all models within top 5% probability
-inds = find(probs.P_mod > 0.95);
-for k = 1:length(inds)
-    plot(sweepBox(k).VBR.(seismic_obs.q_method).Vave.*1e-3, ...
-        sweepBox(k).info.Z_km,'-','color',0.6*[1 1 1]);
+%inds = find(probs.P_mod > contour_levels(end));
+[~,inds]=sort(probs.P_mod(:),'descend');
+top_vals = zeros(50,3);
+for k = 1:size(top_vals,1)
+    plot(sweepBox(inds(k)).VBR.(seismic_obs.q_method).Vave.*1e-3, ...
+        sweepBox(inds(k)).info.Z_km,'-','color',0.6*[1 1 1]);
+    top_vals(k,:) = [sweepBox(inds(k)).info.Tpot ...
+        max(sweepBox(inds(k)).info.phi) sweepBox(inds(k)).info.gs];
+    plot(vs_vals(inds(k))*[1 1], seismic_obs.depthrange, ':',...
+        'color',[0.6 0 0],'linewidth',1);
 end
 
 plot(sweepBox(i_max).VBR.(seismic_obs.q_method).Vave.*1e-3, ...
@@ -376,11 +390,20 @@ plot(sweepBox(i_max).VBR.(seismic_obs.q_method).Vave.*1e-3, ...
 
 patch(xl([1 2 2 1 1]), seismic_obs.depthrange([1 1 2 2 1]),...
     'r','facealpha',0.3);
-plot(seismic_obs.asth_v*[1 1], seismic_obs.depthrange,'r:',...
-    'linewidth',2);
-plot(vs_vals(i_max)*[1 1], seismic_obs.depthrange, '--',...
+plot(vs_vals(i_max)*[1 1], seismic_obs.depthrange, '-',...
     'color',[0.6 0 0],'linewidth',2);
+plot(seismic_obs.asth_v*[1 1], seismic_obs.depthrange,'r--',...
+    'linewidth',2);
 
+
+subplot(1,2,2); hold on; box on
+scatter(top_vals(:,1), top_vals(:,2), 50, log10(top_vals(:,3)),...
+    'filled','s','markerfacealpha',0.5)
+xlabel(tstr); ylabel(phistr); c=colorbar('location','southoutside');
+xlabel(c,gstr);
+xlim([min(probs.Tpot) max(probs.Tpot)]); 
+ylim([min(probs.phi) max(probs.phi)]);
+caxis([min(log10(probs.gs)) max(log10(probs.gs))])
 
 end
 
@@ -390,13 +413,131 @@ alphas = [0.1 0.2 0.4 0.6 0.8];
 
 for ic = 1:length(contour_levels)
     c = contourc(x, y, P_mod,contour_levels(ic)*[.01 .01]);
-    if isempty(c); break; end
-    c(:,c(1,:)==c(1,1))=[]; pc = c; 
-    if c(1,end) == max(x); pc = [c [c(1,end); c(2,1)]]; end
-    if c(2,end) == max(y); pc = [c [c(1,1); c(2,end)]]; end
-    patch(pc(1,:),pc(2,:),col,'facealpha',alphas(ic), ...
+    if isempty(c); continue; end
+    inds = find(c(1,:) == c(1,1));
+    if ~isempty(inds); c(:,inds(2:end)) = []; c(2,1) = size(c,2)-1; end
+    c = contourdata(c); 
+    cx = c.xdata'; cy = c.ydata';
+    if ~c.isopen
+        px = cx; py = cy;
+    else
+        
+        if cx(1)>cx(end); cx = fliplr(cx); cy = fliplr(cy); end
+        
+        c1 = contourc(x, y, P_mod,(contour_levels(ic)-0.01)*[.01 .01]);
+        inds = find(c1(1,:) == c1(1,1));
+        if ~isempty(inds); c1(:,inds(2:end)) = []; c1(2,1) = size(c1,2)-1; end
+        c1 = contourdata(c1);
+        
+        if cx([1 end]) == x([1 end])
+            if mean(cy) > mean(c1.ydata)
+                py = [cy max(y) max(y)];
+                px = [cx cx([end 1])];
+            else
+                py = [cy min(y) min(y)];
+                px = [cx cx([end 1])];
+            end
+        elseif cx(1) == cx(end) || cy(1) == cy(end)
+            py = cy; px = cx;
+            
+        else
+            if mean(cx) > mean(c1.xdata)
+                if cx(1) == min(x)
+                    if cy(end) == min(y)
+                        py = [cy min(y) max(y) max(y)];
+                        px = [cx max(x) max(x) min(x)];
+                    elseif cy(end) == max(y)
+                        py = [cy max(y) min(y) min(y)];
+                        px = [cx max(x) max(x) min(x)];
+                    end
+                elseif cx(end) == max(x)
+                    if cy(1) == min(y) || cy(1) == max(y)
+                        py = [cy cy(1)];
+                        px = [cx cx(end)];
+                    end
+                elseif sort(cy([1 end])) == y([1 end])
+                    py = [cy cy([end 1])];
+                    px = [cx max(x) max(x)];
+                end
+            else
+                if cx(end) == max(x)
+                    if cy(1) == min(y)
+                        py = [cy max(y) max(y) min(y)];
+                        px = [cx max(x) min(x) min(x)];
+                    elseif cy(1) == max(y)
+                        py = [cy min(y) min(y) max(y)];
+                        px = [cx max(x) min(x) min(x)];
+                    end
+                elseif cx(1) == min(x)
+                    if cy(end) == min(y) || cy(end) == max(y)
+                        py = [cy cy(end)];
+                        px = [cx cx(end)];
+                    end
+                elseif sort(cy([1 end])) == y([1 end])
+                    py = [cy cy([end 1])];
+                    px = [cx min(x) min(x)];
+                end
+            end
+        end 
+    end
+    
+    fill(px,py,col,'facealpha',alphas(ic), ...
         'edgecolor','none')
 end
 xlim(x([1 end])); ylim(y([1 end]));
 
+end
+
+
+function s = contourdata(c)
+% version 1.0.0.0 (1.88 KB) by Duane Hanselman
+% Matlab File Exchange 2018.12.03
+
+%CONTOURDATA Extract Contour Data from Contour Matrix C.
+% CONTOUR, CONTOURF, CONTOUR3, and CONTOURC all produce a contour matrix
+% C that is traditionally used by CLABEL for creating contour labels.
+%
+% S = CONTOURDATA(C) extracts the (x,y) data pairs describing each contour
+% line and other data from the contour matrix C. The vector array structure
+% S returned has the following fields:
+%
+% S(k).level contains the contour level height of the k-th line.
+% S(k).numel contains the number of points describing the k-th line.
+% S(k).isopen is True if the k-th contour is open and False if it is closed.
+% S(k).xdata contains the x-axis data for the k-th line as a column vector.
+% S(k).ydata contains the y-axis data for the k-th line as a column vector.
+%
+% For example: PLOT(S(k).xdata,S(k).ydata)) plots just the k-th contour.
+%
+% See also CONTOUR, CONTOURF, CONTOUR3, CONTOURC.
+% From the help text of CONTOURC:
+%   The contour matrix C is a two row matrix of contour lines. Each
+%   contiguous drawing segment contains the value of the contour,
+%   the number of (x,y) drawing pairs, and the pairs themselves.
+%   The segments are appended end-to-end as
+%
+%       C = [level1 x1 x2 x3 ... level2 x2 x2 x3 ...;
+%            pairs1 y1 y2 y3 ... pairs2 y2 y2 y3 ...]
+% D.C. Hanselman, University of Maine, Orono, ME 04469
+% MasteringMatlab@yahoo.com
+% Mastering MATLAB 7
+% 2007-05-22
+if nargin<1 || ~isfloat(c) || size(c,1)~=2 || size(c,2)<4
+    error('CONTOURDATA:rhs',...
+        'Input Must be the 2-by-N Contour Matrix C.')
+end
+tol=1e-12;
+k=1;     % contour line number
+col=1;   % index of column containing contour level and number of points
+while col<size(c,2) % while less than total columns in c
+    s(k).level = c(1,col); %#ok
+    s(k).numel = c(2,col); %#ok
+    idx=col+1:col+c(2,col);
+    s(k).xdata = c(1,idx).'; %#ok
+    s(k).ydata = c(2,idx).'; %#ok
+    s(k).isopen = abs(diff(c(1,idx([1 end]))))>tol || ...
+        abs(diff(c(2,idx([1 end]))))>tol; %#ok
+    k=k+1;
+    col=col+c(2,col)+1;
+end
 end

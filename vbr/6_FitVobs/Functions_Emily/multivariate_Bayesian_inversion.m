@@ -22,7 +22,7 @@ sweepBox = generate_parameter_sweep(Work, zPlate, sweep);
 
 % Let's calculate some probabilities!
 % Hardwire all PDFs in this function
-% ifnomal:  0: uniform probability; 1: normal distribution
+% ifnormal:  0: uniform probability; 1: normal distribution
 probs = calculate_probabilities(sweepBox, seismic_obs, residual, ifnormal);
 
 % And do some plotting!
@@ -173,6 +173,7 @@ P_mod = zeros(size(sweepBox));
 % We'll assume a normal distribution, mean = observed Vs, std = obs error
 sigma = seismic_obs.asth_v_error;
 P_Vs = 1/sqrt(2*pi*sigma^2); % assume mean = observed Vs so (x-mu) = 0
+sigmaVs = median(seismic_obs.medianVs_error);
 
 residual = residual.^2;
 
@@ -227,9 +228,9 @@ for k = 1:numel(sweepBox)
 end
 
 if ifnormal
-    probs.P_mod = P_mod .* (2*pi*sigmaT*sigmaP*sigmaG/0.05);
+    probs.P_mod = P_mod .* (2*pi*sigmaT*sigmaP*sigmaG/sigmaVs);
 else
-    probs.P_mod = P_mod ./ sqrt(2*pi*0.05^2);
+    probs.P_mod = P_mod ./ sqrt(2*pi*sigmaVs^2);
 end
 probs.Tpot  = sweepBox(k).info.Tpot_range;
 probs.phi   = sweepBox(k).info.phi_range;

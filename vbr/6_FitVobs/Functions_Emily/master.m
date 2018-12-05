@@ -1,8 +1,8 @@
 % This code will fit an input shear velocity profile (and LAB depth, if
 % given) to state variables using VBR
 
-%basedir = 'C:\Users\Emily\Documents\VBR\vbr\';
-basedir = 'D:\vbr\';
+basedir = 'C:\Users\Emily\Documents\VBR\vbr\';
+%basedir = 'D:\vbr\';
 addpath([basedir 'vbr/6_FitVobs/Functions_Emily']);
 
 Work = define_directories(basedir ,'2018-11-29-box');

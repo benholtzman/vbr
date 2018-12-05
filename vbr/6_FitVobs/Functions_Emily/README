@@ -84,3 +84,22 @@ If the variable dont_use_input_Qlab is set to 1 (currently hardwired in fit_LAB_
 If the variable dont_use_input_Qlab is set to 0 (currently hardwired as not), the depth will instead be identified as where Q drops below a hardwired value (Q_LAB, set in fit_LAB_Tp - set to 800).
 
 Note that it does actually do a joint inversion for Tp and zPlate in this case.  This allows you to see if the observations can be well fit by just varying Tp and zPlate.  However, if there is melt present, the Tp estimates will be very inaccurate, so a multivariate analysis (the next step) is required.  Even in this case, zPlate is most strongly dependent on the seismically observed LAB - so the best fit value of zPlate should be ok.
+
+***************   4. Multivariate Bayesian inversion    ***************
+
+This calculates a box for the given zPlate, sweeping through potential temperature (Tpot), melt fraction (phi), and grain size (gs) space.  Values for Tpot are as set in the intial box calculation (generate_boxes), and ranges in phi and gs are hardwired in multivariate_Bayesian_inversion.  These parameter sweeps take some 30 minutes to calculate on a normal computer, and are saved to vbr/Boxes/[box name]/[box name]_[zPlate]km.mat.  Before calculating, the code checks for existing saved boxes to save time.
+
+Probabilities are calculated in a Bayesian sense, taking advantage of prior knowledge.  In this case, the final input to multivariate_Bayesian_inversion (and its local function calculate_probabilities) is a parameter that controls the prior PDFs for Tpot, phi, and gs.
+
+ifnormal == 0 :   uniform PDF across all values in the boxes
+ifnormal == 1 :   normal distribution, mu and sigma based on range of values calculated
+
+(Should probably change this to a 3x1 vector so can choose individually for each parameter)
+
+The probability of conditions given observed Vs is taken as 1 - residual^2, where the residual is the difference between the calculated and observed Vs.  Set seismic_obs.q_method to the parameterisation desired for the calculated Vs.
+
+This code will also plot up the results.  It will show three panels exploring the parameter space (1. Tpot vs. phi; 2. Tpot vs. gs; 3. Phi vs. gs).  On each panel, dark blue contours show the maximum probability parameter combination, and the light blue and green-blue contours show the same probability contours at other slices through the matrix at other values of the third (unplotted) parameter.
+
+Note that the contour levels at which the probabilities are plotted can be changed.  Currently hardwired as contour_levels in the local function plot_probs within multivariate_Bayesian_inversion.  Probabilites are currently normalised for a given box and location/Vs model, such that they should be comparable like-for-like using different parameterisations to calculate Vs under different conditions.
+
+Finally, the code will plot up a 1D velocity profile with depth, showing the observed Vs profile, the 50 highest probability calculated Vs profiles, and the mean (best) calculated and observed velocity in the depth range specified for comparison.  It will also show a scatter plot of the conditions for these 50 best fitting velocity profiles.

@@ -1,5 +1,5 @@
 function [probs] = multivariate_Bayesian_inversion(...
-    Work, seismic_obs, zPlate)
+    Work, seismic_obs, zPlate, ifnormal)
 
 
 % Parameter sweep - define ranges for phi and grain size!
@@ -9,7 +9,7 @@ sweep.gs_range = 10.^(0:0.5:4); % grain size
 sweep.gs_units = ' microns';
 
 sweepBox = generate_parameter_sweep(Work, zPlate, sweep);
-[vs_vals, normalised_residual] = ...
+[vs_vals, residual] = ...
     extract_Vs(sweepBox, seismic_obs);
 
 
@@ -22,7 +22,8 @@ sweepBox = generate_parameter_sweep(Work, zPlate, sweep);
 
 % Let's calculate some probabilities!
 % Hardwire all PDFs in this function
-probs = calculate_probabilities(sweepBox, seismic_obs, normalised_residual);
+% ifnomal:  0: uniform probability; 1: normal distribution
+probs = calculate_probabilities(sweepBox, seismic_obs, residual, ifnormal);
 
 % And do some plotting!
 plot_probs(probs, seismic_obs, vs_vals, sweepBox);
@@ -52,6 +53,12 @@ if exist([Work.boxpath Work.sweep_boxname],'file')
     end
 end
 
+
+% add VBR paths
+Work.VBR_version = 'VBR_v0p95';
+addpath([Work.fundir '4_VBR/'  Work.VBR_version ],...
+    [Work.fundir '4_VBR/'  Work.VBR_version '/functions'],...
+    [Work.fundir '4_VBR/'  Work.VBR_version '/params'])
 addpath([Work.fundir '2_PLATES/4pt0_1d_plates/01_functions/'])
 
 
@@ -133,7 +140,7 @@ fprintf(['-----------------------------------------\n' ...
 
 end
 
-function [vs_vals, normalised_residual] = extract_Vs(sweepBox, seismic_obs)
+function [vs_vals, residual] = extract_Vs(sweepBox, seismic_obs)
 
 vs_vals = zeros(size(sweepBox));
 
@@ -148,12 +155,12 @@ for k = 1:numel(vs_vals)
 end
 
 residual = abs(vs_vals - seismic_obs.asth_v);
-normalised_residual = residual./max(residual(:));
+%normalised_residual = residual./max(residual(:));
 
 end
 
-function probs = calculate_probabilities(...
-    sweepBox, seismic_obs, normalised_residual)
+function probs = calculate_probabilities(sweepBox, seismic_obs, ...
+    residual, ifnormal)
 
 % Remember the PDF for a normal distribution
 %    PDF  = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2))
@@ -167,9 +174,7 @@ P_mod = zeros(size(sweepBox));
 sigma = seismic_obs.asth_v_error;
 P_Vs = 1/sqrt(2*pi*sigma^2); % assume mean = observed Vs so (x-mu) = 0
 
-normalised_residual = normalised_residual.^2;
-%normalised_residual = normalised_residual - min(normalised_residual(:))+0.1;
-%normalised_residual = normalised_residual./max(normalised_residual(:));
+residual = residual.^2;
 
 for k = 1:numel(sweepBox)
     
@@ -180,29 +185,39 @@ for k = 1:numel(sweepBox)
     % And have pretty broad normal distributions - can either hard wire in
     % values or guesstimate from the size of the box calculated
     
-    % P(T)
-    sigma = 1.5*abs(diff(values.Tpot_range([1 end])));
-    mu    = mean(values.Tpot_range);
-    x     = values.Tpot;
-    P_T   = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
     
-    % P(phi)
-    sigma = 1.5*abs(diff(values.phi_range([1 end])));
-    mu    = mean(values.phi_range);
-    x     = max(values.phi);
-    P_phi = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
+    if ifnormal
+        
+        % P(T)
+        sigmaT = 0.5*abs(diff(values.Tpot_range([1 end])));
+        mu     = mean(values.Tpot_range);
+        x      = values.Tpot;
+        P_T    = 1/sqrt(2*pi*sigmaT^2) * exp((-(x-mu)^2)/(2*sigmaT^2));
+        
+        % P(phi)
+        sigmaP = 0.5*abs(diff(values.phi_range([1 end])));
+        mu     = mean(values.phi_range);
+        x      = max(values.phi);
+        P_phi  = 1/sqrt(2*pi*sigmaP^2) * exp((-(x-mu)^2)/(2*sigmaP^2));
+        
+        % P(grain size)
+        sigmaG = 1e4;%0.5*abs(diff(values.gs_range([1 end])));
+        mu     = 1e3; %mean(values.gs_range);
+        x      = values.gs;
+        P_gs   = 1/sqrt(2*pi*sigmaG^2) * exp((-(x-mu)^2)/(2*sigmaG^2));
+        
+    else
+        
+        P_T   = 1;
+        P_phi = 1;
+        P_gs  = 1;
     
-    % P(grain size)
-    sigma = 1e4;%0.5*abs(diff(values.gs_range([1 end])));
-    mu    = 1e3; %mean(values.gs_range);
-    x     = values.gs;
-    P_gs  = 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
-    
+    end
     
     % P(Vs | T, phi, gs)
     % We have a residual between observed and calculated Vs
     % So... probability = 1 - residual^2 ???
-    P_Vs_given_mod = 1 - normalised_residual(k);
+    P_Vs_given_mod = 1 - residual(k);
     
     
     % All together now!
@@ -211,10 +226,15 @@ for k = 1:numel(sweepBox)
 
 end
 
-probs.P_mod = P_mod./max(P_mod(:));
+if ifnormal
+    probs.P_mod = P_mod .* (2*pi*sigmaT*sigmaP*sigmaG/0.05);
+else
+    probs.P_mod = P_mod ./ sqrt(2*pi*0.05^2);
+end
 probs.Tpot  = sweepBox(k).info.Tpot_range;
 probs.phi   = sweepBox(k).info.phi_range;
 probs.gs    = sweepBox(k).info.gs_range;
+probs.ifnormal = ifnormal;
 
 end
 
@@ -231,20 +251,30 @@ function plot_probs(probs, seismic_obs, vs_vals, sweepBox)
 
 
 figure('color','w','position',[100 100 1100 600]);
+
+axes('visible','off','position',[0 0 1 1]);
+text(0.47, 0.95, strrep(seismic_obs.q_method,'_',' '),...
+    'fontweight','bold','fontsize',24);
+
 tstr = 'Potential Temperature (\circC)';
 phistr = 'Melt Fraction (%)';
 gstr = 'Grain size (log_1_0(\mum))';
+ms = 10;
 
 % Plot probabilities
-cols = [142 255 255; ... % best fit: blue
-    250 135 251; ... % smaller value: pink
-    250 255 0]./255; % larger value: yellow
+cols = [0 114 178; ... % best fit: blue
+    86 180 233; ... % smaller value: light blue
+    0 158 115]./255; % larger value: blue green
 %contour_levels = [50 70 90 95 99];
-contour_levels = [93 95 97 99];
+if probs.ifnormal
+    contour_levels = [95 97 99];
+else
+    contour_levels = [98 99 99.8];
+end
 
 
 % Probability in Tpot/phi space at constant gs
-axes('position',[0.1 0.35 0.225 0.55]); hold on; box on;
+axes('position',[0.1 0.35 0.225 0.55],'layer','top'); hold on; box on;
 xlabel(tstr); ylabel(phistr);
 % Find other grain sizes to plot - test extremes first
 % Small grain size
@@ -268,17 +298,17 @@ contour_plot(probs.P_mod(:,:,i_large)', probs.Tpot, probs.phi, ...
 contour_plot(probs.P_mod(:,:,i_gs)', probs.Tpot, probs.phi, ...
     contour_levels, cols(1,:))
 
-axes('position',[0.1 0.15 0.225 0.1]); hold on
+axes('position',[0.1 0.15 0.225 0.1]); hold on;
 plot(log10(probs.gs), zeros(size(probs.gs)), 'k-');
-plot(log10(probs.gs(i_small)),0,'ko','markerfacecolor',cols(2,:));
-plot(log10(probs.gs(i_large)),0,'ko','markerfacecolor',cols(3,:));
-plot(log10(probs.gs(i_gs)),0,'ko','markerfacecolor',cols(1,:));
+plot(log10(probs.gs(i_small)),0,'ko','markerfacecolor',cols(2,:),'markersize',ms);
+plot(log10(probs.gs(i_large)),0,'ko','markerfacecolor',cols(3,:),'markersize',ms);
+plot(log10(probs.gs(i_gs)),0,'ko','markerfacecolor',cols(1,:),'markersize',ms);
 xlabel(gstr); ylim([0 eps]); daspect([1 1 1])
 
 
 
 % Probability in Tpot/gs space at constant phi
-axes('position',[0.4 0.35 0.225 0.55]); hold on; box on;
+axes('position',[0.4 0.35 0.225 0.55],'layer','top'); hold on; box on;
 xlabel(tstr); ylabel(gstr);
 % Find other grain sizes to plot - test extremes first
 % Small grain size
@@ -303,9 +333,9 @@ contour_plot(squeeze(probs.P_mod(:,i_phi,:))', probs.Tpot, log10(probs.gs), ...
 
 axes('position',[0.4 0.15 0.225 0.1]); hold on
 plot(probs.phi, zeros(size(probs.phi)), 'k-');
-plot(probs.phi(i_small),0,'ko','markerfacecolor',cols(2,:));
-plot(probs.phi(i_large),0,'ko','markerfacecolor',cols(3,:));
-plot(probs.phi(i_phi),0,'ko','markerfacecolor',cols(1,:));
+plot(probs.phi(i_small),0,'ko','markerfacecolor',cols(2,:),'markersize',ms);
+plot(probs.phi(i_large),0,'ko','markerfacecolor',cols(3,:),'markersize',ms);
+plot(probs.phi(i_phi),0,'ko','markerfacecolor',cols(1,:),'markersize',ms);
 xlabel(phistr); ylim([0 eps]); daspect([1 1 1])
 
 
@@ -313,7 +343,7 @@ xlabel(phistr); ylim([0 eps]); daspect([1 1 1])
 
 
 % Probability in phi/gs space at constant Tpot
-axes('position',[0.7 0.35 0.225 0.55]); hold on; box on;
+axes('position',[0.7 0.35 0.225 0.55],'layer','top'); hold on; box on;
 xlabel(phistr); ylabel(gstr);
 % Find other grain sizes to plot - test extremes first
 % Small grain size
@@ -338,9 +368,9 @@ contour_plot(squeeze(probs.P_mod(i_Tpot,:,:))', probs.phi, log10(probs.gs), ...
 
 axes('position',[0.7 0.15 0.225 0.1]); hold on
 plot(probs.Tpot, zeros(size(probs.Tpot)), 'k-');
-plot(probs.Tpot(i_small),0,'ko','markerfacecolor',cols(2,:));
-plot(probs.Tpot(i_large),0,'ko','markerfacecolor',cols(3,:));
-plot(probs.Tpot(i_Tpot),0,'ko','markerfacecolor',cols(1,:));
+plot(probs.Tpot(i_small),0,'ko','markerfacecolor',cols(2,:),'markersize',ms);
+plot(probs.Tpot(i_large),0,'ko','markerfacecolor',cols(3,:),'markersize',ms);
+plot(probs.Tpot(i_Tpot),0,'ko','markerfacecolor',cols(1,:),'markersize',ms);
 xlabel(tstr); ylim([0 eps]); daspect([1 1 1])
 
 
@@ -349,7 +379,11 @@ xlabel(tstr); ylim([0 eps]); daspect([1 1 1])
 
 % And plot the possible velocity models
 figure('color','w','position',[100 50 800 600]);
-subplot(1,2,1); hold on; 
+axes('visible','off','position',[0 0 1 1]);
+text(0.47, 0.95, strrep(seismic_obs.q_method,'_',' '),...
+    'fontweight','bold','fontsize',24);
+
+axes('position',[0.1 0.1 0.4 0.8]); hold on; 
 obs_vel_c = [81 209 70]./255;
 patch([seismic_obs.medianVs + seismic_obs.medianVs_error; ...
     flipud(seismic_obs.medianVs - seismic_obs.medianVs_error)], ...
@@ -376,15 +410,15 @@ plot(xl,seismic_obs.LAB*[1 1],'b--');
 [~,inds]=sort(probs.P_mod(:),'descend');
 top_vals = zeros(50,3);
 for k = 1:size(top_vals,1)
-    plot(sweepBox(inds(k)).VBR.(seismic_obs.q_method).Vave.*1e-3, ...
-        sweepBox(inds(k)).info.Z_km,'-','color',0.6*[1 1 1]);
+    Vave = mean(sweepBox(inds(k)).VBR.(seismic_obs.q_method).Vave,2).*1e-3;
+    plot(Vave, sweepBox(inds(k)).info.Z_km,'-','color',0.6*[1 1 1]);
     top_vals(k,:) = [sweepBox(inds(k)).info.Tpot ...
         max(sweepBox(inds(k)).info.phi) sweepBox(inds(k)).info.gs];
     plot(vs_vals(inds(k))*[1 1], seismic_obs.depthrange, ':',...
         'color',[0.6 0 0],'linewidth',1);
 end
 
-plot(sweepBox(i_max).VBR.(seismic_obs.q_method).Vave.*1e-3, ...
+plot(mean(sweepBox(i_max).VBR.(seismic_obs.q_method).Vave,2).*1e-3, ...
     sweepBox(i_max).info.Z_km,'k-','linewidth',2);
 
 
@@ -396,7 +430,7 @@ plot(seismic_obs.asth_v*[1 1], seismic_obs.depthrange,'r--',...
     'linewidth',2);
 
 
-subplot(1,2,2); hold on; box on
+axes('position',[0.6 0.2 0.35 0.6]); hold on; box on
 scatter(top_vals(:,1), top_vals(:,2), 50, log10(top_vals(:,3)),...
     'filled','s','markerfacealpha',0.5)
 xlabel(tstr); ylabel(phistr); c=colorbar('location','southoutside');
@@ -407,137 +441,25 @@ caxis([min(log10(probs.gs)) max(log10(probs.gs))])
 
 end
 
+
 function contour_plot(P_mod, x, y, contour_levels, col)
 
-alphas = [0.1 0.2 0.4 0.6 0.8];
+nc = length(contour_levels);
 
-for ic = 1:length(contour_levels)
-    c = contourc(x, y, P_mod,contour_levels(ic)*[.01 .01]);
-    if isempty(c); continue; end
-    inds = find(c(1,:) == c(1,1));
-    if ~isempty(inds); c(:,inds(2:end)) = []; c(2,1) = size(c,2)-1; end
-    c = contourdata(c); 
-    cx = c.xdata'; cy = c.ydata';
-    if ~c.isopen
-        px = cx; py = cy;
-    else
-        
-        if cx(1)>cx(end); cx = fliplr(cx); cy = fliplr(cy); end
-        
-        c1 = contourc(x, y, P_mod,(contour_levels(ic)-0.01)*[.01 .01]);
-        inds = find(c1(1,:) == c1(1,1));
-        if ~isempty(inds); c1(:,inds(2:end)) = []; c1(2,1) = size(c1,2)-1; end
-        c1 = contourdata(c1);
-        
-        if cx([1 end]) == x([1 end])
-            if mean(cy) > mean(c1.ydata)
-                py = [cy max(y) max(y)];
-                px = [cx cx([end 1])];
-            else
-                py = [cy min(y) min(y)];
-                px = [cx cx([end 1])];
-            end
-        elseif cx(1) == cx(end) || cy(1) == cy(end)
-            py = cy; px = cx;
-            
-        else
-            if mean(cx) > mean(c1.xdata)
-                if cx(1) == min(x)
-                    if cy(end) == min(y)
-                        py = [cy min(y) max(y) max(y)];
-                        px = [cx max(x) max(x) min(x)];
-                    elseif cy(end) == max(y)
-                        py = [cy max(y) min(y) min(y)];
-                        px = [cx max(x) max(x) min(x)];
-                    end
-                elseif cx(end) == max(x)
-                    if cy(1) == min(y) || cy(1) == max(y)
-                        py = [cy cy(1)];
-                        px = [cx cx(end)];
-                    end
-                elseif sort(cy([1 end])) == y([1 end])
-                    py = [cy cy([end 1])];
-                    px = [cx max(x) max(x)];
-                end
-            else
-                if cx(end) == max(x)
-                    if cy(1) == min(y)
-                        py = [cy max(y) max(y) min(y)];
-                        px = [cx max(x) min(x) min(x)];
-                    elseif cy(1) == max(y)
-                        py = [cy min(y) min(y) max(y)];
-                        px = [cx max(x) min(x) min(x)];
-                    end
-                elseif cx(1) == min(x)
-                    if cy(end) == min(y) || cy(end) == max(y)
-                        py = [cy cy(end)];
-                        px = [cx cx(end)];
-                    end
-                elseif sort(cy([1 end])) == y([1 end])
-                    py = [cy cy([end 1])];
-                    px = [cx min(x) min(x)];
-                end
-            end
-        end 
-    end
+% linestyles = {':','-.','--','-','-'};
+% if nc < 5; linestyles = linestyles(end-nc+1:end);
+% else; eval(['linestyles = {' repmat(''':'',',1,nc-5+1) ...
+%         '''-.'',''--'',''-'',''-''};']);
+% end
     
-    fill(px,py,col,'facealpha',alphas(ic), ...
-        'edgecolor','none')
-end
-xlim(x([1 end])); ylim(y([1 end]));
+    
 
+for ic = 1:nc
+    [~, h] = contour(x, y, P_mod,contour_levels(ic)*[.01 .01]);
+    %set(h,'linestyle',linestyles{ic},'color',col);
+    set(h,'linewidth',ic,'color',col);
+    if ic == nc; set(h,'fill','on','facecolor',col); end
+    
 end
 
-
-function s = contourdata(c)
-% version 1.0.0.0 (1.88 KB) by Duane Hanselman
-% Matlab File Exchange 2018.12.03
-
-%CONTOURDATA Extract Contour Data from Contour Matrix C.
-% CONTOUR, CONTOURF, CONTOUR3, and CONTOURC all produce a contour matrix
-% C that is traditionally used by CLABEL for creating contour labels.
-%
-% S = CONTOURDATA(C) extracts the (x,y) data pairs describing each contour
-% line and other data from the contour matrix C. The vector array structure
-% S returned has the following fields:
-%
-% S(k).level contains the contour level height of the k-th line.
-% S(k).numel contains the number of points describing the k-th line.
-% S(k).isopen is True if the k-th contour is open and False if it is closed.
-% S(k).xdata contains the x-axis data for the k-th line as a column vector.
-% S(k).ydata contains the y-axis data for the k-th line as a column vector.
-%
-% For example: PLOT(S(k).xdata,S(k).ydata)) plots just the k-th contour.
-%
-% See also CONTOUR, CONTOURF, CONTOUR3, CONTOURC.
-% From the help text of CONTOURC:
-%   The contour matrix C is a two row matrix of contour lines. Each
-%   contiguous drawing segment contains the value of the contour,
-%   the number of (x,y) drawing pairs, and the pairs themselves.
-%   The segments are appended end-to-end as
-%
-%       C = [level1 x1 x2 x3 ... level2 x2 x2 x3 ...;
-%            pairs1 y1 y2 y3 ... pairs2 y2 y2 y3 ...]
-% D.C. Hanselman, University of Maine, Orono, ME 04469
-% MasteringMatlab@yahoo.com
-% Mastering MATLAB 7
-% 2007-05-22
-if nargin<1 || ~isfloat(c) || size(c,1)~=2 || size(c,2)<4
-    error('CONTOURDATA:rhs',...
-        'Input Must be the 2-by-N Contour Matrix C.')
-end
-tol=1e-12;
-k=1;     % contour line number
-col=1;   % index of column containing contour level and number of points
-while col<size(c,2) % while less than total columns in c
-    s(k).level = c(1,col); %#ok
-    s(k).numel = c(2,col); %#ok
-    idx=col+1:col+c(2,col);
-    s(k).xdata = c(1,idx).'; %#ok
-    s(k).ydata = c(2,idx).'; %#ok
-    s(k).isopen = abs(diff(c(1,idx([1 end]))))>tol || ...
-        abs(diff(c(2,idx([1 end]))))>tol; %#ok
-    k=k+1;
-    col=col+c(2,col)+1;
-end
 end

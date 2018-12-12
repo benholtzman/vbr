@@ -27,47 +27,21 @@ function[VBR]=Q_YT_maxwell(VBR)
   omega_vec = f_vec.*(2*pi) ;
   tau_vec = 1./omega_vec ;
 
-%  Maxwell scaling parameters, set in params file
-%   YT_maxwell_params=VBR.in.anelastic.YT_maxwell;
-% for the moment, define them here:
-
 % The scaling function:  ===============================
-  eta_diff = VBR.out.viscous.LH2012.diff.eta ;
-%   display('the size of eta_diff:')
-%   display(size(eta_diff))
+  visc_method=VBR.in.viscous.methods_list{1};
+  eta_diff = VBR.out.viscous.(visc_method).diff.eta ; % viscosity for maxwell relaxation time
   % Tau_M_yt =
-  tau_mxw_x = eta_diff./ Mu_in ; % not the model reference viscosity !
+  tau_mxw_x = eta_diff./ Mu_in ; % maxwell relaxtion time
   %tau_norm = tau_vec./ tau_mxw ;
 
-  %% =============================
+function[X_tau] = X_func(tau_norm_vec,params)
   %% the relaxation spectrum function
-  %% =============================
+  Beta  = params.beta1 .* ones(size(tau_norm_vec));
+  Alpha = params.Alpha_a - params.Alpha_b./(1+params.Alpha_c*(tau_norm_vec.^params.Alpha_taun));
 
-
-
-function[X_tau] = X_func(tau_norm_vec)
-    beta1 = 0.32 ;
-    beta2 = 1853.0 ;
-    alpha2 = 0.5 ;
-
-    Beta  = beta1 .* ones(size(tau_norm_vec));
-    Alpha = 0.39 - 0.28./(1+2.6*(tau_norm_vec.^0.1));
-    Beta(tau_norm_vec<1e-11)=beta2;
-    Alpha(tau_norm_vec<1e-11)=alpha2;
-    X_tau = Beta .* tau_norm_vec.^Alpha;
-% ben's old way: (pre-CH-vectorization)
-%    X_tau = zeros(1,length(tau_norm_vec)) ;
-%    for ff = 1:length(tau_norm_vec)
-%      tau_norm_f = tau_norm_vec(ff) ;
-%      alpha1 = 0.39 - 0.28./(1+2.6*(tau_norm_f.^0.1)) ; %
-%
-%      if tau_norm_f>= 1e-11
-%        X_tau(ff) = beta1.*tau_norm_f.^alpha1;
-%      elseif tau_norm_f < 1e-11
-%        X_tau(ff) = beta2.*tau_norm_f.^alpha2;
-%      end
-%    end
-
+  Beta(tau_norm_vec<1e-11)=params.beta2;
+  Alpha(tau_norm_vec<1e-11)=params.alpha2;
+  X_tau = Beta .* tau_norm_vec.^Alpha;
 end
 
 %% ===========================
@@ -97,8 +71,6 @@ for x1 = 1:n_th  % loop using linear index!
   tau_mxw = tau_mxw_x(x1);
   Ju = Ju_in(x1) ;
   rho = rho_in(x1) ;
-%  disp(1/Ju)
-%  disp(rho)
   tau_norm = tau_vec ./ tau_mxw ; % vector ./ scalar
 
 %   loop over frequency
@@ -114,7 +86,7 @@ for x1 = 1:n_th  % loop using linear index!
       tau_norm_vec_local = linspace(0,tau_norm_f,100) ;
       %display(size(tau_norm_vec_local))
       %% QUESTION: in the theory, what is ln(tau) ??  enter ln(tau) into function instead of tau ?
-      X_tau = X_func(tau_norm_vec_local) ;
+      X_tau = X_func(tau_norm_vec_local,VBR.in.anelastic.YT_maxwell) ;
 
       %FINT1 = trapz(X_tau) ;  %@(taup) (X_tau, taup
       %int1 = Tau_fac.*quad(FINT1, 0, tau_norm_i);
@@ -139,7 +111,7 @@ for x1 = 1:n_th  % loop using linear index!
 
       f_norm_glob(i_glob)=f_norm;
       tau_norm_glob(i_glob)=tau_norm_f;
-      %Vave(x1) = Vave(x1) + V(i_glob); % add them all, divide by nfreq later
+      Vave(x1) = Vave(x1) + V(i_glob); % add them all, divide by nfreq later
   % end loop over frequency
   end
 % end the loop(s) over spatial dimension(s)
@@ -156,6 +128,6 @@ end
  VBR.out.anelastic.YT_maxwell.V=V;
  VBR.out.anelastic.YT_maxwell.f_norm=f_norm_glob;
  VBR.out.anelastic.YT_maxwell.tau_norm=tau_norm_glob;
- %VBR.out.anelastic.YT_maxwell.Vave = Vave./nfreq;
+ VBR.out.anelastic.YT_maxwell.Vave = Vave./n_freq;
 
 end

@@ -1,8 +1,17 @@
 function [VBR] = VBR_spine(VBR)
+
+%% =====================================================================
+%% Check VBR Input
+%% =====================================================================
+  VBR = checkInput(VBR);
+  if VBR.status==0
+     disp(VBR.error_message)
+     return
+  end
+
 %% =====================================================================
 %% ELASTIC properties ==================================================
 %% =====================================================================
-
 if isfield(VBR.in,'elastic')
    telapsed.elastic=tic;
 
@@ -64,8 +73,6 @@ if isfield(VBR.in,'viscous')
       end
       VBR = visc_calc_LH2012(VBR);
    end
-
-
    telapsed.visc=toc(telapsed.visc);
 end
 
@@ -100,24 +107,23 @@ if isfield(VBR.in,'anelastic')
          VBR.in.anelastic.AndradePsP=Params_Anelastic('AndradePsP');
       end
       [VBR]=Q_Andrade_PseudoP_f(VBR) ;
-      %disp('did this AndradePsP calc happen?')
-      %disp(VBR.out.anelastic)
       telapsed.AndradePsP=toc(telapsed.AndradePsP);
    end
 
 % Takei Maxwell Scaling
   if sum(strncmp('YT_maxwell',methods_list,10)) > 0
      telapsed.YT_maxwell=tic;
+     if isfield(VBR.in.anelastic,'YT_maxwell')==0
+        VBR.in.anelastic.YT_maxwell=Params_Anelastic('YT_maxwell');
+     end
      [VBR]=Q_YT_maxwell(VBR) ;
-     disp('YT_maxwell calculation ! ')
      telapsed.YT_maxwell=toc(telapsed.YT_maxwell);
   end
 
 % Yamauchi & Takei 2016 - solidus scaling
   if sum(strncmp('YT2016_solidus',methods_list,10)) > 0
      telapsed.YT2016_solidus=tic;
-     [VBR]=Q_YT2016_solidus(VBR) ;
-     disp('YT2016_solidus calculation ! ')
+     [VBR]=Q_YT2016_solidus(VBR) ;     
      telapsed.YT2016_solidus=toc(telapsed.YT2016_solidus);
   end
 end

@@ -1,8 +1,6 @@
-function Work = run_vbr(Work, with_melt)
+function Work = run_vbr(Work)
 clc
-% include melt fraction in vbr calc?
-Work.wMelt_flag = with_melt;   % BH: we need to clarify this... the flag signals the calling of some scripts
-Work.MELT = 1; % integer (1 or 0) to multiply melt fraction by
+
 Work.GIA_flag = 0;
 Work.ifplot = 1;
 
@@ -36,7 +34,7 @@ function master_DRIVE_VBR(Work, freq)
 % uses VBR version 0pt95
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-wMelt_flag = Work.wMelt_flag; GIA_flag = Work.GIA_flag;
+GIA_flag = Work.GIA_flag;
 
 
 % Box directory
@@ -50,13 +48,7 @@ Work.quit_at_end = 'no'; % if yes, forces matlab to exit at completion!
 %%% ---------------------- %%%
 
 % full box name
-if wMelt_flag == 1
-    Work.Box_name_IN = ['Box_'  Work.Box_base_name '_wMelt'];
-elseif wMelt_flag == 0
-    Work.Box_name_IN = ['Box_'  Work.Box_base_name];
-end
-
-Work.Box_name_IN = [ Work.Box_dir  Work.Box_name_IN ];
+Work.Box_name_IN = [Work.Box_dir 'Box_'  Work.Box_base_name '.mat'];
 
 % new VBR box name
 if GIA_flag==0
@@ -100,7 +92,7 @@ VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT_maxwell'};
 
 % load elastic parameters
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
-%    VBR.in.elastic.anharmonic.Gu_0_ol=71;
+VBR.in.elastic.anharmonic.Gu_0_ol=71;
 %%% ---------------- %%%
 %%% VBR Calculations %%%
 %%% ---------------- %%%
@@ -142,7 +134,7 @@ for iBox = 1:Work.nBox
         VBR.in.SV.P_GPa = (Frames(ifr).P)./1e9 ;
         VBR.in.SV.T_K = Frames(ifr).T +273;
         VBR.in.SV.rho = Frames(ifr).rho ;
-        VBR.in.SV.phi =  Work.MELT * Frames(ifr).phi ;
+        VBR.in.SV.phi =  Frames(ifr).phi ;
         VBR.in.SV.dg_um = 1e4 ;%Frames(ifr).dg_um ;
         VBR.in.SV.sig_MPa = 1 ; %Frames(ifr).sig_MPa ;
         VBR.in.SV.chi = Frames(ifr).comp;

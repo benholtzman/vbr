@@ -73,17 +73,8 @@ fits.P_zPlate = (2*pi*fits.Res_zLAB_N).^-0.5 .* ...
 fits.P_JOINT = (fits.P_Vs.*fits.P_zPlate).^2;
 
 [~, fits.i_best] = max(fits.P_JOINT(:));
-%[r, c] = ind2sub(size(Box), fits.i_best);
-
-
-
-% Actually return the best zPlate at input potential temperature
-[~, zPlate_fit.Tpot_ind] = min(abs(Tpot_vec - set_Tp));
-zPlate_fit.Tpot = Tpot_vec(zPlate_fit.Tpot_ind);
-[~, zPlate_fit.zPlate_ind] = ...
-    max(fits.P_zPlate(zPlate_fit.Tpot_ind,:));
-zPlate_fit.zPlate = zPlate_vec(zPlate_fit.zPlate_ind);
-fits.ij_best = [zPlate_fit.Tpot_ind, zPlate_fit.zPlate_ind];
+[r, c] = ind2sub(size(Box), fits.i_best);
+fits.ij_best = [r, c];
 
 times.t2 = datetime;
 fprintf('\n\n%.1f seconds to do the finding\n',seconds(times.t2-times.t1));
@@ -105,13 +96,25 @@ plot_Vs_profiles(Layout.Vsz, Box, fits, seismic_obs, i_fmin, i_fmax);
 % Residuals (can plot up to two 'temps' at a time)
 layout = Layout.rh;  clr = [1 0 0];
 
+% Actually return the best zPlate at input potential temperature
+[~, i_Tp] = min(abs(Tpot_vec - set_Tp));
+
+
+
+
 residPlots(layout, Tpot_vec, zPlate_vec, fits, clr)
 ij_best = fits.ij_best;
 fprintf('\n\n    Tpot: %.0f; zPlate: %.0f\n',...
     Tpot_vec(ij_best(1)),zPlate_vec(ij_best(2)));
 
 
+
+
+zPlate_fit.zPlate = zPlate_vec(ij_best(2));
+zPlate_fit.zPlate_ind = ij_best(2);
 zPlate_fit.LAB_obs = seismic_obs.LAB;
+zPlate_fit.Tpot = Tpot_vec(ij_best(1));
+zPlate_fit.Tpot_ind = ij_best(1);
 zPlate_fit.Vs_obs = seismic_obs.asth_v;
 
 %figname = ['fitLAB_' inpt.q_method '.png'];

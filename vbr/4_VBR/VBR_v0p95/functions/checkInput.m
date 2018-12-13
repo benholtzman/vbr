@@ -32,7 +32,7 @@ function [VBR]=checkInput(VBR)
         'null'} ;
 
   % loop over requirements, check them.
-  for ri = 1:size(Reqs)(1)
+  for ri = 1:size(Reqs,1)
       typ=Reqs{ri,1}; % general method field
       if isfield(VBR.in,typ)
         % check if the method is invoked

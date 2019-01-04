@@ -33,5 +33,4 @@ seismic_obs.q_method = 'eBurgers';
 % calculate depth profiles for best N models
 % play with N models
 % different frequency bands
-% make work for 1D models
-% separate out getting seismic obs bc they SUUUUCCKK
+

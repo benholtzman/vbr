@@ -331,14 +331,14 @@ xlabel(tstr); ylabel(gstr);
 % Small grain size
 i_small = 1; 
 while (max(max(squeeze(probs.P_mod(:,i_small,:)))) < contour_levels(1)/100 ...
-        && i_small < length(probs.phi)) || ...
-        (i_small == i_phi && i_small < length(probs.phi))
+        && i_small < length(probs.gs)) || ...
+        (i_small == i_phi && i_small < length(probs.gs))
     i_small = i_small + 1;
 end
 contour_plot(squeeze(probs.P_mod(:,i_small,:))', probs.Tpot, probs.gs, ...
     contour_levels, cols(2,:))
 ps = squeeze(probs.P_mod(:,i_small,:)); [~, s_i_max] = max(ps(:));
-[s_i_Tpot, s_i_gs] = ind2sub(size(ps),s_i_max);
+[s_i_Tpot, s_i_phi] = ind2sub(size(ps),s_i_max);
 
 % Large grain size
 i_large = length(probs.phi);
@@ -350,17 +350,11 @@ end
 contour_plot(squeeze(probs.P_mod(:,i_large,:))', probs.Tpot, probs.gs, ...
     contour_levels, cols(3,:))
 pl = squeeze(probs.P_mod(:,i_large,:)); [~, l_i_max] = max(pl(:));
-[l_i_Tpot, l_i_gs] = ind2sub(size(pl),l_i_max);
+[l_i_Tpot, l_i_phi] = ind2sub(size(pl),l_i_max);
 
 % Best fitting grain size
 contour_plot(squeeze(probs.P_mod(:,i_phi,:))', probs.Tpot, probs.gs, ...
     contour_levels, cols(1,:))
-
-plot(probs.Tpot(s_i_Tpot),probs.gs(s_i_gs),'kp','markerfacecolor',cols(2,:));
-plot(probs.Tpot(l_i_Tpot),probs.gs(l_i_gs),'kp','markerfacecolor',cols(3,:));
-plot(probs.Tpot(i_Tpot),probs.gs(i_gs),'kp','markerfacecolor',cols(1,:));
-
-
 
 axes('position',[0.4 0.15 0.225 0.1]); hold on
 plot(probs.phi, zeros(size(probs.phi)), 'k-');

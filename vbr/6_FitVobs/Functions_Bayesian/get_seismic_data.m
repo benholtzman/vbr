@@ -59,17 +59,17 @@ if ~exist('use_this_vel_model','var')
             fprintf('\t\t%.0f.  %s\n',ir,regions{ir});
         end
         ir = input('');
-        model_names = model_names(strcmp(model_names(:,1),regions{ir}));
+        model_names = model_names(strcmp(model_names(:,1),regions{ir}),:);
     end
     
     % Pick the velocity model of interest
-    if length(model_names)>1
+    if size(model_names,1)>1
         fprintf('\tWhich model are you interested in?\n')
         for im = 1:length(model_names)
             fprintf('\t\t%.0f.  %s\n',im,model_names{im,2}(1:end-4));
         end
         im = input('');
-    else im = 1;
+    else; im = 1;
     end
     use_this_vel_model = [model_names{im,1} '_' model_names{im,2}(1:end-4)];
 
@@ -118,7 +118,7 @@ if ~exist('use_this_lab_model','var')
         if_save = input('Save this choice for future use y/[n]?','s');
         use_this_lab_model = [];
         if strcmp(if_save,'y')
-            save([Work.labdir 'use_this_lab_model.mat'], 'use_this_lab_model');
+            save([Work.valsdir 'use_this_lab_model.mat'], 'use_this_lab_model');
         end
         return
     end
@@ -137,10 +137,12 @@ if ~exist('use_this_lab_model','var')
     vel_region = strsplit(vel_model_name,'_'); vel_region = vel_region{1};
     ir = find(strcmp(regions,vel_region));
     if isempty(ir)
-        fprintf(['/n/tThere are no LAB models for your velocity model ', ...
+        fprintf(['\n\tThere are no LAB models for your velocity model ', ...
             'region!\n\t\t']);
         use_vel_model = input('Just use your velocity model y/[n]?','s');
-        if strcmp(use_vel_model,'y'); return; end
+        if strcmp(use_vel_model,'y')
+            use_this_lab_model = []; return
+        end
         
         if length(regions)>1
             fprintf('\tWhich region are you interested in?\n')
@@ -320,6 +322,10 @@ lims = [max([vs_lims(:,1), lab_lims(:,1)],[],2)-1,...
     min([vs_lims(:,2), lab_lims(:,2)],[],2)+1];
 
 coast = load('coast');
+States = shaperead('usastatelo', 'UseGeoCoords', true); 
+provdir='C:\Users\Emily\OneDrive\Documents\WORK\MATLAB\Scattered_Waves\'; 
+load([provdir 'Data/Misc/province02.mat']);
+
 
 figure('color','w','position',[50 50 900 600]);
 for iff = 1:2
@@ -339,6 +345,8 @@ for iff = 1:2
     end
     
     plot(coast.long,coast.lat,'k-')
+    for k = 1:length(States); plot(States(k).Lon, States(k).Lat, 'k-'); end
+    for k = 1:length(physio); plot(physio(k).lon,physio(k).lat,'k-'); end
     daspect([111.16, 111.16*distance(mean(lims(1,:)),0,mean(lims(1,:)),1), 1]);
     xlim(lims(2,:)); ylim(lims(1,:));
     box on; set(gca,'layer','top'); 

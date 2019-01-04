@@ -8,13 +8,14 @@ function [VBR]=checkInput(VBR)
   VBR.error_message='';
 
   % build requirements lists
-  Reqs={'anelastic','YT_maxwell','viscous';
-        'anelastic','YT_maxwell','elastic';
-        'anelastic','eBurgers','elastic';
-        'anelastic','AndradePsP','elastic';
-        'anelastic','YT2016_solidus','elastic';
-        'anelastic','YT2016_solidus','SV.Tsolidus_K'};
-        
+  % each row = 'structure field containing method','the method','structure field(s) required under VBR.in'
+  Reqs={'anelastic','YT_maxwell','viscous','method';
+        'anelastic','YT_maxwell','elastic','method';
+        'anelastic','eBurgers','elastic','method';
+        'anelastic','AndradePsP','elastic','method';
+        'anelastic','YT2016_solidus','elastic','method';
+        'anelastic','YT2016_solidus','SV.Tsolidus_K','SV'};
+
   % list of messages to display for each of those requirements
   Msgs={'YT_maxwell requires a viscosity method. e.g., VBR.in.viscous.methods_list={''LH2012''};';
         'YT_maxwel requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
@@ -23,8 +24,15 @@ function [VBR]=checkInput(VBR)
         'YT2016_solidus requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'YT2016_solidus requires a solidus state variable e.g., VBR.in.SV.Tsolidus_K=1200*ones(size(T))'};
 
+  Defs={'LH2012';
+        'anharmonic';
+        'anharmonic';
+        'anharmonic';
+        'anharmonic';
+        'null'} ;
+
   % loop over requirements, check them.
-  for ri = 1:size(Reqs)(1)
+  for ri = 1:size(Reqs,1)
       typ=Reqs{ri,1}; % general method field
       if isfield(VBR.in,typ)
         % check if the method is invoked
@@ -33,8 +41,26 @@ function [VBR]=checkInput(VBR)
         if sum(strncmp(method,methods,8)) > 0
           % check the required fields/methods for this method
           fieldvars=strsplit(Reqs{ri,3},'.');
+          missing=0;
           if isfield(VBR.in,fieldvars{1})==0
-            VBR.status=0;
+               missing=1;
+          else            
+            if isfield(VBR.in.(fieldvars{1}),'methods_list')==0 && strcmp(Reqs{ri,4},'method')
+               missing=1;
+            end
+          end
+
+          % if missing, try to apply a default
+          if missing==1
+            if strcmp(Defs{ri},'null')==0
+              VBR.in.(fieldvars{1}).methods_list={Defs{ri}};
+              msg=['VBR.in.',typ,'.',method,' does not have a required method set, setting:'];
+              msg_2=["\n   VBR.in.",typ,'.',fieldvars{1},'.methods_list={''',Defs{ri},'''}',"\n"];
+              msg=strcat(msg,msg_2);
+              disp(msg)
+            else
+              VBR.status=0;
+            end
           else
             if numel(fieldvars)>1
               if isfield(VBR.in.(fieldvars{1}),fieldvars{2})==0

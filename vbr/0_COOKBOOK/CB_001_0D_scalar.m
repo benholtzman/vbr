@@ -9,9 +9,9 @@
 %% Load and set VBR parameters ========================
 %% ====================================================
 
-%  put VBR in the path
-   VBR_version = 'VBR_v0p95';
-   addpath(genpath(['../4_VBR/',VBR_version ])); % recursive add path
+%  put VBR in the path   
+   % VBR_version = 'VBR_v0p95';
+   % addpath(genpath(['../4_VBR/',VBR_version ])); % recursive add path
 
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:

@@ -1,7 +1,8 @@
-function Options=validateStructOpts(func_varargin,Options,ValidOpts)
-% general validator function for validating single-valued input options. 
+function Options=validateStructOpts(func_name,func_varargin,Options,ValidOpts)
+% general validator function for validating single-valued input options.
 % overwrites valid fields in Options.
-% validateStructOpts(func_vargin,Options,ValidOpts)
+% validateStructOpts(func_name,func_vargin,Options,ValidOpts)
+%  func_name = the name of the function calling this one
 %  func_varargin = varargin from the function calling this one
 %  Options = option structure with field name and default value
 %  ValidOpts = structure with valid options for each field name
@@ -19,12 +20,13 @@ function Options=validateStructOpts(func_varargin,Options,ValidOpts)
       if any(strcmp(optVal,safeVals))
         Options.(optName) = optVal;
       else
-        disp([optVal, ' is not valid for ',optName,' using default.'])
-        disp(['possible values are: ',strjoin(safeVals,' ,')])
+        disp(['WARNING: in call to ',func_name])
+        disp(['    ',optVal, ' is not valid for ',optName,' using default.'])
+        disp(['    possible values are: ',strjoin(safeVals,' ,')])
       end
    else
-      msg=[optName,' is not a valid option. Valid options: ',...
-          strjoin(optionNames,' , ')];
+      msg=['Call to ',func_name,' failed. ',optName,...
+          ' is not a valid option. Valid options: ',strjoin(optionNames,' , ')];
       error(msg)
    end
   end

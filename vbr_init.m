@@ -28,7 +28,7 @@ function vbr_init(varargin)
 
 % add the vbr/support directory and validate input options
   addpath(genpath(fullfile(vbr_dir,'vbr','support')));
-  Options=validateStructOpts(varargin,Options,ValidOpts);
+  Options=validateStructOpts('vbr_init',varargin,Options,ValidOpts);
   disp(['initializing with vbr_version: ',Options.vbr_version])
 
 % collect all the subdirectories under ./vbr/ to add

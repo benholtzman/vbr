@@ -1,5 +1,5 @@
 %% ===================================================================== %%
-%%                     CB_003_YT2016_solidus.m
+%%                     CB_004_YT2016_solidus.m
 %% ===================================================================== %%
 %  Calls VBR using YT2016_solidus method from:
 %  Hatsuki Yamauchi and Yasuko Takei, JGR 2016, "Polycrystal anelasticity at

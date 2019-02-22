@@ -1,38 +1,20 @@
 %% ===================================================================== %%
-%%                     CB_001_0D_scalar.m
+%%                     CB_002_2D_HalfSpaceCooling.m
 %% ===================================================================== %%
-%  Calls VBR using a single thermodynamic state
+%  Calculate seismic properties for a half space cooling model, compares
+%  results of two anelastic methods.
 %% ===================================================================== %%
-   clear
-
-%% ====================================================
-%% Load and set VBR parameters ========================
-%% ====================================================
+ clear
 
 % put VBR in the path
-  path_to_top_level_vbr='../../';
-  addpath(path_to_top_level_vbr)
-  vbr_init
-
-%  write method list (these are the things to calculate)
-%  all methods will end up as output like:
-%      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
-   VBR.in.elastic.methods_list={'anharmonic';'poro_Takei';'SLB2005'};
-   VBR.in.viscous.methods_list={'HK2003'};
-   VBR.in.anelastic.methods_list={'AndradePsP';'YT_maxwell'};
-
-%  load anharmonic parameters, adjust Gu_0_ol
-%  all paramss in ../4_VBR/VBR_version/params/ will be loaded in call to VBR spine,
-%  but you can load them here and adjust any one of them (rather than changing those
-%  parameter files).
-   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
-   VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa]
-
-%  frequencies to calculate at
-   VBR.in.SV.f = logspace(-2.2,-1.3,4);
+ path_to_top_level_vbr='../../';
+ addpath(path_to_top_level_vbr)
+ vbr_init
 
 %% ====================================================
-%% Define the Thermodynamic State =====================
+%% Half Space Cooling Model, analytical solution
+%%   T(z,t)=T_surf + (T_asth - T_surf) * erf(z / (2sqrt(Kappa * t)))
+%% variables defined below
 %% ====================================================
 
 % HF settings
@@ -41,7 +23,7 @@
   HF.V_cmyr=8; % half spreading rate [cm/yr]
   HF.Kappa=1e-6; % thermal diffusivity [m^2/s]
   HF.rho=3300; % density [kg/m3]
-  HF.t_Myr=linspace(0,500,100)+1e-12; % seaflor age [Myrs]
+  HF.t_Myr=linspace(0,80,50)+1e-12; % seaflor age [Myrs]
   HF.z_km=linspace(0,200,50)'; % depth, opposite vector orientation [km]
 
 % HF calculations
@@ -49,7 +31,7 @@
   HF.t_s=HF.t_Myr*1e6*HF.s_in_yr; % plate age [s]
   HF.x_km=HF.t_s / (HF.V_cmyr / HF.s_in_yr / 100) / 1000; % distance from ridge [km]
 
-  % calculate HF cooling model for each plate age
+% calculate HF cooling model for each plate age
   HF.dT=HF.Tasth_C-HF.Tsurf_C;
   HF.T_C=zeros(numel(HF.z_km),numel(HF.x_km));
   for HF.i_t = 1:numel(HF.t_s)
@@ -57,15 +39,24 @@
     HF.T_C(:,HF.i_t)=HF.Tsurf_C+HF.dT * erf(HF.erf_arg);
   end
 
+%% ====================================================
+%% Load and set VBR parameters ========================
+%% ====================================================
+
+  VBR.in.elastic.methods_list={'anharmonic'};
+  VBR.in.viscous.methods_list={'HK2003'};
+  VBR.in.anelastic.methods_list={'AndradePsP';'YT_maxwell'};
+  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+  VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa]
+  VBR.in.SV.f = [0.01, 0.02, 0.04, 0.1];%  frequencies to calculate at
 
 % store in VBR state variables
-  % set HF temperature, convert to K
-  VBR.in.SV.T_K = HF.T_C+273;
-  % construct pressure
+  VBR.in.SV.T_K = HF.T_C+273; % set HF temperature, convert to K
+  % construct pressure as a function of z, build matrix same size as T_K:
   HF.P_z=HF.rho*9.8*HF.z_km*1e3/1e9; %
   VBR.in.SV.P_GPa = repmat(HF.P_z,1,numel(HF.t_s)); % pressure [GPa]
 
-% set the other state variables (ISV) as scalar matrices of same size
+% set the other state variables as matrices of same size
   sz=size(HF.T_C);
   VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
   VBR.in.SV.sig_MPa = 10 * ones(sz); % differential stress [MPa]
@@ -83,6 +74,8 @@
 %% ====================================================
 %% Display some things ================================
 %% ====================================================
+
+% contour T(z,t)
   figure()
   ax1=subplot(2,2,1)
   contourf(HF.t_Myr,HF.z_km,HF.T_C,20)
@@ -93,9 +86,10 @@
   title('Temperature [C]')
   colorbar()
 
+% contour shear wave velocity at different frequencies
   for i_f=1:3
-     ax=subplot(2,2,i_f+1)
-     contourf(HF.t_Myr,HF.z_km,VBR.out.anelastic.AndradePsP.V(:,:,i_f)/1e3,20)
+     ax=subplot(2,2,i_f+1);
+     contourf(HF.t_Myr,HF.z_km,VBR.out.anelastic.AndradePsP.V(:,:,i_f)/1e3,20,'LineColor','none')
      colormap(ax,winter);
      xlabel('Seaflor Age [Myr]')
      ylabel('Depth [km]')
@@ -104,16 +98,21 @@
      colorbar()
   end
 
+% contour percent difference in shear wave velo between two anelastic methods
+% at different frequencies
   dV=abs(VBR.out.anelastic.AndradePsP.V-VBR.out.anelastic.YT_maxwell.V);
   dV=dV./VBR.out.anelastic.YT_maxwell.V*100;
   figure()
   for i_f=1:4
      subplot(2,2,i_f)
-     contourf(HF.t_Myr,HF.z_km,log10(dV(:,:,i_f)+1e-22),50)
-     colormap(winter)
+     dVmask=(dV(:,:,i_f)>0);
+     contourf(HF.t_Myr,HF.z_km,(dV(:,:,i_f).*dVmask),100,'LineColor','none')
+     colormap(hot)
+     caxis([0,max(max(dV(:,:,i_f)))])
      xlabel('Seaflor Age [Myr]')
      ylabel('Depth [km]')
      set(gca,'ydir','rev')
-     title(['log_1_0(perc. diff.) between Andrade, Maxwell at ',num2str(VBR.in.SV.f(i_f)),' Hz'])
+     maxval=round(max(max(dV(:,:,i_f)))*100)/100;
+     title([num2str(VBR.in.SV.f(i_f)),' Hz, max(dV)=',num2str(maxval),' percent'])
      colorbar()
   end

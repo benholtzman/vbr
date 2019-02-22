@@ -3,14 +3,14 @@ function eta = visc_calc_YT2016_solidus(T_K,P_Pa,T_sol_K,d_um,phi)
 % "Polycrystal anelasticity at near-solidus temperatures,"
 
 % reference values
-  Tr=1200+273;
-  Pr=1.5*1e9;
-  etar=6.22*1e21;
-  dr=d_um; % grain size independent beyond what is in etar
+  Tr=1200+273; % p7817 of reference paper, second paragraph
+  Pr=1.5*1e9; % p7817 of reference paper, second paragraph
+  etar=6.22*1e21; % figure 20 of reference paper
+  dr=d_um; % grain size independent beyond what is in etar, see p7817 of reference paper, second paragraph
 
 % constants
-  H=462.5*1e3; % activation energy [J/mol]
-  Vol=7.913*1e-6; % activation vol [m3/mol]
+  H=462.5*1e3; % activation energy [J/mol], figure 20 of reference paper
+  Vol=7.913*1e-6; % activation vol [m3/mol], figure 20 of reference paper
   R=8.314; % gas constant [J/mol/K]
   m=3; % grain size exponent -- but this does not matter since dr = d.
 

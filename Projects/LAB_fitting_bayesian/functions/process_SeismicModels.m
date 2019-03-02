@@ -45,7 +45,7 @@ function Observations = process_SeismicModels(Files,Coords)
   Observations.Moho = Moho;
   Observations.LAB = LAB_median;
   Observations.Vs_Model=Vs_Model;
-  Observations.LAB_MOdel=LAB_Model;
+  Observations.LAB_Model=LAB_Model;
 
 end
 

@@ -43,12 +43,17 @@ VBR.in.elastic.anharmonic.Gu_0_ol=71;
 % load the Box
 load(Work.Box_name_IN) ;
 
+VBRBox(size(Box)(1),size(Box)(1))=struct();
 % loop over box indeces, run VBR calculator on last frame of each run
 Work.nBox = numel(Box); Work.tstart = cputime;
 for iBox = 1:Work.nBox
 
     disp('-------------------------------------------------------- ')
     display(['Run ' num2str(iBox) ' of ' num2str(Work.nBox)])
+
+    % pass along some of the Box settings
+    VBR.BoxParams=Box(iBox).info;
+    VBR.Z_km=Box(iBox).run_info.Z_km;
 
     sz_SV=size(Box(iBox).Frames(end).P);
     VBR.in.SV.P_GPa = (Box(iBox).Frames(end).P)./1e9 ;

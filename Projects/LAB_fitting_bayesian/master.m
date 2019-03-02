@@ -10,7 +10,7 @@
 % put Project-specific paths in the path
   addpath(genpath('./functions'))
   buildProjectDirectories()
-  addpath(genpath('./data'))
+  addpath(genpath('./'))
 
 % %%%%%%%%%%%%%%%%%%   Generate Thermodynamic State Variables  %%%%%%%%%%%%%%%%%
 % project-specific functions in ./functions
@@ -52,8 +52,8 @@
 
 
 % %%%%% FIT PLATE THICKNESS %%%%
-% seismic_obs.q_method = 'eBurgers'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
-% zPlate = fit_LAB_Tp(Work, seismic_obs, 1350);
+q_method = 'eBurgers'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
+zPlate = fit_LAB_Tp(Files.VBR_Box, seismic_obs, 1350,q_method);
 % %%
 % %%%% MULTIVARIATE SEARCH - TEMP, GRAIN SIZE, PHI %%%%
 % % Bayesian inversion

@@ -44,6 +44,10 @@
 % %%% GET SEISMIC OBSERVABLES %%%%
   Files.LAB_Model_file='filename';
   Files.Vs_Model_file='filename';
+  Coords.lat=30; Coords.lon=-100; % lat/lon coordinate
+  Coords.smooth_rad = 0.5;  % radius over which to average RFs and vel model (degrees)
+  Coords.z_min=100; % averaging min depth for asth.
+  Coords.z_max=150; % averaging max depth for asth.
   seismic_obs = process_SiesmicModels(Files);
 
 

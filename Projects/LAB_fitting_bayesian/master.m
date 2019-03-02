@@ -12,7 +12,7 @@
   buildProjectDirectories()
   addpath(genpath('./data'))
 
-% %%%%%%%%%%%%%%%%%%   LAB FITTING  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% %
+% %%%%%%%%%%%%%%%%%%   Generate Thermodynamic State Variables  %%%%%%%%%%%%%%%%%
 % project-specific functions in ./functions
   Files.SV_Box='./data/plate_VBR/thermalEvolution.mat';
   Files.VBR_Box='./data/plate_VBR/thermalEvolution_VBR.mat';
@@ -29,6 +29,7 @@
     disp(['    ',Files.SV_Box,"\n"])
   end
 
+% %%%%%%%%%%%%%%%%%%   Process State Variables with VBR  %%%%%%%%%%%%%%%%%
 % %% VBR calcuation
   freq = logspace(-2.8,-1,4);
   g_um = 0.01 * 1e6; % 0.01 m grain size to micrometers
@@ -40,10 +41,12 @@
   end
 
 
-%%%% GET SEISMIC OBSERVABLES %%%%
-% seismic_obs = get_seismic_data(Work);
-% %
-%
+% %%% GET SEISMIC OBSERVABLES %%%%
+  Files.LAB_Model_file='filename';
+  Files.Vs_Model_file='filename';
+  seismic_obs = process_SiesmicModels(Files);
+
+
 % %%%%% FIT PLATE THICKNESS %%%%
 % seismic_obs.q_method = 'eBurgers'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
 % zPlate = fit_LAB_Tp(Work, seismic_obs, 1350);

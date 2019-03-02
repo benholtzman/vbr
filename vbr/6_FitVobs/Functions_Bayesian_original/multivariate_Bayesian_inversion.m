@@ -42,16 +42,25 @@ clc
 fprintf('\n\nPlate thickness: %g\n', ...
     Box(1,1).info.var2range(zPlate.zPlate_ind))
 
-if exist([Work.boxpath Work.sweep_boxname],'file')
+if exist([Work.boxpath Work.sweep_boxname],'file') 
     fprintf('\nYou already have a saved parameter sweep\n\t%s\n', ...
         Work.sweep_boxname(1:end-4));
     if_recalculate = input('Recalculate y/[n]? ', 's');
-
+    
     if ~strcmp(if_recalculate,'y')
         load([Work.boxpath Work.sweep_boxname])
         return
     end
 end
+
+
+% add VBR paths
+Work.VBR_version = 'VBR_v0p95';
+addpath([Work.fundir '4_VBR/'  Work.VBR_version ],...
+    [Work.fundir '4_VBR/'  Work.VBR_version '/functions'],...
+    [Work.fundir '4_VBR/'  Work.VBR_version '/params'])
+addpath([Work.fundir '2_PLATES/4pt0_1d_plates/01_functions/'])
+
 
 % For a given zPlate, we want to run through all combinations of Tpot, melt
 % fraction, and grain size.
@@ -66,32 +75,32 @@ n_gs     = numel(sweep.gs_range);
 
 tstart = cputime;
 
-for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated
-
+for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated 
+    
     Tbox = Box(i_Tpot, zPlate.zPlate_ind);
     VBR_in = Tbox.Frames(end).VBR;
-
+    
     % Extract relevant parameters from the initial run
     sweep.zLAB = Tbox.run_info.zLAB(end);
     sweep.Z_km = Tbox.run_info.Z_km;
     sweep.T_z  = Tbox.Frames(end).T(:,1);
     sweep.Tpot = sweep.Tpot_range(i_Tpot);
-
+    
     compare_ind = round(mean(find(sweep.Z_km >= seismic_obs.depthrange(1) ...
         & sweep.Z_km <= seismic_obs.depthrange(2))));
-
-
+    
+    
     for i_phi = n_phi:-1:1
-
+        
         sweep.phi = sweep.phi_range(i_phi);
-
+        
         for i_gs = n_gs:-1:1
-
+            
             fprintf(['-----------------------------------------\n' ...
                 'Run %g of %g\n'], n_gs*n_phi*n_Tpot + 1 - ...
                 (i_gs + (i_phi-1)*n_gs + (i_Tpot-1)*n_phi*n_gs),...
                 n_gs*n_phi*n_Tpot);
-
+    
             sweep.gs = sweep.gs_range(i_gs);
 
             % Put values in the VBR and run it for asthenospheric depth
@@ -99,12 +108,12 @@ for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated
             fn = fieldnames(VBR.in.SV);
             for iff = 1:length(fn)
                 if size(VBR.in.SV.(fn{iff}),1) == length(sweep.Z_km)
-                    VBR.in.SV.(fn{iff}) = VBR.in.SV.(fn{iff})(compare_ind);
+                    VBR.in.SV.(fn{iff}) = VBR.in.SV.(fn{iff})(compare_ind); 
                 end
             end
             VBR.in.SV.phi = sweep.phi.*1e-2;
             VBR.in.SV.dg_um = sweep.gs;
-
+                 
             VBR = VBR_spine(VBR);
             anelastic_methods = fieldnames(VBR.out.anelastic);
             if isfield(VBR.out.anelastic,'YT_maxwell')
@@ -120,7 +129,7 @@ for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated
 
             sweepBox(i_Tpot, i_phi, i_gs).info = orderfields(sweep);
             sweepBox(i_Tpot, i_phi, i_gs).VBR = vbr;
-
+            
         end
     end
     %save([Work.boxpath Work.sweep_boxname], 'sweepBox');
@@ -140,13 +149,13 @@ function [vs_vals, residual] = extract_Vs(sweepBox, seismic_obs)
 vs_vals = zeros(size(sweepBox));
 
 for k = 1:numel(vs_vals)
-
+    
     if strcmp(seismic_obs.q_method, 'YT_maxwell')
         vs_vals(k) = mean(sweepBox(k).VBR.(seismic_obs.q_method).Vave.*1e-3);
     else
         vs_vals(k) = sweepBox(k).VBR.(seismic_obs.q_method).Vave.*1e-3;
     end
-
+    
 end
 
 residual = (vs_vals - seismic_obs.asth_v).^2 / seismic_obs.asth_v;
@@ -170,53 +179,53 @@ P_Vs = 1/sqrt(2*pi*sigma^2); % assume mean = observed Vs so (x-mu) = 0
 sigmaVs = median(seismic_obs.medianVs_error);
 
 for k = 1:numel(sweepBox)
-
+    
     values = sweepBox(k).info;
-
+    
     % P(T, phi, gs)  == P(T) * P(phi) * P(gs)
     % Assume that all of these are independent of one another.......
     % And have pretty broad normal distributions - can either hard wire in
     % values or guesstimate from the size of the box calculated
-
-
+    
+    
     if ifnormal
-
+        
         % P(T)
         sigmaT = abs(diff(values.Tpot_range([1 end])));
         mu     = mean(values.Tpot_range);
         x      = values.Tpot;
         P_T    = 1/sqrt(2*pi*sigmaT^2) * exp((-(x-mu)^2)/(2*sigmaT^2));
-
+        
         % P(phi)
         sigmaP = abs(diff(values.phi_range([1 end])));
         mu     = mean(values.phi_range);
         x      = max(values.phi);
         P_phi  = 1/sqrt(2*pi*sigmaP^2) * exp((-(x-mu)^2)/(2*sigmaP^2));
-
+        
         % P(grain size)
         sigmaG = abs(diff(values.gs_range([1 end])));
         mu     = mean(values.gs_range);
         x      = values.gs;
         P_gs   = 1/sqrt(2*pi*sigmaG^2) * exp((-(x-mu)^2)/(2*sigmaG^2));
-
+        
     else
-
+        
         P_T   = 1;
         P_phi = 1;
         P_gs  = 1;
-
+    
     end
-
+    
     % P(Vs | T, phi, gs)
     % We have a residual between observed and calculated Vs
-    % So... probability = 1/sqrt(2*pi*residual) * exp(-residual/2)
+    % So... probability = 1/sqrt(2*pi*residual) * exp(-residual/2) 
     % See manual, Menke book Ch 11
     P_Vs_given_mod = (2*pi*residual(k)).^-0.5 .* exp(-0.5*residual(k));
-
-
+    
+    
     % All together now!
     P_mod(k) = (P_Vs_given_mod * P_T * P_phi * P_gs)./(P_Vs);
-
+    
 
 end
 
@@ -224,7 +233,7 @@ norm_for_residual = (2*pi*0.0001).^-0.5 .* exp(-0.5*0.0001);
 
 
 if ifnormal
-    probs.P_mod = P_mod .* (2*pi*sigmaT*sigmaP*sigmaG/sigmaVs) ...
+    probs.P_mod = P_mod .* (2*pi*sigmaT*sigmaP*sigmaG/sigmaVs) ... 
         / norm_for_residual;
 else
     probs.P_mod = P_mod ./ sqrt(2*pi*sigmaVs^2) / norm_for_residual;
@@ -277,7 +286,7 @@ axes('position',[0.1 0.35 0.225 0.55],'layer','top'); hold on; box on;
 xlabel(tstr); ylabel(phistr);
 % Find other grain sizes to plot - test extremes first
 % Small grain size
-i_small = 1;
+i_small = 1; 
 while (max(max(probs.P_mod(:,:,i_small))) < contour_levels(1)/100 ...
         && i_small < length(probs.gs)) ||...
         (i_small == i_gs && i_small < length(probs.gs))
@@ -320,7 +329,7 @@ axes('position',[0.4 0.35 0.225 0.55],'layer','top'); hold on; box on;
 xlabel(tstr); ylabel(gstr);
 % Find other grain sizes to plot - test extremes first
 % Small grain size
-i_small = 1;
+i_small = 1; 
 while (max(max(squeeze(probs.P_mod(:,i_small,:)))) < contour_levels(1)/100 ...
         && i_small < length(probs.phi)) || ...
         (i_small == i_phi && i_small < length(probs.phi))
@@ -369,7 +378,7 @@ axes('position',[0.7 0.35 0.225 0.55],'layer','top'); hold on; box on;
 xlabel(phistr); ylabel(gstr);
 % Find other grain sizes to plot - test extremes first
 % Small grain size
-i_small = 1;
+i_small = 1; 
 while (max(max(squeeze(probs.P_mod(i_small,:,:)))) < contour_levels(1)/100 ...
         && i_small < length(probs.gs)) || i_small == i_Tpot
     i_small = i_small + 1;
@@ -404,29 +413,29 @@ xlabel(tstr); ylim([0 eps]); daspect([1 1 1])
 % axes('visible','off','position',[0 0 1 1]);
 % text(0.47, 0.95, strrep(seismic_obs.q_method,'_',' '),...
 %     'fontweight','bold','fontsize',24);
-%
-% axes('position',[0.1 0.1 0.4 0.8]); hold on;
+% 
+% axes('position',[0.1 0.1 0.4 0.8]); hold on; 
 % obs_vel_c = [81 209 70]./255;
 % patch([seismic_obs.medianVs + seismic_obs.medianVs_error; ...
 %     flipud(seismic_obs.medianVs - seismic_obs.medianVs_error)], ...
 %     [seismic_obs.depth; flipud(seismic_obs.depth)], ...
 %     obs_vel_c,'edgecolor','none','facealpha',0.25)
 % plot(seismic_obs.medianVs, seismic_obs.depth,'color',...
-%     obs_vel_c,'linewidth',2); axis ij;
+%     obs_vel_c,'linewidth',2); axis ij; 
 % yl = get(gca,'ylim'); xl = [3.8 5.0]; xlim(xl);
 % if yl(2) > 300; yl(2) = 350; end; ylim(yl);
 % ylabel('Depth (km)'); xlabel('Vs (km/s)');
 % set(gca,'xaxislocation','top'); box on
-%
+% 
 % % Plot on the Moho
 % plot(xl,seismic_obs.Moho*[1 1],'--','color',0.6*[1 1 1]);
-% %text(mean([xl,xl(1)]), seismic_obs.Moho - 5, 'Moho');
-%
+% %text(mean([xl,xl(1)]), seismic_obs.Moho - 5, 'Moho'); 
+% 
 % % Plot on the LAB
 % plot(xl,seismic_obs.LAB*[1 1],'b--');
-% %text(mean([xl,xl(1)]), seismic_obs.LAB - 5, 'LAB');
-%
-%
+% %text(mean([xl,xl(1)]), seismic_obs.LAB - 5, 'LAB'); 
+% 
+% 
 % % Plot on all models within top 5% probability
 % %inds = find(probs.P_mod > contour_levels(end));
 % [~,inds]=sort(probs.P_mod(:),'descend');
@@ -439,25 +448,25 @@ xlabel(tstr); ylim([0 eps]); daspect([1 1 1])
 %     plot(vs_vals(inds(k))*[1 1], seismic_obs.depthrange, ':',...
 %         'color',[0.6 0 0],'linewidth',1);
 % end
-%
+% 
 % plot(mean(sweepBox(i_max).VBR.(seismic_obs.q_method).Vave,2).*1e-3, ...
 %     sweepBox(i_max).info.Z_km,'k-','linewidth',2);
-%
-%
+% 
+% 
 % patch(xl([1 2 2 1 1]), seismic_obs.depthrange([1 1 2 2 1]),...
 %     'r','facealpha',0.3);
 % plot(vs_vals(i_max)*[1 1], seismic_obs.depthrange, '-',...
 %     'color',[0.6 0 0],'linewidth',2);
 % plot(seismic_obs.asth_v*[1 1], seismic_obs.depthrange,'r--',...
 %     'linewidth',2);
-%
-%
+% 
+% 
 % axes('position',[0.6 0.2 0.35 0.6]); hold on; box on
 % scatter(top_vals(:,1), top_vals(:,2), 50, log10(top_vals(:,3)),...
 %     'filled','s','markerfacealpha',0.5)
 % xlabel(tstr); ylabel(phistr); c=colorbar('location','southoutside');
 % xlabel(c,gstr);
-% xlim([min(probs.Tpot) max(probs.Tpot)]);
+% xlim([min(probs.Tpot) max(probs.Tpot)]); 
 % ylim([min(probs.phi) max(probs.phi)]);
 % caxis([min(log10(probs.gs)) max(log10(probs.gs))])
 
@@ -473,15 +482,15 @@ nc = length(contour_levels);
 % else; eval(['linestyles = {' repmat(''':'',',1,nc-5+1) ...
 %         '''-.'',''--'',''-'',''-''};']);
 % end
-
-
+    
+    
 
 for ic = 1:nc
     [~, h] = contour(x, y, P_mod,contour_levels(ic)*[.01 .01]);
     %set(h,'linestyle',linestyles{ic},'color',col);
     set(h,'linewidth',ic,'color',col);
     if ic == nc; set(h,'fill','on','facecolor',col); end
-
+    
 end
 
 end
@@ -500,11 +509,11 @@ clc
 fprintf('\n\nPlate thickness: %g\n', ...
     Box(1,1).info.var2range(zPlate.zPlate_ind))
 
-if exist([Work.boxpath Work.sweep_boxname],'file')
+if exist([Work.boxpath Work.sweep_boxname],'file') 
     fprintf('\nYou already have a saved parameter sweep\n\t%s\n', ...
         Work.sweep_boxname(1:end-4));
     if_recalculate = input('Recalculate y/[n]? ', 's');
-
+    
     if ~strcmp(if_recalculate,'y')
         load([Work.boxpath Work.sweep_boxname])
         return
@@ -533,19 +542,19 @@ n_gs     = numel(sweep.gs_range);
 
 tstart = cputime;
 
-for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated
-
+for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated 
+    
     Tbox = Box(i_Tpot, zPlate.zPlate_ind);
     VBR_in = Tbox.Frames(end).VBR;
-
+    
     % Extract relevant parameters from the initial run
     sweep.zLAB = Tbox.run_info.zLAB(end);
     sweep.Z_km = Tbox.run_info.Z_km;
     sweep.T_z  = Tbox.Frames(end).T(:,1);
     sweep.Tpot = sweep.Tpot_range(i_Tpot);
-
+    
     for i_phi = n_phi:-1:1
-
+        
         % Find melt fraction profile (melt in asthenosphere)
         Z_phiBumpCenter_km = sweep.zLAB./1e3; % LAB depth in km
         ind_phiBumpCenter = find(sweep.Z_km > Z_phiBumpCenter_km,1)-1;
@@ -553,21 +562,21 @@ for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated
         [step_vec]= make_meltStep(length(sweep.Z_km), N_z_steps, ...
             ind_phiBumpCenter);
         sweep.phi = step_vec.*sweep.phi_range(i_phi);
-
+        
         for i_gs = n_gs:-1:1
-
+            
             fprintf(['-----------------------------------------\n' ...
                 'Run %g of %g\n'], n_gs*n_phi*n_Tpot + 1 - ...
                 (i_gs + (i_phi-1)*n_gs + (i_Tpot-1)*n_phi*n_gs),...
                 n_gs*n_phi*n_Tpot);
-
+    
             sweep.gs = sweep.gs_range(i_gs);
 
             % Put values in the VBR and run it
             VBR.in = VBR_in.in;
             VBR.in.SV.phi = sweep.phi.*1e-2;
             VBR.in.SV.dg_um = sweep.gs;
-
+            
             VBR = VBR_spine(VBR);
             anelastic_methods = fieldnames(VBR.out.anelastic);
             if isfield(VBR.out.anelastic,'YT_maxwell')
@@ -583,7 +592,7 @@ for i_Tpot = n_Tpot:-1:1  % run backwards so structure is preallocated
 
             sweepBox(i_Tpot, i_phi, i_gs).info = orderfields(sweep);
             sweepBox(i_Tpot, i_phi, i_gs).VBR = vbr;
-
+            
         end
     end
     save([Work.boxpath Work.sweep_boxname], 'sweepBox');
@@ -597,3 +606,4 @@ fprintf(['-----------------------------------------\n' ...
     'Box saved to %s.'],(tend-tstart)/60, Work.sweep_boxname);
 
 end
+

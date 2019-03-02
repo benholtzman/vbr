@@ -75,10 +75,13 @@ fits.P_JOINT = (fits.P_Vs.*fits.P_zPlate).^2;
 [~, fits.i_best] = max(fits.P_JOINT(:));
 %[r, c] = ind2sub(size(Box), fits.i_best);
 
+
+
 % Actually return the best zPlate at input potential temperature
 [~, zPlate_fit.Tpot_ind] = min(abs(Tpot_vec - set_Tp));
 zPlate_fit.Tpot = Tpot_vec(zPlate_fit.Tpot_ind);
-[~, zPlate_fit.zPlate_ind] = max(fits.P_zPlate(zPlate_fit.Tpot_ind,:));
+[~, zPlate_fit.zPlate_ind] = ...
+    max(fits.P_zPlate(zPlate_fit.Tpot_ind,:));
 zPlate_fit.zPlate = zPlate_vec(zPlate_fit.zPlate_ind);
 fits.ij_best = [zPlate_fit.Tpot_ind, zPlate_fit.zPlate_ind];
 
@@ -110,6 +113,10 @@ fprintf('\n\n    Tpot: %.0f; zPlate: %.0f\n',...
 
 zPlate_fit.LAB_obs = seismic_obs.LAB;
 zPlate_fit.Vs_obs = seismic_obs.asth_v;
+
+%figname = ['fitLAB_' inpt.q_method '.png'];
+%eval(['print -dpng ' figname]);
+%save fits.mat fits
 
 end
 
@@ -149,8 +156,9 @@ function idx = getnearest(array,val)
 
 end
 
-function [Res_lab_Q_mat, ind_zLAB_Q_mat, Z_LAB_Q_mat] =  find_LAB_Q_Res(Box, ...
-    Q_LAB, zLAB_obs_km, i_fmin, i_fmax, q_method, method)
+function [Res_lab_Q_mat, ind_zLAB_Q_mat, Z_LAB_Q_mat] = ...
+    find_LAB_Q_Res(Box, Q_LAB, zLAB_obs_km, i_fmin, i_fmax, ...
+    q_method, method)
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 %  Function to find best fitting models (calculate residuals)  %
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
@@ -162,10 +170,10 @@ Z_LAB_Q_mat = zeros(size(Box));
 
 for i_var1 = 1:n_var1
     for i_var2 = 1:n_var2
-
+        
         Z_km = Box(i_var1,i_var2).run_info.Z_km;
         frame = Box(i_var1,i_var2).Frames(end);
-
+        
         switch q_method
             case 'AndradePsP'
                 Qs_f_mat = frame.VBR.out.anelastic.(q_method).Qa;
@@ -174,46 +182,46 @@ for i_var1 = 1:n_var1
         end
         Qs_f_band = Qs_f_mat(:,i_fmin:i_fmax);
         Qs_mnstd = meanstd_fband(Qs_f_band);
-
+        
         % Interpolate Qz and Z_km to higher resolution
         nn_pts = 1000;
         Z_km_interp = linspace(Z_km(1),Z_km(end),nn_pts);
         Qz_interp = interp1(Z_km,Qs_mnstd(:,1),Z_km_interp);
-
+        
         % Identify the LAB depth in each model
         %   Method 0: absolute value of Q (input variable Q_LAB)
         %   Method 1: a factor above the adiabatic average
-
+        
         if method == 1
             fQlab = 20;
-
+            
             % Find the average Q in the adiabatic part
             z_plate = Box(i_var1,i_var2).info.var2val;
             ind_zplate = getnearest(Z_km_interp,z_plate);
             Q_adbt_vec = Qz_interp(ind_zplate:end);
             Q_adbt_mean = mean(Q_adbt_vec);
-
+            
             % Calculate Q at the LAB
             Q_LAB = fQlab*Q_adbt_mean;
         end
-
+        
         % Find the position of the nearest Q value to Q_LAB
         ind_Qlab = find(Qz_interp<=Q_LAB,1);
         Z_LAB_Qs_km = Z_km_interp(ind_Qlab);
-
+        
         % Calculate the residual between the predicted and measured
         Res = (Z_LAB_Qs_km - zLAB_obs_km).^2 / zLAB_obs_km;
         Res_lab_Q_mat(i_var1,i_var2)  = Res;
         ind_zLAB_Q_mat(i_var1,i_var2) = ind_Qlab;
         Z_LAB_Q_mat(i_var1,i_var2)    = Z_LAB_Qs_km;
-
+        
     end
 end
 
 end
 
-function [Res_Vs_adavg_mat, Vs_adavg_mat] = find_Vs_adavg_Res(Box, ...
-                                        Vs_adavg_obs, i_fmin, i_fmax, q_method)
+function [Res_Vs_adavg_mat, Vs_adavg_mat] = ...
+    find_Vs_adavg_Res(Box, Vs_adavg_obs, i_fmin, i_fmax, q_method)
 %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 %  Function to find model that best fits average Vs in the     %
 %  adiabatic part                                              %
@@ -225,10 +233,10 @@ Vs_adavg_mat = zeros(size(Box));
 
 for i_var1 = 1:n_var1
     for i_var2 = 1:n_var2
-
+        
         Z_km = Box(i_var1,i_var2).run_info.Z_km;
         frame = Box(i_var1,i_var2).Frames(end);
-
+        
         switch q_method
             case 'AndradePsP'
                 Vs_f_mat = frame.VBR.out.anelastic.(q_method).Va;
@@ -238,7 +246,7 @@ for i_var1 = 1:n_var1
         Vs_f_mat = Vs_f_mat.*1e-3;
         Vs_f_band = Vs_f_mat(:,i_fmin:i_fmax);
         Vs_mnstd = meanstd_fband(Vs_f_band);
-
+        
         % Calculate average Vs in the adiabatic region
         z_plate = Box(i_var1,i_var2).info.var2val;
         ind_zplate = getnearest(Z_km, z_plate);
@@ -246,12 +254,12 @@ for i_var1 = 1:n_var1
         ind_bot_asth = min(ind_zplate + Z_ad_int-1,length(Z_km));
         Vs_adbt_vec = Vs_mnstd(ind_zplate:ind_bot_asth,1);
         Vs_adavg = mean(Vs_adbt_vec);
-
+        
         % Calculate the residual between predicted and measured
         Res = (Vs_adavg - Vs_adavg_obs).^2/Vs_adavg_obs;
         Res_Vs_adavg_mat(i_var1,i_var2) = Res;
         Vs_adavg_mat(i_var1,i_var2)     = Vs_adavg;
-
+        
     end
 end
 
@@ -286,7 +294,7 @@ for i_var1 = 1:n_var1
         end
         Qs_f_band = Qs_f_mat(:,i_fmin:i_fmax);
         Qs_mnstd = meanstd_fband(Qs_f_band);
-
+        
         p1 = plot(log10(Qs_mnstd(:,1)),Z_km,'k-','linewidth',1);
         p1.Color(4) = 0.2;
     end
@@ -351,7 +359,7 @@ for i_var1 = 1:n_var1
         end
         Vs_f_band = Vs_f_mat(:,i_fmin:i_fmax);
         Vs_mnstd = meanstd_fband(Vs_f_band);
-
+        
         p1 = plot(Vs_mnstd(:,1).*1e-3,Z_km,'k-','linewidth',1);
         p1.Color(4) = 0.2;
     end
@@ -393,42 +401,42 @@ ylabel('Depth (km)'); axis ij; set(gca,'XAxisLocation','Top')
 end
 
 function residPlots(layouts, Tpot_vec, zPlate_vec, fits, clr)
-  %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
-  %  Plots the residual profiles                                 %
-  %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
+%  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
+%  Plots the residual profiles                                 %
+%  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 
-  ij_best = fits.ij_best;
-  x_lims = zPlate_vec([1 end]); y_lims = Tpot_vec([1 end]);
+ij_best = fits.ij_best;
+x_lims = zPlate_vec([1 end]); y_lims = Tpot_vec([1 end]);
 
 
-  % Plot the residuals for ZLAB
-  axes('position', layouts.c1); hold on; box on;
-  imagesc(x_lims, y_lims,log10(fits.Res_LAB));
-  colormap(gray)
-  scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
-  title(['Res: Z_L_A_B']);
-  xlabel('Z_p_l_a_t_e (km)'); ylabel('T_p_o_t (\circC)');
-  xlim(x_lims); ylim(y_lims); axis ij
+% Plot the residuals for ZLAB
+axes('position', layouts.c1); hold on; box on;
+imagesc(x_lims, y_lims,log10(fits.Res_LAB));
+colormap(gray)
+scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
+title(['Res: Z_L_A_B']);
+xlabel('Z_p_l_a_t_e (km)'); ylabel('T_p_o_t (\circC)');
+xlim(x_lims); ylim(y_lims); axis ij
 
-  % Plot the residuals for Vs_adavg
-  axes('position', layouts.c2); hold on; box on;
-  imagesc(x_lims, y_lims, log10(fits.Res_Vs_adavg_mat));
-  colormap(gray)
-  scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
-  title('Res: V_s');
-  xlabel('Z_p_l_a_t_e (km)');
-  set(gca,'YTickLabel', []);
-  xlim(x_lims); ylim(y_lims); axis ij;
+% Plot the residuals for Vs_adavg
+axes('position', layouts.c2); hold on; box on;
+imagesc(x_lims, y_lims, log10(fits.Res_Vs_adavg_mat));
+colormap(gray)
+scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
+title('Res: V_s');
+xlabel('Z_p_l_a_t_e (km)');
+set(gca,'YTickLabel', []);
+xlim(x_lims); ylim(y_lims); axis ij;
 
-  % Plot the residuals for Vs_adavg HOT
-  axes('position', layouts.c3); hold on; box on;
-  imagesc(x_lims, y_lims, fits.P_JOINT);
-  colormap(gray)
-  scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
-  title('Joint Prob');
-  xlabel('Z_p_l_a_t_e (km)');
-  set(gca,'YTickLabel', []);
-  xlim(x_lims); ylim(y_lims); axis ij
+% Plot the residuals for Vs_adavg HOT
+axes('position', layouts.c3); hold on; box on;
+imagesc(x_lims, y_lims, fits.P_JOINT);
+colormap(gray)
+scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
+title('Joint Prob');
+xlabel('Z_p_l_a_t_e (km)');
+set(gca,'YTickLabel', []);
+xlim(x_lims); ylim(y_lims); axis ij
 
 
 end
@@ -454,19 +462,19 @@ if num_inpt == 2
     Layout.rh.c1 = [Layout.Vsz(1)+Layout.Vsz(3)+hdel*4, B1+0.5, 0.165,0.275];
     Layout.rh.c2 = [Layout.rh.c1(1)+hdX+hdel, Layout.rh.c1(2:end)];
     Layout.rh.c3 = [Layout.rh.c2(1)+hdX+hdel, Layout.rh.c1(2:end)];
-
+    
     % bottom row
     Layout.rb.c1 = [Layout.Vsz(1)+Layout.Vsz(3)+hdel*4, B1+0.05, 0.165, 0.275];
     Layout.rb.c2 = [Layout.rb.c1(1)+hdX+hdel, Layout.rb.c1(2:end)];
     Layout.rb.c3 = [Layout.rb.c2(1)+hdX+hdel, Layout.rb.c1(2:end)];
-
+    
 elseif num_inpt == 1
     Layout.rh.c1 = [Layout.Vsz(1)+Layout.Vsz(3)+hdel*4, B1+mean([0.05,0.5]),...
         0.165,0.275];
     Layout.rh.c2 = [Layout.rh.c1(1)+hdX+hdel, Layout.rh.c1(2:end)];
     Layout.rh.c3 = [Layout.rh.c2(1)+hdX+hdel, Layout.rh.c1(2:end)];
-
-
+    
+    
 end
 
 

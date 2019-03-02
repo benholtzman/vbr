@@ -34,11 +34,15 @@ function vbr_init(varargin)
 % collect all the subdirectories under ./vbr/ to add
   subDirs2add={fullfile('4_VBR',Options.vbr_version),...
                fullfile('2_PLATES',Options.plates_version),...
-               '0_COOKBOOK','1_LabData','6_FitVobs'};
+               '0_COOKBOOK','1_LabData',...
+               fullfile('6_FitVobs','Functions_Bayesian'),...
+               fullfile('6_FitVobs','pyFits_v0p1')};
   for i_fo = 1:numel(subDirs2add)
      fo=subDirs2add{i_fo};
      path2add=fullfile(vbr_dir,'vbr',fo);
-     addpath(genpath(path2add));
+     if exist(path2add,'dir')
+       addpath(genpath(path2add));
+     end
   end
 
   disp('VBR calculator initialized');

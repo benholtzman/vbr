@@ -22,8 +22,8 @@ iris_files={
 
 for ref in iris_files.keys():
     full_url=url_base+iris_files[ref]['server_name']
-    if os.path.isfile(ref+'.nc'):
-        print(ref+'.nc already downloaded.')
+    if os.path.isfile(ref+'.nc') or os.path.isfile(ref+'.mat'):
+        print(ref+' already downloaded.')
     else:
         print("attempting to fetch "+full_url)
         urllib.urlretrieve(full_url, ref+'.nc')
@@ -32,10 +32,13 @@ for ref in iris_files.keys():
 
 # slightly different fieldnames
 for fi in iris_files.keys():
-    ds=xr.open_dataset(fi+'.nc')
-    save_dict={'Latitude':ds[iris_files[fi]['lat_field']].values,
-               'Longitude':ds[iris_files[fi]['lon_field']].values,
-               'Depth':ds[iris_files[fi]['z_field']].values,
-               'Vs':ds[iris_files[fi]['Vs_field']].values}
-    print(fi+'.nc converted to '+fi+'.mat')
-    scp.savemat(fi+'.mat',{'Vs_Model':save_dict})
+    if os.path.isfile(fi+'.mat') is False:
+        ds=xr.open_dataset(fi+'.nc')
+        save_dict={'Latitude':ds[iris_files[fi]['lat_field']].values,
+                   'Longitude':ds[iris_files[fi]['lon_field']].values,
+                   'Depth':ds[iris_files[fi]['z_field']].values,
+                   'Vs':ds[iris_files[fi]['Vs_field']].values.transpose()}
+        print(fi+'.nc converted to '+fi+'.mat')
+        scp.savemat(fi+'.mat',{'Vs_Model':save_dict})
+    else:
+        print(fi+'.mat already exists')

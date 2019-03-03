@@ -17,8 +17,8 @@ filename = 'VBR_LUT_labdata.mat'
 %% ====================================================
 
 %  put VBR in the path
- VBR_version = 'VBR_v0p95';
- addpath(genpath(['../4_VBR/',VBR_version ])); % recursive add path
+   VBR_version = 'VBR_v0p95';
+   addpath(genpath(['../../../vbr/4_VBR/',VBR_version ])); % recursive add path
 
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
@@ -30,7 +30,7 @@ filename = 'VBR_LUT_labdata.mat'
 %  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016
 % FLOWCHART !! WHERE DO THESE PROPAGATE, vs SCALING IN FJ ????
  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
- VBR.in.elastic.anharmonic.Gu_0_ol=72.45; %[GPa]
+ %VBR.in.elastic.anharmonic.Gu_0_ol=72.45; %[GPa]
  VBR.in.elastic.anharmonic.dG_dT = -10.94*1e6; % Pa/C    (equivalent ot Pa/K)
  VBR.in.elastic.anharmonic.dG_dP = 1.987; % GPa / GPa
 

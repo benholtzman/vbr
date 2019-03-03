@@ -1,0 +1,6 @@
+BH: Feb 14, 2015: 
+restructured this directory so that it works like 2_PLATES... state variable are listed in Make_DATA, and other potential ones that may be more general are in params_state (not sure how this will be used yet).. make_SVs will read in from "Data" structure, and the vectors of state variables for VBR are generated there, 
+but all scaling and related material properties are only using the SCALING parameter files (Params_QMV_Scaling.m) that is in VBR ! This has been consolidated. 
+this is important for centralization of definition of all important scaling parameters. 
+
+

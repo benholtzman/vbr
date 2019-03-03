@@ -11,7 +11,7 @@
 
 %  put VBR in the path
    VBR_version = 'VBR_v0p95';
-   addpath(genpath(['../../4_VBR/',VBR_version ])); % recursive add path
+   addpath(genpath(['../../../vbr/4_VBR/',VBR_version ])); % recursive add path
 
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
@@ -77,14 +77,14 @@
 close all;
 figure;
 subplot(1,3,1)
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)), 'k--'); hold on;
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)), 'k--', 'linewidth', 2); hold on;
 loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.M(1,:,:)), 'r-', 'linewidth', 2);
 ylabel('M [GPa]');
 xlabel('period [s]')
 %ylim([0,80])
 
 subplot(1,3,2)
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'k--'); hold on;
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'k--', 'linewidth', 2); hold on;
 loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,:,:)), 'r-', 'linewidth', 2);
 ylabel('Q^-1');
 xlabel('period [s]')
@@ -92,13 +92,14 @@ xlabel('period [s]')
 
 
 subplot(1,3,3)
-loglog(VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'k--'); hold on;
+loglog(VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)), 'k--', 'linewidth', 2); hold on;
 loglog(VBR.in.SV.f,squeeze(VBR.out.anelastic.YT_maxwell.Qinv(1,:,:)), 'r-', 'linewidth', 2);
 ylabel('Q^-1');
-xlabel('frequenzy [Hz]')
+xlabel('frequency [Hz]')
 %ylim([3e-3,3])
 
 % ===================================================
+return
 % test the master curve similitude
 % ===================================================
 figure

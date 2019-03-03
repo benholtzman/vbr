@@ -17,16 +17,19 @@ if isfield(VBR.in,'elastic')
 
    methods_list=VBR.in.elastic.methods_list; % list of methods to use
 
+% https://www.mathworks.com/help/matlab/ref/logicaloperatorsshortcircuit.html
+% https://www.mathworks.com/help/matlab/ref/strncmp.html
 %% anharmonic, unrelaxed calculation
    if sum(strncmp('anharmonic',methods_list,10)) > 0 || ...
       sum(strncmp('poro_Takei',methods_list,10)) > 0
-
+      % if you are not calculating the anharmonic properties,
+      % still use the anharmonic reference moduli:
       if isfield(VBR.in.elastic,'anharmonic')==0
            VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
       end
 
-     [VBR] = el_calc_Gu_0(VBR); % get reference shear modulus
-     [VBR] = el_ModUnrlx_dTdP_f(VBR) ; % project to T, P of interest
+     [VBR] = el_calc_Gu_0(VBR); % get reference shear modulus from the anharmonic method
+     [VBR] = el_ModUnrlx_dTdP_f(VBR) ; % calculate anharmonic scaling with T, P of interest
    end
 
 %% poroelastic effect of melt
@@ -123,7 +126,7 @@ if isfield(VBR.in,'anelastic')
 % Yamauchi & Takei 2016 - solidus scaling
   if sum(strncmp('YT2016_solidus',methods_list,10)) > 0
      telapsed.YT2016_solidus=tic;
-     [VBR]=Q_YT2016_solidus(VBR) ;     
+     [VBR]=Q_YT2016_solidus(VBR) ;
      telapsed.YT2016_solidus=toc(telapsed.YT2016_solidus);
   end
 end

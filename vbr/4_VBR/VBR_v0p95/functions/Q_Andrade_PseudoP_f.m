@@ -16,8 +16,8 @@ function[VBR]=Q_Andrade_PseudoP_f(VBR)
    T_K_mat = VBR.in.SV.T_K ;
    P_Pa_mat = VBR.in.SV.P_GPa.*1e9 ; % convert pressure GPa to Pa = GPa*1e9
    d_mat = VBR.in.SV.dg_um ; % microns grain size
-   phi = VBR.in.SV.phi ;
-   f_vec = VBR.in.SV.f;  % frequency
+   phi = VBR.in.SV.phi ; % should be called _mat for consistency-- matrix w same dims as other SVs.
+   f_vec = VBR.in.SV.f;  % frequency [this, however, is not a mat -- is a 1D vector]
 
 %  Andrade parameters, set in params file
    Andrade_params=VBR.in.anelastic.AndradePsP;

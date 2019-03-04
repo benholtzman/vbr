@@ -11,11 +11,11 @@ function [resids,best]=jointResiduals(var1name,pred_1,obs_1,var2name,pred_2,obs_
   % See manual, Menke book Ch 11
   %
   % pred_1,pred_2 must be the same size
-  [resid1,P1]=singleParamResids(obs_1,pred_1);
-  [resid2,P2]=singleParamResids(obs_2,pred_2);
+  [chi_sq_1,P1]=singleParamResids(obs_1,pred_1);
+  [chi_sq_2,P2]=singleParamResids(obs_2,pred_2);
   P_Joint=(P1.*P2).^2;
-  resids.(var1name)=resid1;
-  resids.(var2name)=resid2;
+  resids.(var1name)=chi_sq_1;
+  resids.(var2name)=chi_sq_2;
   resids.P_Joint=P_Joint;
 
   best=struct();
@@ -26,9 +26,9 @@ function [resids,best]=jointResiduals(var1name,pred_1,obs_1,var2name,pred_2,obs_
 
 end
 
-function [r1,P1]=singleParamResids(obs,pred)
+function [chi_sq,P1]=singleParamResids(obs,pred)
 % single parameter residual components
-  r1=(pred - obs).^2./obs;
-  Res_N = r1 ./ max(r1(:));
+  chi_sq=(pred - obs).^2./obs; % chi-squared
+  Res_N = chi_sq ./ max(chi_sq(:));
   P1=(2*pi*Res_N).^-0.5 .* exp(-0.5*Res_N);
 end

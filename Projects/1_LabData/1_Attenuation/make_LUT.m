@@ -10,7 +10,7 @@
    clear
 
 %filename = 'VBR_GIA_LUT_asth.mat'
-filename = 'VBR_LUT_labdata.mat'
+filename = 'VBR_LUT_labdata_y190304.mat'
 %filename = 'VBR_T_gs_melt_LUT.mat'
 %% ====================================================
 %% Load and set VBR parameters ========================
@@ -31,13 +31,25 @@ filename = 'VBR_LUT_labdata.mat'
 % FLOWCHART !! WHERE DO THESE PROPAGATE, vs SCALING IN FJ ????
  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
  %VBR.in.elastic.anharmonic.Gu_0_ol=72.45; %[GPa]
- VBR.in.elastic.anharmonic.dG_dT = -10.94*1e6; % Pa/C    (equivalent ot Pa/K)
- VBR.in.elastic.anharmonic.dG_dP = 1.987; % GPa / GPa
+
+% are these different that our standard? if so, why?
+ %VBR.in.elastic.anharmonic.dG_dT = -10.94*1e6; % Pa/C    (equivalent ot Pa/K)
+ %VBR.in.elastic.anharmonic.dG_dP = 1.987; % GPa / GPa
+
+ % JF10 have Gu_0=62 GPa, but that's at 900 Kelvin and 0.2 GPa,
+ % so set Gu_0_ol s.t. it ends up at 62 at those conditions
+ dGdT=VBR.in.elastic.anharmonic.dG_dT;
+ dGdP=VBR.in.elastic.anharmonic.dG_dP;
+ Tref=VBR.in.elastic.anharmonic.T_K_ref;
+ Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
+ VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
+
+
 
 %  frequencies to calculate at
-fmin = 0.001 %
-fmax = 2.0 %
-f_vec = logspace(log10(fmin),log10(fmax),100) ;
+fmin = 0.001 ; %
+fmax = 2.0 ; %
+f_vec = logspace(log10(fmin),log10(fmax),20) ;
 VBR.in.SV.f = f_vec ;
 % FJax: f = [ 0.0056000 0.0100000 0.017800 0.031600 0.056200 0.10000 0.17780 0.31600 0.56230 1.0000 ]
 %% ====================================================
@@ -45,9 +57,10 @@ VBR.in.SV.f = f_vec ;
 %% ====================================================
 % for LABORATORY CONDITIONS !
 
-T_C_vec = 800:50:1500 ;
-gs_um_vec = linspace(1,20,20) ;
-P_GPa_vec = [1e-4,0.100,0.200,0.300,0.400]  %linspace(1e-4,400,40) ;
+%T_C_vec = 800:50:1500 ;
+T_C_vec = 1100:50:1400 ;
+gs_um_vec = linspace(1,14,14) ;
+P_GPa_vec = [1e-4,0.100,0.200,0.300,0.400] ; %linspace(1e-4,400,40) ;
 % room pressure (STP) is 101 kPa = 0.1 MPa = 1e-4 GPa
 %phi_vec = linspace(0,0.05,25) ;
 
@@ -60,7 +73,7 @@ VBR.in.SV_vectors.P_GPa_vec_dim3 = P_GPa_vec ;
 [T_K_ra,gs_um_ra,P_GPa_ra] = ndgrid(T_C_vec+273,gs_um_vec,P_GPa_vec) ;
 %T_K_ra = T_K_ra'
 oneses = ones(size(T_K_ra)) ; %,len(gs_um_vec),len(phi_vec));
-sz=size(oneses)  %
+sz=size(oneses) ; %
 
 %% ====================================================
 %% Define the Thermodynamic State ARRAYS===============
@@ -108,10 +121,10 @@ VBR.in.SV.sig_MPa = 0.1 * oneses; % differential stress [MPa]
 %% CALL THE VBR CALCULATOR ============================
 %% ====================================================
 
-[VBR] = VBR_spine(VBR)
+[VBR] = VBR_spine(VBR)  ;
 
 % for the python version ! (because it will not read the reserved word 'in')
-VBR.input = VBR.in
+VBR.input = VBR.in ;
 
 save(filename,'VBR')
 

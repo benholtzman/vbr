@@ -1,12 +1,14 @@
 
 addpath('./datasets') ;
-VBR_LUT = load('VBR_LUT_labdata') ;
+%VBR_LUT = load('VBR_LUT_labdata') ;
+VBR_LUT = load('VBR_LUT_labdata_y190304');
 VBR = VBR_LUT.VBR ;
-VBR.in.SV_vectors
+VBR.in.SV_vectors;
 
 Make_DATA ;
 data = Data;
 
+%find_index_f ;
 
 % left bottom width height
 W = 0.33 ;
@@ -65,16 +67,16 @@ for j = 1:nlines
         % %I_fM = find(f>=f_M,1);
 
         state = data.TanJax.exptCond ;
-        [i_T_d1, i_g_d2, i_P_d3] = find_indexes(VBR,state)
+        [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
 
         Qs = VBR.out.anelastic.eBurgers.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
         Q = squeeze(Qs) ;
         f_vec = VBR.in.SV.f ;
-        plot(log10(f_vec),log10(Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+        plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
         % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
 
         % PLOT DATA:
-        plot(state.logf,log10(1./(squeeze(data.TanJax.Results.Qinv))),'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        plot(state.logf,log10((squeeze(data.TanJax.Results.Qinv))),'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
         %plot(data.TanJax.exptCond.logf,1./(data.TanJax.Results.Qinv),'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
 
 end
@@ -84,36 +86,13 @@ axis tight
 %ylim([1e-6 5e-4])
 title(['Extended Burgers'],'fontname','Times New Roman','fontsize',LBLFNT);
 xlabel('log_{10} frequency', 'fontname','Times New Roman','fontsize', LBLFNT)
-ylabel('log_{10} Q, quality factor', 'fontname','Times New Roman','fontsize', LBLFNT)
+ylabel('log_{10} Q^{-1}, attenuation', 'fontname','Times New Roman','fontsize', LBLFNT)
 %ylabel('log_{10} Q^{-1}, (J_1/J_2)', 'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
 
 
 
-%%  ==================================================
-%%  FUNCTIONS (now go last !)
-%%  ==================================================
-
-
-function [i_T_d1, i_g_d2, i_P_d3] = find_indexes(VBR,state)
-  disp('data conditions:')
-  state
-  T_C = state.T_C
-  T_C_vec = VBR.in.SV_vectors.T_K_vec_dim1 - 273 ;
-  i_T_d1 = find(T_C_vec > T_C ,1)-1
-  T_C_vec(i_T_d1)
-
-  g_um = state.dg_0
-  gs_um_vec = VBR.in.SV_vectors.gs_um_vec_dim2 ;
-  i_g_d2 = find(gs_um_vec > g_um ,1)-1
-  gs_um_vec(i_g_d2)
-
-  P_GPa = state.P_GPa
-  P_GPa_vec = VBR.in.SV_vectors.P_GPa_vec_dim3 ;
-  i_P_d3 = find(P_GPa_vec > P_GPa ,1)-1
-  P_GPa_vec(i_P_d3)
-end
 
 
 

@@ -54,12 +54,13 @@ colorscale(:,3) = linspace(1,0,nlines) ;
 %%  ==================================================
 %%  finding and PLOTTING !
 %%  ==================================================
-
+f_vec = VBR.in.SV.f ;
 clf;
 %%  Q vs FREQUENCY (BURGERS) ==================================================
 axes('Position', plot_row1_A);
 
 nlines = 1 ; %length(VBR_sols(1).T_params) ;
+
 for j = 1:nlines
         %LineW = LineW_vec(j);
         clr = colorscale(j,:) ;
@@ -71,7 +72,7 @@ for j = 1:nlines
 
         Qs = VBR.out.anelastic.eBurgers.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
         Q = squeeze(Qs) ;
-        f_vec = VBR.in.SV.f ;
+
         plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
         % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
 
@@ -96,41 +97,47 @@ set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],
 
 
 
-%
-%
-% %%  G vs FREQUENCY (BURGERS) ==================================================
-% axes('Position', plot_row2_C);
-%
-% f = VBR_sols(1).VBR.ISV.f ;
-% % AndradePsP, two frequencies
-% for j = 1:nlines
-%         %LineW = LineW_vec(j);
-%         clr = colorscale(j,:) ;
-%         %f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
-%         %I_fM = find(f>=f_M,1);
-%         %M = VBR_sols(j).VBR.eBurgers.M(:,1) ;
-%
-%         %plot(log10(f),M./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
-%         %plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
-%
-%         % PLOT DATA:
-%         plot(data.TanJax.exptCond.logf,data.TanJax.Results.G,'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-%
-% end
-%
-% axis tight
-% %xlim([1.8e1 3e2])
-% %ylim([1e-6 5e-4])
-%
-% xlabel('log frequency', 'fontname','Times New Roman','fontsize', LBLFNT)
-% ylabel('Modulus, M (GPa)', 'fontname','Times New Roman','fontsize', LBLFNT)
-% set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
-% set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
-% %set(gca,'XTickLabel', [])
-%
-%
-%
-% return
+
+
+%%  G vs FREQUENCY (BURGERS) ==================================================
+axes('Position', plot_row2_C);
+
+% AndradePsP, two frequencies
+for j = 1:nlines
+        %LineW = LineW_vec(j);
+        clr = colorscale(j,:) ;
+        %f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
+        %I_fM = find(f>=f_M,1);
+        %M = VBR_sols(j).VBR.eBurgers.M(:,1) ;
+
+        %plot(log10(f_vec),M./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
+        %plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
+
+        state = data.TanJax.exptCond ;
+        [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+
+        G = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
+        G = squeeze(G) ;
+        plot(log10(f_vec),G,'k-','LineWidth', LineW, 'Color', clr); hold on;
+
+        % PLOT DATA:
+        plot(data.TanJax.exptCond.logf,data.TanJax.Results.G,'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+
+end
+
+axis tight
+%xlim([1.8e1 3e2])
+%ylim([1e-6 5e-4])
+
+xlabel('log frequency', 'fontname','Times New Roman','fontsize', LBLFNT)
+ylabel('Modulus, M (GPa)', 'fontname','Times New Roman','fontsize', LBLFNT)
+set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
+set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
+%set(gca,'XTickLabel', [])
+
+
+
+return
 %
 % %%  Q vs FREQUENCY (AndradePsP) ==================================================
 % axes('Position', plot_row1_B);

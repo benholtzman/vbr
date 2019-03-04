@@ -1,17 +1,25 @@
 function Z_LAB_Q = find_LAB_Q(Q_z,Z_km,varargin)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % finds seismic LAB using Q. LAB defined either as an absolute value of Q or
-% as the depth where Q = Q_factor * ave Asthenosphere Q
+% as the depth where Q = Q_factor * ave Asthenosphere Q.
+% Reminder low Q = high attenuation (Q^-1), so LAB Q will be > astheno Q.
+%
+% Input:
+%  Q_z, Z_km : Q and depth. 1d arrays.
+%  varargin : optional arguments (see below)
 %
 % varargin options:
 %    'method': 'Q_factor' or 'Q_value'
 %  if 'method'=='Q_factor':
 %    Z_LAB_Q = find_LAB_Q(Q_z,Z_km,'method','Q_factor','value',20,'z_min',150)
 %    'value': LAB Q = value * ave Astheno Q
-%    'z_min':  z_min > Z_plate is averaged to get Astheno Q
+%    'z_min_km':  z_min > Z_plate is averaged to get Astheno Q
 %  if 'method'=='Q_value'
 %    Z_LAB_Q = find_LAB_Q(Q_z,Z_km,'method','Q_value',800)
 %    'value': absolute value of Q. LAB Q = Q_value
+%
+% Output:
+%  Z_LAB_Q : the seismic LAB depth from Q. 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % process varargin args

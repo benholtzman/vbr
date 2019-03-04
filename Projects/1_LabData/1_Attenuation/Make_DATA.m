@@ -9,6 +9,45 @@ clear Data
 % so you should use it). columns that say either f/fm or normalized f are
 % the ones I use for the master curve. in all cases I used the viscosities
 % reported in those papers.
+addpath('./datasets/FJ2015_data/')
+G_filelist = {"T900_SanCarlos_G.csv", "T1000_SanCarlos_G.csv", "T1100_SanCarlos_G.csv", "T1200_SanCarlos_G.csv"}
+Qinv_filelist = {"T900_SanCarlos_Qinv.csv","T1000_SanCarlos_Qinv.csv","T1100_SanCarlos_Qinv.csv","T1200_SanCarlos_Qinv.csv"};
+T_C_vec = [900 1000 1100 1200];
+
+
+for iT=1:4
+
+  T_C = T_C_vec(iT)
+  Gfilename = char(G_filelist(iT)) ;
+  disp(Gfilename);
+  data_G = load(Gfilename);
+
+  Qfilename = char(Qinv_filelist(iT));
+  disp(Qfilename);
+  data_Qinv = load(Qfilename);
+
+  Data.FaulJax15(iT).exptCond.T_C = T_C ;
+  Data.FaulJax15(iT).exptCond.P_GPa = 0.300 ; % confining pressure
+  Data.FaulJax15(iT).exptCond.Gu = 65 ; % reference G ! not sure what this is.. placeholder
+  Data.FaulJax15(iT).exptCond.rho = 3300 ; % reference density ! not sure what this is.. placeholder
+  Data.FaulJax15(iT).exptCond.dg_0 = 17.1 ; % grain size, in microns
+  Data.FaulJax15(iT).exptCond.Ch2o_0 = 0 ; % water content (wt %?)
+  Data.FaulJax15(iT).exptCond.sig_0 = 1e5 ; % stress,  Pa (cnvrted to MPa in spine)
+  Data.FaulJax15(iT).exptCond.phi_0 = 0.00 ; % melt fraction
+  %Data.FaulJax15(iT).exptCond.f = [ 0.0056000 0.0100000 0.017800 0.031600 0.056200 0.10000 0.17780 0.31600 0.56230 1.0000 ];
+  logPer = transpose(data_G(:,1)) ;
+  f = 1./(10.^logPer);
+  Data.FaulJax15(iT).exptCond.logPer = logPer ; %
+  Data.FaulJax15(iT).exptCond.f = f ;
+  Data.FaulJax15(iT).exptCond.logf = log10(f) ;
+
+  Data.FaulJax15(iT).Results.log10_Qinv = data_Qinv(:,2) ;
+  Data.FaulJax15(iT).Results.G = data_G(:,2) ;
+
+end
+
+
+return
 
 %% TAN & FAUL & JACKSON ()
 % add in the rest of this data !

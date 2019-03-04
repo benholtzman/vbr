@@ -42,8 +42,8 @@ filename = 'VBR_LUT_labdata_y190304.mat'
  dGdP=VBR.in.elastic.anharmonic.dG_dP;
  Tref=VBR.in.elastic.anharmonic.T_K_ref;
  Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
- VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
-
+ Gu0_x = 62.0 %
+ VBR.in.elastic.anharmonic.Gu_0_ol =  Gu0_x - (900-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
 
 
 %  frequencies to calculate at
@@ -58,8 +58,8 @@ VBR.in.SV.f = f_vec ;
 % for LABORATORY CONDITIONS !
 
 %T_C_vec = 800:50:1500 ;
-T_C_vec = 1100:50:1400 ;
-gs_um_vec = linspace(1,14,14) ;
+T_C_vec = 900:100:1300 ;
+gs_um_vec = linspace(1,20,20) ;
 P_GPa_vec = [1e-4,0.100,0.200,0.300,0.400] ; %linspace(1e-4,400,40) ;
 % room pressure (STP) is 101 kPa = 0.1 MPa = 1e-4 GPa
 %phi_vec = linspace(0,0.05,25) ;

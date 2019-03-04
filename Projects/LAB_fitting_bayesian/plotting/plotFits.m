@@ -31,8 +31,10 @@ Vsplot.ylabel_text='Depth (km)';
 plot_profiles(Vsplot,Layout.Vsz, VBR, fits, seismic_obs, f_mask,settings);
 
 % % Residuals (can plot up to two 'temps' at a time)
-% layout = Layout.rh;  clr = [1 0 0];
-% residPlots(layout, Tpot_vec, zPlate_vec, fits, clr)
+layout = Layout.rh;  clr = [1 0 0];
+Tpot_vec = VBR(1).BoxParams.var1range;
+zPlate_vec = VBR(1).BoxParams.var2range;
+residPlots(layout, Tpot_vec, zPlate_vec, fits, clr)
 
 end
 
@@ -106,13 +108,12 @@ function residPlots(layouts, Tpot_vec, zPlate_vec, fits, clr)
   %  Plots the residual profiles                                 %
   %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 
-  ij_best = fits.ij_best;
+  ij_best = fits.fixed_Tp.ij_best;
   x_lims = zPlate_vec([1 end]); y_lims = Tpot_vec([1 end]);
-
 
   % Plot the residuals for ZLAB
   axes('position', layouts.c1); hold on; box on;
-  imagesc(x_lims, y_lims,log10(fits.Res_LAB));
+  imagesc(x_lims, y_lims,log10(fits.resids.P_zLAB));
   colormap(gray)
   scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
   title(['Res: Z_L_A_B']);
@@ -121,7 +122,7 @@ function residPlots(layouts, Tpot_vec, zPlate_vec, fits, clr)
 
   % Plot the residuals for Vs_adavg
   axes('position', layouts.c2); hold on; box on;
-  imagesc(x_lims, y_lims, log10(fits.Res_Vs_adavg_mat));
+  imagesc(x_lims, y_lims, log10(fits.resids.P_Vs));
   colormap(gray)
   scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
   title('Res: V_s');
@@ -131,7 +132,7 @@ function residPlots(layouts, Tpot_vec, zPlate_vec, fits, clr)
 
   % Plot the residuals for Vs_adavg HOT
   axes('position', layouts.c3); hold on; box on;
-  imagesc(x_lims, y_lims, fits.P_JOINT);
+  imagesc(x_lims, y_lims, fits.resids.P_Joint);
   colormap(gray)
   scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
   title('Joint Prob');

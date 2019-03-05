@@ -18,11 +18,11 @@ T_C_vec = [900 1000 1100 1200];
 for iT=1:4
 
   T_C = T_C_vec(iT)
-  Gfilename = char(G_filelist(iT)) ;
+  Gfilename = string(G_filelist(iT)) ; % in Octave, use 'char' instead of 'string'.
   disp(Gfilename);
   data_G = load(Gfilename);
 
-  Qfilename = char(Qinv_filelist(iT));
+  Qfilename = string(Qinv_filelist(iT)); % in Octave, use 'char' instead of 'string'.
   disp(Qfilename);
   data_Qinv = load(Qfilename);
 
@@ -46,8 +46,6 @@ for iT=1:4
 
 end
 
-
-return
 
 %% TAN & FAUL & JACKSON ()
 % add in the rest of this data !
@@ -141,3 +139,5 @@ Data.SundCoop(3).exptCond.f = [ 0.0056000 0.0100000 0.017800 0.031600 0.056200 0
 Data.SundCoop(3).exptCond.logf = log10(Data.SundCoop(2).exptCond.f) ;
 Data.SundCoop(3).Results.Qinv = [ 1.7473 1.2105 0.9289 0.7106 0.5611 0.4459 0.3586 0.3251 0.2992 0.3001 ] ;
 Data.SundCoop(3).Results.G = [ 4.9 7.4 9.8 12.5 15.0 17.4 20.0 22.3 23.8 26.0 ] ;
+
+save('ExptData.mat', 'Data')

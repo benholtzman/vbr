@@ -5,9 +5,9 @@ VBR_LUT = load('VBR_LUT_labdata_y190304');
 VBR = VBR_LUT.VBR ;
 VBR.in.SV_vectors;
 
-Make_DATA ;
-data = Data;
-
+%Make_DATA ;
+load('ExptData.mat');
+data = Data ;
 %find_index_f ;
 
 % left bottom width height

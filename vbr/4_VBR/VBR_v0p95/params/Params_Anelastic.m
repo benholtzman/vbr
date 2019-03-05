@@ -22,10 +22,8 @@ function params = Params_Anelastic(method)
       params.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
       params.m = 1 ;
       params.method='PointWise'; % 'FastBurger' or 'PointWise' or 'None'
-      if strcmp(params.method,'FastBurger')
-          params.nTauGlob=3000; % points for global Tau discretization
-      end
-
+      params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
+      
       %% THESE ARE THE THINGS FROM JF10
       %   %gsr = 1.34E-5; % reference grain size in m
       %   %deltaB = 1.04; % background relaxation strength,
@@ -82,13 +80,9 @@ function params = Params_Anelastic(method)
         params.melt_alpha = HK2003.diff.alf ;
         params.phi_c = HK2003.diff.phi_c ;
         params.x_phi_c = HK2003.diff.x_phi_c ;
-%       set manually:
-%         params.melt_alpha = 20 ;
-%         params.phi_c = 0.001 ;
-%         params.x_phi_c = 5 ;
 
 %       the BUMP
-        params.Te = 0.1 ; % not sure what this is
+        params.Te = 0.1 ;
         params.Tgbs = 0.0833 ;% sec
         params.Delta = 0.3 ; % 0.43 ; % Relaxation strength
         params.FUDGE = 1 ; %0.7 ;

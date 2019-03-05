@@ -26,16 +26,11 @@ filename = 'VBR_LUT_labdata_y190304.mat'
  VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'}; %;'SLB2005'};
  VBR.in.viscous.methods_list={'HK2003'; 'LH2012'};
  VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT2016_solidus';'YT_maxwell'};
- VBR.in.GlobalSettings.melt_enhacement=0; % turn off critcal melt fraction effect 
+ VBR.in.GlobalSettings.melt_enhacement=0; % turn off critcal melt fraction effect
 
-%  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016
-% FLOWCHART !! WHERE DO THESE PROPAGATE, vs SCALING IN FJ ????
+%  load anharmonic parameters, adjust Gu_0_ol and derivatives to match JF10
  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
  %VBR.in.elastic.anharmonic.Gu_0_ol=72.45; %[GPa]
-
-% are these different that our standard? if so, why?
- %VBR.in.elastic.anharmonic.dG_dT = -10.94*1e6; % Pa/C    (equivalent ot Pa/K)
- %VBR.in.elastic.anharmonic.dG_dP = 1.987; % GPa / GPa
 
  % JF10 have Gu_0=66.5 GPa, but that's at 900 C and 0.2 GPa,
  % so set Gu_0_ol s.t. it ends up at 66.5 at those conditions

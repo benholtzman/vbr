@@ -52,26 +52,31 @@ function[VBR]=Q_eBurgers_f(VBR)
   Tau_HR = Burger_params.Tau_HR ;
   Tau_MR = Burger_params.Tau_MR ;
 
-% EFFECT OF MELT, hypothetical:
+% Melt Effects
 % sharper response than creep at phi_c, but less sensitive at higher phi (for HTB only)
-  alpha = Burger_params.melt_alpha ;
-  phi_c = Burger_params.phi_c ;
-  x_phi_c = Burger_params.x_phi_c ;
+  alpha = Burger_params.melt_alpha ; % post-critical melt fraction dependence
+  phi_c = Burger_params.phi_c ; % critical melt fraction
+  x_phi_c = Burger_params.x_phi_c ;% melt enhancement factor
 
+
+% Calculate Scaling Matrix:
+scale_mat = ((d_mat./dR).^m).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+
+% account for lack of truly melt free samples and the drop at the onset of melting.
+if VBR.in.GlobalSettings.melt_enhacement==0
+  x_phi_c=1;
+else
+  scale_mat = scale_mat.*x_phi_c ;
+end
+
+% add melt effects
+[scale_mat_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
+scale_mat = scale_mat./scale_mat_prime ;
 
 % ====================================================
 % LOOP over the spatial DOMAIN of the state variables
 % ====================================================
-scale_mat = ((d_mat./dR).^m).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR)) ; % more like viscosity, so divide by melt factor
 
-% comment out for now. 
-% %(Xtilde is like strain rate!, where you multiply by rate factor)
-% scale_mat = scale_mat.*x_phi_c ; % to account for lack of truly melt free samples and the drop at the onset of melting.
-%
-% % melt enhancement
-% [scale_mat_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
-%
-% scale_mat = scale_mat./scale_mat_prime ;
 
 % use linear indexing!! will loop over n-dimensions of Ju_mat.
 n_th = numel(Ju_mat); % number of thermodynamic states

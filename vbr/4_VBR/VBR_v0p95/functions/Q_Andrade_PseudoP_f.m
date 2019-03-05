@@ -57,11 +57,14 @@ function[VBR]=Q_Andrade_PseudoP_f(VBR)
 %  X_tilde in paper == scale_mat (dimensionless) (like strain rate, not viscosity)
 
 %  truly melt free
-   Xtilde = ((d_mat./dR).^-m).*exp((-E/R).*(1./T_K_mat-1/TR)) ...
-                             .*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
-
-   Xtilde = Xtilde / x_phi_c; %???????????????
-
+  Xtilde = ((d_mat./dR).^-m).*exp((-E/R).*(1./T_K_mat-1/TR)) ...
+                           .*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+  if VBR.in.GlobalSettings.melt_enhacement==0
+    x_phi_c=1;
+  else
+    Xtilde = Xtilde / x_phi_c ;
+  end
+  
 %  melt enhancement
    [Xtilde_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
    Xtilde = Xtilde_prime.*Xtilde ;

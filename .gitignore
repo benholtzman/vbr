@@ -7,3 +7,4 @@
 *.nc
 #*.csv
 octave-workspace
+Projects/LAB_fitting_bayesian/data/LAB_models/HopperFischer2018.csv

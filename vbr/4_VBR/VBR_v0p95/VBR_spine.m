@@ -68,13 +68,13 @@ if isfield(VBR.in,'viscous')
       if isfield(VBR.in.viscous,'HK2003')==0
           VBR.in.viscous.HK2003=Params_Viscous('HK2003');
       end
-      VBR = visc_calc_HK2003(VBR);
+      VBR = sr_visc_calc_HK2003(VBR);
    end
    if sum(strncmp('LH2012',methods_list,6)) > 0
       if isfield(VBR.in.viscous,'LH2012')==0
           VBR.in.viscous.LH2012=Params_Viscous('LH2012');
       end
-      VBR = visc_calc_LH2012(VBR);
+      VBR = sr_visc_calc_LH2012(VBR);
    end
    telapsed.visc=toc(telapsed.visc);
 end

@@ -26,6 +26,7 @@ filename = 'VBR_LUT_labdata_y190304.mat'
  VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'}; %;'SLB2005'};
  VBR.in.viscous.methods_list={'HK2003'; 'LH2012'};
  VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT2016_solidus';'YT_maxwell'};
+ VBR.in.GlobalSettings.melt_enhacement=0; % turn off critcal melt fraction effect 
 
 %  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016
 % FLOWCHART !! WHERE DO THESE PROPAGATE, vs SCALING IN FJ ????

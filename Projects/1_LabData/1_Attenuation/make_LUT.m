@@ -36,14 +36,27 @@ filename = 'VBR_LUT_labdata_y190304.mat'
  %VBR.in.elastic.anharmonic.dG_dT = -10.94*1e6; % Pa/C    (equivalent ot Pa/K)
  %VBR.in.elastic.anharmonic.dG_dP = 1.987; % GPa / GPa
 
- % JF10 have Gu_0=62 GPa, but that's at 900 Kelvin and 0.2 GPa,
- % so set Gu_0_ol s.t. it ends up at 62 at those conditions
- dGdT=VBR.in.elastic.anharmonic.dG_dT;
- dGdP=VBR.in.elastic.anharmonic.dG_dP;
- Tref=VBR.in.elastic.anharmonic.T_K_ref;
- Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
- Gu0_x = 62.0 %
- VBR.in.elastic.anharmonic.Gu_0_ol =  Gu0_x - (900-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
+ % JF10 have Gu_0=66.5 GPa, but that's at 900 C and 0.2 GPa,
+ % so set Gu_0_ol s.t. it ends up at 66.5 at those conditions
+   % calculate dGdT from their figure.
+   G_900=66.5; % from plot at log10(period)=-2
+   G_1200=58; % from plot at log10(period)=-2
+   dGdT=(G_1200 - G_900)/(1200-900)
+   VBR.in.elastic.anharmonic.dG_dT=dGdT * 1e9; % Pa / C
+   dGdT=VBR.in.elastic.anharmonic.dG_dT;
+
+   % set JF10 ref modulus and ref T/P
+   Gu0_x=G_900;
+   T_ref_JF10=900+273;
+   P_ref_JF10=0.2;
+
+   % back out ref Modlus at STP.
+   dGdT=VBR.in.elastic.anharmonic.dG_dT;
+   dGdP=VBR.in.elastic.anharmonic.dG_dP;
+   Tref=VBR.in.elastic.anharmonic.T_K_ref;
+   Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
+   VBR.in.elastic.anharmonic.Gu_0_ol =  Gu0_x - (T_ref_JF10-Tref) * dGdT/1e9 ...
+                 - (P_ref_JF10-Pref)*dGdP; % olivine reference shear modulus [GPa]
 
 
 %  frequencies to calculate at

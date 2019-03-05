@@ -18,11 +18,11 @@ T_C_vec = [900 1000 1100 1200];
 for iT=1:4
 
   T_C = T_C_vec(iT)
-  Gfilename = string(G_filelist(iT)) ; % in Octave, use 'char' instead of 'string'.
+  Gfilename = G_filelist{iT} ;
   disp(Gfilename);
   data_G = load(Gfilename);
 
-  Qfilename = string(Qinv_filelist(iT)); % in Octave, use 'char' instead of 'string'.
+  Qfilename = Qinv_filelist{iT};
   disp(Qfilename);
   data_Qinv = load(Qfilename);
 

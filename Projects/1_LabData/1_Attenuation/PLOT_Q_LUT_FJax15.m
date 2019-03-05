@@ -5,7 +5,9 @@ VBR_LUT = load('VBR_LUT_labdata_y190304');
 VBR = VBR_LUT.VBR ;
 VBR.in.SV_vectors;
 
-%Make_DATA ;
+if ~exist('ExptData.mat')
+  Make_DATA ;
+end
 load('ExptData.mat');
 data = Data ;
 %find_index_f ;

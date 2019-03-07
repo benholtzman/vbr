@@ -109,11 +109,21 @@ function residPlots(layouts, Tpot_vec, zPlate_vec, fits, clr)
   %  *   *   *   *   *   *   *   *   *   *   *   *   *   *   *   %
 
   ij_best = fits.fixed_Tp.ij_best;
-  x_lims = zPlate_vec([1 end]); y_lims = Tpot_vec([1 end]);
+  ij_best = [fits.bestJoint.var1_i fits.bestJoint.var2_i];
+
+  % imagesc pixel locations
+  x_pts=[zPlate_vec(1) zPlate_vec(end)];
+  y_pts=[Tpot_vec(1) Tpot_vec(end)];
+
+  % imagesc limits
+  dx = zPlate_vec(2) - zPlate_vec(1);
+  dy = Tpot_vec(2) - Tpot_vec(1);
+  x_lims = [zPlate_vec(1)-dx/2 zPlate_vec(end)+dx/2];
+  y_lims = [Tpot_vec(1)-dy/2 Tpot_vec(end)+dy/2];
 
   % Plot the residuals for ZLAB
   axes('position', layouts.c1); hold on; box on;
-  imagesc(x_lims, y_lims,log10(fits.resids.P_zLAB));
+  imagesc(x_pts, y_pts,log10(fits.resids.P_zLAB));
   colormap(gray)
   scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
   title(['Res: Z_L_A_B']);
@@ -122,7 +132,7 @@ function residPlots(layouts, Tpot_vec, zPlate_vec, fits, clr)
 
   % Plot the residuals for Vs_adavg
   axes('position', layouts.c2); hold on; box on;
-  imagesc(x_lims, y_lims, log10(fits.resids.P_Vs));
+  imagesc(x_pts, y_pts, log10(fits.resids.P_Vs));
   colormap(gray)
   scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
   title('Res: V_s');
@@ -130,9 +140,9 @@ function residPlots(layouts, Tpot_vec, zPlate_vec, fits, clr)
   set(gca,'YTickLabel', []);
   xlim(x_lims); ylim(y_lims); axis ij;
 
-  % Plot the residuals for Vs_adavg HOT
+  % Plot the residuals for Vs_adavg
   axes('position', layouts.c3); hold on; box on;
-  imagesc(x_lims, y_lims, fits.resids.P_Joint);
+  imagesc(x_pts, y_pts, log10(fits.resids.P_Joint));
   colormap(gray)
   scatter(zPlate_vec(ij_best(2)), Tpot_vec(ij_best(1)), 10, clr,'filled')
   title('Joint Prob');

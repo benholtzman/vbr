@@ -43,7 +43,7 @@ VBR.in.elastic.anharmonic.Gu_0_ol=71;
 % load the Box
 load(Work.Box_name_IN) ;
 
-VBRBox(size(Box)(1),size(Box)(1))=struct();
+VBRBox(size(Box)(1),size(Box)(2))=struct();
 % loop over box indeces, run VBR calculator on last frame of each run
 Work.nBox = numel(Box); Work.tstart = cputime;
 for iBox = 1:Work.nBox

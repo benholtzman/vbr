@@ -10,3 +10,10 @@ not sure yet.
 
 (3) Plot each lab's data with their fitting and scaling model... and then make the matrix of
 lab data vs fitting model.
+
+
+
+Questions:
+(1) Yamauchi/Takei reference grain size = grain size? so there is no grain size dependence?
+(2) Faul/Jackson 2015 fit to the San Carlos data in Fig 4 (unpublished data) cannot have a dG/dT of -13.x, 
+has to be about -25-- Ask Uli about this

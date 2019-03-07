@@ -14,13 +14,18 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_fiel
   % P(T, phi, gs | Vs) = P( Vs | T, phi,gs) * P(T,phi,gs) / P(Vs)
   %
   % Input:
-  %    States(n_k)    :   structure-array of size n_k with thermodynamic states
+  %    States    :   structure with thermodynamic states
   %          .var1 : values of var1 at this state e.g., T
   %          .var1_mean : mean of var1
   %          .var1_std : standard devation of var1
   %          .var2 : e.g., phi
   %          .var2_mean : mean of var2
   %          .var2_std : standard devation of var2
+  %
+  %          all vari variables must matrices of the same size:
+  %                   States.Tpot(n_Tpot,n_phi,n_gs)
+  %                   States.phi(n_Tpot,n_phi,n_gs)
+  %                   States.gs(n_Tpot,n_phi,n_gs)
   %
   %    states_fields : cell array with base fieldnames in States, e.g., {'Tpot','phi'}
   %                   each fieldname must exist in States.
@@ -34,6 +39,14 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_fiel
   %       .obs_field
   %
   %    obs_field  : the Obs and Residuals field to use for inference e.g., 'meanVs'
+  %
+  % Ouput
+  %    probs      :  structure with probability distributions
+  %         .Prior_mod  : multivariate prior model PDF, P(A)=P(v1)*P(v2)...
+  %         .P_Obs_given_mod : likelihood PDF, P(D|A)
+  %         .P_Obs  : data PDF, P(D)
+  %         .Posterior : unscaled posterior distrubtion
+  %         .Posterior_scaled : scaled posterior distrubtion 
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % observed probability of data P(D), e.g., P(Vs). Scalar value.
@@ -44,7 +57,7 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_fiel
   sigmaObs =  Obs.([obs_field,'_std']); % standard deviation
   mu     = Obs.([obs_field,'_mean']); % mean value
   x      = Obs.([obs_field]); % measurement
-  P_Obs = normpdf(x,mu,sigmaObs); % probability of Data.
+  probs.P_Obs = normpdf(x,mu,sigmaObs); % probability of Data.
   disp(['P(D):'])
   disp(P_Obs)
 
@@ -62,7 +75,7 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_fiel
   probs.P_Obs_given_mod = (2*pi*sigmaObs^2).^-0.5 .* exp(-0.5*Residuals.(obs_field))
 
   % calculate Posterior distribution
-  probs.Posterior = (probs.P_Obs_given_mod .* probs.Prior_mod)./(P_Obs)
+  probs.Posterior = (probs.P_Obs_given_mod .* probs.Prior_mod)./(probs.P_Obs)
 
   % scale Posterior distribution
   norm_for_residual = (2*pi*0.0001).^-0.5 .* exp(-0.5*0.0001); % ???
@@ -85,7 +98,7 @@ function [sigmaPreds, Prior_mod] = priorModelProbs(States,states_fields,ifnormal
       sigma =  States.(std_field); % standard deviation
       mu     = States.(mn_field); % mean value
       x      = States.(this_field); % measurements
-      P_var_i = normpdf(x,mu,sigma); % 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));          
+      P_var_i = normpdf(x,mu,sigma); % 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
     else
       P_var_i=1;
     end

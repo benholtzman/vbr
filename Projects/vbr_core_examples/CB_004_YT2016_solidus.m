@@ -23,6 +23,10 @@
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
    VBR.in.elastic.methods_list={'anharmonic'};
    VBR.in.anelastic.methods_list={'YT2016_solidus'};
+   
+   % use the exact viscosity relationship in YT2016 for dry diff. creep visc.:
+   VBR.in.viscous.YT2016_solidus=Params_Viscous('YT2016_solidus');
+   VBR.in.viscous.YT2016_solidus.eta_dry_method='YT2016_solidus';
 
 %  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016
    VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
@@ -44,7 +48,7 @@
    sz=size(VBR.in.SV.T_K); % temperature [K]
 
 %  intensive state variables (ISV)
-   VBR.in.SV.dg_um=3.1*ones(sz);
+   VBR.in.SV.dg_um=3.1 * ones(sz); % grain size [um]
    VBR.in.SV.P_GPa = 0.2 * ones(sz); % pressure [GPa]
    VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
    VBR.in.SV.sig_MPa = 10 * ones(sz); % differential stress [MPa]

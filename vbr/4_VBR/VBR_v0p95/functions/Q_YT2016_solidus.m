@@ -39,8 +39,8 @@ function [VBR] = Q_YT2016_solidus(VBR)
     % ==================================
 
     % viscoscity & maxwell time
-      [eta]=visc_calc_YT2016_solidus(T_K,P_Pa,Tsol_K,d,phi);
-      tau_m=eta./Gu_in;
+      VBR=visc_calc_YT2016_solidus(VBR);
+      tau_m=VBR.out.viscous.YT2016_solidus.diff.eta./Gu_in;
 
     % calculate the Tn-dependent coefficients, A_p and sig_p
       [A_p,sig_p]=calcApSigp(Tn,phi);
@@ -100,7 +100,7 @@ function [VBR] = Q_YT2016_solidus(VBR)
       VBR.out.anelastic.YT2016_solidus.Q = Q;
       VBR.out.anelastic.YT2016_solidus.Qinv = Qinv;
       VBR.out.anelastic.YT2016_solidus.M=M;
-      VBR.out.anelastic.YT2016_solidus.V=V;
+      VBR.out.anelastic.YT2016_solidus.V=V;    
 
   end
 end

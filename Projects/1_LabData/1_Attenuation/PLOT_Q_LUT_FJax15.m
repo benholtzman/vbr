@@ -28,6 +28,13 @@ dotsize = 12;
 dotsize_D = 20 ;
 
 
+plot_vs_freq=0;
+if plot_vs_freq
+  xlabel_text='log_{10} frequency';
+else
+  xlabel_text='log_{10} period';
+end
+
 % VBR = VBR_sols(1).VBR ;
 % d = VBR.SSV.dg_um(1) ;
 % P = VBR.ISV.P_GPa(1) ;
@@ -75,12 +82,20 @@ for iT = 1:nlines
         Qs = VBR.out.anelastic.eBurgers.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
         Q = squeeze(Qs) ;
 
-        plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+        if plot_vs_freq
+          plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+        else
+          plot(log10(1./f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+        end
         % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
 
         % PLOT DATA
         data_log10_Qinv = data.FaulJax15(iT).Results.log10_Qinv ;
-        plot(state.logf,data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        if plot_vs_freq
+          plot(state.logf,data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        else
+          plot(log10(1./(10.^state.logf)),data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        end
         %plot(data.TanJax.exptCond.logf,1./(data.TanJax.Results.Qinv),'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
 
 end
@@ -89,7 +104,7 @@ axis tight
 %xlim([1.8e1 3e2])
 %ylim([1e-6 5e-4])
 title(['Extended Burgers'],'fontname','Times New Roman','fontsize',LBLFNT);
-xlabel('log_{10} frequency', 'fontname','Times New Roman','fontsize', LBLFNT)
+xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
 ylabel('log_{10} Q^{-1}, attenuation', 'fontname','Times New Roman','fontsize', LBLFNT)
 %ylabel('log_{10} Q^{-1}, (J_1/J_2)', 'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
@@ -114,12 +129,20 @@ for iT = 1:nlines
         G = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:) ;
         G = squeeze(G) ;
 
-        plot(log10(f_vec),G./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
+        if plot_vs_freq
+          plot(log10(f_vec),G./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
+        else
+          plot(log10(1./f_vec),G./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
+        end
         % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
 
         % PLOT DATA
         data_G = data.FaulJax15(iT).Results.G ;
-        plot(state.logf,data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        if plot_vs_freq
+          plot(state.logf,data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        else
+          plot(log10(1./(10.^state.logf)),data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        end
         %plot(data.TanJax.exptCond.logf,1./(data.TanJax.Results.Qinv),'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
 
 end
@@ -128,7 +151,7 @@ axis tight
 %xlim([1.8e1 3e2])
 %ylim([1e-6 5e-4])
 
-xlabel('log frequency', 'fontname','Times New Roman','fontsize', LBLFNT)
+xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
 ylabel('Modulus, M (GPa)', 'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);

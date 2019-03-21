@@ -36,26 +36,21 @@ function[VBR]=Q_eBurgers_f(VBR)
 
 % Read in reference values (Temp, Pressure and Grain Size) and parameters
   Burger_params=VBR.in.anelastic.eBurgers;
-  bType=Burger_params.eBurgerMethod;
-  TR = Burger_params.(bType).TR ;% Kelvins
-  PR = Burger_params.(bType).PR *1e9; % convert pressure GPa to Pa = GPa*1e9
-  dR = Burger_params.(bType).dR ; % microns grain size
-  E = Burger_params.(bType).E ; % activation energy J/mol
-  R = Burger_params.R ; % gas constant
-  Vstar = Burger_params.(bType).Vstar ; % m^3/mol Activation Volume
-  m_a = Burger_params.(bType).m_a ; % grain size exponent (anelastic)
-  m_v = Burger_params.(bType).m_v ; % grain size exponent (viscous)
-  alf = Burger_params.(bType).alf ;
-  Delta = Burger_params.(bType).DeltaB ; % relaxation strength.
-  Tau_LR = Burger_params.(bType).Tau_LR ;
-  Tau_HR = Burger_params.(bType).Tau_HR ;
-  Tau_MR = Burger_params.(bType).Tau_MR ;
-  JF10G_UR = Burger_params.(bType).G_UR ;
+  TR = Burger_params.TR ;% Kelvins
+  PR = Burger_params.PR *1e9; % convert pressure GPa to Pa = GPa*1e9
+  dR = Burger_params.dR ; % microns grain size
 
-  % peak parameters (will be 0 if eBurgType=='bg_only')
-  DeltaP=Burger_params.(bType).DeltaP;
-  sigma=Burger_params.(bType).sigma;
-  Tau_PR=Burger_params.(bType).Tau_PR;
+  E = Burger_params.E ; % J/mol
+  R = Burger_params.R ;
+  Vstar = Burger_params.Vstar ; % m^3/mol (Activation Volume? or molar volume?)
+  m = Burger_params.m ;
+
+% Jackson n Faul 2010, table 1 :
+  alf = Burger_params.alf ; % is this the same as n in Andrade ?
+  Delta = Burger_params.Delta ;%1.4 ;% ; % relaxation strength..
+  Tau_LR = Burger_params.Tau_LR ;
+  Tau_HR = Burger_params.Tau_HR ;
+  Tau_MR = Burger_params.Tau_MR ;
 
 % Melt Effects
 % sharper response than creep at phi_c, but less sensitive at higher phi (for HTB only)
@@ -63,65 +58,58 @@ function[VBR]=Q_eBurgers_f(VBR)
   phi_c = Burger_params.phi_c ; % critical melt fraction
   x_phi_c = Burger_params.x_phi_c ;% melt enhancement factor
 
+
 % Calculate Scaling Matrix:
-scale.visc=((d_mat./dR).^m_v).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
-scale.LHP=((d_mat./dR).^m_a).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+scale_mat = ((d_mat./dR).^m).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
 
 % account for lack of truly melt free samples and the drop at the onset of melting.
 if VBR.in.GlobalSettings.melt_enhacement==0
   x_phi_c=1;
 else
-  scale.visc = scale.visc .* x_phi_c ;
-  scale.LHP = scale.LHP .* x_phi_c ;
+  scale_mat = scale_mat.*x_phi_c ;
 end
 
 % add melt effects
 [scale_mat_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
-scale.visc = scale.visc ./ scale_mat_prime ;
-scale.LHP = scale.LHP ./ scale_mat_prime ;
+scale_mat = scale_mat./scale_mat_prime ;
 
 % ====================================================
 % LOOP over the spatial DOMAIN of the state variables
 % ====================================================
+
 
 % use linear indexing!! will loop over n-dimensions of Ju_mat.
 n_th = numel(Ju_mat); % number of thermodynamic states
 for x1 = 1:n_th; % loop using linear index!
 
 %   pull out variables at current index
-    scale_visc = scale.visc(x1);
-    scale_LHP = scale.LHP(x1);
+    scale = scale_mat(x1);
     Ju = Ju_mat(x1) ;
     rho = rho_mat(x1) ;
-
-    % tau limits & integration vector
-    Tau_L = Tau_LR.*scale_LHP ;
-    Tau_H = Tau_HR.*scale_LHP ;
-    Tau_P = Tau_PR.*scale_LHP ;
-
-    ntau = 500 ;
-    Tau_X_vec = logspace(log10(Tau_L),log10(Tau_H),ntau) ;
-
-    % maxwell relaxation time (period)
-    % ??? adjust the constant to go from JF10 Gu reference to the current Gu.
-    % ??? Tau_MR_adjusted = Tau_MR * JF10G_UR / Mu(x1);
-    Tau_M = Tau_MR.*scale_visc ;
 
 %   loop over frequency
     for i=1:nfreq
         i_glob = x1 + (i - 1) * n_th; % the linear index of the arrays with
                                          % a frequency index
         w = w_vec(i) ;
+        Tau_L = Tau_LR.*scale ;
+        Tau_H = Tau_HR.*scale ;
+
+        ntau = 200 ;
+        Tau_X_vec = logspace(log10(Tau_L),log10(Tau_H),ntau) ;
+
+        % maxwell relaxation time (period)
+        Tau_M = Tau_MR.*scale ;
 
         if method==0
         %% MY METHOD--
             D_vec = (alf.*Tau_X_vec.^(alf-1))./(Tau_H^alf - Tau_L^alf) ;
 
             int_J1 = trapz(Tau_X_vec,(D_vec./(1+w^2.*Tau_X_vec.^2))) ;
-            J1(i_glob) = (1+Delta.*int_J1) ;
+            J1(i_glob) = Ju.*(1+Delta.*int_J1) ;
 
             int_J2 = trapz(Tau_X_vec,((Tau_X_vec.*D_vec)./(1+w^2.*Tau_X_vec.^2))) ;
-            J2(i_glob) = (w*Delta*int_J2 + 1/(w*Tau_M)) ;
+            J2(i_glob) = Ju.*(w*Delta*int_J2 + 1/(w*Tau_M)) ;
 
         elseif method==1
         %% GEOFF's METHOD-- works !
@@ -130,30 +118,14 @@ for x1 = 1:n_th; % loop using linear index!
             Tau_fac = alf.*Delta./(Tau_H.^alf - Tau_L.^alf);
 
             FINT1 = @(x) (x.^(alf-1))./(1+(w.*x).^2);
-            int1 = Tau_fac.*quadl(FINT1, Tau_L, Tau_H);
+            int1 = Tau_fac.*quad(FINT1, Tau_L, Tau_H);
 
             FINT2 = @(x) (x.^alf)./(1+(w.*x).^2);
-            int2 = w.*Tau_fac.*quadl(FINT2, Tau_L, Tau_H);
+            int2 = w.*Tau_fac.*quad(FINT2, Tau_L, Tau_H);
 
-            J1(i_glob) = (1 + int1);
-            J2(i_glob) = (int2 + 1./(w.*Tau_M));
+            J1(i_glob) = Ju.*(1 + int1);
+            J2(i_glob) = Ju.*(int2 + 1./(w.*Tau_M));
         end
-
-        % add on peak if it's being used. May trigger warning, this integral
-        % is not easy. 
-        if DeltaP>0
-          FINT2 = @(x) (exp(-(log(x./Tau_P)/sigma).^2/2)./(1+(w.*x).^2));
-          int2a = quadgk(FINT2, 0, inf);
-          J2(i_glob)=J2(i_glob)+DeltaP*w*(int2a)/(sigma*sqrt(2*pi));
-
-          FINT1 = @(x) ( 1./x .* exp(-(log(x./Tau_P)/sigma).^2/2)./(1+(w.*x).^2));
-          int1 = quadgk(FINT1, 0, inf);
-          J1(i_glob)=J1(i_glob)+DeltaP*int1 / (sigma*sqrt(2*pi)) ;
-        end
-
-        % multiply on the unrelaxed compliance
-        J1(i_glob)=Ju.*J1(i_glob);
-        J2(i_glob)=Ju.*J2(i_glob);
 
         % See McCarthy et al, 2011, Appendix B, Eqns B6 !
         J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;

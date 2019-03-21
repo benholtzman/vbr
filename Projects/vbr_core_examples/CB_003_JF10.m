@@ -35,7 +35,7 @@
    dGdP=VBR.in.elastic.anharmonic.dG_dP;
    Tref=VBR.in.elastic.anharmonic.T_K_ref;
    Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
-   VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
+   VBR.in.elastic.anharmonic.Gu_0_ol = 62.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
 
 
 %  frequencies to calculate at
@@ -68,7 +68,14 @@
 %% CALL THE VBR CALCULATOR ============================
 %% ====================================================
 
+   % run it initially (eBurgers uses high-temp background only by default)
    [VBR] = VBR_spine(VBR) ;
+
+   % adjust VBR input and get out eBurgers with background + peak
+   VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+   VBR.in.anelastic.eBurgers.eBurgerMethod='bg_peak';
+   VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP;
+   [VBR_with_peak] = VBR_spine(VBR) ;
 
 %% ====================================================
 %% Display some things ================================
@@ -76,12 +83,38 @@
 
 close all;
 figure;
-subplot(1,2,1)
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.M(1,:,:)/1e9));
-ylabel('M [GPa]'); xlabel('period [s]')
-ylim([0,80])
 
-subplot(1,2,2)
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.eBurgers.Qinv(1,:,:)));
-ylabel('Q^-1'); xlabel('period [s]')
-ylim([3e-3,3])
+for iTemp = 1:numel(VBR.in.SV.T_K)
+
+  M_bg=squeeze(VBR.out.anelastic.eBurgers.M(1,iTemp,:)/1e9);
+  M_bg_peak=squeeze(VBR_with_peak.out.anelastic.eBurgers.M(1,iTemp,:)/1e9);
+  Q_bg=squeeze(VBR.out.anelastic.eBurgers.Qinv(1,iTemp,:));
+  Q_bg_peak=squeeze(VBR_with_peak.out.anelastic.eBurgers.Qinv(1,iTemp,:));
+  logper=log10(1./VBR.in.SV.f);
+  R=(iTemp-1) / (numel(VBR.in.SV.T_K)-1);
+  B=1 - (iTemp-1) / (numel(VBR.in.SV.T_K)-1);
+
+  subplot(2,2,1)
+  hold on
+  plot(logper,M_bg,'color',[R,0,B],'LineWidth',2);
+  ylabel('M [GPa] (background only) '); xlabel('period [s]')
+  ylim([20,80])
+
+  subplot(2,2,2)
+  hold on
+  plot(logper,log10(Q_bg),'color',[R,0,B],'LineWidth',2);
+  ylabel('Q^-1 (background only)'); xlabel('period [s]')
+  ylim([-2.5,0.5])
+
+  subplot(2,2,3)
+  hold on
+  plot(logper,M_bg_peak,'color',[R,0,B],'LineWidth',2);
+  ylabel('M [GPa] (background + peak) '); xlabel('period [s]')
+  ylim([20,80])
+
+  subplot(2,2,4)
+  hold on
+  plot(logper,log10(Q_bg_peak),'color',[R,0,B],'LineWidth',2);
+  ylabel('Q^-1 (background + peak)'); xlabel('period [s]')
+  ylim([-2.5,0.5])
+end

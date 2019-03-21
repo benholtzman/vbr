@@ -6,47 +6,55 @@ function params = Params_Anelastic(method)
 
 
 %===========  extended BURGERS parameters =================================
-% citation:
+
   if strcmp(method,'eBurgers')
-      % REFERENCE Temp, Pressure and d (grain size)
-      params.TR = 1173;% Kelvins
-      params.PR = 0.2; % confining pressure of experiments, GPa
-      params.dR = 3.1 ; % 3.1 microns grain size
 
-      % REFERENCE Modulus (not the same as the reference Gu_0 for unrelaxed
-      % calculations, it is the reference modulus for scaling experiments)
-      params.G_UR = 62 ; % GPa, unrel. G, reference val. # NOT USED RIGHT NOW
-
-      params.E = 303000 ; % J/mol
-      params.R = 8.314 ; % gas constant
-      params.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
-      params.m = 1 ;
       params.method='PointWise'; % 'FastBurger' or 'PointWise' or 'None'
       params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
-      
-      %% THESE ARE THE THINGS FROM JF10
-      %   %gsr = 1.34E-5; % reference grain size in m
-      %   %deltaB = 1.04; % background relaxation strength,
-      %   %alpha = 0.274; % background frequency exponent
-      %   %%reference values for relaxation times
-      %   %tauLo = 1E-3; tauHo = 1E7; tauMo = 3.02E7;
-      %   %ma = 1.31;  % anelastic grain size exponent
-      %   %mv = 3;     % viscous grain size exponent
-      %   %EB = 3.6E5; % activation energy for background and peak
-      %   %AV = 1E-5;  % activation volume [m3/mol]
-      %   %% peak parameters:
-      %   %tauPo = 3.98E-4; % reference peak relaxation time,
-      %   %deltaP = 0.057;  % peak relaxation strength pref
-      %   %sig = 4;         % peak width
-      %   %cp = deltaP * (2*pi)^(-0.5)/sig; %peak integration const.
+      params.R = 8.314 ; % gas constant
+      params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak'
 
-      % Jackson n Faul 2010, table 1 :
-      params.alf = 0.33 ; % is this the same as n in Andrade ?
-      params.Delta = 1.4 ;% ; % relaxation strength..
+      % values from Table 2 of JF10 all melt-free samples
+      % JF10:
+      % Jackson & Faul, "Grainsize-sensitive viscoelastic relaxation in
+      % olivine: Towards a robust laboratory-based model for seismological
+      % application," Physics of the Earth and Planetary Interiors 183 (2010) 151–163
 
-      params.Tau_LR = 1e-2 ; % Relaxation time lower limit reference
-      params.Tau_HR = 1e6 ; % Relaxation time higher limit reference
-      params.Tau_MR = 10^5.2 ; % Reference Maxwell relaxation time
+      % best high-temp background only fit:
+      params.bg_only.TR=1173; % ref temp [K]
+      params.bg_only.PR = 0.2; % ref confining pressure of experiments, GPa
+      params.bg_only.dR = 13.4; % ref grain size in microns
+      params.bg_only.G_UR = 62.5 ; % GPa, unrel. G, reference val.
+      params.bg_only.E = 303000 ; % J/mol
+      params.bg_only.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
+      params.bg_only.m_a = 1.19 ; % grain size exponent for tau_i, i in (L,H,P)
+      params.bg_only.m_v = 3 ; % viscous grain size exponent for maxwell time
+      params.bg_only.alf = 0.257 ; % is this the same as n in Andrade ?
+      params.bg_only.DeltaB = 1.13 ;% ; % relaxation strength..
+      params.bg_only.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
+      params.bg_only.Tau_HR = 1e7 ; % Relaxation time higher limit reference
+      params.bg_only.Tau_MR = 10^6.95 ; % Reference Maxwell relaxation time
+      params.bg_only.DeltaP=0; % no peak, set to 0
+      params.bg_only.sigma=0;% no peak, set to 0
+      params.bg_only.Tau_PR=0;% no peak, set to 0
+
+      % best high-temp background + peak fit:
+      params.bg_peak.DeltaP=0.057;
+      params.bg_peak.sigma=4;
+      params.bg_peak.Tau_PR=10^-3.4;
+      params.bg_peak.TR=1173; % ref temp [K]
+      params.bg_peak.PR = 0.2; % ref confining pressure of experiments, GPa
+      params.bg_peak.dR = 13.4; % ref grain size in microns
+      params.bg_peak.G_UR = 66.5 ; % GPa, unrel. G, reference val.
+      params.bg_peak.E = 360000 ; % J/mol
+      params.bg_peak.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
+      params.bg_peak.m_a = 1.31 ; % grain size exponent for tau_i, i in (L,H,P)
+      params.bg_peak.m_v = 3 ; % viscous grain size exponent for maxwell time
+      params.bg_peak.alf = 0.274 ; % is this the same as n in Andrade ?
+      params.bg_peak.DeltaB = 1.13 ;% ; % relaxation strength..
+      params.bg_peak.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
+      params.bg_peak.Tau_HR = 1e7 ; % Relaxation time higher limit reference
+      params.bg_peak.Tau_MR = 10^7.48 ; % Reference Maxwell relaxation time
 
       %% melt effects
       % use diffusion creep values

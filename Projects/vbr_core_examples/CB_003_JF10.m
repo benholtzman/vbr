@@ -21,16 +21,20 @@
    VBR.in.elastic.methods_list={'anharmonic'};
    VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};
 
+   % uncomment to use VBR viscosity for maxwell time calculation:
+   % VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+   % VBR.in.viscous.methods_list={'HK2003'};
+   % VBR.in.anelastic.eBurgers.useJF10visc=0;
+
+
 %  load anharmonic parameters, adjust Gu_0_ol
 %  all paramss in ../4_VBR/VBR_version/params/ will be loaded in call to VBR spine,
 %  but you can load them here and adjust any one of them (rather than changing those
 %  parameter files).
    VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
 
-
-
-   % JF10 have Gu_0=62 GPa, but that's at 900 Kelvin and 0.2 GPa,
-   % so set Gu_0_ol s.t. it ends up at 62 at those conditions
+   % JF10 have Gu_0=62.5 GPa, but that's at 900 Kelvin and 0.2 GPa,
+   % so set Gu_0_ol s.t. it ends up at 62.5 at those conditions
    dGdT=VBR.in.elastic.anharmonic.dG_dT;
    dGdP=VBR.in.elastic.anharmonic.dG_dP;
    Tref=VBR.in.elastic.anharmonic.T_K_ref;

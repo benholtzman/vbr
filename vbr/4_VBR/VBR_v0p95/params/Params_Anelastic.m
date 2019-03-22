@@ -9,10 +9,13 @@ function params = Params_Anelastic(method)
 
   if strcmp(method,'eBurgers')
 
-      params.method='PointWise'; % 'FastBurger' or 'PointWise' or 'None'
+      params.method='PointWise'; % keep at 'PointWise' until 'FastBurger' fixed
       params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
       params.R = 8.314 ; % gas constant
       params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak'
+      params.useJF10visc=1; % if 1, will use the scaling from JF10 for maxwell time.
+      params.integration_method=0; % 0 for trapezoidal, 1 for quadrature.
+      params.tau_integration_points = 500 ; % number of points for integration of high-T background if trapezoidal
 
       % values from Table 2 of JF10 all melt-free samples
       % JF10:
@@ -30,17 +33,17 @@ function params = Params_Anelastic(method)
       params.bg_only.m_a = 1.19 ; % grain size exponent for tau_i, i in (L,H,P)
       params.bg_only.m_v = 3 ; % viscous grain size exponent for maxwell time
       params.bg_only.alf = 0.257 ; % is this the same as n in Andrade ?
-      params.bg_only.DeltaB = 1.13 ;% ; % relaxation strength..
+      params.bg_only.DeltaB = 1.13 ;% relaxation strength..
       params.bg_only.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
       params.bg_only.Tau_HR = 1e7 ; % Relaxation time higher limit reference
       params.bg_only.Tau_MR = 10^6.95 ; % Reference Maxwell relaxation time
       params.bg_only.DeltaP=0; % no peak, set to 0
-      params.bg_only.sigma=0;% no peak, set to 0
+      params.bg_only.sig=0;% no peak, set to 0
       params.bg_only.Tau_PR=0;% no peak, set to 0
 
       % best high-temp background + peak fit:
-      params.bg_peak.DeltaP=0.057;
-      params.bg_peak.sigma=4;
+      params.bg_peak.DeltaP=0.057; % relaxation strength of peak
+      params.bg_peak.sig=4; % sigma, peak breadth
       params.bg_peak.Tau_PR=10^-3.4;
       params.bg_peak.TR=1173; % ref temp [K]
       params.bg_peak.PR = 0.2; % ref confining pressure of experiments, GPa
@@ -51,12 +54,12 @@ function params = Params_Anelastic(method)
       params.bg_peak.m_a = 1.31 ; % grain size exponent for tau_i, i in (L,H,P)
       params.bg_peak.m_v = 3 ; % viscous grain size exponent for maxwell time
       params.bg_peak.alf = 0.274 ; % is this the same as n in Andrade ?
-      params.bg_peak.DeltaB = 1.13 ;% ; % relaxation strength..
+      params.bg_peak.DeltaB = 1.13 ;% relaxation strength of background.
       params.bg_peak.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
       params.bg_peak.Tau_HR = 1e7 ; % Relaxation time higher limit reference
       params.bg_peak.Tau_MR = 10^7.48 ; % Reference Maxwell relaxation time
 
-      %% melt effects
+      %% melt effects (don't adjust, use VBR.in.GlobalSettings.melt_enhacement=0 to turn off)
       % use diffusion creep values
       HK2003 = Params_Viscous('HK2003'); % viscous parameters
       params.melt_alpha = HK2003.diff.alf ;

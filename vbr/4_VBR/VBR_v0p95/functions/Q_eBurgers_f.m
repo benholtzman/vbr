@@ -132,7 +132,7 @@ function[VBR]=Q_eBurgers_f(VBR)
 
 end
 
-function tau=MaxwellTimes(VBR,Mu)
+function tau=MaxwellTimes(VBR,Gu)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % calculatues the maxwell time & limits for extended burgers model:
 % tau.maxwell = steady state viscous maxwell time (i.e., eta / Gu)
@@ -158,6 +158,7 @@ function tau=MaxwellTimes(VBR,Mu)
   Vstar = Burger_params.(bType).Vstar ; % m^3/mol Activation Volume
   m_a = Burger_params.(bType).m_a ; % grain size exponent (anelastic)
   m_v = Burger_params.(bType).m_v ; % grain size exponent (viscous)
+  JF10_Gu_R=Burger_params.(bType).G_UR * 1e9; % JF10 ref modulus [Pa] at TR,PR
 
   % maxwell time calculation
   [visc_exists,missing]=checkStructForField(VBR,{'in','viscous','methods_list'},0);
@@ -166,12 +167,15 @@ function tau=MaxwellTimes(VBR,Mu)
     scale=((d_mat./dR).^m_v).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
     scale=addMeltEffects(phi,scale,VBR.in.GlobalSettings,Burger_params);
     Tau_MR = Burger_params.(bType).Tau_MR ;
-    tau.maxwell=Tau_MR.*scale ; % steady state viscous maxwell time
+
+    tau.maxwell=Tau_MR .* scale ; % steady state viscous maxwell time
+    % Tau_MR is for JF10's ref modulus. Scale it as well?
+    % tau.maxwell=tau.maxwell .* JF10_Gu_R ./ Gu;
   else
     % use diffusion viscosity from VBR to get maxwell time
     visc_method=VBR.in.viscous.methods_list{1};
     eta_diff = VBR.out.viscous.(visc_method).diff.eta ; % viscosity for maxwell relaxation time
-    tau.maxwell = eta_diff./ Mu ; % maxwell relaxtion time
+    tau.maxwell = eta_diff./ Gu ; % maxwell relaxation time
   end
 
   % integration limits and peak location
@@ -180,6 +184,12 @@ function tau=MaxwellTimes(VBR,Mu)
   tau.L = Burger_params.(bType).Tau_LR * LHP;
   tau.H = Burger_params.(bType).Tau_HR * LHP;
   tau.P = Burger_params.(bType).Tau_PR * LHP;
+
+  % account for Gu_R in Tau_LR, Tau_HR, Tau_PR ? 
+  % tau.L=tau.L .* JF10_Gu_R ./ Gu;
+  % tau.H=tau.H .* JF10_Gu_R ./ Gu;
+  % tau.P=tau.P .* JF10_Gu_R ./ Gu;
+
 
 end
 

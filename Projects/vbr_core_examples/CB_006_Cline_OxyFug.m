@@ -30,6 +30,7 @@
 % oxygen fugacity
   VBR.in.SV.fO2_bar=logspace(-3,-0.4,30);
   VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+  VBR.in.anelastic.YT_maxwell=Params_Anelastic('YT_maxwell');
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
 
   VBR.in.anelastic.eBurgers.useJF10visc=0;
@@ -62,6 +63,7 @@
 
   VBR_bai=VBR;
   VBR_bai.in.anelastic.eBurgers.m_fO2=-0.4; % Bai et al
+  VBR_bai.in.anelastic.YT_maxwell.m_fO2=-0.4; % Bai et al
   [VBR_bai] = VBR_spine(VBR_bai) ;
 
 %% ====================================================
@@ -69,36 +71,66 @@
 %% ====================================================
 
 close all;
-% subplot(1,2,1)
-Mxwell=VBR.out.anelastic.eBurgers.tau_M;
-plot(log10(VBR.in.SV.fO2_bar),log10(Mxwell),'k','DisplayName','m=-1.2, eBurgers','LineWidth',2);
-hold on
-Mxwell=VBR.out.anelastic.YT_maxwell.tau_M;
-plot(log10(VBR.in.SV.fO2_bar),log10(Mxwell),'--r','DisplayName','m=-1.2, maxwell','LineWidth',2);
-xlabel('log f_O_2')
-ylabel('log tau_M')
+figure;
+plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.eBurgers.tau_M),'k','DisplayName','m=-1.2','LineWidth',2);
+xlabel('log f_O_2 [bar]','FontSize', 16)
+ylabel('log tau_M [s]','FontSize', 16)
 
 if exist('../../Data/ClineEtAl2018/cline_fig4.csv')
   Cline=csvread('../../Data/ClineEtAl2018/cline_fig4.csv');
+  hold on
   plot(Cline(:,1),Cline(:,2),'.k','MarkerSize',12)
 end
 xlim([-4,0])
 ylim([4,9])
 
-Mxwell=VBR_bai.out.anelastic.eBurgers.tau_M;
-plot(log10(VBR_bai.in.SV.fO2_bar),log10(Mxwell),'--b','DisplayName','m=-0.4, eBurgers','LineWidth',2);
-xlabel('log f_O_2')
-ylabel('log tau_M')
-legend('Location','NorthEast')
+hold on
+plot(log10(VBR_bai.in.SV.fO2_bar),log10(VBR_bai.out.anelastic.eBurgers.tau_M),'--k','DisplayName','m=-0.4','LineWidth',2);
+xlabel('log fO_2 [bar]','FontSize', 16)
+ylabel('log tau_M [s]','FontSize', 16)
+title('1200^oC, 25 {\mu}m','FontSize', 16)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+set(gca,'XTickLabelMode','auto')
+lgd=legend('Location','NorthEast');
 
-% not sure the Qinv plot makes sense. 
-% subplot(1,2,2)
-% plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.eBurgers.Qinv),'k','DisplayName','m=-1.2, eBurgers','LineWidth',2);
-% hold on
-% plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.YT_maxwell.Qinv),'r','DisplayName','m=-1.2, maxwell','LineWidth',2);
-% plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.eBurgers.Qinv),'b','DisplayName','m=-0.4, eBurgers','LineWidth',2);
-% plot(log10(VBR_bai.in.SV.fO2_bar),log10(VBR_bai.out.anelastic.YT_maxwell.Qinv),'--g','DisplayName','m=-0.4, maxwell','LineWidth',2);
-% xlabel('log f_O_2')
-% ylabel('log Q^{-1}')
-% xlim([-4,0])
-% legend('Location','NorthWest')
+figure;
+subplot(1,3,1)
+plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.eBurgers.Qinv),'k','DisplayName','m=-1.2, eBurgers','LineWidth',2);
+hold on
+plot(log10(VBR_bai.in.SV.fO2_bar),log10(VBR_bai.out.anelastic.eBurgers.Qinv),'--k','DisplayName','m=-0.4, eBurgers','LineWidth',2);
+plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.YT_maxwell.Qinv),'b','DisplayName','m=-1.2, maxwell','LineWidth',2);
+plot(log10(VBR_bai.in.SV.fO2_bar),log10(VBR_bai.out.anelastic.YT_maxwell.Qinv),'--b','DisplayName','m=-0.4, maxwell','LineWidth',2);
+xlabel('log fO_2 [bar]','FontSize', 16)
+ylabel('log Q^{-1}','FontSize', 16)
+xlim([-4,0])
+title('1200^oC, 100s, 25 {\mu}m','FontSize', 16)
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+set(gca,'XTickLabelMode','auto')
+
+subplot(1,3,2)
+set(gca,'FontSize',16)
+plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.eBurgers.Vave),'k','DisplayName','m=-1.2, eBurgers','LineWidth',2);
+hold on
+plot(log10(VBR_bai.in.SV.fO2_bar),log10(VBR_bai.out.anelastic.eBurgers.Vave),'--k','DisplayName','m=-0.4, eBurgers','LineWidth',2);
+plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.YT_maxwell.Vave),'b','DisplayName','m=-1.2, maxwell','LineWidth',2);
+plot(log10(VBR_bai.in.SV.fO2_bar),log10(VBR_bai.out.anelastic.YT_maxwell.Vave),'--b','DisplayName','m=-0.4, maxwell','LineWidth',2);
+xlabel('log fO_2 [bar]','FontSize', 16)
+ylabel('V^s [km/s]','FontSize', 16)
+xlim([-4,0])
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+set(gca,'XTickLabelMode','auto')
+
+hSub = subplot(1,3,3);
+plot([1 2],[nan nan],'k','DisplayName','m=-1.2, eBurgers','LineWidth',2);
+hold on
+plot([1 2],[nan nan],'--k','DisplayName','m=-0.4, eBurgers','LineWidth',2);
+plot([1 2],[nan nan],'b','DisplayName','m=-1.2, maxwell','LineWidth',2);
+plot([1 2],[nan nan],'--b','DisplayName','m=-0.4, maxwell','LineWidth',2);
+set(hSub, 'Visible', 'off');
+a = get(gca,'XTickLabel');
+set(gca,'XTickLabel',a,'fontsize',14)
+set(gca,'XTickLabelMode','auto')
+legend(hSub, 'Location', 'north');

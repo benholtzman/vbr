@@ -1,4 +1,4 @@
-function[VBR]=Q_eBurgers_f(VBR)
+function [VBR] = Q_eBurgers_f(VBR)
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %
 % extended burgers model after JF10
 %
@@ -133,7 +133,7 @@ function[VBR]=Q_eBurgers_f(VBR)
 
 end
 
-function tau=MaxwellTimes(VBR,Gu)
+function tau = MaxwellTimes(VBR,Gu)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % calculatues the maxwell time & limits for extended burgers model:
 % tau.maxwell = steady state viscous maxwell time (i.e., eta / Gu)
@@ -159,7 +159,6 @@ function tau=MaxwellTimes(VBR,Gu)
   Vstar = Burger_params.(bType).Vstar ; % m^3/mol Activation Volume
   m_a = Burger_params.(bType).m_a ; % grain size exponent (anelastic)
   m_v = Burger_params.(bType).m_v ; % grain size exponent (viscous)
-  JF10_Gu_R=Burger_params.(bType).G_UR * 1e9; % JF10 ref modulus [Pa] at TR,PR
 
   % maxwell time calculation
   [visc_exists,missing]=checkStructForField(VBR,{'in','viscous','methods_list'},0);
@@ -170,15 +169,13 @@ function tau=MaxwellTimes(VBR,Gu)
     Tau_MR = Burger_params.(bType).Tau_MR ;
 
     tau.maxwell=Tau_MR .* scale ; % steady state viscous maxwell time
-    % Tau_MR is for JF10's ref modulus. Scale it as well?
-    % tau.maxwell=tau.maxwell .* JF10_Gu_R ./ Gu;
   else
     % use diffusion viscosity from VBR to get maxwell time
     visc_method=VBR.in.viscous.methods_list{1};
     eta_diff = VBR.out.viscous.(visc_method).diff.eta ; % viscosity for maxwell relaxation time
     tau.maxwell = eta_diff ./ Gu ; % maxwell relaxation time
   end
-
+  
   % integration limits and peak location
   LHP=((d_mat./dR).^m_a).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
   LHP=addMeltEffects(phi,LHP,VBR.in.GlobalSettings,Burger_params);
@@ -191,32 +188,6 @@ function tau=MaxwellTimes(VBR,Gu)
     tau=addOxyFugacityEffects(tau,VBR.in.SV.fO2_bar,Burger_params);
   end
 
-
-  % account for Gu_R in Tau_LR, Tau_HR, Tau_PR ?
-  % tau.L=tau.L .* JF10_Gu_R ./ Gu;
-  % tau.H=tau.H .* JF10_Gu_R ./ Gu;
-  % tau.P=tau.P .* JF10_Gu_R ./ Gu;
-
-end
-
-function tau=addOxyFugacityEffects(tau,fO2_bar,Burger_params)
-  % adds on oxygen fugacity effects to maxwell time
-  if isfield(Burger_params,'m_fO2')
-    m_fO2=Burger_params.m_fO2;
-    if isfield(Burger_params,'fO2_ref')
-      fO2_ref=Burger_params.fO2_ref;
-      fugAdj=sr_oxygen_fugacity(fO2_bar,'m_fO2',m_fO2,'fO2_ref',fO2_ref);
-    else
-      fugAdj=sr_oxygen_fugacity(fO2_bar,'m_fO2',m_fO2);
-    end
-  else
-    fugAdj=sr_oxygen_fugacity(fO2_bar);
-  end
-
-  tau.maxwell=fugAdj.eta .* tau.maxwell;
-  tau.L=fugAdj.eta .* tau.L;
-  tau.H=fugAdj.eta .* tau.H;
-  tau.P=fugAdj.eta .* tau.P;
 end
 
 function scaleMat=addMeltEffects(phi,scaleMat,GlobalSettings,Burger_params)

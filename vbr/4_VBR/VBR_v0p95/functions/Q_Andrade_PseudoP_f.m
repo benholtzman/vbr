@@ -1,4 +1,4 @@
-function[VBR]=Q_Andrade_PseudoP_f(VBR)
+function [VBR]=Q_Andrade_PseudoP_f(VBR)
 %disp('doing Andrade PseudoPeriod calc now')
 %% ================================
 %% read in variables and parameters
@@ -64,7 +64,7 @@ function[VBR]=Q_Andrade_PseudoP_f(VBR)
   else
     Xtilde = Xtilde / x_phi_c ;
   end
-  
+
 %  melt enhancement
    [Xtilde_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
    Xtilde = Xtilde_prime.*Xtilde ;

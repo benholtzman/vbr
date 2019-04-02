@@ -18,7 +18,7 @@
 % write method list (these are the things to calculate)
   VBR.in.elastic.methods_list={'anharmonic'};
   VBR.in.viscous.methods_list={'LH2012'};
-  VBR.in.anelastic.methods_list={'eBurgers'};
+  VBR.in.anelastic.methods_list={'eBurgers','YT_maxwell'};
 
 % frequencies to calculate at
   VBR.in.SV.f = 0.01;
@@ -28,10 +28,8 @@
 %% ====================================================
 
 % oxygen fugacity
-  VBR.in.SV.fO2_bar=logspace(-4,0,30);
+  VBR.in.SV.fO2_bar=logspace(-3,-0.4,30);
   VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-  VBR.in.anelastic.eBurgers.m_fO2=-1.2;
-  VBR.in.anelastic.eBurgers.fO2_ref=1e-1;
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
 
   VBR.in.anelastic.eBurgers.useJF10visc=0;
@@ -71,23 +69,36 @@
 %% ====================================================
 
 close all;
+% subplot(1,2,1)
 Mxwell=VBR.out.anelastic.eBurgers.tau_M;
-plot(log10(VBR.in.SV.fO2_bar),log10(Mxwell),'k','DisplayName','m=-1.2','LineWidth',2);
+plot(log10(VBR.in.SV.fO2_bar),log10(Mxwell),'k','DisplayName','m=-1.2, eBurgers','LineWidth',2);
+hold on
+Mxwell=VBR.out.anelastic.YT_maxwell.tau_M;
+plot(log10(VBR.in.SV.fO2_bar),log10(Mxwell),'--r','DisplayName','m=-1.2, maxwell','LineWidth',2);
 xlabel('log f_O_2')
 ylabel('log tau_M')
 
 if exist('../../Data/ClineEtAl2018/cline_fig4.csv')
   Cline=csvread('../../Data/ClineEtAl2018/cline_fig4.csv');
-  hold on
   plot(Cline(:,1),Cline(:,2),'.k','MarkerSize',12)
 end
 xlim([-4,0])
 ylim([4,9])
 
-
-hold on
 Mxwell=VBR_bai.out.anelastic.eBurgers.tau_M;
-plot(log10(VBR_bai.in.SV.fO2_bar),log10(Mxwell),'b','DisplayName','m=-0.4','LineWidth',2);
+plot(log10(VBR_bai.in.SV.fO2_bar),log10(Mxwell),'--b','DisplayName','m=-0.4, eBurgers','LineWidth',2);
 xlabel('log f_O_2')
 ylabel('log tau_M')
 legend('Location','NorthEast')
+
+% not sure the Qinv plot makes sense. 
+% subplot(1,2,2)
+% plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.eBurgers.Qinv),'k','DisplayName','m=-1.2, eBurgers','LineWidth',2);
+% hold on
+% plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.YT_maxwell.Qinv),'r','DisplayName','m=-1.2, maxwell','LineWidth',2);
+% plot(log10(VBR.in.SV.fO2_bar),log10(VBR.out.anelastic.eBurgers.Qinv),'b','DisplayName','m=-0.4, eBurgers','LineWidth',2);
+% plot(log10(VBR_bai.in.SV.fO2_bar),log10(VBR_bai.out.anelastic.YT_maxwell.Qinv),'--g','DisplayName','m=-0.4, maxwell','LineWidth',2);
+% xlabel('log f_O_2')
+% ylabel('log Q^{-1}')
+% xlim([-4,0])
+% legend('Location','NorthWest')

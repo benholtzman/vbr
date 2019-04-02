@@ -99,9 +99,6 @@ function [VBR]=checkInput(VBR)
   end
 
   % some optional state variable fields
-  if ~isfield(VBR.in.SV,'fO2_bar')
-    VBR.in.SV.fO2_bar=1e-1*ones(size(VBR.in.SV.T_K)); % no effect when at ref val
-  end
   if ~isfield(VBR.in.SV,'Ch2o')
     VBR.in.SV.Ch2o=zeros(size(VBR.in.SV.T_K)); % no effect when at 0
   end

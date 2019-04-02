@@ -187,7 +187,9 @@ function tau=MaxwellTimes(VBR,Gu)
   tau.P = Burger_params.(bType).Tau_PR * LHP;
 
   % adjustment for oxygen fugacity
-  tau=addOxyFugacityEffects(tau,VBR.in.SV.fO2_bar,Burger_params);
+  if isfield(VBR.in.SV,'fO2_bar')
+    tau=addOxyFugacityEffects(tau,VBR.in.SV.fO2_bar,Burger_params);
+  end
 
 
   % account for Gu_R in Tau_LR, Tau_HR, Tau_PR ?

@@ -129,6 +129,7 @@ function[VBR]=Q_eBurgers_f(VBR)
   VBR.out.anelastic.eBurgers.M=M;
   VBR.out.anelastic.eBurgers.V=V;
   VBR.out.anelastic.eBurgers.Vave = Vave./nfreq;
+  VBR.out.anelastic.eBurgers.tau_M=tau.maxwell;
 
 end
 
@@ -175,7 +176,7 @@ function tau=MaxwellTimes(VBR,Gu)
     % use diffusion viscosity from VBR to get maxwell time
     visc_method=VBR.in.viscous.methods_list{1};
     eta_diff = VBR.out.viscous.(visc_method).diff.eta ; % viscosity for maxwell relaxation time
-    tau.maxwell = eta_diff./ Gu ; % maxwell relaxation time
+    tau.maxwell = eta_diff ./ Gu ; % maxwell relaxation time
   end
 
   % integration limits and peak location
@@ -185,12 +186,35 @@ function tau=MaxwellTimes(VBR,Gu)
   tau.H = Burger_params.(bType).Tau_HR * LHP;
   tau.P = Burger_params.(bType).Tau_PR * LHP;
 
-  % account for Gu_R in Tau_LR, Tau_HR, Tau_PR ? 
+  % adjustment for oxygen fugacity
+  tau=addOxyFugacityEffects(tau,VBR.in.SV.fO2_bar,Burger_params);
+
+
+  % account for Gu_R in Tau_LR, Tau_HR, Tau_PR ?
   % tau.L=tau.L .* JF10_Gu_R ./ Gu;
   % tau.H=tau.H .* JF10_Gu_R ./ Gu;
   % tau.P=tau.P .* JF10_Gu_R ./ Gu;
 
+end
 
+function tau=addOxyFugacityEffects(tau,fO2_bar,Burger_params)
+  % adds on oxygen fugacity effects to maxwell time
+  if isfield(Burger_params,'m_fO2')
+    m_fO2=Burger_params.m_fO2;
+    if isfield(Burger_params,'fO2_ref')
+      fO2_ref=Burger_params.fO2_ref;
+      fugAdj=sr_oxygen_fugacity(fO2_bar,'m_fO2',m_fO2,'fO2_ref',fO2_ref);
+    else
+      fugAdj=sr_oxygen_fugacity(fO2_bar,'m_fO2',m_fO2);
+    end
+  else
+    fugAdj=sr_oxygen_fugacity(fO2_bar);
+  end
+
+  tau.maxwell=fugAdj.eta .* tau.maxwell;
+  tau.L=fugAdj.eta .* tau.L;
+  tau.H=fugAdj.eta .* tau.H;
+  tau.P=fugAdj.eta .* tau.P;
 end
 
 function scaleMat=addMeltEffects(phi,scaleMat,GlobalSettings,Burger_params)

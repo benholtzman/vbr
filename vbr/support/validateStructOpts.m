@@ -7,13 +7,13 @@ function Options=validateStructOpts(func_name,func_varargin,Options,ValidOpts,Vb
 %  Options = option structure with field name and default value
 %  ValidOpts = structure with valid options for each field name
 %              if valid options is empty cell {}, will allow any option values
-%  VbLvL = verbocity level. 0 to silence warnings. 
+%  VbLvL = verbocity level. 0 to silence warnings.
 
 
 % handle the input arguments
   optionNames=fieldnames(Options);
   for option_pair = reshape(func_varargin,2,[])
-   optName = lower(option_pair{1});
+   optName = option_pair{1};
    optVal=option_pair{2};
    % check if this option is in list of valid options
    if any(strcmp(optName,optionNames))

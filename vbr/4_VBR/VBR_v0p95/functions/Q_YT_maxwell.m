@@ -1,9 +1,14 @@
-function [VBR]=Q_YT_maxwell(VBR)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % [VBR]=Q_YT_maxwell(VBR)
 %
 % master curve maxwell scaling
+%
+% references:
+% [1] McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384
+% [2] Takei, 2017 Annu. Rev. Earth Planet. Sci,
+%     https://doi.org/10.1146/annurev-earth-063016-015820
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+function [VBR]=Q_YT_maxwell(VBR)
 
   % state variables
   rho_in = VBR.in.SV.rho ;
@@ -94,12 +99,16 @@ function [VBR]=Q_YT_maxwell(VBR)
 
 end
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% [X_tau] = X_func(tau_norm_vec,params)
+% the relaxation spectrum function
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [X_tau] = X_func(tau_norm_vec,params)
-  %% the relaxation spectrum function
+
   Beta  = params.beta1 .* ones(size(tau_norm_vec));
   Alpha = params.Alpha_a - params.Alpha_b./(1+params.Alpha_c*(tau_norm_vec.^params.Alpha_taun));
-
   Beta(tau_norm_vec<1e-11)=params.beta2;
   Alpha(tau_norm_vec<1e-11)=params.alpha2;
   X_tau = Beta .* tau_norm_vec.^Alpha;
+
 end

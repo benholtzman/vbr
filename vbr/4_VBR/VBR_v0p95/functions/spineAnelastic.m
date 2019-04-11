@@ -1,6 +1,6 @@
 function [VBR,telapsed]=spineAnelastic(VBR)
   % calculates user-selected anelastic methods
-  
+
   methods_list=VBR.in.anelastic.methods_list; % list of methods to use
 
   %  Extended Burgers method
@@ -42,6 +42,9 @@ function [VBR,telapsed]=spineAnelastic(VBR)
   % Yamauchi & Takei 2016 - solidus scaling
   if sum(strncmp('YT2016_solidus',methods_list,10)) > 0
     telapsed.YT2016_solidus=tic;
+    if isfield(VBR.in.anelastic,'YT2016_solidus')==0
+       VBR.in.anelastic.YT2016_solidus=Params_Anelastic('YT2016_solidus');
+    end
     [VBR]=Q_YT2016_solidus(VBR) ;
     telapsed.YT2016_solidus=toc(telapsed.YT2016_solidus);
   end

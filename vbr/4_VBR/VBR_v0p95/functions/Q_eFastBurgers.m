@@ -1,5 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % [VBR]=Q_eFastBurgers(VBR)
+% DO NOT USE RIGHT NOW
 % c. havlin, 04-2016
 %
 % calculates material properties for extended burgers model using the

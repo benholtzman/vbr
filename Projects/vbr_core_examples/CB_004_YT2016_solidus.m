@@ -23,7 +23,7 @@
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
    VBR.in.elastic.methods_list={'anharmonic'};
    VBR.in.anelastic.methods_list={'YT2016_solidus'};
-   
+
    % use the exact viscosity relationship in YT2016 for dry diff. creep visc.:
    VBR.in.viscous.YT2016_solidus=Params_Viscous('YT2016_solidus');
    VBR.in.viscous.YT2016_solidus.eta_dry_method='YT2016_solidus';

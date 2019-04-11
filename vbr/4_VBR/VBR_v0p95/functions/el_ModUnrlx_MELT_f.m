@@ -1,4 +1,5 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% function [VBR] = el_ModUnrlx_MELT_f(VBR)
 % Poro-elastic effect of melt: Appendix A of Takei, 2002, JGR Solid Earth,
 % https://doi.org/10.1029/2001JB000522
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

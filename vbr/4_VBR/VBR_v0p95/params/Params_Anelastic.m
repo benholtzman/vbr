@@ -17,7 +17,6 @@ function params = Params_Anelastic(method)
     params.integration_method=0; % 0 for trapezoidal, 1 for quadrature.
     params.tau_integration_points = 500 ; % number of points for integration of high-T background if trapezoidal
 
-
     % best high-temp background only fit:
     params.bg_only.TR=1173; % ref temp [K]
     params.bg_only.PR = 0.2; % ref confining pressure of experiments, GPa
@@ -53,14 +52,6 @@ function params = Params_Anelastic(method)
     params.bg_peak.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
     params.bg_peak.Tau_HR = 1e7 ; % Relaxation time higher limit reference
     params.bg_peak.Tau_MR = 10^7.48 ; % Reference Maxwell relaxation time
-
-    % melt effects (don't adjust, use VBR.in.GlobalSettings.melt_enhacement=0 to turn off)
-    % use diffusion creep values
-    HK2003 = Params_Viscous('HK2003'); % viscous parameters
-    params.melt_alpha = HK2003.diff.alf ;
-    params.phi_c = HK2003.diff.phi_c ;
-    params.x_phi_c = HK2003.diff.x_phi_c ;
-
   end
 
   %========= ANDRADE (pseudoperiod scaling) parameters (JF10) ===============
@@ -80,13 +71,6 @@ function params = Params_Anelastic(method)
     params.R = 8.314 ; % gas constant
     params.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
     params.m = 1 ;
-
-    %% melt effects
-    % use diffusion creep values
-    HK2003 = Params_Viscous('HK2003'); % viscous parameters
-    params.melt_alpha = HK2003.diff.alf ;
-    params.phi_c = HK2003.diff.phi_c ;
-    params.x_phi_c = HK2003.diff.x_phi_c ;
 
     % the BUMP
     params.Te = 0.1 ;
@@ -152,5 +136,13 @@ function params = Params_Anelastic(method)
     params.Ap_Tn_pts=[0.91,0.96,1]; % Tn cuttoff points
     params.sig_p_Tn_pts=[0.92,1]; % Tn cuttoff points
   end
+
+  % melt enhancement effects, used by multiple of the above methods
+  % set VBR.in.GlobalSettings.melt_enhacement=0 to turn off
+  % see Holtzman [citation]
+  HK2003 = Params_Viscous('HK2003'); % viscous parameters
+  params.melt_alpha = HK2003.diff.alf ; % steady state melt dependence (exp(-alf*phi))
+  params.phi_c = HK2003.diff.phi_c ; % critical melt fraction
+  params.x_phi_c = HK2003.diff.x_phi_c ; % melt effect factor
 end
 %% =================== END OF Params_Anelastic.m ========================

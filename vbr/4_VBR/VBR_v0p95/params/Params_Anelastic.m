@@ -2,11 +2,14 @@ function params = Params_Anelastic(method)
 %% ========================================================================
 %% Anelastic Properties ===================================================
 %% ========================================================================
+  params.possible_methods={'eBurgers','AndradePsP','YT_maxwell','YT2016_solidus'};
 
   %===========  extended BURGERS parameters =================================
   if strcmp(method,'eBurgers')
+    params.func_name='Q_eBurgers_decider'; % the name of the matlab function
+
     % fit paramter values from Table 2 of JF10 all melt-free samples
-    params.method='PointWise'; % keep at 'PointWise' until 'FastBurger' fixed
+    params.method='PointWise'; % keep at 'PointWise' until 'FastBurger' fixed. Q_eburgers.m will decide which to call
     params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
     params.R = 8.314 ; % gas constant
     params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak'
@@ -62,6 +65,8 @@ function params = Params_Anelastic(method)
 
   %========= ANDRADE (pseudoperiod scaling) parameters (JF10) ===============
   if strcmp(method,'AndradePsP')
+    params.func_name='Q_Andrade_PseudoP_f'; % the name of the matlab function
+
     params.n = 0.33 ; % 1/3 ;
     params.Beta = 0.020;
     params.Tau_MR = 10^5.3 ;
@@ -92,11 +97,12 @@ function params = Params_Anelastic(method)
 
   %========= ANDRADE parameters (from Sundberg+Cooper)=======================
   if strcmp(method,'Andrade')
+    params.func_name=''; % the name of the matlab function
     params.n = 1/3 ; % 1/3 ;
-  %    scaling option:
-  %       1= experimental params,
-  %       2= Marshall's email
-  %       3= pseudoperiod
+    % scaling option:
+    %   1= experimental params,
+    %   2= Marshall's email
+    %   3= pseudoperiod
     params.scaling_opt=1 ;
 
     % for 1200, 1250, 1300 C
@@ -106,7 +112,7 @@ function params = Params_Anelastic(method)
     params.A =  2.8e-11 ;
     params.eta_ss =  1.86e11 ;
 
-  %    Bump on (1) or off (0) --
+    % Bump on (1) or off (0) --
     params.bump = 1 ;
     params.Te = 0.17 ; % not sure what this is
     params.Tgbs = 0.05 ;% sec
@@ -116,6 +122,7 @@ function params = Params_Anelastic(method)
 
   %========= YT_maxwell parameters =======================
   if strcmp(method,'YT_maxwell')
+    params.func_name='Q_YT_maxwell'; % the name of the matlab function
     params.beta1 = 0.32 ;
     params.beta2 = 1853.0 ;
     params.alpha2 = 0.5 ;
@@ -128,6 +135,7 @@ function params = Params_Anelastic(method)
 
   %========= YT2016_solidus parameters =======================
   if strcmp(method,'YT2016_solidus')
+    params.func_name='Q_YT2016_solidus'; % the name of the matlab function
     params.useYT2016visc=0; % 1 to use exact viscosity relationship from YT2016
 
     params.alpha_B=0.38;
@@ -142,7 +150,7 @@ function params = Params_Anelastic(method)
     params.sig_p_fac_2=37.5;
     params.sig_p_fac_3=7;
     params.Ap_Tn_pts=[0.91,0.96,1]; % Tn cuttoff points
-    params.sig_p_Tn_pts=[0.92,1]; % Tn cuttoff points 
+    params.sig_p_Tn_pts=[0.92,1]; % Tn cuttoff points
   end
 end
 %% =================== END OF Params_Anelastic.m ========================

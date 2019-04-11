@@ -1,8 +1,9 @@
 %% ===================================================================== %%
-%%                     CB_005_grainsize_melt.m
+%%                     CB_006_Cline_OxyFug.m
 %% ===================================================================== %%
-%  Compares YT2016_solidus and AndradePsp at a range of grain size and
-%  melt fractions for a single period (100s) at astheno conditions.
+%  WILL NOT WORK: was for an experimental version that used Cline's
+%  maxwell-time oxygen fugacity dependence. See
+%       vbr/4_VBR/VBR_v0p95/functions/addOxyFugacityEffects.m
 %% ===================================================================== %%
    clear
 

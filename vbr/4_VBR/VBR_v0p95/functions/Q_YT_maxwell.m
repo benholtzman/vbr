@@ -24,10 +24,6 @@ function [VBR]=Q_YT_maxwell(VBR)
   visc_method=VBR.in.viscous.methods_list{1};
   eta_diff = VBR.out.viscous.(visc_method).diff.eta ; % viscosity for maxwell relaxation time
   tau.maxwell = eta_diff./ Mu_in ; % maxwell relaxation time
-  % adjustment for oxygen fugacity
-  if isfield(VBR.in.SV,'fO2_bar')
-    tau=addOxyFugacityEffects(tau,VBR.in.SV.fO2_bar,VBR.in.anelastic.YT_maxwell);
-  end
 
   % allocation of new matrixes
   n_freq = numel(f_vec);

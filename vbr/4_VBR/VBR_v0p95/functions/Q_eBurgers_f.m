@@ -175,19 +175,13 @@ function tau = MaxwellTimes(VBR,Gu)
     eta_diff = VBR.out.viscous.(visc_method).diff.eta ; % viscosity for maxwell relaxation time
     tau.maxwell = eta_diff ./ Gu ; % maxwell relaxation time
   end
-  
+
   % integration limits and peak location
   LHP=((d_mat./dR).^m_a).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
   LHP=addMeltEffects(phi,LHP,VBR.in.GlobalSettings,Burger_params);
   tau.L = Burger_params.(bType).Tau_LR * LHP;
   tau.H = Burger_params.(bType).Tau_HR * LHP;
   tau.P = Burger_params.(bType).Tau_PR * LHP;
-
-  % adjustment for oxygen fugacity
-  if isfield(VBR.in.SV,'fO2_bar')
-    tau=addOxyFugacityEffects(tau,VBR.in.SV.fO2_bar,Burger_params);
-  end
-
 end
 
 function scaleMat=addMeltEffects(phi,scaleMat,GlobalSettings,Burger_params)

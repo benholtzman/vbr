@@ -139,7 +139,7 @@ function params = Params_Anelastic(method)
 
   % melt enhancement effects, used by multiple of the above methods
   % set VBR.in.GlobalSettings.melt_enhacement=0 to turn off
-  % see Holtzman [citation]
+  % see Holtzman, G-cubed, 2016 http://dx.doi.org/10.1002/2015GC006102 
   HK2003 = Params_Viscous('HK2003'); % viscous parameters
   params.melt_alpha = HK2003.diff.alf ; % steady state melt dependence (exp(-alf*phi))
   params.phi_c = HK2003.diff.phi_c ; % critical melt fraction

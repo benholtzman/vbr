@@ -24,9 +24,10 @@ function VBR= sr_visc_calc_LH2012(VBR)
        if isfield(VBR.in.viscous.LH2012,mech)
 %         pull out the flow law parameters
           FLP=params.(mech);
+          % check for globalsettings, melt_enhacement fieldnames          
           if VBR.in.GlobalSettings.melt_enhacement==0
              FLP.x_phi_c=1;
-          end 
+          end
 %         calculate strain rate
           sr = sr_flow_law_calculation(T_K,P_Pa,sig,d,phi,fH2O,FLP);
           sr_tot=sr_tot+sr;

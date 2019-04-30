@@ -48,7 +48,7 @@ Work.quit_at_end = 'no'; % if yes, forces matlab to exit at completion!
 %%% ---------------------- %%%
 
 % full box name
-Work.Box_name_IN = [Work.Box_dir 'Box_'  Work.Box_base_name '.mat'];
+Work.Box_name_IN = [Work.Box_dir 'Box_'  Work.Box_base_name];
 
 % new VBR box name
 if GIA_flag==0

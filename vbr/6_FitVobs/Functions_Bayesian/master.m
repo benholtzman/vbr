@@ -3,7 +3,7 @@
 
 basedir = 'C:\Users\Emily\Documents\VBR\';
 %basedir = 'D:\vbr\';
-addpath([basedir 'vbr/6_FitVobs/Functions_Bayesian']);
+addpath([basedir 'vbr/vbr/6_FitVobs/Functions_Bayesian']);
 
 Work = define_directories(basedir ,'2018-11-29-box');
 

@@ -31,6 +31,9 @@ function [VBR]=checkInput(VBR)
         'anharmonic';
         'null'} ;
 
+  % defaults for GlobalSettings
+  GlobalDefaults.melt_enhacement=1; % global melt enhacement flag on/off.
+
   % loop over requirements, check them.
   for ri = 1:size(Reqs,1)
       typ=Reqs{ri,1}; % general method field
@@ -44,7 +47,7 @@ function [VBR]=checkInput(VBR)
           missing=0;
           if isfield(VBR.in,fieldvars{1})==0
                missing=1;
-          else            
+          else
             if isfield(VBR.in.(fieldvars{1}),'methods_list')==0 && strcmp(Reqs{ri,4},'method')
                missing=1;
             end
@@ -80,6 +83,24 @@ function [VBR]=checkInput(VBR)
         end
       end
 
+  end
+
+  % check GlobalSettings
+  if ~isfield(VBR.in,'GlobalSettings')
+    VBR.in.GlobalSettings=struct();
+  end
+
+  allfields=fieldnames(GlobalDefaults);
+  for i_field = 1:numel(allfields)
+    thisfield=allfields{i_field};
+    if ~isfield(VBR.in.GlobalSettings,thisfield)
+      VBR.in.GlobalSettings.(thisfield)=GlobalDefaults.(thisfield);
+    end
+  end
+
+  % some optional state variable fields
+  if ~isfield(VBR.in.SV,'Ch2o')
+    VBR.in.SV.Ch2o=zeros(size(VBR.in.SV.T_K)); % no effect when at 0
   end
 
 end

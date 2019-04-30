@@ -1,5 +1,5 @@
 %% ===================================================================== %%
-%%                     CB_002_JF10.m
+%%                     CB_003_JF10.m
 %% ===================================================================== %%
 %  Calls VBR after setting the elastic modulus to match the JF10
 %  modulus.
@@ -10,9 +10,10 @@
 %% Load and set VBR parameters ========================
 %% ====================================================
 
-%  put VBR in the path
-   VBR_version = 'VBR_v0p95';
-   addpath(genpath(['../4_VBR/',VBR_version ])); % recursive add path
+% put VBR in the path
+  path_to_top_level_vbr='../../';
+  addpath(path_to_top_level_vbr)
+  vbr_init
 
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:

@@ -1,4 +1,12 @@
 *.pyc
 *.mat
 *.png
-*.pkl 
+*.pkl
+*.DS_Store
+*.asv
+*.nc
+#*.csv
+octave-workspace
+Projects/LAB_fitting_bayesian/data/LAB_models/HopperFischer2018.csv
+Data/
+vbr/temp

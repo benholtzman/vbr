@@ -1,5 +1,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % [VBR]=Q_eFastBurgers(VBR)
+% DO NOT USE RIGHT NOW
 % c. havlin, 04-2016
 %
 % calculates material properties for extended burgers model using the
@@ -37,7 +38,7 @@ function[VBR]=Q_eFastBurgers(VBR)
    if isfield(VBR.in.elastic,'poro_Takei')
      Mu = VBR.out.elastic.poro_Takei.Gu ;
    elseif isfield(VBR.in.elastic,'anharmonic')
-     Mu = VBR.out.elastic.anharmonic.Gu ;    
+     Mu = VBR.out.elastic.anharmonic.Gu ;
    end
    T_K_mat = VBR.in.SV.T_K ;
    P_Pa_mat = VBR.in.SV.P_GPa.*1e9 ; % convert pressure GPa to Pa = GPa*1e9
@@ -83,15 +84,16 @@ function[VBR]=Q_eFastBurgers(VBR)
 %% scaling
    scale_mat = ((d_mat./dR).^m).*exp((E/R).*(1./T_K_mat-1/TR)) ...
                             .*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR)) ;
-    % more like viscosity, so divide by melt factor
-    % (Xtilde is like strain rate!, where you multiply by rate factor)
+  % account for lack of truly melt free samples and the drop at the onset of melting.
+  if VBR.in.GlobalSettings.melt_enhacement==0
+    x_phi_c=1;
+  else
+    scale_mat = scale_mat.*x_phi_c ;
+  end
 
-% EFFECT OF MELT, hypothetical:
-% sharper response than creep at phi_c, but less sensitive at higher phi (for HTB only)
-scale_mat = scale_mat.*x_phi_c ; % to account for lack of truly melt free samples and the drop at the onset of melting.
-[scale_mat_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
-scale_mat = scale_mat./scale_mat_prime ;
-
+  % add melt effects
+  [scale_mat_prime] = sr_melt_enhancement(phi,alpha,x_phi_c,phi_c) ;
+  scale_mat = scale_mat./scale_mat_prime ;
 
 % define global Tau range to integrate over
   Tau_L = Tau_LR.*scale_mat ;

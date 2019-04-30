@@ -1,4 +1,4 @@
-function [settings]=init_settings
+function [settings]=init_settings(settings_in)
 
 %  all the flags with default settings
 %  Flags
@@ -82,5 +82,20 @@ function [settings]=init_settings
    settings.Vbg = 0; % [cm/yr]
 %    settings.Q_LAB = -40 / 1e3; % LAB heat flux [ W / m2]
 
+%  copy over settings_in (will overwrite any of the above)
+   if exist('settings_in','var')
+      ovwr_set = fieldnames(settings_in);
+      for is = 1:length(ovwr_set)
+          if isstruct(settings_in.(ovwr_set{is}))
+             ovwr_set2 = fieldnames(settings_in.(ovwr_set{is}));
+             for iss = 1:length(ovwr_set2)
+                 settings.(ovwr_set{is}).(ovwr_set2{iss}) ...
+                     = settings_in.(ovwr_set{is}).(ovwr_set2{iss});
+             end
+          else
+              settings.(ovwr_set{is}) = settings_in.(ovwr_set{is});
+          end
+      end
+    end
 
 end

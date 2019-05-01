@@ -46,7 +46,7 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_fiel
   %         .P_Obs_given_mod : likelihood PDF, P(D|A)
   %         .P_Obs  : data PDF, P(D)
   %         .Posterior : unscaled posterior distrubtion
-  %         .Posterior_scaled : scaled posterior distrubtion 
+  %         .Posterior_scaled : scaled posterior distrubtion
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % observed probability of data P(D), e.g., P(Vs). Scalar value.
@@ -59,7 +59,7 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_fiel
   x      = Obs.([obs_field]); % measurement
   probs.P_Obs = normpdf(x,mu,sigmaObs); % probability of Data.
   disp(['P(D):'])
-  disp(P_Obs)
+  disp(probs.P_Obs)
 
   % calcualte prior model for states: P(var1,var2,...)=P(var1)*P(var2)*...
   [probs.Prior_mod,sigmaPreds]=priorModelProbs(States,states_fields,1);

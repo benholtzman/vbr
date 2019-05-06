@@ -27,7 +27,7 @@ function [VBR,telapsed]=spineElastic(VBR)
   end
 
   %% stixrude and lithgow-bertelloni scaling
-  if sum(strncmp('SLB2005',methods_list,16)) > 0
+  if sum(strncmp('SLB2005',methods_list,7)) > 0
       [VBR] = el_Vs_SnLG_f(VBR); % Stixrude and Lithgow-Bertelloni
   end
 

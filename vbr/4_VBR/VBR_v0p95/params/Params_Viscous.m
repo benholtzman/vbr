@@ -12,12 +12,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function params = Params_Viscous(method)
 
+% small-melt effect
+phi_c = [1e-5 1e-5 1e-5];
+x_phi_c = [5 1 5/2];
+
 % hirth and kohlstedt 2003
 if strcmp(method,'HK2003')
-%  set melt effects
-   phi_c = [1e-5 1e-5 1e-5]; % diff disl gbs
-   x_phi_c = [5 1 5/2];
-
 %  load standard constants
    params = load_HK03_flowlaw_constants(phi_c,x_phi_c);
 
@@ -28,13 +28,8 @@ end
 
 % hansen et al.,
 if strcmp(method,'LH2012')
-   %  set melt effects
-   phi_c = [0.001 0.001 0.001];
-   x_phi_c = [5 1 5/2];
-
 %  load standard constants
    params = load_LH12_flowlaw_constants(phi_c,x_phi_c);
-
 %  other settings
    params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.
 end

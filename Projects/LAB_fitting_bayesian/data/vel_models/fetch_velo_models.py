@@ -31,7 +31,7 @@ for ref in iris_files.keys():
         print(ref+' already downloaded.')
     else:
         print("attempting to fetch "+full_url)
-        urllib.urlretrieve(full_url, ref+'.nc')
+        urlrequest.urlretrieve(full_url, ref+'.nc')
         print("file downloaded as ./"+ref+'.nc')
 
 

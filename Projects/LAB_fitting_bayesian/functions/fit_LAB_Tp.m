@@ -124,7 +124,7 @@ function predictions =  predictObs(Box,settings)
 
     % find seismic LAB z
     zplate=Box(iBox).BoxParams.var2val;
-    Z_LAB_Q(iBox) = find_LAB_Q(Qs_z,Z_km_interp,'method',q_LAB_method,
+    Z_LAB_Q(iBox) = find_LAB_Q(Qs_z,Z_km_interp,'method',q_LAB_method, ...
                                         'value',q_LAB_value,'z_min_km',zplate);
 
     % find average adiabatic velocity within dZ of LAB

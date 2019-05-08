@@ -13,7 +13,7 @@ function Observations = process_SeismicModels(Files,Coords)
   % check model coordinate overlap and then limit measurements to coordinate ranges
     [LAB_Model,Vs_Model,rCode]=checkOverlap(LAB_Model,Vs_Model,Coords);
     Vs_Model=limitByCoords(Vs_Model,'Vs',Coords);
-    if ~isfield(Files,'LAB_Model_file')
+    if isfield(Files,'LAB_Model_file')
       LAB_Model=limitByCoords(LAB_Model,'LAB_Depth',Coords);
     end
 

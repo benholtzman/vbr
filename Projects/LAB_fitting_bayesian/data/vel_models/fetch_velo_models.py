@@ -1,5 +1,7 @@
 # fetches velocity models from Iris.
-import urllib # for fetching
+#!pip install xarray
+
+import urllib.request as urllib # for fetching
 import xarray as xr # for loading netcdf
 import os
 import scipy.io as scp
@@ -37,7 +39,7 @@ for fi in iris_files.keys():
         save_dict={'Latitude':ds[iris_files[fi]['lat_field']].values,
                    'Longitude':ds[iris_files[fi]['lon_field']].values,
                    'Depth':ds[iris_files[fi]['z_field']].values,
-                   'Vs':ds[iris_files[fi]['Vs_field']].values.transpose()}
+                   'Vs':ds[iris_files[fi]['Vs_field']].values.transpose(1,2,0)}
         print(fi+'.nc converted to '+fi+'.mat')
         scp.savemat(fi+'.mat',{'Vs_Model':save_dict})
     else:

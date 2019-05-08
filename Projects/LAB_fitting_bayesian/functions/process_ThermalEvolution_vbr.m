@@ -30,7 +30,7 @@ VBR.in.viscous.methods_list={'LH2012'};
 VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT_maxwell'};
 
 VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-VBR.in.anelastic.eBurgers.method='FastBurger';
+%VBR.in.anelastic.eBurgers.method='FastBurger';
 VBR.in.anelastic.eBurgers.nTauGlob=3000; % points for global Tau discretization
 
 % load elastic parameters
@@ -43,7 +43,8 @@ VBR.in.elastic.anharmonic.Gu_0_ol=71;
 % load the Box
 load(Work.Box_name_IN) ;
 
-VBRBox(size(Box)(1),size(Box)(2))=struct();
+VBRBox(size(Box, 1),size(Box, 2))=struct('in', struct(), 'BoxParams', struct(),...
+    'Z_km', zeros(110,1), 'status', 0, 'error_message','','out',struct());
 % loop over box indeces, run VBR calculator on last frame of each run
 Work.nBox = numel(Box); Work.tstart = cputime;
 for iBox = 1:Work.nBox

@@ -1,4 +1,5 @@
-function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_field)
+function [probs] = bayesianInference(States,states_fields,Obs,Residuals, ...
+    obs_field, ifnormal)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % calculate posterior probability distribution using Bayesian inference
   % assuming normal distribution of data and prior-model parameters.
@@ -62,7 +63,7 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals,obs_fiel
   disp(probs.P_Obs)
 
   % calcualte prior model for states: P(var1,var2,...)=P(var1)*P(var2)*...
-  [probs.Prior_mod,sigmaPreds]=priorModelProbs(States,states_fields,1);
+  [probs.Prior_mod,sigmaPreds]=priorModelProbs(States,states_fields,ifnormal);
 
   % calculate likelihood P(D|A), e.g., P(Vs | T, phi, gs), using residual.
   % given residual, P(D|A) = 1/sqrt(2*pi*residual) * exp(-residual/2)
@@ -100,7 +101,7 @@ function [sigmaPreds, Prior_mod] = priorModelProbs(States,states_fields,ifnormal
       x      = States.(this_field); % measurements
       P_var_i = normpdf(x,mu,sigma); % 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
     else
-      P_var_i=1;
+      P_var_i=1; sigma = 1;
     end
     sigmaPreds=sigmaPreds.*sigma;
     Prior_mod=Prior_mod.*P_var_i; % propagate the probability

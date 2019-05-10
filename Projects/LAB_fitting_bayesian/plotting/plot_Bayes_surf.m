@@ -22,5 +22,5 @@ function plot_Bayes_surf(P_mod)
   max_val=num2str(max(P_mod.Posterior_scaled(:)))
   title(['max(P)=',max_val,' at \phi=',phi,',Tpot=',Tpot,',gs=',gs], 'FontSize', 14)
   hcb=colorbar;
-  title(hcb,'P(T, \phi, gs | Vs)','FontSize', 14)
+  ylabel(hcb,'P(T, \phi, gs | Vs)','FontSize', 14)
 end

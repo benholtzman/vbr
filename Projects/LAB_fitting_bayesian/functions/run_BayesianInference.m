@@ -25,7 +25,7 @@ function [probs] = run_BayesianInference(Files,sweep_params,seismic_obs, zPlate,
   seismic_obs.meanVs_std=seismic_obs.asth_v_error; % error on mean astheno Vs
   seismic_obs.meanVs_mean=seismic_obs.asth_v; % mean of measurements
 
-  probs = bayesianInference(States,states_fields,seismic_obs,Residuals,obs_field);
+  probs = bayesianInference(States,states_fields,seismic_obs,Residuals,obs_field, ifnormal);
 
   % And do some plotting!
   % plot_probs(probs, seismic_obs, vs_vals, sweepBox);

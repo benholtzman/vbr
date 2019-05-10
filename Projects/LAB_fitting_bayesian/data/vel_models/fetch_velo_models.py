@@ -1,7 +1,10 @@
 # fetches velocity models from Iris.
 #!pip install xarray
 
-import urllib.request as urllib # for fetching
+try:
+    import urllib.request as urlrequest
+except ImportError:
+    import urllib as urlrequest
 import xarray as xr # for loading netcdf
 import os
 import scipy.io as scp
@@ -28,7 +31,7 @@ for ref in iris_files.keys():
         print(ref+' already downloaded.')
     else:
         print("attempting to fetch "+full_url)
-        urllib.urlretrieve(full_url, ref+'.nc')
+        urlrequest.urlretrieve(full_url, ref+'.nc')
         print("file downloaded as ./"+ref+'.nc')
 
 

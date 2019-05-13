@@ -2,10 +2,10 @@ function Observations = process_SeismicModels(Files,Coords)
 
   % load the models
     load(Files.Vs_Model_file);
-    Vs_Model=checkErrors(Vs_Model,'Vs',0.01);
+    Vs_Model=checkErrors(Vs_Model,'Vs',0.05);
     if isfield(Files,'LAB_Model_file')
       load(Files.LAB_Model_file);
-      LAB_Model=checkErrors(LAB_Model,'LAB_Depth',1);
+      LAB_Model=checkErrors(LAB_Model,'LAB_Depth',5);
     else
       LAB_Model=struct();
     end
@@ -27,6 +27,7 @@ function Observations = process_SeismicModels(Files,Coords)
 
   % find median LAB depth
     LAB_median = median(LAB_Model.LAB_Depth(~isnan(LAB_Model.LAB_Depth)));
+    LAB_error = mean(LAB_Model.Error(:));
   %   % LAB_from_Vs=find_LAB_from_Vs(Vs_Model); % (allVs, Moho, Depth)
 
   % find asthenosphere velocity
@@ -44,6 +45,7 @@ function Observations = process_SeismicModels(Files,Coords)
   Observations.depthrange = [Coords.z_min Coords.z_max];
   Observations.Moho = Moho;
   Observations.LAB = LAB_median;
+  Observations.LAB_error = LAB_error;
   Observations.Vs_Model=Vs_Model;
   Observations.LAB_Model=LAB_Model;
 

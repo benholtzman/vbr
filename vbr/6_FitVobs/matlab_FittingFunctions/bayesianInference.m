@@ -79,7 +79,7 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals, ...
   probs.Posterior = (probs.P_Obs_given_mod .* probs.Prior_mod)./(probs.P_Obs)
 
   % scale Posterior distribution
-  norm_for_residual = (2*pi*0.0001).^-0.5 .* exp(-0.5*0.0001); % ???
+  norm_for_residual = (2*pi*sigmaObs.^2).^-0.5 .* exp(-0.5*sigmaObs.^2); % ???
   probs.Posterior_scaled = probs.Posterior .* (2*pi*sigmaPreds./sigmaObs) / norm_for_residual
 
 end
@@ -101,7 +101,11 @@ function [sigmaPreds, Prior_mod] = priorModelProbs(States,states_fields,ifnormal
       x      = States.(this_field); % measurements
       P_var_i = normpdf(x,mu,sigma); % 1/sqrt(2*pi*sigma^2) * exp((-(x-mu)^2)/(2*sigma^2));
     else
-      P_var_i=1; sigma = 1;
+      sigma = 1;
+      min_val = min(States.(this_field)(:));
+      max_val = max(States.(this_field)(:));
+      x = States.(this_field); % measurements
+      P_var_i = unifpdf(x, min_val, max_val); % uniform PDF over total range 
     end
     sigmaPreds=sigmaPreds.*sigma;
     Prior_mod=Prior_mod.*P_var_i; % propagate the probability

@@ -23,8 +23,8 @@
     generate_boxes_ThermalEvolution(Files.SV_Box,SVSettings.Trange_C,...
                                      SVSettings.zPlateRange_km); % builds T(z,t)
   else
-    disp("\nSV Box already exists, delete following file to recalculate")
-    disp(['    ',Files.SV_Box,"\n"])
+    fprintf(['\nSV Box already exists, delete following file to recalculate\n' ...
+        '    %s\n', Files.SV_Box])
   end
 
 % %%%%%%%%%%%%%%%%%%   Process State Variables with VBR  %%%%%%%%%%%%%%%%%%%%%%%
@@ -34,14 +34,14 @@
   if ~exist(Files.VBR_Box,'file') || VBRSettings.recalc_VBR==1
     process_ThermalEvolution_vbr(Files,VBRSettings.freq,VBRSettings.g_um);
   else
-    disp("\nVBR Box already exists, delete following file to recalculate")
-    disp(['    ',Files.VBR_Box,"\n"])
+    fprintf(['\nVBR Box already exists, delete following file to recalculate\n'...
+        '    %s\n', Files.VBR_Box])
   end
 
 % %%%%%%%%%%%%%%%%%%   GET SEISMIC OBSERVABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   Files.Vs_Model_file='./data/vel_models/Shen_Ritzwoller_2016.mat';
   Files.LAB_Model_file='./data/LAB_models/HopperFischer2018.mat';
-  Coords.lat=30; Coords.lon=250; % lat/lon coordinate
+  Coords.lat=40; Coords.lon=250; % lat/lon coordinate
   Coords.smooth_rad = 0.5;  % radius over which to average RFs and vel model (degrees)
   Coords.z_min=100; % averaging min depth for asth.
   Coords.z_max=150; % averaging max depth for asth.
@@ -51,7 +51,7 @@
   FitSettings.per_bw_max = 30;  % max period to use for fitting (s)
   FitSettings.per_bw_min = 10; % min period to use for fitting (s)
   FitSettings.set_Tp=1350; % potential temperature to pull best z_plate
-  FitSettings.q_method='eBurgers'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
+  FitSettings.q_method='AndradePsP'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
   zPlate = fit_LAB_Tp(Files.VBR_Box, seismic_obs, FitSettings);
   plotFits(Files.VBR_Box,zPlate,seismic_obs,FitSettings);
 
@@ -62,5 +62,6 @@
   Files.VBR_bayesian='./data/plate_VBR/BayesianBox.mat';
   sweep_params.phi = (0.0:0.005:0.03); % melt fraction
   sweep_params.gs = linspace(0.001,0.03,10)*1e6; %[0.5 1 5:5:100].*1e3; % grain size
+  sweep_params.q_method = FitSettings.q_method;
   P_mod = run_BayesianInference(Files,sweep_params,seismic_obs,zPlate,1);
   plot_Bayes_surf(P_mod)

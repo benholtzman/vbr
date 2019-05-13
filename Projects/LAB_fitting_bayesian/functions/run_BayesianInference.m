@@ -10,7 +10,7 @@ function [probs] = run_BayesianInference(Files,sweep_params,seismic_obs, zPlate,
       [States,sweep_params] = generate_parameter_sweep(Files, zPlate, sweep_params, seismic_obs);
 
       % get residual for every state
-      [vs_vals, Residuals] = extract_Vs(States, seismic_obs,'eBurgers');
+      [vs_vals, Residuals] = extract_Vs(States, seismic_obs, sweep_params.q_method);
       save(Files.VBR_bayesian,'States','Residuals','sweep_params','vs_vals')
     end
 
@@ -114,7 +114,8 @@ function [vs_vals, Residuals] = extract_Vs(sweepBox, seismic_obs,q_method)
   disp('extracting Vs residuals')
   disp(size(sweepBox.(q_method).meanVs))
   vs_vals = sweepBox.(q_method).meanVs;
-  Residuals.meanVs = (vs_vals - seismic_obs.asth_v).^2 / seismic_obs.asth_v;
+  % chi^2 = sum( (observed - predicted)^2) / sigma^2 )
+  Residuals.meanVs = (vs_vals - seismic_obs.asth_v).^2 / seismic_obs.asth_v_error.^2;
 
 end
 

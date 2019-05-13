@@ -11,8 +11,8 @@ function plot_Bayes_surf(P_mod)
   yslice = [Y(i_best)];
   zslice = [Z(i_best)];
   slice(X,Y,Z,V,xslice,yslice,zslice)
-  xlabel('Tpot [C]','FontSize', 14)
-  ylabel('\phi','FontSize', 14)
+  xlabel('\phi','FontSize', 14)
+  ylabel('Tpot [C]','FontSize', 14)
   zlabel('gs [m]','FontSize', 14)
 
   phi=num2str(X(i_best));

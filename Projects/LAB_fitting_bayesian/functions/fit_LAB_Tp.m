@@ -45,8 +45,9 @@ function Fits = fit_LAB_Tp(VbrBoxFile, seismic_obs, settings)
   preds =  predictObs(VBR,settings);
 
   % calculate residuals
-  [resids,best]=jointResiduals('zLAB',preds.zLAB_Q,seismic_obs.LAB,...
-                               'Vs',preds.meanVs,seismic_obs.asth_v);
+  [resids,best]=jointResiduals(...
+      'zLAB', preds.zLAB_Q, seismic_obs.LAB, seismic_obs.LAB_error, ...
+      'Vs', preds.meanVs, seismic_obs.asth_v, seismic_obs.asth_v_error);
 
   % find best fitting zPlate given input Tpot, set_Tp.
   if isfield(settings,'set_Tp')

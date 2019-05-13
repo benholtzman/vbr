@@ -35,7 +35,7 @@ VBR.in.anelastic.eBurgers.nTauGlob=3000; % points for global Tau discretization
 
 % load elastic parameters
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
-VBR.in.elastic.anharmonic.Gu_0_ol=71;
+VBR.in.elastic.anharmonic.Gu_0_ol=73.6; %%%%%%%!!!!!!!!!%%%%%%%%
 %%% ---------------- %%%
 %%% VBR Calculations %%%
 %%% ---------------- %%%

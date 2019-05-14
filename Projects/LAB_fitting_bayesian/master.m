@@ -41,7 +41,7 @@
 % %%%%%%%%%%%%%%%%%%   GET SEISMIC OBSERVABLES %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   Files.Vs_Model_file='./data/vel_models/Shen_Ritzwoller_2016.mat';
   Files.LAB_Model_file='./data/LAB_models/HopperFischer2018.mat';
-  Coords.lat=40; Coords.lon=250; % lat/lon coordinate
+  Coords.lat=40; Coords.lon=245; % lat/lon coordinate
   Coords.smooth_rad = 0.5;  % radius over which to average RFs and vel model (degrees)
   Coords.z_min=100; % averaging min depth for asth.
   Coords.z_max=150; % averaging max depth for asth.

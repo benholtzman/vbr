@@ -97,10 +97,10 @@ function predictions =  predictObs(Box,settings)
   % allocate zLAB, meanVs for every Box
   Z_LAB_Q = zeros(size(Box));
   meanVs= zeros(size(Box));
+%   meanQs= zeros(size(Box)); % ** Currently unused **
 
-  % build frequency mask (same for all boxes)
+  % Get frequency axis (same for all boxes)
   freq=Box(1).in.SV.f;
-  f_mask=(freq>=settings.freq_range(1)&freq<=settings.freq_range(2));
 
   % for interpolating Q, Vs
   nn_pts=settings.interp_pts;
@@ -109,28 +109,34 @@ function predictions =  predictObs(Box,settings)
   q_method=settings.q_method; % Q method for VBR
   q_LAB_method = settings.q_LAB_method; % method for LAB search
   q_LAB_value = settings.q_LAB_value; % value to use in LAB search
-
+  
   for iBox = 1:numel(Box)
-    % get Q(z), V(z) (average over frequency range)
-    Qs_fz = Box(iBox).out.anelastic.(q_method).Q(:,f_mask);
-    Vs_fz = Box(iBox).out.anelastic.(q_method).V(:,f_mask)/1000; % m/s to km/s
-    Qs_z=mean(Qs_fz,2);
-    Vs_z=mean(Vs_fz,2);
-
-    % Interpolate Qs_z, Vs_z to higher resolution on Z_km
     Z_km = Box(iBox).Z_km;
-    Z_km_interp = linspace(Z_km(1),Z_km(end),nn_pts);
-    Qs_z = interp1(Z_km,Qs_z,Z_km_interp);
-    Vs_z = interp1(Z_km,Vs_z,Z_km_interp);
+    Qs_fz = Box(iBox).out.anelastic.(q_method).Q;
+    Vs_fz = Box(iBox).out.anelastic.(q_method).V/1000; % m/s to km/s
 
-    % find seismic LAB z
+    % 2D interplations of Q(z,f) and Vs(z,f) over depth and frequency
+    [ Vs_zf, ~, ~ ] = interp_FreqZ(Vs_fz,freq,nn_pts,...
+                                         Z_km,nn_pts);
+    [ Qs_zf, freq_interp, Z_km_interp ] = interp_FreqZ(Qs_fz,freq,nn_pts,...
+                                                             Z_km,nn_pts);
+                                                         
+    % Mask Vs and Q in frequency and depth
+    f_mask = (freq_interp>=settings.freq_range(1) & freq_interp<=settings.freq_range(2));
+    % index adiabatic velocity within dZ of LAB
     zplate=Box(iBox).BoxParams.var2val;
+    z_mask = (Z_km_interp>=zplate & Z_km_interp<=zplate+dz_adi_km);
+    Vs_zf_mask = Vs_zf(z_mask,f_mask);
+    Qs_zf_mask = Qs_zf(z_mask,f_mask);
+    
+    % Calculate mean Vs and Q of mask
+    meanVs(iBox)=mean(Vs_zf_mask(:));
+%     meanQs(iBox)=mean(Qs_zf_mask(:)); % ** Currently unused **
+    
+    % find seismic LAB z
+    Qs_z = mean(Qs_zf,2); % mean within frequency mask
     Z_LAB_Q(iBox) = find_LAB_Q(Qs_z,Z_km_interp,'method',q_LAB_method, ...
                                         'value',q_LAB_value,'z_min_km',zplate);
-
-    % find average adiabatic velocity within dZ of LAB
-    z_mask=(Z_km_interp>=zplate & Z_km_interp<=zplate+dz_adi_km);
-    meanVs(iBox)=mean(Vs_z(z_mask));
   end
 
   predictions.zLAB_Q=Z_LAB_Q;

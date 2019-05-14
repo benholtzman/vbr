@@ -49,9 +49,13 @@ function [sweepBox,sweep] = generate_parameter_sweep(Files, zPlate, sweep, seism
   i_zPlate=zPlate.fixed_Tp.zPlate_ind; % best fitting zPlate box
   sweep.Tpot = VBR(1).BoxParams.var1range;
   sweep.zPlate = VBR(1).BoxParams.var2range(i_zPlate);
-  min_depth=100;%seismic_obs.depthrange(1);
-  max_depth=150;%seismic_obs.depthrange(2);
-
+  
+  % Define values for masking
+  depth_range = sort(seismic_obs.depthrange);
+  min_depth=depth_range(1); max_depth=depth_range(2); % min and max depth mask
+  freq_range = sort([1./sweep.per_bw_max 1./sweep.per_bw_min]); 
+  min_freq=freq_range(1); max_freq=freq_range(2); % min and max frequency mask
+  nn_pts = 1000; % number of points to interpolate frequency axis
 
   n_Tpot   = numel(sweep.Tpot);
   n_phi    = numel(sweep.phi);
@@ -94,13 +98,32 @@ function [sweepBox,sweep] = generate_parameter_sweep(Files, zPlate, sweep, seism
           sweepBox.([fieldz{ifld},'_std'])(i_Tpot, i_phi, i_gs)=stdval;
         end
 
-        % pull out meanVs,meanQ for each anelastic method
+        % pull out meanVs,meanQ over desired frequency and depth interval 
+        % for each anelastic method
         anelastic_methods = fieldnames(VBR.out.anelastic);
+        freq = VBR.in.SV.f;
+        Z_km_mask = Z_km(z_mask); 
         for i_an = 1:length(anelastic_methods)
-          meanVs=mean(VBR.out.anelastic.(anelastic_methods{i_an}).Vave(:));
-          meanQinv=mean(VBR.out.anelastic.(anelastic_methods{i_an}).Qinv(:));
-          sweepBox.(anelastic_methods{i_an}).meanVs(i_Tpot,i_phi,i_gs)=meanVs*1e-3;
-          sweepBox.(anelastic_methods{i_an}).meanQinv(i_Tpot,i_phi,i_gs)=meanQinv;
+          Qinv_zf = VBR.out.anelastic.(anelastic_methods{i_an}).Qinv;
+          Vs_zf = VBR.out.anelastic.(anelastic_methods{i_an}).V/1000; % m/s to km/s
+
+          % 2D interplations of Qinv(z,f) and Vs(z,f) over frequency only
+          [ Vs_zf, ~, ~ ] = interp_FreqZ(Vs_zf,freq,nn_pts,...
+                                          Z_km_mask,length(Z_km_mask));
+          [ Qinv_zf, freq_interp, Z_km_interp ] = interp_FreqZ(Qinv_zf,freq,nn_pts,...
+                                                                  Z_km_mask,length(Z_km_mask));                                                    
+
+          % Mask Vs and Q in frequency and depth
+          f_mask = (freq_interp>=min_freq & freq_interp<=max_freq);
+          z_mask_int = (Z_km_interp>=min_depth & Z_km_interp<=max_depth);
+          Vs_zf_mask = Vs_zf(z_mask_int,f_mask);
+          Qinv_zf_mask = Qinv_zf(z_mask_int,f_mask);
+
+          % Calculate mean Vs and Q of mask
+          meanVs=mean(Vs_zf_mask(:));
+          meanQinv=mean(Qinv_zf_mask(:));
+          sweepBox.(anelastic_methods{i_an}).meanVs(i_Tpot,i_phi,i_gs)=meanVs;
+          sweepBox.(anelastic_methods{i_an}).meanQinv(i_Tpot,i_phi,i_gs)=meanQinv;  
         end
         i_state=i_state+1;
       end

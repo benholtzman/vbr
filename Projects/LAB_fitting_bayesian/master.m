@@ -49,7 +49,7 @@
 
 % %%%%%%%%%%%%%%%%%%   FIT PLATE THICKNESS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   FitSettings.per_bw_max = 30;  % max period to use for fitting (s)
-  FitSettings.per_bw_min = 10; % min period to use for fitting (s)
+  FitSettings.per_bw_min = 10;  % min period to use for fitting (s)
   FitSettings.set_Tp=1350; % potential temperature to pull best z_plate
   FitSettings.q_method='AndradePsP'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
   zPlate = fit_LAB_Tp(Files.VBR_Box, seismic_obs, FitSettings);
@@ -63,5 +63,7 @@
   sweep_params.phi = (0.0:0.005:0.03); % melt fraction
   sweep_params.gs = linspace(0.001,0.03,10)*1e6; %[0.5 1 5:5:100].*1e3; % grain size
   sweep_params.q_method = FitSettings.q_method;
+  sweep_params.per_bw_max = 30; % max period of range of mask (s)
+  sweep_params.per_bw_min = 10; % min period of range of mask (s)
   P_mod = run_BayesianInference(Files,sweep_params,seismic_obs,zPlate,1);
   plot_Bayes_surf(P_mod)

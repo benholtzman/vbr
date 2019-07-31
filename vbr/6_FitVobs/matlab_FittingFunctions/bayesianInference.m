@@ -84,7 +84,7 @@ function [probs] = bayesianInference(States,states_fields,Obs,Residuals, ...
 
 end
 
-function [sigmaPreds, Prior_mod] = priorModelProbs(States,states_fields,ifnormal)
+function [Prior_mod, sigmaPreds] = priorModelProbs(States,states_fields,ifnormal)
   % loops over the fields of States, calculates pdf for each field and total
   % prior model pdf:
   %   P(var1,var2,...)=P(var1)*P(var2)*...

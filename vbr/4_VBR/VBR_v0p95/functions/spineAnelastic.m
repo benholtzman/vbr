@@ -1,4 +1,4 @@
-function [VBR,telapsed]=spineAnelastic_proposed(VBR)
+function [VBR,telapsed]=spineAnelastic(VBR)
   % calculates user-selected anelastic methods
 
   methods_list=VBR.in.anelastic.methods_list; % list of methods to use
@@ -8,10 +8,22 @@ function [VBR,telapsed]=spineAnelastic_proposed(VBR)
 
   for i_method = 1:numel(methods_list)
     meth=methods_list{i_method};
-    if any(strcmp(possible_methods,meth))      
-      % load parameters for this method if not set:
-      if isfield(VBR.in.anelastic,meth)==0
-          VBR.in.anelastic.(meth)=Params_Anelastic(meth);
+    if any(strcmp(possible_methods,meth))
+      % load parameters for this method, keep parameters set by user
+      meth_params=Params_Anelastic(meth);
+
+      if isfield(VBR.in.anelastic,meth)
+        % user set parameters, check which they set
+        fldz=fieldnames(meth_params);
+        for ifield=1:numel(fldz)
+          if ~isfield(VBR.in.anelastic.(meth),fldz{ifield})
+            % user didn't set this parameter, take the default
+            VBR.in.anelastic.(meth).(fldz{ifield})=meth_params.(fldz{ifield});
+          end
+        end
+      else
+        % user did not set any parameters, use all defaults
+        VBR.in.anelastic.(meth)=meth_params;
       end
 
       % call the function specificed by this method

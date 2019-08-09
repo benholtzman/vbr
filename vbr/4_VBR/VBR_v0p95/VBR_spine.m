@@ -31,8 +31,7 @@ end
 %% =====================================================================
 
 if isfield(VBR.in,'anelastic')
-   % [VBR,telapsed_anelastic]=spineAnelastic(VBR);
-   [VBR,telapsed_anelastic]=spineAnelastic_proposed(VBR);
+   [VBR,telapsed_anelastic]=spineAnelastic(VBR);
 end
 
 %% ========================================================================

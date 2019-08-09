@@ -1,61 +1,49 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% Params_visc.m
-%
-% input is optional with phi_c and x_phi_c as first and second optional
-% inputs.
-%
-% x_phi_c: correction for nominally melt free lab experiements. A value
-%           of speefac should be >= 1. A value of 1 does not change the
-%           flow law, a value > 1 will decrease strain rate, accounting
-%           for experimental conditions that were not trully melt free
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% ========================================================================
+%% Viscous Properties =====================================================
+%% ========================================================================
 function params = Params_Viscous(method)
 
-% small-melt effect
-phi_c = [1e-5 1e-5 1e-5];
-x_phi_c = [5 1 5/2];
+  params.possible_methods={'HK2003','LH2012','YT2016_solidus'};
 
-% hirth and kohlstedt 2003
-if strcmp(method,'HK2003')
-%  load standard constants
-   params = load_HK03_flowlaw_constants(phi_c,x_phi_c);
+  % small-melt effect, Holtzman (these values get passed to the current paramter
+  % structure for the current method)
+  phi_c = [1e-5 1e-5 1e-5];
+  x_phi_c = [5 1 5/2];
 
-%  other settings
-   params.ch2o_o = 50; % reference water content [ppm] ("dry" below this value)
-   params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.
-end
+  if strcmp(method,'HK2003')
+    % hirth and kohlstedt 2003
+    params = load_HK03_flowlaw_constants(phi_c,x_phi_c); % load standard constants
+    params.func_name='sr_visc_calc_HK2003'; % the name of the matlab function
+    params.ch2o_o = 50; % reference water content [ppm] ("dry" below this value)
+    params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.
+  elseif strcmp(method,'LH2012')
+    % hansen et al., 2012
+    params = load_LH12_flowlaw_constants(phi_c,x_phi_c); %  load standard constants
+    params.func_name='sr_visc_calc_LH2012'; % the name of the matlab function
+    params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.
+  elseif strcmp(method,'YT2016_solidus')
+    % YT2016 solidus (diffusion creep only)
+    params.func_name='visc_calc_YT2016_solidus'; % the name of the matlab function
 
-% hansen et al.,
-if strcmp(method,'LH2012')
-%  load standard constants
-   params = load_LH12_flowlaw_constants(phi_c,x_phi_c);
-%  other settings
-   params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.
-end
+    % near-solidus and melt effects
+    params.alpha=25; % taken from diff. creep value of LH2012. YT2016 call this lambda.
+    params.T_eta=0.94;
+    params.gamma=5;
 
-if strcmp(method,'YT2016_solidus')
-  % diffusion creep parameter values only
+    % method to use for dry (melt-free) diff. creep viscosity
+    params.eta_dry_method='LH2012';
 
-  % near-solidus and melt effects
-  params.alpha=25; % taken from diff. creep value of LH2012. YT2016 call this lambda.
-  params.T_eta=0.94;
-  params.gamma=5;
+    % flow law constants for their viscosity relationship.
+    % Only used if eta_dry_method='YT2016_solidus'
+    params.Tr_K=1200+273; % p7817 of reference paper, second paragraph
+    params.Pr_Pa=1.5*1e9; % p7817 of reference paper, second paragraph
+    params.eta_r=6.22*1e21; % figure 20 of reference paper
+    params.H=462.5*1e3; % activation energy [J/mol], figure 20 of reference paper
+    params.V=7.913*1e-6; % activation vol [m3/mol], figure 20 of reference paper
+    params.R=8.314; % gas constant [J/mol/K]
+    params.m=3; % grain size exponent -- but this does not matter since dr = d.
 
-  % method to use for dry (melt-free) diff. creep viscosity
-  params.eta_dry_method='LH2012';
-
-  % flow law constants for their viscosity relationship.
-  % Only used if eta_dry_method='YT2016_solidus'
-  params.Tr_K=1200+273; % p7817 of reference paper, second paragraph
-  params.Pr_Pa=1.5*1e9; % p7817 of reference paper, second paragraph
-  params.eta_r=6.22*1e21; % figure 20 of reference paper
-  params.H=462.5*1e3; % activation energy [J/mol], figure 20 of reference paper
-  params.V=7.913*1e-6; % activation vol [m3/mol], figure 20 of reference paper
-  params.R=8.314; % gas constant [J/mol/K]
-  params.m=3; % grain size exponent -- but this does not matter since dr = d.
-
-end
+  end
 
 
 end

@@ -13,7 +13,7 @@ function [VBR] = VBR_spine(VBR)
 %% ELASTIC properties ==================================================
 %% =====================================================================
 if isfield(VBR.in,'elastic')
-  [VBR,telapsed]=spineElastic(VBR);
+  [VBR,telapsed]=spineGeneralized(VBR,'elastic');
 end
 
 %% =====================================================================
@@ -22,7 +22,7 @@ end
 
 if isfield(VBR.in,'viscous')
   if isfield(VBR.in.viscous,'methods_list')
-   [VBR,telapsed.visc]=spineViscosity(VBR);
+   [VBR,telapsed.visc]=spineGeneralized(VBR,'viscous');
   end
 end
 
@@ -31,7 +31,7 @@ end
 %% =====================================================================
 
 if isfield(VBR.in,'anelastic')
-   [VBR,telapsed_anelastic]=spineAnelastic(VBR);
+   [VBR,telapsed_anelastic]=spineGeneralized(VBR,'anelastic');
 end
 
 %% ========================================================================

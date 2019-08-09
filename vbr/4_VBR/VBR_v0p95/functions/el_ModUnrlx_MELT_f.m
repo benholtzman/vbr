@@ -5,7 +5,12 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [VBR] = el_ModUnrlx_MELT_f(VBR)
 
-  % read in state variables
+  % check that anharmonic method was run, run it if not
+  [field_exists,missing] = checkStructForField(VBR,{'out','elastic','anharmonic'},0);
+  if field_exists==0 
+    VBR=loadThenCallMethod(VBR,'elastic','anharmonic');
+  end
+
   anharm=VBR.out.elastic.anharmonic; % anharmonic moduli, velocities, uncertainty
   Gu = anharm.Gu ;
   Ku = anharm.Ku;

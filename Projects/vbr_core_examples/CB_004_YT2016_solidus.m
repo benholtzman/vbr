@@ -28,8 +28,7 @@
    VBR.in.viscous.YT2016_solidus=Params_Viscous('YT2016_solidus');
    VBR.in.viscous.YT2016_solidus.eta_dry_method='YT2016_solidus';
 
-%  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016
-   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+%  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016   
    VBR.in.elastic.anharmonic.Gu_0_ol=72.45; %[GPa]
    VBR.in.elastic.anharmonic.dG_dT = -10.94*1e6; % Pa/C    (equivalent ot Pa/K)
    VBR.in.elastic.anharmonic.dG_dP = 1.987; % GPa / GPa

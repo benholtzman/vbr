@@ -2,8 +2,10 @@ function [params] = Params_Elastic(method)
   %% ========================================================================
   %% Elastic Properties =====================================================
   %% ========================================================================
+  params.possible_methods={'anharmonic','poro_Takei','SLB2005'};
 
   if strcmp(method,'anharmonic')
+    params.func_name='el_anharmonic'; % the name of the matlab function
     params.anharm_scale_mthd = 'Isaak' ; % Isaak or Cammarano ;
 
     params.T_K_ref = 300 ;% room temp [K] (THIS WAS AT 1173!!)
@@ -24,12 +26,14 @@ function [params] = Params_Elastic(method)
 
     params.nu = 0.25 ; % poisson's ratio
 
-  end
-
-  if strcmp(method,'poro_Takei')
+  elseif strcmp(method,'poro_Takei')
+    params.func_name='el_ModUnrlx_MELT_f'; % the name of the matlab function
     %% parameters for poro-elastic melt effect
     params.Melt_A  = 1.6 ; % 1:2.3 depending upon the wetting angle (see Yoshino).
     params.Melt_Km = 30e9; % melt bulk modulus [Pa], Takei 2002, Table 2
+    
+  elseif strcmp(method,'SLB2005')
+    params.func_name='el_Vs_SnLG_f'; % the name of the matlab function
   end
 
 end

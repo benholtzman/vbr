@@ -23,7 +23,7 @@
 
    % uncomment to use VBR viscosity for maxwell time calculation:
    % VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-   % VBR.in.viscous.methods_list={'LH2012'};
+   % VBR.in.viscous.methods_list={'LH2011'};
    % VBR.in.anelastic.eBurgers.useJF10visc=0;
 
 

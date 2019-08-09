@@ -6,8 +6,10 @@ function params = Params_Anelastic(method)
 
   %===========  extended BURGERS parameters =================================
   if strcmp(method,'eBurgers')
-    params.func_name='Q_eBurgers_decider'; % the name of the matlab function
 
+    params.func_name='Q_eBurgers_decider'; % the name of the matlab function
+    params.citations={'Faul and Jackson, 2015, Ann. Rev. of Earth and Planetary Sci., https://doi.org/10.1146/annurev-earth-060313-054732',...
+                      'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
     % fit paramter values from Table 2 of JF10 all melt-free samples
     params.method='PointWise'; % keep at 'PointWise' until 'FastBurger' fixed. Q_eburgers.m will decide which to call
     params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
@@ -57,7 +59,7 @@ function params = Params_Anelastic(method)
   %========= ANDRADE (pseudoperiod scaling) parameters (JF10) ===============
   if strcmp(method,'AndradePsP')
     params.func_name='Q_Andrade_PseudoP_f'; % the name of the matlab function
-
+    params.citations={'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
     params.n = 0.33 ; % 1/3 ;
     params.Beta = 0.020;
     params.Tau_MR = 10^5.3 ;
@@ -106,6 +108,7 @@ function params = Params_Anelastic(method)
 
   %========= YT_maxwell parameters =======================
   if strcmp(method,'YT_maxwell')
+    params.citations={'McCarthy and Takei Y, 2011, Geophys. Res. Lett., https://doi.org/10.1029/2011GL048776'};
     params.func_name='Q_YT_maxwell'; % the name of the matlab function
     params.beta1 = 0.32 ;
     params.beta2 = 1853.0 ;
@@ -119,6 +122,7 @@ function params = Params_Anelastic(method)
 
   %========= YT2016_solidus parameters =======================
   if strcmp(method,'YT2016_solidus')
+    params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     params.func_name='Q_YT2016_solidus'; % the name of the matlab function
     params.useYT2016visc=0; % 1 to use exact viscosity relationship from YT2016
 
@@ -139,7 +143,7 @@ function params = Params_Anelastic(method)
 
   % melt enhancement effects, used by multiple of the above methods
   % set VBR.in.GlobalSettings.melt_enhacement=0 to turn off
-  % see Holtzman, G-cubed, 2016 http://dx.doi.org/10.1002/2015GC006102 
+  % see Holtzman, G-cubed, 2016 http://dx.doi.org/10.1002/2015GC006102
   HK2003 = Params_Viscous('HK2003'); % viscous parameters
   params.melt_alpha = HK2003.diff.alf ; % steady state melt dependence (exp(-alf*phi))
   params.phi_c = HK2003.diff.phi_c ; % critical melt fraction

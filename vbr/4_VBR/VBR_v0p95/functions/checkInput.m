@@ -17,14 +17,14 @@ function [VBR]=checkInput(VBR)
         'anelastic','YT2016_solidus','SV.Tsolidus_K','SV'};
 
   % list of messages to display for each of those requirements
-  Msgs={'YT_maxwell requires a viscosity method. e.g., VBR.in.viscous.methods_list={''LH2012''};';
+  Msgs={'YT_maxwell requires a viscosity method. e.g., VBR.in.viscous.methods_list={''LH2011''};';
         'YT_maxwel requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'eBurgers requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'AndradePsP requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'YT2016_solidus requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'YT2016_solidus requires a solidus state variable e.g., VBR.in.SV.Tsolidus_K=1200*ones(size(T))'};
 
-  Defs={'LH2012';
+  Defs={'LH2011';
         'anharmonic';
         'anharmonic';
         'anharmonic';

@@ -1,7 +1,7 @@
 %% ===================================================================== %%
 %%                     CB_007_elastic.m
 %% ===================================================================== %%
-%  Calculates anharmonic velocities, SLB parametrization 
+%  Calculates anharmonic velocities, SLB parametrization
 %% ===================================================================== %%
    clear
 

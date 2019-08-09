@@ -34,7 +34,7 @@ The VBR Calculator is built around Matlab structures. All directions and data is
 **First**, the user must supply a cell array called ```methods_list``` for each property for which they to calculate:
 ```Matlab
 VBR.in.elastic.methods_list={'anharmonic';'poro_Takei';};
-VBR.in.viscous.methods_list={'HK2003','LH2012'};
+VBR.in.viscous.methods_list={'HK2003','LH2011'};
 VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT_maxwell'};
 ```
 
@@ -80,16 +80,19 @@ All SV arrays must be the same size and shape, except for the frequency ```VBR.i
 
 ### Adjust parameters (optional)
 
-The VBR calculator allows the user to change any parameter they see fit. To change a parameter, first load the full parameter list for the method and then adjust its value:
+The VBR calculator allows the user to change any parameter they see fit. Parameters are stored in the VBR.in.(property).(method) structure, e.g.:
 
 ```Matlab
-VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
 VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa]
-VBR.in.viscous.LH2012=Params_Viscous('LH2012'); % LH2012 params
-VBR.in.viscous.LH2012.diff.Q=350e3; % diffusion creep activation energy
+VBR.in.viscous.LH2011.diff.Q=350e3; % diffusion creep activation energy
 ```
 
-The default parameters are stored in ```vbr/4_VBR/VBR_v0p95/params/```.
+The default parameters are stored in ```vbr/4_VBR/VBR_v0p95/params/``` and can be loaded and explored with 
+ 
+```Matlab
+VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+VBR.in.viscous.LH2011=Params_Viscous('LH2011'); % LH2011 params
+```
 
 ### Run the VBR Calculator
 
@@ -106,5 +109,5 @@ Results are stored in ```VBR.out``` for each property type and method:
 ```Matlab
 VBR.out.elastic.anharmonic.Vsu % unrelaxed seismic shear wave velocity
 VBR.out.anelastic.eBurgers.V % anelastic-dependent seismic shear wave velocity
-VBR.out.viscous.LH2012.eta_total % composite steady state creep viscosity
+VBR.out.viscous.LH2011.eta_total % composite steady state creep viscosity
 ```

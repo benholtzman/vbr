@@ -3,7 +3,7 @@
 %% ========================================================================
 function params = Params_Viscous(method)
 
-  params.possible_methods={'HK2003','LH2012','YT2016_solidus'};
+  params.possible_methods={'HK2003','LH2011','YT2016_solidus'};
 
   % small-melt effect, Holtzman (these values get passed to the current paramter
   % structure for the current method)
@@ -14,24 +14,26 @@ function params = Params_Viscous(method)
     % hirth and kohlstedt 2003
     params = load_HK03_flowlaw_constants(phi_c,x_phi_c); % load standard constants
     params.func_name='sr_visc_calc_HK2003'; % the name of the matlab function
+    params.citations={'Hirth and Kohlstedt, 2003, https://doi.org/10.1029/138GM06'};
     params.ch2o_o = 50; % reference water content [ppm] ("dry" below this value)
     params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.
-  elseif strcmp(method,'LH2012')
-    % hansen et al., 2012
+  elseif strcmp(method,'LH2011')
+    % hansen et al., 2011
     params = load_LH12_flowlaw_constants(phi_c,x_phi_c); %  load standard constants
-    params.func_name='sr_visc_calc_LH2012'; % the name of the matlab function
+    params.citations={'Hansen, Zimmerman and Kohlstedt, 2011, J. Geophys. Res., https://doi.org/10.1029/2011JB008220'};
+    params.func_name='sr_visc_calc_LH2011'; % the name of the matlab function
     params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.
   elseif strcmp(method,'YT2016_solidus')
     % YT2016 solidus (diffusion creep only)
     params.func_name='visc_calc_YT2016_solidus'; % the name of the matlab function
-
+    params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     % near-solidus and melt effects
-    params.alpha=25; % taken from diff. creep value of LH2012. YT2016 call this lambda.
+    params.alpha=25; % taken from diff. creep value of LH2011. YT2016 call this lambda.
     params.T_eta=0.94;
     params.gamma=5;
 
     % method to use for dry (melt-free) diff. creep viscosity
-    params.eta_dry_method='LH2012';
+    params.eta_dry_method='LH2011';
 
     % flow law constants for their viscosity relationship.
     % Only used if eta_dry_method='YT2016_solidus'

@@ -34,6 +34,7 @@
    Work.cwd=pwd;cd ~; Work.hmdir=pwd;cd( Work.cwd)
    %Work.Box_dir =[ Work.hmdir '/Dropbox/Research/0_Boxes/'];
    %Work.Box_dir =[ Work.hmdir '/Dropbox/0_VBR_WORK/0_y17_Projects/Boxes/'];
+   %Work.Box_dir =[ Work.hmdir '/0_vbr_projects/VBRcloset/'];
    Work.Box_dir =[ Work.hmdir '/0_vbr_projects/VBRcloset/'];
    Work.Box_dir = [ Work.Box_dir  Work.Box_base_name '/'];
 
@@ -72,7 +73,9 @@
    % GIA band 50 years to 10,000 years
    %VBR.in.SV.f =  logspace(-11.497,-9.19,40);
    % GIA band 1 year to 10,000 years
-   VBR.in.SV.f =  logspace(-11.497,-7.497,40);
+   %VBR.in.SV.f =  logspace(-11.497,-7.497,40);
+   % GIA band 1 second to 10,000 years
+   VBR.in.SV.f =  logspace(-11.497,0,46);
   end
 %% frame selection
    Work.frames2vbr='ONLYONETHING';

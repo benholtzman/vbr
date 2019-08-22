@@ -157,7 +157,7 @@
 
 %%         VBR time!
            [VBR] = VBR_spine(VBR) ;
-
+           VBR.input = VBR.in; % necessary for python to read in because 'in' is a reserved keyword.
 %%         Store the VBR structure in the current frame
            Frames(ifr).VBR = VBR ;
        end

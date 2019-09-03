@@ -96,7 +96,7 @@ function [VBR]=Q_YT_maxwell(VBR)
   VBR.out.anelastic.YT_maxwell.tau_M = tau.maxwell;
 
   % calculate mean velocity along frequency dimension
-  VBR.out.anelastic.YT2016_solidus.Vave = Q_aveVoverf(V,VBR.in.SV.f);
+  VBR.out.anelastic.YT_maxwell.Vave = Q_aveVoverf(V,VBR.in.SV.f);
 
 end
 

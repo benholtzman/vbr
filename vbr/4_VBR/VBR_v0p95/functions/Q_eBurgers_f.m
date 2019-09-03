@@ -28,7 +28,7 @@ function [VBR] = Q_eBurgers_f(VBR)
   nfreq = numel(f_vec);
   J1 = proc_add_freq_indeces(zeros(size(Ju_mat)),nfreq);
   J2 = J1; Q = J1; Qinv = J1; M = J1; V = J1;
-  Vave = zeros(size(Ju_mat));
+  sz=size(Ju_mat);
 
   % Calculate maxwell time, integration limits and location of peak:
   % tau=MaxwellTimes(VBR,Mu);
@@ -116,8 +116,6 @@ function [VBR] = Q_eBurgers_f(VBR)
 
       M(i_glob) = (J1(i_glob).^2 + J2(i_glob).^2).^(-0.5) ;
       V(i_glob) = sqrt(M(i_glob)./rho) ;
-
-      Vave(x1) = Vave(x1) + V(i_glob); % add them all, divide by nfreq later
     end % end loop over frequency
   end % end the loop(s) over spatial dimension(s)
   % ============================================================================
@@ -129,7 +127,9 @@ function [VBR] = Q_eBurgers_f(VBR)
   VBR.out.anelastic.eBurgers.Qinv = Qinv;
   VBR.out.anelastic.eBurgers.M=M;
   VBR.out.anelastic.eBurgers.V=V;
-  VBR.out.anelastic.eBurgers.Vave = Vave./nfreq;
   VBR.out.anelastic.eBurgers.tau_M=tau.maxwell;
+
+  % calculate mean velocity along frequency dimension
+  VBR.out.anelastic.eBurgers.Vave = Q_aveVoverf(V,f_vec);
 
 end

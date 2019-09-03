@@ -81,7 +81,6 @@ function [VBR]=Q_YT_maxwell(VBR)
 
       f_norm_glob(i_glob)=f_norm;
       tau_norm_glob(i_glob)=tau_norm_f;
-      Vave(x1) = Vave(x1) + V(i_glob); % add them all, divide by nfreq later
     end % end loop over frequency
   end % end the loop(s) over spatial dimension(s)
 
@@ -94,8 +93,10 @@ function [VBR]=Q_YT_maxwell(VBR)
   VBR.out.anelastic.YT_maxwell.V=V;
   VBR.out.anelastic.YT_maxwell.f_norm=f_norm_glob;
   VBR.out.anelastic.YT_maxwell.tau_norm=tau_norm_glob;
-  VBR.out.anelastic.YT_maxwell.Vave = Vave./n_freq;
   VBR.out.anelastic.YT_maxwell.tau_M = tau.maxwell;
+
+  % calculate mean velocity along frequency dimension
+  VBR.out.anelastic.YT2016_solidus.Vave = Q_aveVoverf(V,VBR.in.SV.f);
 
 end
 

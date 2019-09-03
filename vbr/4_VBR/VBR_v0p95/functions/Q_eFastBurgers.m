@@ -1,4 +1,4 @@
-function[VBR] = Q_eFastBurgers(VBR)
+function [VBR] = Q_eFastBurgers(VBR)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % [VBR]=Q_eFastBurgers(VBR)
 % calculates material properties for extended burgers model using the
@@ -45,10 +45,10 @@ function[VBR] = Q_eFastBurgers(VBR)
 
   %  allocate matrices
   nfreq = numel(f_vec);
-  Jz=zeros(size(Ju_mat));
+  sz=size(Ju_mat);
+  Jz=zeros(sz);
   J1 = proc_add_freq_indeces(Jz,nfreq);
   J2 = J1; Q = J1; Qinv = J1; M = J1; V = J1;
-  Vave = Jz;
 
   % read in reference values
   Burger_params=VBR.in.anelastic.eBurgers;
@@ -139,8 +139,6 @@ function[VBR] = Q_eFastBurgers(VBR)
       Qinv(i_glob) = 1./Q(i_glob) ;
       M(i_glob) = (J1(i_glob).^2 + J2(i_glob).^2).^(-0.5) ;
       V(i_glob) = sqrt(M(i_glob)./rho) ;
-
-      Vave(i_th) = Vave(i_th) + V(i_glob);
     end
   end
 
@@ -151,6 +149,8 @@ function[VBR] = Q_eFastBurgers(VBR)
   VBR.out.anelastic.eBurgers.Qinv = Qinv;
   VBR.out.anelastic.eBurgers.M=M;
   VBR.out.anelastic.eBurgers.V=V;
-  VBR.out.anelastic.eBurgers.Vave = Vave./nfreq;
+
+  % calculate mean velocity along frequency dimension
+  VBR.out.anelastic.eBurgers.Vave = Q_aveVoverf(V,f_vec);
 
 end

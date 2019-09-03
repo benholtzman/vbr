@@ -43,10 +43,9 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
   J1_gbs = J1; J2_gbs = J1; Q_gbs = J1; M_gbs = J1;
   J1_comp = J1; J2_comp = J1; Q_comp = J1; M_comp = J1; Va_comp = J1;
 
-  % vectorized rho and Vave
+  % vectorized rho
   n_th = numel(Ju_in); % total elements
   rho_vec = reshape(rho_in,size(Ma(1:n_th)));
-  Vave=reshape(zeros(sz),size(Ma(1:n_th)));
 
   %% =============================
   %% calculate material properties
@@ -87,12 +86,10 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
 
     % velocities [m/s]
     Va(ig1:ig2) = sqrt(Ma(ig1:ig2)./rho_vec) ; % andrade Vs [m/s]
-    Vave = Vave + Va(ig1:ig2); % average (divided by nfreq outside loop)
     Va_comp(ig1:ig2) = sqrt(M_comp(ig1:ig2)./rho_vec) ; % composite Vs [m/s]
   end
 
   % Store output in VBR structure
-  VBR.out.anelastic.AndradePsP.Vave=reshape(Vave/n_freq,sz);
   VBR.out.anelastic.AndradePsP.J1 = J1;
   VBR.out.anelastic.AndradePsP.J2 = J2;
   VBR.out.anelastic.AndradePsP.Q = Qa;
@@ -108,6 +105,9 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
   VBR.out.anelastic.AndradePsP.Q_comp = Q_comp;
   VBR.out.anelastic.AndradePsP.M_comp=M_comp;
   VBR.out.anelastic.AndradePsP.Va_comp=Va_comp;
+
+  % calculate mean velocity along frequency dimension  
+  VBR.out.anelastic.AndradePsP.Vave = Q_aveVoverf(Va,f_vec);
 
 end
 

@@ -3,7 +3,7 @@ function VBR = visc_calc_YT2016_solidus(VBR)
   % "Polycrystal anelasticity at near-solidus temperatures,"
 
   % parameter checks
-  if isfield(VBR.in,'viscous')==0
+  if ~isfield(VBR.in,'viscous')
     VBR.in.viscous=struct();
   end
   if isfield(VBR.in.viscous,'YT2016_solidus')==0
@@ -25,9 +25,10 @@ function VBR = visc_calc_YT2016_solidus(VBR)
     % use a general olivine flow law to get melt-free diffusion-creep visc
     % need to re-run with phi=0 without losing other state variables
     VBRtemp=VBR;
-    VBRtemp.in.viscous.methods_list={visc_method}; % only use one method
+    VBRtemp.in.viscous.methods_list={visc_method}; % only use one method    
     VBRtemp.in.SV.phi=0; % need melt-free viscosity
-    VBRtemp=spineViscosity(VBRtemp);
+    VBRtemp=spineGeneralized(VBRtemp,'viscous');
+    disp(fieldnames(VBRtemp.out))
     eta_dry = VBRtemp.out.viscous.(visc_method).diff.eta ;
   end
 

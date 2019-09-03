@@ -77,12 +77,12 @@
 
 % contour T(z,t)
   figure()
-  ax1=subplot(2,2,1)
+  ax1=subplot(2,2,1);
   contourf(HF.t_Myr,HF.z_km,HF.T_C,20)
   colormap(ax1,hot)
   xlabel('Seaflor Age [Myr]')
   ylabel('Depth [km]')
-  set(gca,'ydir','rev')
+  set(gca,'ydir','reverse')
   title('Temperature [C]')
   colorbar()
 
@@ -93,7 +93,7 @@
      colormap(ax,winter);
      xlabel('Seaflor Age [Myr]')
      ylabel('Depth [km]')
-     set(gca,'ydir','rev')
+     set(gca,'ydir','reverse')
      title(['V_s [km/s] AndradePsP at ',num2str(VBR.in.SV.f(i_f)),' Hz'])
      colorbar()
   end
@@ -111,7 +111,7 @@
      caxis([0,max(max(dV(:,:,i_f)))])
      xlabel('Seaflor Age [Myr]')
      ylabel('Depth [km]')
-     set(gca,'ydir','rev')
+     set(gca,'ydir','reverse')
      maxval=round(max(max(dV(:,:,i_f)))*100)/100;
      title([num2str(VBR.in.SV.f(i_f)),' Hz, max(dV)=',num2str(maxval),' percent'])
      colorbar()

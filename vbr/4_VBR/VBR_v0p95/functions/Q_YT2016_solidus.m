@@ -95,6 +95,10 @@ function [VBR] = Q_YT2016_solidus(VBR)
     VBR.out.anelastic.YT2016_solidus.M=M;
     VBR.out.anelastic.YT2016_solidus.V=V;
 
+    % calculate mean velocity along frequency dimension
+    VBR.out.anelastic.YT2016_solidus.Vave = Q_aveVoverf(V,VBR.in.SV.f);
+
+
   end % end of has_solidus check
 end
 

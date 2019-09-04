@@ -4,6 +4,7 @@ function [VBR] = VBR_spine(VBR)
 %% Check VBR Input
 %% =====================================================================
   VBR = checkInput(VBR);
+  telapsed=struct();
   if VBR.status==0
      disp(VBR.error_message)
      return
@@ -13,7 +14,7 @@ function [VBR] = VBR_spine(VBR)
 %% ELASTIC properties ==================================================
 %% =====================================================================
 if isfield(VBR.in,'elastic')
-  [VBR,telapsed]=spineGeneralized(VBR,'elastic');
+  [VBR,telapsed.elastic]=spineGeneralized(VBR,'elastic');
 end
 
 %% =====================================================================

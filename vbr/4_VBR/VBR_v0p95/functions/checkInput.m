@@ -1,5 +1,5 @@
 function [VBR]=checkInput(VBR)
-  % checkInput() looks for some dependency errors. e.g., the YT_maxwell method
+  % checkInput() looks for some dependency errors. e.g., the MTH2011 method
   % requires a viscous method to run, all the anelastic calculation require a
   % pure elastic calculation.
 
@@ -9,16 +9,16 @@ function [VBR]=checkInput(VBR)
 
   % build requirements lists
   % each row = 'structure field containing method','the method','structure field(s) required under VBR.in'
-  Reqs={'anelastic','YT_maxwell','viscous','method';
-        'anelastic','YT_maxwell','elastic','method';
+  Reqs={'anelastic','MTH2011','viscous','method';
+        'anelastic','MTH2011','elastic','method';
         'anelastic','eBurgers','elastic','method';
         'anelastic','AndradePsP','elastic','method';
         'anelastic','YT2016_solidus','elastic','method';
         'anelastic','YT2016_solidus','SV.Tsolidus_K','SV'};
 
   % list of messages to display for each of those requirements
-  Msgs={'YT_maxwell requires a viscosity method. e.g., VBR.in.viscous.methods_list={''LH2011''};';
-        'YT_maxwel requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
+  Msgs={'MTH2011 requires a viscosity method. e.g., VBR.in.viscous.methods_list={''LH2011''};';
+        'MTH2011 requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'eBurgers requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'AndradePsP requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
         'YT2016_solidus requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
@@ -41,7 +41,7 @@ function [VBR]=checkInput(VBR)
         % check if the method is invoked
         method=Reqs{ri,2};
         methods=VBR.in.(typ).methods_list;
-        if sum(strncmp(method,methods,8)) > 0
+        if any(strcmp(methods,method))
           % check the required fields/methods for this method
           fieldvars=strsplit(Reqs{ri,3},'.');
           missing=0;
@@ -69,7 +69,7 @@ function [VBR]=checkInput(VBR)
               if isfield(VBR.in.(fieldvars{1}),fieldvars{2})==0
                 VBR.status=0;
               end
-            else
+            end
           end
 
           % save the message & exit if error caught
@@ -103,7 +103,7 @@ function [VBR]=checkInput(VBR)
     VBR.in.SV.Ch2o=zeros(size(VBR.in.SV.T_K)); % no effect when at 0
   end
   if ~isfield(VBR.in.SV,'chi')
-    VBR.in.SV.chi=ones(size(VBR.in.SV.T_K)); % all olivine when 1 
+    VBR.in.SV.chi=ones(size(VBR.in.SV.T_K)); % all olivine when 1
   end
 
 end

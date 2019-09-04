@@ -19,7 +19,7 @@
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
    VBR.in.elastic.methods_list={'anharmonic';'poro_Takei';'SLB2005'};
    VBR.in.viscous.methods_list={'HK2003'};
-   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT_maxwell'};
+   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'MTH2011'};
 
 %  load anharmonic parameters, adjust Gu_0_ol
 %  all paramss in ../4_VBR/VBR_version/params/ will be loaded in call to VBR spine,

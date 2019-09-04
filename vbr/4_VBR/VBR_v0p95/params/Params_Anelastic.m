@@ -2,7 +2,7 @@ function params = Params_Anelastic(method)
 %% ========================================================================
 %% Anelastic Properties ===================================================
 %% ========================================================================
-  params.possible_methods={'eBurgers','AndradePsP','YT_maxwell','YT2016_solidus'};
+  params.possible_methods={'eBurgers','AndradePsP','MTH2011','YT2016_solidus'};
 
   %===========  extended BURGERS parameters =================================
   if strcmp(method,'eBurgers')
@@ -107,9 +107,9 @@ function params = Params_Anelastic(method)
   end
 
   %========= YT_maxwell parameters =======================
-  if strcmp(method,'YT_maxwell')
-    params.citations={'McCarthy and Takei Y, 2011, Geophys. Res. Lett., https://doi.org/10.1029/2011GL048776'};
-    params.func_name='Q_YT_maxwell'; % the name of the matlab function
+  if strcmp(method,'MTH2011')
+    params.citations={'McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384'};
+    params.func_name='Q_MTH2011'; % the name of the matlab function
     params.beta1 = 0.32 ;
     params.beta2 = 1853.0 ;
     params.alpha2 = 0.5 ;
@@ -117,7 +117,7 @@ function params = Params_Anelastic(method)
     params.Alpha_b=0.28;
     params.Alpha_c=2.6;
     params.Alpha_taun=0.1;
-    params.reference='citation';
+    params.description='master curve maxwell scaling';
   end
 
   %========= YT2016_solidus parameters =======================

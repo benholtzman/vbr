@@ -27,7 +27,7 @@ VBR.in.SV.f = freq;
 % write VBR methods lists (these are the things to calculate)
 VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'};
 VBR.in.viscous.methods_list={'LH2011'};
-VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT_maxwell'};
+VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'MTH2011'};
 
 VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
 %VBR.in.anelastic.eBurgers.method='FastBurger';

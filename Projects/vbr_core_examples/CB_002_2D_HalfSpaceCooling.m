@@ -45,7 +45,7 @@
 
   VBR.in.elastic.methods_list={'anharmonic'};
   VBR.in.viscous.methods_list={'HK2003'};
-  VBR.in.anelastic.methods_list={'AndradePsP';'YT_maxwell'};
+  VBR.in.anelastic.methods_list={'AndradePsP';'MTH2011'};
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
   VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa]
   VBR.in.SV.f = [0.01, 0.02, 0.04, 0.1];%  frequencies to calculate at
@@ -98,8 +98,8 @@
 
 % contour percent difference in shear wave velo between two anelastic methods
 % at different frequencies
-  dV=abs(VBR.out.anelastic.AndradePsP.V-VBR.out.anelastic.YT_maxwell.V);
-  dV=dV./VBR.out.anelastic.YT_maxwell.V*100;
+  dV=abs(VBR.out.anelastic.AndradePsP.V-VBR.out.anelastic.MTH2011.V);
+  dV=dV./VBR.out.anelastic.MTH2011.V*100;
   figure()
   for i_f=1:4
      subplot(2,2,i_f)

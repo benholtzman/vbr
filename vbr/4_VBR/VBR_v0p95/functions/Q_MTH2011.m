@@ -1,14 +1,16 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [VBR]=Q_YT_maxwell(VBR)
+% [VBR]=Q_MTH2011(VBR)
 %
 % master curve maxwell scaling
 %
 % references:
 % [1] McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384
-% [2] Takei, 2017 Annu. Rev. Earth Planet. Sci,
+% [2] McCarthy and Takei Y, 2011, Geophys. Res. Lett.,
+%     https://doi.org/10.1029/2011GL048776'
+% [3] Takei, 2017 Annu. Rev. Earth Planet. Sci,
 %     https://doi.org/10.1146/annurev-earth-063016-015820
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [VBR]=Q_YT_maxwell(VBR)
+function [VBR]=Q_MTH2011(VBR)
 
   % state variables
   rho_in = VBR.in.SV.rho ;
@@ -63,7 +65,7 @@ function [VBR]=Q_YT_maxwell(VBR)
 
       tau_norm_f = max_tau_norm;
       tau_norm_vec_local = linspace(0,tau_norm_f,100) ;
-      X_tau = X_func(tau_norm_vec_local,VBR.in.anelastic.YT_maxwell) ;
+      X_tau = X_func(tau_norm_vec_local,VBR.in.anelastic.MTH2011) ;
 
       %FINT1 = trapz(X_tau) ;  %@(taup) (X_tau, taup
       %int1 = Tau_fac.*quad(FINT1, 0, tau_norm_i);
@@ -85,18 +87,18 @@ function [VBR]=Q_YT_maxwell(VBR)
   end % end the loop(s) over spatial dimension(s)
 
   %% WRITE VBR
-  VBR.out.anelastic.YT_maxwell.J1 = J1;
-  VBR.out.anelastic.YT_maxwell.J2 = J2;
-  VBR.out.anelastic.YT_maxwell.Q = Q;
-  VBR.out.anelastic.YT_maxwell.Qinv = Qinv;
-  VBR.out.anelastic.YT_maxwell.M=M;
-  VBR.out.anelastic.YT_maxwell.V=V;
-  VBR.out.anelastic.YT_maxwell.f_norm=f_norm_glob;
-  VBR.out.anelastic.YT_maxwell.tau_norm=tau_norm_glob;
-  VBR.out.anelastic.YT_maxwell.tau_M = tau.maxwell;
+  VBR.out.anelastic.MTH2011.J1 = J1;
+  VBR.out.anelastic.MTH2011.J2 = J2;
+  VBR.out.anelastic.MTH2011.Q = Q;
+  VBR.out.anelastic.MTH2011.Qinv = Qinv;
+  VBR.out.anelastic.MTH2011.M=M;
+  VBR.out.anelastic.MTH2011.V=V;
+  VBR.out.anelastic.MTH2011.f_norm=f_norm_glob;
+  VBR.out.anelastic.MTH2011.tau_norm=tau_norm_glob;
+  VBR.out.anelastic.MTH2011.tau_M = tau.maxwell;
 
   % calculate mean velocity along frequency dimension
-  VBR.out.anelastic.YT_maxwell.Vave = Q_aveVoverf(V,VBR.in.SV.f);
+  VBR.out.anelastic.MTH2011.Vave = Q_aveVoverf(V,VBR.in.SV.f);
 
 end
 

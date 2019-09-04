@@ -51,7 +51,7 @@
   FitSettings.per_bw_max = 30;  % max period to use for fitting (s)
   FitSettings.per_bw_min = 10;  % min period to use for fitting (s)
   FitSettings.set_Tp=1350; % potential temperature to pull best z_plate
-  FitSettings.q_method='AndradePsP'; % 'AndradePsP'; 'YT_maxwell'; 'eBurgers';
+  FitSettings.q_method='AndradePsP'; % 'AndradePsP'; 'MTH2011'; 'eBurgers';
   zPlate = fit_LAB_Tp(Files.VBR_Box, seismic_obs, FitSettings);
   plotFits(Files.VBR_Box,zPlate,seismic_obs,FitSettings);
 

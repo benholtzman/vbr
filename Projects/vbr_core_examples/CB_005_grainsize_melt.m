@@ -35,16 +35,12 @@
 %  but all arays must be the same shape.
    sz=size(VBR.in.SV.dg_um);
 
-%  intensive state variables (ISV)
+%  remaining state variables (ISV)
    VBR.in.SV.T_K=(1350+273) * ones(sz); % temperature [K]
    VBR.in.SV.P_GPa = 3.2 * ones(sz); % pressure [GPa]
    VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
    VBR.in.SV.sig_MPa = 0.1 * ones(sz); % differential stress [MPa]
-   VBR.in.SV.chi=ones(sz); % composition fraction  1 = olivine, 0 = crust
-
-%  compositional state variables (CSV)
-   VBR.in.SV.Ch2o = 0 * ones(sz) ; % water concentration
-
+   
 %  this method requires the solidus
 %  you should write your own function for the solidus that takes all the other
 %  state variables as input. This is just for illustration

@@ -44,6 +44,11 @@ function [VBR] = Q_eBurgers_f(VBR)
   HTB_int_meth=Burger_params.integration_method ; % (trapezoidal, 0; quadrature, 1)
   ntau = Burger_params.tau_integration_points ;
 
+  if DeltaP>0
+    orig_state = warning;
+    warning('off','all'); % suppress quadgk warning
+  end
+
   % ============================================================================
   % loop over state varialbes, calculate anelatic effects at every frquency
   % ============================================================================
@@ -119,6 +124,10 @@ function [VBR] = Q_eBurgers_f(VBR)
     end % end loop over frequency
   end % end the loop(s) over spatial dimension(s)
   % ============================================================================
+
+  if DeltaP>0
+    warning(orig_state);
+  end
 
   % Store relevant values
   VBR.out.anelastic.eBurgers.J1 = J1;

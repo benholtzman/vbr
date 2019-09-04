@@ -52,7 +52,7 @@
 
 % store in VBR state variables
   VBR.in.SV.T_K = HF.T_C+273; % set HF temperature, convert to K
-  % construct pressure as a function of z, build matrix same size as T_K:
+% construct pressure as a function of z, build matrix same size as T_K:
   HF.P_z=HF.rho*9.8*HF.z_km*1e3/1e9; %
   VBR.in.SV.P_GPa = repmat(HF.P_z,1,numel(HF.t_s)); % pressure [GPa]
 
@@ -60,10 +60,8 @@
   sz=size(HF.T_C);
   VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
   VBR.in.SV.sig_MPa = 10 * ones(sz); % differential stress [MPa]
-  VBR.in.SV.chi=1*ones(sz); % composition fraction: 1 for olivine, 0 for crust
   VBR.in.SV.phi = 0.0 * ones(sz); % melt fraction
   VBR.in.SV.dg_um = 0.01 * 1e6 * ones(sz); % grain size [um]
-  VBR.in.SV.Ch2o = 0 * ones(sz) ; % water concentration
 
 %% ====================================================
 %% CALL THE VBR CALCULATOR ============================

@@ -12,7 +12,7 @@
 % put VBR in the path
   path_to_top_level_vbr='../../';
   addpath(path_to_top_level_vbr)
-  vbr_init 
+  vbr_init
 
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
@@ -39,19 +39,13 @@
 %  but all arays must be the same shape.
    n1 = 1;
 
-%  intensive state variables (ISV)
+%  state variables (ISV)
    VBR.in.SV.P_GPa = 2 * ones(n1,1); % pressure [GPa]
    VBR.in.SV.T_K = 1473 * ones(n1,1); % temperature [K]
    VBR.in.SV.rho = 3300 * ones(n1,1); % density [kg m^-3]
    VBR.in.SV.sig_MPa = 10 * ones(n1,1); % differential stress [MPa]
-   VBR.in.SV.chi=1*ones(n1,1); % composition fraction: 1 for olivine, 0 for crust
-
-%  structural state variables (SSV)
    VBR.in.SV.phi = 0.0 * ones(n1,1); % melt fraction
    VBR.in.SV.dg_um = 0.01 * 1e6 * ones(n1,1); % grain size [um]
-
-%  compositional state variables (CSV)
-   VBR.in.SV.Ch2o = 0 * ones(n1,1) ; % water concentration
 
 %% ====================================================
 %% CALL THE VBR CALCULATOR ============================

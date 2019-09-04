@@ -102,5 +102,8 @@ function [VBR]=checkInput(VBR)
   if ~isfield(VBR.in.SV,'Ch2o')
     VBR.in.SV.Ch2o=zeros(size(VBR.in.SV.T_K)); % no effect when at 0
   end
+  if ~isfield(VBR.in.SV,'chi')
+    VBR.in.SV.chi=ones(size(VBR.in.SV.T_K)); % all olivine when 1 
+  end
 
 end

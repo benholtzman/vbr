@@ -55,18 +55,12 @@
    VBR.in.SV.T_K=VBR.in.SV.T_K+273;
    sz=size(VBR.in.SV.T_K); % temperature [K]
 
-%  intensive state variables (ISV)
+%  remaining state variables (ISV)
    VBR.in.SV.dg_um=3.1*ones(sz);
    VBR.in.SV.P_GPa = 0.2 * ones(sz); % pressure [GPa]
    VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
    VBR.in.SV.sig_MPa = 10 * ones(sz); % differential stress [MPa]
-   VBR.in.SV.chi=ones(sz); % composition fraction  1 = olivine, 0 = crust
-
-%  structural state variables (SSV)
    VBR.in.SV.phi = 0.0 * ones(sz); % melt fraction
-
-%  compositional state variables (CSV)
-   VBR.in.SV.Ch2o = 0 * ones(sz) ; % water concentration
 
 %% ====================================================
 %% CALL THE VBR CALCULATOR ============================

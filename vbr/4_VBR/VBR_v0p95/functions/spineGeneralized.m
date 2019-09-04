@@ -23,10 +23,9 @@ function [VBR,telapsed]=spineGeneralized(VBR,property)
   telapsed=struct(); % stores elapsed time for each method
 
   for i_method = 1:numel(methods_list)
-    meth=methods_list{i_method}; % the current method
-
+    meth=methods_list{i_method}; % the current method    
     if any(strcmp(possible_methods,meth))
-      telapsed.(meth)=tic;      
+      telapsed.(meth)=tic;
       VBR = loadThenCallMethod(VBR,property,meth);
       telapsed.(meth)=toc(telapsed.(meth));
     end

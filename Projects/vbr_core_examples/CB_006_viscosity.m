@@ -30,14 +30,12 @@
    [VBR.in.SV.phi,VBR.in.SV.dg_um] =meshgrid(phi,dg_um) ;
    sz=size(VBR.in.SV.phi);
 
-%  intensive state variables (ISV)
+%  remaining state variables (ISV)
    VBR.in.SV.P_GPa = 2 * ones(sz); % pressure [GPa]
    VBR.in.SV.T_K = 1473 * ones(sz); % temperature [K]
    VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
    VBR.in.SV.sig_MPa = 10 * ones(sz); % differential stress [MPa]
 
-%  compositional state variables (CSV)
-   VBR.in.SV.Ch2o = 0 * ones(sz) ; % water concentration [wt%]
 
 %% ====================================================
 %% CALL THE VBR CALCULATOR ============================

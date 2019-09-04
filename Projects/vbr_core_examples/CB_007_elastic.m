@@ -39,13 +39,9 @@
    VBR.in.SV.phi=zeros(sz);
    VBR.in.SV.phi(z>zPlate)=0.01;
 
-%  intensive state variables (ISV)
+%  remaining state variables (ISV)
    VBR.in.SV.rho = rho * ones(sz); % density [kg m^-3]
-   VBR.in.SV.sig_MPa = 10 * ones(sz); % differential stress [MPa]
 
-%  compositional state variables (CSV)
-   VBR.in.SV.Ch2o = 0 * ones(sz) ; % water concentration [wt%]
-   VBR.in.SV.chi = 1 * ones(sz) ; %
 
 %% ====================================================
 %% CALL THE VBR CALCULATOR ============================

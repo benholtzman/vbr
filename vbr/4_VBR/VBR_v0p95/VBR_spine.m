@@ -31,7 +31,7 @@ end
 %% =====================================================================
 
 if isfield(VBR.in,'anelastic')
-   [VBR,telapsed_anelastic]=spineGeneralized(VBR,'anelastic');
+   [VBR,telapsed.anelastic]=spineGeneralized(VBR,'anelastic');
 end
 
 %% ========================================================================

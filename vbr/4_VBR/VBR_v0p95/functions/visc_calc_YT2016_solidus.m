@@ -1,6 +1,26 @@
 function VBR = visc_calc_YT2016_solidus(VBR)
-  % calculates the viscosity from Hatsuki Yamauchi and Yasuko Takei, JGR 2016,
-  % "Polycrystal anelasticity at near-solidus temperatures,"
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % VBR = visc_calc_YT2016_solidus(VBR)
+  %
+  % calculates the viscosity from Yamauchi and Takei, JGR 2016
+  %
+  % Parameters:
+  % -----------
+  % VBR   the VBR structure
+  %
+  %       required fields are the state variables in VBR.in.SV.* including a
+  %       solidus, Tsolidus_K.
+  %
+  %       if the eta_dry_method parameter for this method is set to
+  %       'YT2016_solidus', will use the exact viscosity from Yamauchi and
+  %       Takei for the melt-free viscosity, otherwise eta_dry_method can be
+  %       set to any VBR viscous method, see vbrListMethods()
+  %
+  % Output:
+  % -------
+  % VBR   the VBR structure with new field VBR.out.viscous.YT2016_solidus.diff
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % parameter checks
   if ~isfield(VBR.in,'viscous')
@@ -38,7 +58,22 @@ function VBR = visc_calc_YT2016_solidus(VBR)
 end
 
 function eta = YT2016_dryViscosity(VBR,params)
-  % exact viscosity function in YT2016
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % eta = YT2016_dryViscosity(VBR,params)
+  %
+  % exact viscosity function for melt-free diffusion creep viscosity from
+  % Yamauchi and Takei, JGR 2016
+  %
+  % Parameters:
+  % -----------
+  % VBR    the VBR struct with state variable fields in VBR.in.SV
+  % params the YT2016 parameter structure
+  %
+  % Output:
+  % -------
+  % eta    melt-free diffusion creep viscosity
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % reference values
     Tr=params.Tr_K; % ref. temp [K]
@@ -64,7 +99,25 @@ function eta = YT2016_dryViscosity(VBR,params)
 end
 
 function A_n = calcA_n(Tn,phi,params)
-  % calculates near-solidus and melt effects
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % A_n = calcA_n(Tn,phi,params)
+  %
+  % calculates near-solidus and melt effects from Yamauchi and Takei, JGR 2016
+  %
+  % Parameters:
+  % -----------
+  % Tn    solidus in Kelvin
+  % phi   melt fraction, 0<=phi<=1
+  % params the YT2016 parameter structure
+  %
+  % Output:
+  % -------
+  % A_n    modified pre-exponential constant. effective viscosity eta is
+  %            eta = A_n * eta_dry
+  %        where eta_dry is the melt-free diffusion creep viscosity. 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   T_eta=params.T_eta;
   gamma=params.gamma;
   lambda=params.alpha; % rename to be consistent with YT2016 nomenclature

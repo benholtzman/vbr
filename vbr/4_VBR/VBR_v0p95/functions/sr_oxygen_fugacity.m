@@ -1,9 +1,9 @@
-function OxFgctyFctr=sr_oxygen_fugacity(fO2,varargin)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  %             sr_oxygen_fugacity.m
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % calculates an oxygen fugacity enchancement factor.
+function OxFgctyFctr = sr_oxygen_fugacity(fO2,varargin)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
+  % OxFgctyFctr = sr_oxygen_fugacity(fO2,varargin)
+  %
+  % calculates an oxygen fugacity enchancement factor.
   % based on Cline et al. Nature 2019 doi:10.1038/nature25764
   %
   % log(tau_M) ~ -1.2 log(f_O2)
@@ -18,15 +18,18 @@ function OxFgctyFctr=sr_oxygen_fugacity(fO2,varargin)
   %
   % sr_fug = f_O2^1.2  : the adjustment factor for oxygen fugacity
   %
-  % output:
-  %   OxFgctyFctr.  structure with adjustment factors for sr and eta:
-  %              .sr strain rate adjustment factor
-  %              .eta viscosity adjustment factor
-  % input:
+  % Parameters:
+  % ----------
   %   fO2     oxygen fugacity [bar]
   %   optional varargin parameters:
   %         'fO2_ref' ref value for oxygen fugacity (default 10^-1 for Cline et al)
   %         'm_fO2' oxygen fugacity exponent (default -1.2 for Cline et al)
+  %
+  % Output:
+  % ----------
+  %   OxFgctyFctr.  structure with adjustment factors for sr and eta:
+  %              .sr strain rate adjustment factor
+  %              .eta viscosity adjustment factor
   %
   % to call with defaults:
   %   OxFgctyFctr = sr_oxygen_fugacity(f_O2);
@@ -38,7 +41,7 @@ function OxFgctyFctr=sr_oxygen_fugacity(fO2,varargin)
   %   sr = sr .* OxFgctyFctr.sr;
   %   eta = eta .* OxFgctyFctr.eta;
   %   tau_m = eta / Gu;
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % process varargin args
   ValidOpts=struct();

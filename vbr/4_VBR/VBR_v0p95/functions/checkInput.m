@@ -1,7 +1,12 @@
 function [VBR]=checkInput(VBR)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % [VBR]=checkInput(VBR)
+  %
   % checkInput() looks for some dependency errors. e.g., the MTH2011 method
   % requires a viscous method to run, all the anelastic calculation require a
-  % pure elastic calculation.
+  % pure elastic calculation.   
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % initialize error storage
   VBR.status=1;

@@ -1,13 +1,13 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [VBR] = Q_YT2016_solidus(VBR)
-% near-solidus anelastic scaling from [1]
-% Requires the solidus, VBR.in.SV.Tsolidus_K, as an additional state variable
-%
-% references:
-% [1] Yamauchi and Takei, JGR 2016, https://doi.org/10.1002/2016JB013316
-%     particularly Eqs. 13,14,15
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [VBR] = Q_YT2016_solidus(VBR)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % [VBR] = Q_YT2016_solidus(VBR)
+  % near-solidus anelastic scaling from [1]
+  % Requires the solidus, VBR.in.SV.Tsolidus_K, as an additional state variable
+  %
+  % references:
+  % [1] Yamauchi and Takei, JGR 2016, https://doi.org/10.1002/2016JB013316
+  %     particularly Eqs. 13,14,15
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   if isfield(VBR.in.SV,'Tsolidus_K')
     has_solidus=1;
@@ -17,10 +17,6 @@ function [VBR] = Q_YT2016_solidus(VBR)
   end
 
   if has_solidus
-    % ================================
-    % read in variables and parameters
-    % ================================
-
     % state variables
     if isfield(VBR.in.elastic,'poro_Takei')
       Gu_in = VBR.out.elastic.poro_Takei.Gu;
@@ -32,9 +28,6 @@ function [VBR] = Q_YT2016_solidus(VBR)
     phi = VBR.in.SV.phi ;
     Tn=VBR.in.SV.T_K./VBR.in.SV.Tsolidus_K ; % solidus-normalized temperature
     params=VBR.in.anelastic.YT2016_solidus;
-    % ==================================
-    % frequency independent calculations
-    % ==================================
 
     % maxwell time
     tau_m=MaxwellTimes(VBR,Gu_in);
@@ -58,7 +51,7 @@ function [VBR] = Q_YT2016_solidus(VBR)
     J2 = J1; V = J1;
     n_SVs=numel(Tn); % total elements in state variables
 
-    % loop over frequencies, calculate J1,J2,V 
+    % loop over frequencies, calculate J1,J2
     for i = 1:n_freq
       sv_i0=(i-1)*n_SVs + 1; % starting linear index of this freq
       sv_i1=sv_i0+n_SVs-1; % ending linear index of this freq
@@ -71,17 +64,15 @@ function [VBR] = Q_YT2016_solidus(VBR)
            pifac*A_p.*sig_p.*(1-erf(lntaupp./(sqrt(2).*sig_p))));
       J2(sv_i0:sv_i1)=Ju_in*pi/2.*(ABppa+A_p.*(exp(-(lntaupp.^2)./(2*sig_p.^2)))) + ...
            Ju_in.*p_p;
-
-      J2_J1_frac=(1+sqrt(1+(J2(sv_i0:sv_i1)./J1(sv_i0:sv_i1)).^2))/2;
-      V(sv_i0:sv_i1)=sqrt(1./(J1(sv_i0:sv_i1).*rho)).*(J2_J1_frac.^(-1/2));
     end
 
     % store and calculate other fields
     VBRout.J1 = J1;
     VBRout.J2 = J2;
-    VBRout.V=V;
 
     J2_J1_frac=(1+sqrt(1+(J2./J1).^2))/2;
+    rho_f = proc_add_freq_indeces(rho,n_freq);
+    VBRout.V=sqrt(1./(J1.*rho_f)).*(J2_J1_frac.^(-1/2));
     VBRout.M1 = 1./J1;
     VBRout.M2 = 1./J2;
     VBRout.Qinv = J2./J1.*(J2_J1_frac.^-1);
@@ -97,11 +88,11 @@ function [VBR] = Q_YT2016_solidus(VBR)
   end % end of has_solidus check
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [A_p,sig_p] = calcApSigp(Tn,phi,params);
-% Tn-dependent coefficients, A_p and sig_p
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [A_p,sig_p] = calcApSigp(Tn,phi,params);
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % [A_p,sig_p] = calcApSigp(Tn,phi,params);
+  % Tn-dependent coefficients, A_p and sig_p
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   Ap_Tn_pts=params.Ap_Tn_pts;
   sig_p_Tn_pts=params.sig_p_Tn_pts;
@@ -125,11 +116,11 @@ function [A_p,sig_p] = calcApSigp(Tn,phi,params);
   sig_p(Tn >= sig_p_Tn_pts(2))=params.sig_p_fac_3;
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% tau_m = MaxwellTimes(VBR,Gu_in)
-% calculate the maxwell time for all state variables
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function tau_m = MaxwellTimes(VBR,Gu_in)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % tau_m = MaxwellTimes(VBR,Gu_in)
+  % calculate the maxwell time for all state variables
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   [visc_exists,missing]=checkStructForField(VBR,{'in','viscous','methods_list'},0);
   if VBR.in.anelastic.YT2016_solidus.useYT2016visc || visc_exists==0

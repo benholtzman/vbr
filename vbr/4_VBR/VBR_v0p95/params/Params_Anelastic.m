@@ -1,12 +1,25 @@
 function params = Params_Anelastic(method)
-%% ========================================================================
-%% Anelastic Properties ===================================================
-%% ========================================================================
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % params = Params_Anelastic(method)
+  %
+  % loads the parameters for an anelastic method
+  %
+  % Parameters:
+  % ----------
+  % method    the method to load parameters for. If set to '', will return
+  %           limited information
+  %
+  % Output:
+  % ------
+  % params    the parameter structure for the anelastic method
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % available anelastic methods
   params.possible_methods={'eBurgers','AndradePsP','MTH2011','YT2016_solidus'};
 
-  %===========  extended BURGERS parameters =================================
   if strcmp(method,'eBurgers')
-
+    % extended BURGERS parameters
     params.func_name='Q_eBurgers_decider'; % the name of the matlab function
     params.citations={'Faul and Jackson, 2015, Ann. Rev. of Earth and Planetary Sci., https://doi.org/10.1146/annurev-earth-060313-054732',...
                       'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
@@ -56,8 +69,8 @@ function params = Params_Anelastic(method)
     params.bg_peak.Tau_MR = 10^7.48 ; % Reference Maxwell relaxation time
   end
 
-  %========= ANDRADE (pseudoperiod scaling) parameters (JF10) ===============
   if strcmp(method,'AndradePsP')
+    % ANDRADE (pseudoperiod scaling) parameters
     params.func_name='Q_Andrade_PseudoP_f'; % the name of the matlab function
     params.citations={'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
     params.n = 0.33 ; % 1/3 ;
@@ -81,8 +94,8 @@ function params = Params_Anelastic(method)
     params.FUDGE = 1 ; %0.7 ;
   end
 
-  %========= ANDRADE parameters (from Sundberg+Cooper)=======================
   if strcmp(method,'Andrade')
+    % ANDRADE parameters (from Sundberg+Cooper)
     params.func_name=''; % the name of the matlab function
     params.n = 1/3 ; % 1/3 ;
     % scaling option:
@@ -106,8 +119,8 @@ function params = Params_Anelastic(method)
     params.FUDGE = 0.7 ;
   end
 
-  %========= YT_maxwell parameters =======================
   if strcmp(method,'MTH2011')
+    % MTH2011 parameters
     params.citations={'McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384'};
     params.func_name='Q_MTH2011'; % the name of the matlab function
     params.beta1 = 0.32 ;
@@ -120,8 +133,8 @@ function params = Params_Anelastic(method)
     params.description='master curve maxwell scaling';
   end
 
-  %========= YT2016_solidus parameters =======================
   if strcmp(method,'YT2016_solidus')
+    % YT2016_solidus parameters
     params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     params.func_name='Q_YT2016_solidus'; % the name of the matlab function
     params.useYT2016visc=0; % 1 to use exact viscosity relationship from YT2016
@@ -149,4 +162,3 @@ function params = Params_Anelastic(method)
   params.phi_c = HK2003.diff.phi_c ; % critical melt fraction
   params.x_phi_c = HK2003.diff.x_phi_c ; % melt effect factor
 end
-%% =================== END OF Params_Anelastic.m ========================

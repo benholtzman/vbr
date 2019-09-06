@@ -1,7 +1,19 @@
 function [params] = Params_Elastic(method)
-  %% ========================================================================
-  %% Elastic Properties =====================================================
-  %% ========================================================================
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % params = Params_Elastic(method)
+  %
+  % loads the parameters for an elastic method
+  %
+  % Parameters:
+  % ----------
+  % method    the method to load parameters for. If set to '', will return
+  %           limited information
+  %
+  % Output:
+  % ------
+  % params    the parameter structure for the elastic method
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   params.possible_methods={'anharmonic','poro_Takei','SLB2005'};
 
   if strcmp(method,'anharmonic')
@@ -31,7 +43,7 @@ function [params] = Params_Elastic(method)
     %% parameters for poro-elastic melt effect
     params.Melt_A  = 1.6 ; % 1:2.3 depending upon the wetting angle (see Yoshino).
     params.Melt_Km = 30e9; % melt bulk modulus [Pa], Takei 2002, Table 2
-    
+
   elseif strcmp(method,'SLB2005')
     params.func_name='el_Vs_SnLG_f'; % the name of the matlab function
   end

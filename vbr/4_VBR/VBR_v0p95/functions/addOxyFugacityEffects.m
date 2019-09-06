@@ -1,19 +1,22 @@
 function tau = addOxyFugacityEffects(tau,fO2_bar,params)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% tau = addOxyFugacityEffects(tau,fO2_bar,params)
-%
-% adds on oxygen fugacity effects to maxwell time
-%
-% input:
-%      tau.  structure with maxwell time fields
-%         .maxwell normal maxwell time
-%         .L , .H , .P  maxwell times for eBurgers (low, high, peak)
-%      fO2_bar  array of fO2 in bar
-%      params   the parameter structure for the current anelastic method
-%
-% output:
-%     tau.  structure with maxwell time fields adjusted for fO2
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % tau = addOxyFugacityEffects(tau,fO2_bar,params)
+  %
+  % adds on oxygen fugacity effects to maxwell time
+  %
+  % Parameters:
+  % ----------
+  %      tau.  structure with maxwell time fields
+  %         .maxwell normal maxwell time
+  %         .L , .H , .P  maxwell times for eBurgers (low, high, peak)
+  %      fO2_bar  array of fO2 in bar
+  %      params   the parameter structure for the current anelastic method
+  %
+  % Output:
+  % ------
+  %     tau.  structure with maxwell time fields adjusted for fO2
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
   % call sr_oxygen_fugacity for possible permuations of parameters

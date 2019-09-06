@@ -1,16 +1,24 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [VBR]=Q_MTH2011(VBR)
-%
-% master curve maxwell scaling
-%
-% references:
-% [1] McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384
-% [2] McCarthy and Takei Y, 2011, Geophys. Res. Lett.,
-%     https://doi.org/10.1029/2011GL048776'
-% [3] Takei, 2017 Annu. Rev. Earth Planet. Sci,
-%     https://doi.org/10.1146/annurev-earth-063016-015820
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [VBR]=Q_MTH2011(VBR)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % [VBR]=Q_MTH2011(VBR)
+  %
+  % master curve maxwell scaling
+  %
+  % references:
+  % [1] McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384
+  % [2] McCarthy and Takei Y, 2011, Geophys. Res. Lett.,
+  %     https://doi.org/10.1029/2011GL048776'
+  % [3] Takei, 2017 Annu. Rev. Earth Planet. Sci,
+  %     https://doi.org/10.1146/annurev-earth-063016-015820
+  %
+  % Parameters:
+  % ----------
+  % VBR    the VBR structure
+  %
+  % Output:
+  % ------
+  % VBR    the VBR structure, with VBR.out.anelastic.MTH2011 structure
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % state variables
   rho_in = VBR.in.SV.rho ;
@@ -102,11 +110,11 @@ function [VBR]=Q_MTH2011(VBR)
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [X_tau] = X_func(tau_norm_vec,params)
-% the relaxation spectrum function
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [X_tau] = X_func(tau_norm_vec,params)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % [X_tau] = X_func(tau_norm_vec,params)
+  % the relaxation spectrum function
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   Beta  = params.beta1 .* ones(size(tau_norm_vec));
   Alpha = params.Alpha_a - params.Alpha_b./(1+params.Alpha_c*(tau_norm_vec.^params.Alpha_taun));

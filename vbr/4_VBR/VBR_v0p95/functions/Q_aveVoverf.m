@@ -4,12 +4,12 @@ function Vave=Q_aveVoverf(V_f,f_vec)
   %
   % averages velocity matrix over the frequency dimension
   %
-  % Parameters
+  % Parameters:
   % ----------
   % V_f the frequency-dependent velocity matrix
   %
-  % Returns
-  % -------
+  % Output:
+  % ------
   % Vave the frequency-averaged velocity matrix
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -17,7 +17,7 @@ function Vave=Q_aveVoverf(V_f,f_vec)
     Vave=V_f;
   else
     sz=size(V_f); % total size
-    freq_dim=numel(sz); % frequency is last dimension 
+    freq_dim=numel(sz); % frequency is last dimension
     Vave=mean(V_f,freq_dim);
   end
 

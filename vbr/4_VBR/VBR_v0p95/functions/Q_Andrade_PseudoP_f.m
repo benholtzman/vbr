@@ -1,12 +1,21 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [VBR]=Q_Andrade_PseudoP_f(VBR)
-%
-% Andrade Pseudo-Period Anelastic Model.
-% References:
-% [1] Jackson and Faul, 2010, PEPI https://doi.org/10.1016/j.pepi.2010.09.005
-% [2] Bellis and Holtzman, 2014, JGR http://dx.doi.org/10.1002/2013JB010831
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [VBR]=Q_Andrade_PseudoP_f(VBR)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % [VBR]=Q_Andrade_PseudoP_f(VBR)
+  %
+  % Andrade Pseudo-Period Anelastic Model.
+  % References:
+  % [1] Jackson and Faul, 2010, PEPI https://doi.org/10.1016/j.pepi.2010.09.005
+  % [2] Bellis and Holtzman, 2014, JGR http://dx.doi.org/10.1002/2013JB010831
+  %
+  % Parameters:
+  % ----------
+  % VBR    the VBR structure
+  %
+  % Output:
+  % ------
+  % VBR    the VBR structure, now with VBR.out.anelastic.AndradePsP structure
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % State Variables
   if isfield(VBR.in.elastic,'poro_Takei')
@@ -106,26 +115,36 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
   VBR.out.anelastic.AndradePsP.M_comp=M_comp;
   VBR.out.anelastic.AndradePsP.Va_comp=Va_comp;
 
-  % calculate mean velocity along frequency dimension  
+  % calculate mean velocity along frequency dimension
   VBR.out.anelastic.AndradePsP.Vave = Q_aveVoverf(Va,f_vec);
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Xtilde = calculateXtilde(VBR)
-% the andrade psuedo-period master variable, independent of frequency/period.
-%
-% full master variable:
-% X_B = T_o * ((d_mat./dR).^-m).*exp((-E/R).*(1./T_K_mat-1/TR)) ...
-%                         .*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
-% where T_o = period.
-%
-% X_B = T_o * Xtilde
-%
-% Xtilde = ((d_mat./dR).^-m).*exp((-E/R).*(1./T_K_mat-1/TR)) ...
-%                         .*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function Xtilde = calculateXtilde(VBR)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % Xtilde = calculateXtilde(VBR)
+  %
+  % the andrade psuedo-period master variable, independent of frequency/period.
+  %
+  % full master variable:
+  % X_B = T_o * ((d_mat./dR).^-m).*exp((-E/R).*(1./T_K_mat-1/TR)) ...
+  %                         .*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+  % where T_o = period.
+  %
+  % X_B = T_o * Xtilde
+  %
+  % Xtilde = ((d_mat./dR).^-m).*exp((-E/R).*(1./T_K_mat-1/TR)) ...
+  %                         .*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+  %
+  % Parameters:
+  % ----------
+  % VBR    the VBR structure
+  %
+  % Output:
+  % ------
+  % Xtilde    the master variable 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % state variables
   T_K_mat = VBR.in.SV.T_K ; % temperature [K]

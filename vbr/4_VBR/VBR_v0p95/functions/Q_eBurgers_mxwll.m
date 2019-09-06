@@ -1,11 +1,25 @@
 function tau = Q_eBurgers_mxwll(VBR,Gu)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% calculatues the maxwell time & limits for extended burgers model:
-% tau.maxwell = steady state viscous maxwell time (i.e., eta / Gu)
-% tau.L = lower limit of integration for high temp background
-% tau.H = upper limit of integration for high temp background
-% tau.P = center period of dissipation peak (if being used)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % tau = Q_eBurgers_mxwll(VBR,Gu)
+  %
+  % calculatues the maxwell time & limits for extended burgers model
+  %
+  % Parameters:
+  % ----------
+  % VBR    the VBR structure
+  % Gu     unrelaxed modulus [GPa]
+  %
+  % Output:
+  % ------
+  % tau.   structure of maxwell times including:
+  %    .maxwell = steady state viscous maxwell time (i.e., eta / Gu)
+  %    .L = lower limit of integration for high temp background
+  %    .H = upper limit of integration for high temp background
+  %    .P = center period of dissipation peak (if being used)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % read in parameters
   Burger_params=VBR.in.anelastic.eBurgers;
   bType=Burger_params.eBurgerMethod;
 
@@ -50,7 +64,23 @@ function tau = Q_eBurgers_mxwll(VBR,Gu)
 end
 
 function scaleMat=addMeltEffects(phi,scaleMat,GlobalSettings,Burger_params)
-  % adds on Melt Effects.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % scaleMat=addMeltEffects(phi,scaleMat,GlobalSettings,Burger_params)
+  %
+  % adds on Melt Effects
+  %
+  % Parameters:
+  % ----------
+  % phi              melt fraction
+  % scaleMat         the initial maxwell time matrix
+  % GlobalSettings   global settings structure with melt_enhacement flag
+  % Burger_params    the parameter structure for burgers model
+  %
+  % Output:
+  % ------
+  % scaleMat        the maxwell time matrix, adjusted for small melt effect
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % sharper response than creep at phi_c, but less sensitive at higher phi (for HTB only)
   alpha = Burger_params.melt_alpha ; % post-critical melt fraction dependence

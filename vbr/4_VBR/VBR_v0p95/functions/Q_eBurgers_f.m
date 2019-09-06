@@ -1,15 +1,26 @@
 function [VBR] = Q_eBurgers_f(VBR)
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %
-% extended burgers model after JF10
-%
-% JF10:
-% Jackson & Faul, "Grainsize-sensitive viscoelastic relaxation in
-% olivine: Towards a robust laboratory-based model for seismological
-% application," Physics of the Earth and Planetary Interiors 183 (2010) 151–163
-%
-% includes high temperature background, optional dissipation peak.
-% see Projects/vbr_core_examples/CB_test_tmep.m for using with/without peak
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%  %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % [VBR] = Q_eBurgers_f(VBR)
+  %
+  % extended burgers model after JF2010
+  %
+  % reference:
+  % Jackson & Faul, "Grainsize-sensitive viscoelastic relaxation in
+  % olivine: Towards a robust laboratory-based model for seismological
+  % application," Physics of the Earth and Planetary Interiors 183 (2010) 151–163
+  %
+  % includes high temperature background, optional dissipation peak.
+  % see Projects/vbr_core_examples/CB_test_tmep.m for using with/without peak
+  %
+  % Parameters:
+  % ----------
+  % VBR    the VBR structure
+  %
+  % Output:
+  % ------
+  % VBR    the VBR structure, with new VBR.out.anelastic.eBurgers structure
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % angular frequency
   f_vec = VBR.in.SV.f ;

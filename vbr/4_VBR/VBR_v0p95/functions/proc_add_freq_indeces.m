@@ -1,15 +1,19 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% mat_out = proc_add_freq_indeces(mat_in,nfreq)
-% replicates n-dimensional matrix into new dimension
-%
-% input:
-%   mat_in   input matrix
-%   nfreq    length to extend mat_in into the new dimension
-%
-% output:
-%   mat_out  output matrix 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function mat_out = proc_add_freq_indeces(mat_in,nfreq)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % mat_out = proc_add_freq_indeces(mat_in,nfreq)
+  %
+  % replicates n-dimensional matrix into new dimension
+  %
+  % Parameters:
+  % ----------
+  % mat_in   input matrix
+  % nfreq    length to extend mat_in into the new dimension
+  %
+  % Output:
+  % ------
+  % mat_out  output matrix
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   sz = size(mat_in); % size of incoming matrix
   if sz(end)==1

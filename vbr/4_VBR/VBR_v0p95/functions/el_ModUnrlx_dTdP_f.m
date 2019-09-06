@@ -1,9 +1,19 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% [ VBR ] = el_ModUnrlx_dTdP_f( VBR )
-% calculates the effects of pressure and temperature on the unrelaxed
-% shear modulus Gu
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [ VBR ] = el_ModUnrlx_dTdP_f( VBR )
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % [ VBR ] = el_ModUnrlx_dTdP_f( VBR )
+  %
+  % calculates the effects of pressure and temperature on the unrelaxed
+  % shear modulus Gu
+  %
+  % Parameters:
+  % ----------
+  % VBR    the VBR structure
+  %
+  % Output:
+  % ------
+  % VBR    the VBR structure, with VBR.out.elastic.anharmonic structure
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % read in elastic parameters
   ela = VBR.in.elastic.anharmonic;
@@ -33,19 +43,19 @@ function [ VBR ] = el_ModUnrlx_dTdP_f( VBR )
   VBR.out.elastic.anharmonic = anharmonic;
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Gu_TP = calc_Gu(Gu_0,dT,dP,dG_dT,dG_dP)
-% calculates unrelaxed modulus at temperature, pressure above or below the
-% reference values.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function Gu_TP = calc_Gu(Gu_0,dT,dP,dG_dT,dG_dP)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Gu_TP = calc_Gu(Gu_0,dT,dP,dG_dT,dG_dP)
+  % calculates unrelaxed modulus at temperature, pressure above or below the
+  % reference values.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   Gu_TP = Gu_0 + dT.*dG_dT + dP.*dG_dP;
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% Ku = calc_Ku(Gu,nu)
-% calculates bulk modulus from shear modulus and poisson ratio
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function Ku = calc_Ku(Gu,nu)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % Ku = calc_Ku(Gu,nu)
+  % calculates bulk modulus from shear modulus and poisson ratio
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   Ku = 2/3 * Gu .* (1+nu)./(1-2*nu);
 end

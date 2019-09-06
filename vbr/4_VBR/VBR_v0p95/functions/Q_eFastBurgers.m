@@ -10,18 +10,20 @@ function [VBR] = Q_eFastBurgers(VBR)
 %
 % For High Temp Background only. To include peak, must use Q_eBurgers_f().
 %
-% input:
-%      VBR.   VBR structure with state variables and eBurger settings
+% Parameters:
+% ----------
+% VBR.   VBR structure with state variables and eBurger settings
 %
-% output:
-%      VBR.eBurgers.
-%                  .J1     J1 comliance [1/Pa]
-%                  .J2     J2 compliance [1/Pa]
-%                  .Q      (J1/J2)
-%                  .Qinv   attenuation (Q^{-1})
-%                  .M      modulus [Pa]
-%                  .V      relaxed soundspeed [m/s]
-%                  .Vave   averaged V over all frequencies [m/s]
+% Output:
+% ------
+% VBR.eBurgers.
+%             .J1     J1 comliance [1/Pa]
+%             .J2     J2 compliance [1/Pa]
+%             .Q      (J1/J2)
+%             .Qinv   attenuation (Q^{-1})
+%             .M      modulus [Pa]
+%             .V      relaxed soundspeed [m/s]
+%             .Vave   averaged V over all frequencies [m/s]
 %
 % A note on dimensions: arrays for frequency dependent variables will have
 % an extra dimension for each frequency supplied. i.e., V(4,5,2) will be

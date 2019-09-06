@@ -1,13 +1,25 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% function [VBR] = el_ModUnrlx_MELT_f(VBR)
-% Poro-elastic effect of melt: Appendix A of Takei, 2002, JGR Solid Earth,
-% https://doi.org/10.1029/2001JB000522
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [VBR] = el_ModUnrlx_MELT_f(VBR)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % [VBR] = el_ModUnrlx_MELT_f(VBR)
+  %
+  % Poro-elastic effect of melt.
+  % reference:
+  % Takei, 2002, JGR Solid Earth, https://doi.org/10.1029/2001JB000522,
+  % see Appendix A
+  %
+  % Parameters:
+  % ----------
+  % VBR    the VBR structure
+  %
+  % Output:
+  % ------
+  % VBR    the VBR structure, with VBR.out.elastic.poro_Takei structure
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % check that anharmonic method was run, run it if not
   [field_exists,missing] = checkStructForField(VBR,{'out','elastic','anharmonic'},0);
-  if field_exists==0 
+  if field_exists==0
     VBR=loadThenCallMethod(VBR,'elastic','anharmonic');
   end
 
@@ -42,11 +54,14 @@ function [VBR] = el_ModUnrlx_MELT_f(VBR)
   VBR.out.elastic.poro_Takei=poro;
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% calculates Vp and Vs, accouting for poro-elastic effects. Reduces to
-% pure phase calculation when phi = 0.
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [Vp,Vs] = Vp_Vs_calc(phi,Gu,nu,Gamma_G,Gamma_K,rho,K_m)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % [Vp,Vs] = Vp_Vs_calc(phi,Gu,nu,Gamma_G,Gamma_K,rho,K_m)
+  %
+  % calculates Vp and Vs, accouting for poro-elastic effects. Reduces to
+  % pure phase calculation when phi = 0.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % unrelaxed bulk mod
   nu_fac = 2/3*(1+nu)./(1-2*nu);
@@ -66,12 +81,11 @@ function [Vp,Vs] = Vp_Vs_calc(phi,Gu,nu,Gamma_G,Gamma_K,rho,K_m)
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% melt_bulk_moduli
-% calculates the bulk moduli, accounting for poro-elastic effect of melt.
-% following Takei [citation]
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function [Kb_eff,Gamma_k]=melt_bulk_moduli(k,phi,A,Km,nu)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % melt_bulk_moduli
+  % calculates the bulk moduli, accounting for poro-elastic effect of melt.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % calculate the contiguity as a function of the melt fraction
   Psi =  1-A.*sqrt(phi) ;
@@ -106,12 +120,14 @@ function [Kb_eff,Gamma_k]=melt_bulk_moduli(k,phi,A,Km,nu)
 
 end
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% melt_shear_moduli
-% calculates the shear moduli, accounting for poro-elastic effect of melt.
-% following Takei 2002
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
 function [Mu_eff,Gamma_Mu]=melt_shear_moduli(mu,phi,A,nu)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % [Mu_eff,Gamma_Mu]=melt_shear_moduli(mu,phi,A,nu)
+  %
+  % calculates the shear moduli, accounting for poro-elastic effect of melt.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % calculate the contiguity as a function of the melt fraction
   Psi =  1-A.*sqrt(phi) ;

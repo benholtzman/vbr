@@ -1,15 +1,18 @@
 function param_func = fetchParamFunction(property)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% param_func = fetchParamFunction(property)
-%
-% fetches the file name of the parameter file for a given property
-%
-% Input:
-%  property: string ('elastic','anelastic','viscous')
-%
-% Output:
-%  the parameter file name 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % param_func = fetchParamFunction(property)
+  %
+  % fetches the file name of the parameter file for a given property
+  %
+  % Parameters:
+  % ----------
+  %  property: string ('elastic','anelastic','viscous')
+  %
+  % Output:
+  % ------
+  %  the parameter file name
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   if strcmp(property,'elastic')
     param_func='Params_Elastic';
   elseif strcmp(property,'anelastic')

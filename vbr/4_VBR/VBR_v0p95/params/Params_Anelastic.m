@@ -87,7 +87,7 @@ function params = Params_Anelastic(method)
     params.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
     params.m = 1 ;
 
-    % the peak
+    % the GBS relaxation peak
     params.Te = 0.1 ;
     params.Tgbs = 0.0833 ;% sec
     params.Delta = 0.3 ; % Relaxation strength

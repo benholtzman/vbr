@@ -24,7 +24,8 @@ function params = Params_Anelastic(method)
     params.citations={'Faul and Jackson, 2015, Ann. Rev. of Earth and Planetary Sci., https://doi.org/10.1146/annurev-earth-060313-054732',...
                       'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
     % fit paramter values from Table 2 of JF10 all melt-free samples
-    params.method='PointWise'; % keep at 'PointWise' until 'FastBurger' fixed. Q_eburgers.m will decide which to call
+    params.method='PointWise'; % 'FastBurger' uses look-up table for integration, only works for high temp background
+                               % 'PointWise' integrates every frequency and state variable condition 
     params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
     params.R = 8.314 ; % gas constant
     params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak'

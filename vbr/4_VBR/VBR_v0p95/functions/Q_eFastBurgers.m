@@ -54,8 +54,7 @@ function [VBR] = Q_eFastBurgers(VBR)
 
   % read in reference values
   Burger_params=VBR.in.anelastic.eBurgers;
-  bType=Burger_params.eBurgerMethod;
-  disp(bType)
+  bType=Burger_params.eBurgerMethod;  
   if strcmp(bType,'bg_peak')
     wrn='WARNING: FastBurger method for eBurgers only works for bg_only, ';
     wrn=[wrn,'switch eBurgerMethod to PoinstWise to include peak.'];

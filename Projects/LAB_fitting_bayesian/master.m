@@ -10,7 +10,27 @@
   buildProjectDirectories()
   addpath(genpath('./'))
 
-% %%%%%%%%%%%%%%%%%%   Generate Thermodynamic State Variables  %%%%%%%%%%%%%%%%%
+%% %%%%%%%%%%%%%%%%%% Get prior for Vs(x, f) and Q(x, f) %%%%%%%%%%%%%%%%%
+% The prior probability distribution for Vs(x, f) and Q(x, f) is 
+% constrained by seismic observations and the uncertainties on those
+% observations.
+clc
+ % Set up location information
+ location.lat = 40; % degrees North
+ location.lon = 240; % degrees East
+ location.z_min = 100; % averaging min depth for asth.
+ location.z_max=150; % averaging max depth for asth.
+ 
+ prior_vs = process_SeismicModels('Vs', location, ...
+     './data/vel_models/Shen_Ritzwoller_2016.mat');
+ 
+ prior_Qinv = process_SeismicModels('Qinv', location, ...
+     './data/Qinv_models/Qinv_fixed_at_Q_of_80.mat');
+
+
+  
+  
+%% %%%%%%%%%%%%%%%%%%   Generate Thermodynamic State Variables  %%%%%%%%%%%%%%%%%
   % project-specific functions in ./functions
   Files.SV_Box='./data/plate_VBR/thermalEvolution.mat';
   Files.VBR_Box='./data/plate_VBR/thermalEvolution_VBR.mat';

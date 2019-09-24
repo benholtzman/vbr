@@ -1,15 +1,15 @@
-function Work = process_ThermalEvolution_vbr(Files,freq,g_um)
+function Work = process_ThermalEvolution_vbr(Files,freq,best_T_g_phi)
 
 disp(['Period range: ' num2str(round(10/freq(end))/10) ' - ' ...
     num2str(round(10/freq(1))/10) ' s']);
 
 Work.Box_name_IN=Files.SV_Box;
-VBR=drive_VBR(Work, freq,g_um);
+VBR=drive_VBR(Work, freq, best_T_g_phi);
 save(Files.VBR_Box,'VBR')
 
 end
 
-function VBRBox=drive_VBR(Work, freq, g_um)
+function VBRBox=drive_VBR(Work, freq, best_T_g_phi)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DRIVE_VBR.m
@@ -60,11 +60,17 @@ for iBox = 1:Work.nBox
     VBR.in.SV.P_GPa = (Box(iBox).Frames(end).P)./1e9 ;
     VBR.in.SV.T_K = Box(iBox).Frames(end).T +273;
     VBR.in.SV.rho = Box(iBox).Frames(end).rho ;
-    VBR.in.SV.phi =  Box(iBox).Frames(end).phi ;
-    VBR.in.SV.dg_um = g_um * ones(sz_SV) ;
     VBR.in.SV.sig_MPa = 1 * ones(sz_SV) ; %Frames(ifr).sig_MPa ;
     VBR.in.SV.chi = Box(iBox).Frames(end).comp;
     VBR.in.SV.Ch2o = Box(iBox).Frames(end).Cs_H2O;
+    
+    % Set best fitting phi and g_um based on the previous Bayesian fit
+    i_t = find(Box(iBox).info.var1range == Box(iBox).info.var1val);
+    VBR.in.SV.phi =  best_T_g_phi(i_t, 3);
+    VBR.in.SV.dg_um = best_T_g_phi(i_t, 2) .* ones(sz_SV) ;
+    % previous version (with g_um as input to the function)
+%     VBR.in.SV.phi =  Box(iBox).Frames(end).phi ;
+%     VBR.in.SV.dg_um = g_um * ones(sz_SV) ;
 
     % VBR time!
     VBRBox(iBox)=VBR_spine(VBR) ;

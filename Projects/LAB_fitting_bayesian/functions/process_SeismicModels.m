@@ -50,6 +50,8 @@ function [prior, obs_value, obs_error] = process_SeismicModels( ...
 %       prior       prior probability of the observed value at the input
 %                   location given variability & error in the model
 %
+%       obs_value   value of the observation at input location
+%
 %       obs_error   standard deviation of the observation, taken to be the
 %                   maximum of the reported uncertainty on the measurement
 %                   and the standard deviation within the averaging lat,

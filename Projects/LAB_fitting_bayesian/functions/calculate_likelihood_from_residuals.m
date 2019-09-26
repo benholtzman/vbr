@@ -29,8 +29,9 @@ function likelihood = calculate_likelihood_from_residuals( ...
 %                       parameter sweep combinations
 % Output:
 % -------
-%       likelihood      probability of the observation for each of the 
-%                       proposed parameter combinations
+%       likelihood      (size(sweep.Box)) matrix of the probability of the
+%                       observation for each of the proposed parameter
+%                       (state variable) combinations
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 

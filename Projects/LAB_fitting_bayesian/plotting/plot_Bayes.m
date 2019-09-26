@@ -12,7 +12,7 @@ function plot_Bayes(posterior, sweep, obs_name)
 %                          probability for each parameter combination
 %
 %      sweep               structure with the following fields
-%               fields          cell of the names of the varied parameters
+%               state_names     cell of the names of the varied parameters
 %               [param name]    vector of the range of values that were
 %                               calculated
 %               Box             output of VBR calculation

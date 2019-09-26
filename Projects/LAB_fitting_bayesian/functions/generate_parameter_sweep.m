@@ -103,7 +103,7 @@ function [sweepBox] = calculate_sweep(VBR_init, sweep_params)
 % -----------
 %       sweep_params       structure with the following required fields
 %               T               vector of temperature values [deg C]
-%               phi             vector of melt fractions [vol fraction]
+%               phi             vector of melt fractions [vol (?) fraction]
 %               gs              vector of grain sizes [micrometres]
 %               per_bw_max      maximum period (min. freq.) considered [s]
 %               per_bw_min      minimum period (max. freq.) considered [s]

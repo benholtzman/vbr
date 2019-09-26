@@ -61,11 +61,13 @@ location.lon = 240; %lon; % degrees East
 location.z_min = 100; % averaging min depth for asth.
 location.z_max=150; % averaging max depth for asth.
 
+vsfile = './data/vel_models/Shen_Ritzwoller_2016.mat';
 [prior_Vs, obs_Vs, sigma_Vs] = process_SeismicModels('Vs', ...
-    location, './data/vel_models/Shen_Ritzwoller_2016.mat');
+    location, vsfile);
 
+qfile = './data/Qinv_models/Qinv_fixed_at_Q_of_80.mat';
 [prior_Qinv, obs_Qinv, sigma_Qinv] = process_SeismicModels('Qinv', ...
-    location, './data/Qinv_models/Qinv_fixed_at_Q_of_80.mat');
+    location, qfile);
 
 
 %% %%%%%%%%%%%%%%%%%% Get prior for State Variables %%%%%%%%%%%%%%%%%%% %%
@@ -77,9 +79,9 @@ location.z_max=150; % averaging max depth for asth.
 % Preferably, load in a large, pre-calculated box
 fname = 'data/plate_VBR/sweep.mat';
 if ~exist(fname, 'file')
-    sweep_params.T = 1100:50:1700;
+    sweep_params.T = 1100:50:1700; %[degrees C]
     sweep_params.phi = (0.0:0.005:0.03); % melt fraction
-    sweep_params.gs = linspace(0.001,0.03,10)*1e6; % grain size
+    sweep_params.gs = linspace(0.001,0.03,10)*1e6; % grain size [micrometres]
     % Set period range for the mask - used to define which calculated
     % velocities go into the returned average Vs for those conditions
     sweep_params.per_bw_max = 30; % max period of range of mask (s)
@@ -179,17 +181,8 @@ plot_Bayes(posterior_S_given_Vs_and_Qinv, sweep, 'Vs, Qinv')
 
 
 % Identify the best combinations of T, g, and phi across T
-best_T_g_phi = zeros(length(sweep.T), 3);
-[gs, phi] = meshgrid(sweep.gs, sweep.phi);
-posterior_T = zeros(size(sweep.T));
-for i_T = 1:length(sweep.T)
-    [posterior_T(i_T), i_pmax] = max(...
-        reshape(posterior_S_given_Vs_and_Qinv(i_T,:,:), 1, []) ...
-    );
-    best_T_g_phi(i_T, :) = [sweep.T(i_T), gs(i_pmax), phi(i_pmax)];
-    
-end
-
+best_T_g_phi, posterior_T = find_best_state_var_combo( ...
+    posterior_S_given_Vs_and_Qinv, sweep);
 
 
 
@@ -199,9 +192,9 @@ end
 % The probability that the observed zPlate is actually correct.           %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
+labfile = './data/LAB_models/HopperFischer2018.mat';
 [prior_LAB, obs_LAB, sigma_LAB] = process_SeismicModels('LAB_Depth', ...
-    location, './data/LAB_models/HopperFischer2018.mat');
+    location, labfile);
 
 
 %% %%%%%%%%%%%%%%%% Get prior for Tpot, zPlate %%%%%%%%%%%%%%%%%%%%%%%%% %%
@@ -257,6 +250,7 @@ params = make_param_grid(LABsweep.state_names, LABsweep);
 % Replace default PDF for TpC with the posterior calculated from Vs and Q
 params.TpC_pdf = repmat(posterior_T', 1, length(LABsweep.zPlatekm));
 
+pdf_types = {'input', 'uniform'};
 [prior_vars, sigma_vars] = priorModelProbs( ...
     params, LABsweep.state_names, {'input', 'uniform'});
 
@@ -278,9 +272,9 @@ params.TpC_pdf = repmat(posterior_T', 1, length(LABsweep.zPlatekm));
 likelihood_LAB = calculate_likelihood_from_residuals( ...
     obs_LAB, sigma_LAB, predicted_vals.zLAB_Q);
 
-%% %%%%%%%%%%%%%%%% Get posterior for State Variables %%%%%%%%%%%%%%%%%% %%
+%% %%%%%%%%%%%%%%%%%%% Get posterior for Variables %%%%%%%%%%%%%%%%%%%%% %%
 % The posterior probability distribution is calculated in a Bayesian way  %
-%       p(S | D) = p(D | S) * p(S) / p(D)                                 %
+%       p(V | D) = p(D | V) * p(V) / p(D)                                 %
 % The probability of the state variables given the observed LAB and the   %
 % observed Vs and Q informing the prior for the potential temperature.    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

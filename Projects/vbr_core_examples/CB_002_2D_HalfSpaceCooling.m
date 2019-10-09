@@ -34,9 +34,9 @@
 % calculate HF cooling model for each plate age
   HF.dT=HF.Tasth_C-HF.Tsurf_C;
   HF.T_C=zeros(numel(HF.z_km),numel(HF.x_km));
-  for HF.i_t = 1:numel(HF.t_s)
-    HF.erf_arg=HF.z_km*1000/(2*sqrt(HF.Kappa*HF.t_s(HF.i_t)));
-    HF.T_C(:,HF.i_t)=HF.Tsurf_C+HF.dT * erf(HF.erf_arg);
+  for HFi_t = 1:numel(HF.t_s)
+    HF.erf_arg=HF.z_km*1000/(2*sqrt(HF.Kappa*HF.t_s(HFi_t)));
+    HF.T_C(:,HFi_t)=HF.Tsurf_C+HF.dT * erf(HF.erf_arg);
   end
 
 %% ====================================================

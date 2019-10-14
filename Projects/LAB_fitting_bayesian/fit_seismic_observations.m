@@ -181,7 +181,7 @@ plot_Bayes(posterior_S_given_Vs_and_Qinv, sweep, 'Vs, Qinv')
 
 
 % Identify the best combinations of T, g, and phi across T
-best_T_g_phi, posterior_T = find_best_state_var_combo( ...
+[best_T_g_phi, posterior_T] = find_best_state_var_combo( ...
     posterior_S_given_Vs_and_Qinv, sweep);
 
 

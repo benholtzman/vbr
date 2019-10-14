@@ -67,14 +67,14 @@ function [Prior_mod, sigmaPreds] = priorModelProbs( ...
             sigma =  states.(std_field); % standard deviation
             mu     = states.(mn_field); % mean value
             x      = states.(this_field); % measurements
-            P_var_i = normpdf(x,mu,sigma);
+            P_var_i = norm_pdf(x,mu,sigma);
         otherwise
             % uniform PDF over total range
             sigma = 1;
             min_val = min(states.(this_field)(:));
             max_val = max(states.(this_field)(:));
             x = states.(this_field); % measurements
-            P_var_i = unifpdf(x, min_val, max_val);
+            P_var_i = ones(size(x)) / (max_val - min_val);
     end
     
     % Propagation of uncertainty for product of two real variables, 
@@ -86,4 +86,10 @@ function [Prior_mod, sigmaPreds] = priorModelProbs( ...
     sigmaPreds = sigmaPreds .* sigma;
     Prior_mod = Prior_mod .* P_var_i; % propagate the probability
   end
+end
+
+function pdf = norm_pdf(x, mu, sigma)
+
+pdf = (2 * pi * sigma .^ 2)^-2 * exp(-(x - mu) .^ 2 ./ (2 * sigma .^ 2));%normpdf(x, mu, sigma);
+
 end

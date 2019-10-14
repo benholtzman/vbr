@@ -1,15 +1,15 @@
-function Work = process_ThermalEvolution_vbr(Files,freq,best_T_g_phi)
+function Work = process_ThermalEvolution_vbr(Files,freq,best_T_phi_g)
 
 disp(['Period range: ' num2str(round(10/freq(end))/10) ' - ' ...
     num2str(round(10/freq(1))/10) ' s']);
 
 Work.Box_name_IN=Files.SV_Box;
-VBR=drive_VBR(Work, freq, best_T_g_phi);
+VBR=drive_VBR(Work, freq, best_T_phi_g);
 save(Files.VBR_Box,'VBR')
 
 end
 
-function VBRBox=drive_VBR(Work, freq, best_T_g_phi)
+function VBRBox=drive_VBR(Work, freq, best_T_phi_g)
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % DRIVE_VBR.m
@@ -66,8 +66,8 @@ for iBox = 1:Work.nBox
     
     % Set best fitting phi and g_um based on the previous Bayesian fit
     i_t = find(Box(iBox).info.var1range == Box(iBox).info.var1val);
-    VBR.in.SV.phi =  best_T_g_phi(i_t, 3);
-    VBR.in.SV.dg_um = best_T_g_phi(i_t, 2) .* ones(sz_SV) ;
+    VBR.in.SV.phi =  best_T_phi_g(i_t, 2);
+    VBR.in.SV.dg_um = best_T_phi_g(i_t, 3) .* ones(sz_SV) ;
     % previous version (with g_um as input to the function)
 %     VBR.in.SV.phi =  Box(iBox).Frames(end).phi ;
 %     VBR.in.SV.dg_um = g_um * ones(sz_SV) ;

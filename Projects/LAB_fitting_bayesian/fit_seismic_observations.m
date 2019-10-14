@@ -181,7 +181,7 @@ plot_Bayes(posterior_S_given_Vs_and_Qinv, sweep, 'Vs, Qinv')
 
 
 % Identify the best combinations of T, g, and phi across T
-[best_T_g_phi, posterior_T] = find_best_state_var_combo( ...
+[best_T_phi_g, posterior_T] = find_best_state_var_combo( ...
     posterior_S_given_Vs_and_Qinv, sweep);
 
 
@@ -230,7 +230,7 @@ end
 VBRSettings.freq = logspace(-2.8,-1,4);
 VBRSettings.recalc_VBR=0;
 if ~exist(Files.VBR_Box,'file') || VBRSettings.recalc_VBR==1
-    process_ThermalEvolution_vbr(Files,VBRSettings.freq, best_T_g_phi);
+    process_ThermalEvolution_vbr(Files,VBRSettings.freq, best_T_phi_g);
 else
     fprintf(['\nVBR Box already exists, delete following file to ' ...
         'recalculate\n    %s\n', Files.VBR_Box])

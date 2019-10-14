@@ -391,8 +391,8 @@ function medianVal = find_median(Model, field_name)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 allVals=Model.(field_name);
-medianVal = nanmedian( ...
-    reshape(allVals, 1, numel(allVals)) ...
+medianVal = median( ...
+    reshape(allVals, 1, numel(allVals)), 'omitnan' ...
     );
 
 end
@@ -430,8 +430,8 @@ function lateral_error = find_lateral_error(Model, field_name)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 allVals = Model.(field_name);
-lateral_error = nanstd( ...
-    reshape(allVals, 1, numel(allVals)) ...
+lateral_error = std( ...
+    reshape(allVals, 1, numel(allVals)), 'omitnan' ...
     );
 
 end
@@ -460,6 +460,6 @@ function normal_pdf = normal_probability(x, sigma)
 % Assume x, the observed value, coincides with mu, the mean value
 mu = x;
 
-normal_pdf = normpdf(x, mu, sigma);
+normal_pdf = (2 * pi * sigma .^ 2)^-2 * exp(-(x - mu) .^ 2 ./ (2 * sigma .^ 2));%normpdf(x, mu, sigma);
 
 end

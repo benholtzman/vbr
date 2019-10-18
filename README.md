@@ -6,7 +6,7 @@
 
 **Bug Reporting**: please email Holtzman and Havlin with bugs, questions, comments and objections.
 
-**Citing**: Manuscript in prep. Until publication, email Holtzman and Havlin before using for publishable research. 
+**Citing**: Manuscript in prep. Until publication, email Holtzman and Havlin before using for publishable research.
 
 ## Overview
 
@@ -87,8 +87,8 @@ VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa
 VBR.in.viscous.LH2011.diff.Q=350e3; % diffusion creep activation energy
 ```
 
-The default parameters are stored in ```vbr/4_VBR/VBR_v0p95/params/``` and can be loaded and explored with 
- 
+The default parameters are stored in ```vbr/4_VBR/VBR_v0p95/params/``` and can be loaded and explored with
+
 ```Matlab
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
 VBR.in.viscous.LH2011=Params_Viscous('LH2011'); % LH2011 params
@@ -111,3 +111,11 @@ VBR.out.elastic.anharmonic.Vsu % unrelaxed seismic shear wave velocity
 VBR.out.anelastic.eBurgers.V % anelastic-dependent seismic shear wave velocity
 VBR.out.viscous.LH2011.eta_total % composite steady state creep viscosity
 ```
+
+### Notes for GNU Octave users
+
+The VBR Calculator nominally works in GNU Octave, but you may find that you need to install some packages.
+
+https://octave.sourceforge.io/io/index.html
+https://octave.sourceforge.io/statistics/index.html
+https://octave.org/doc/interpreter/Installing-and-Removing-Packages.html

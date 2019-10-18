@@ -128,11 +128,10 @@ pdf_type = {'uniform'};
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-% chi^2 = sum( (observed - predicted)^2) / sigma ^ 2)
-likelihood_Vs = calculate_likelihood_from_residuals( ...
+likelihood_Vs = probability_distributions('likelihood from residuals', ...
     obs_Vs, sigma_Vs, sweep.meanVs);
 
-likelihood_Qinv = calculate_likelihood_from_residuals( ...
+likelihood_Qinv = probability_distributions('likelihood from residuals', ...
     obs_Qinv, sigma_Qinv, sweep.meanQinv);
 
 %% %%%%%%%%%%%%%%%% Get posterior for State Variables %%%%%%%%%%%%%%%%%% %%
@@ -141,9 +140,11 @@ likelihood_Qinv = calculate_likelihood_from_residuals( ...
 % The probability of the state variables given the observed Q and Vs.     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-posterior_S_given_Vs = likelihood_Vs .* prior_statevars ./ prior_Vs;
+posterior_S_given_Vs = probability_distributions('A|B', ...
+    likelihood_Vs, prior_statevars, prior_Vs);
 
-posterior_S_given_Qinv = likelihood_Qinv .* prior_statevars ./ prior_Qinv;
+posterior_S_given_Qinv =  probability_distributions('A|B', ...
+    likelihood_Qinv, prior_statevars, prior_Qinv);
 
 
 % Can scale the posterior (though honestly I'm not sure how/why?)
@@ -174,9 +175,13 @@ plot_Bayes(sc_posterior_S_given_Qinv, sweep, 'Qinv')
 
 % p(Vs, Qinv) is unknown, but will be the same for a given location 
 %   i.e. given combination of Vs and Qinv
-% So this is proportional to the true probability.
-posterior_S_given_Vs_and_Qinv = likelihood_Vs .* likelihood_Qinv ...
-    .* prior_statevars;
+% Therefore pass 1 as last argument to probability_distributions() as a 
+% placeholder for this unknown p(Vs, Qinv).  Output is proportional to the
+% true probability.
+
+posterior_S_given_Vs_and_Qinv = probability_distributions(...
+    'C|A,B conditionally independent', likelihood_Vs, likelihood_Qinv, ...
+    prior_statevars, 1);
 plot_Bayes(posterior_S_given_Vs_and_Qinv, sweep, 'Vs, Qinv')
 
 
@@ -269,7 +274,7 @@ pdf_types = {'input', 'uniform'};
 
 
 % chi^2 = sum( (observed - predicted)^2) / sigma ^ 2)
-likelihood_LAB = calculate_likelihood_from_residuals( ...
+likelihood_LAB = probability_distributions('likelihood from residuals', ...
     obs_LAB, sigma_LAB, predicted_vals.zLAB_Q);
 
 %% %%%%%%%%%%%%%%%%%%% Get posterior for Variables %%%%%%%%%%%%%%%%%%%%% %%
@@ -279,5 +284,6 @@ likelihood_LAB = calculate_likelihood_from_residuals( ...
 % observed Vs and Q informing the prior for the potential temperature.    %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-posterior_vars_given_LAB = likelihood_LAB .* prior_vars ./ prior_LAB;
+posterior_vars_given_LAB = probability_distributions('A|B', ...
+    likelihood_LAB, prior_vars, prior_LAB);
 plot_Bayes(posterior_vars_given_LAB, LABsweep, 'Vs, Qinv, LAB')

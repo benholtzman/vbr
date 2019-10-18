@@ -45,7 +45,7 @@ function [Prior_mod, sigmaPreds] = priorModelProbs( ...
 
 
   sigmaPreds = 1;
-  Prior_mod = 1;
+  marginals{numel(states_fields)} = 1;
   
   for i_field = 1:numel(states_fields)
     this_field=states_fields{i_field};
@@ -60,21 +60,23 @@ function [Prior_mod, sigmaPreds] = priorModelProbs( ...
     
     switch pdf_type
         case 'input'
-            P_var_i = states.([this_field, '_pdf']);
+            marginals{i_field} = states.([this_field, '_pdf']);
             sigma = states.(std_field);
         case 'normal'
             % assume a normal distribution
             sigma =  states.(std_field); % standard deviation
             mu     = states.(mn_field); % mean value
             x      = states.(this_field); % measurements
-            P_var_i = norm_pdf(x,mu,sigma);
+            marginals{i_field} = probability_distributions(...
+                'normal', x, mu, sigma);
         otherwise
             % uniform PDF over total range
             sigma = 1;
-            min_val = min(states.(this_field)(:));
-            max_val = max(states.(this_field)(:));
+            minv = min(states.(this_field)(:));
+            maxv = max(states.(this_field)(:));
             x = states.(this_field); % measurements
-            P_var_i = ones(size(x)) / (max_val - min_val);
+            marginals{i_field} = probability_distributions(...
+                'uniform', x, minv, maxv);
     end
     
     % Propagation of uncertainty for product of two real variables, 
@@ -84,12 +86,7 @@ function [Prior_mod, sigmaPreds] = priorModelProbs( ...
     % cov_AB is the covariance of A and B, which is zero for our
     % (assumed) independent state variables
     sigmaPreds = sigmaPreds .* sigma;
-    Prior_mod = Prior_mod .* P_var_i; % propagate the probability
   end
-end
-
-function pdf = norm_pdf(x, mu, sigma)
-
-pdf = (2 * pi * sigma .^ 2)^-2 * exp(-(x - mu) .^ 2 ./ (2 * sigma .^ 2));%normpdf(x, mu, sigma);
-
+  
+  Prior_mod = probability_distributions('joint independent', marginals);
 end

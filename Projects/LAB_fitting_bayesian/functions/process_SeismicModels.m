@@ -61,9 +61,9 @@ function [prior, obs_value, obs_error] = process_SeismicModels( ...
 
 
 [obs_value, obs_error] = load_seismic_data(model_file, location, obs_name);
-%fprintf('\n%s:  %g, %g\n', obs_name, obs_value, obs_error)
 
-prior = normal_probability(obs_value, obs_error);
+% Assume that the distribution is normal & centred on observed value
+prior = probability_distributions('normal', obs_value, obs_value, obs_error);
 
 
 end
@@ -433,33 +433,5 @@ allVals = Model.(field_name);
 lateral_error = std( ...
     reshape(allVals, 1, numel(allVals)), 'omitnan' ...
     );
-
-end
-
-function normal_pdf = normal_probability(x, sigma)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% normal_pdf = normal_probability(x, sigma)
-%
-% Calculate the (prior) probability of having an observed value x given 
-% a normal distribution with mean x and standard deviation sigma.
-%
-%
-% Parameters:
-% -----------
-%       x       observed value, assumed to coincide with the mean value
-%
-%       sigma   standard deviation of the distribution
-%
-% Output:
-% -------
-%       normal_pdf  prior probability of being at the observed value
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% Assume x, the observed value, coincides with mu, the mean value
-mu = x;
-
-normal_pdf = (2 * pi * sigma .^ 2)^-2 * exp(-(x - mu) .^ 2 ./ (2 * sigma .^ 2));%normpdf(x, mu, sigma);
 
 end

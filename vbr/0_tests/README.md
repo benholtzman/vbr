@@ -8,19 +8,19 @@ When creating new code functionality, add a test function here.
 
 ### running tests
 
-To run a test:
+To run all tests:
 
 ```
 cd vbr/0_tests
 test_results=run_tests;
 ```
 
-The code will execute all the `.m` files. If any fail to run, a warning message will print to screen. After the tests run, if there are any failed tests you should run those tests individually to see the full matlab error. The output variable `test_results` is a structure with each test function as a field with each set to 0 or 1 to indicate failure or success. The `run_test` function does include the option for specifying a `test_type`, e.g., `run_test(test_type)` but the only current type is `full_test`. You could add a new type that is a sub-set of the test functions if you want (e.g., all `.m` files containing some keyword).
+The code will execute all the `.m` files. If any fail to run, a warning message will print to screen. After the tests run, if there are any failed tests you should run those tests individually to see the full matlab error. The output variable `test_results` is a structure with each test function as a field with each set to 0 or 1 to indicate failure or success. The `run_test` function includes an optional input argument `test_file_string` that is used to match the test function names, e.g., `run_test(test_file_string)`. So if you want to only run a subset of tests, provide a common string (e.g., `fm_plates` to run the forward model tests only).
 
 Example output containing a failed test:
 
 ```
-Running test_type: full_test
+Running tests for test_file_string: vbrcore
 
 initializing with vbr_version: VBR_v0p95
 VBR calculator initialized

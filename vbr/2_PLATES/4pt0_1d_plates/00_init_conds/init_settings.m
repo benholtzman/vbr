@@ -12,7 +12,7 @@ function [settings]=init_settings(settings_in)
    settings.Flags.VbzFlag = 'constant';
    settings.Flags.T_init='continental'; % 'continental' 'oceanic' or 'adiabatic'
    settings.Flags.ModelDomain='asth_lith'; % 'asth_lith' or 'lith'
-
+   settings.Flags.verbosity_level=1; % verbosity level, 1 or 0. Runs silent if 0.
 
 % thermal
   settings.Tpot = 1325; % potential temperature of lithosphere

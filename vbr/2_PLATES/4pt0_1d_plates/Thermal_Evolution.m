@@ -54,7 +54,7 @@
 %    InitVals: structure with reference state for material properties
 %    LABInfo: structure with LAB and solidus-geotherm intersection depths
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [Vars,Info]=Thermal_Evolution(Info,settings)
+function [Vars,Info] = Thermal_Evolution(Info,settings)
 
 %%% --------------------------------------------------------------------- %%
 %%% ----------               Initialization                      -------- %%
@@ -74,7 +74,8 @@ function [Vars,Info]=Thermal_Evolution(Info,settings)
   outk = settings.outk; % frequency of output (output every outk steps)
   outn = nt/outk; % number of timesteps to save
 % solution settings
-  ss_tol = settings.sstol; % steady state tolerance for normalized phi residual.
+  ss_tol = settings.sstol; % steady state tolerance
+  verbose=settings.Flags.verbosity_level; % 1 for everything
 
 % Initialize flags and counters
   k = 1;         % time step count
@@ -136,10 +137,14 @@ while keepgoing == 1 && k <= nt
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if mod(k,outk)==0;
+        if verbose > 0
+          tMyrs=tnow_s/3600/24/365/1e6;
+          fprintf('\n   Storing data at step %i, %0.3f Myrs',k,tMyrs);
+          disp(' '); disp(['     T residual: ' num2str(resid.T)])
+          disp(['     zsol [km]: ' num2str(LABInfo.zSOL/1e3)])
+          disp(['     zLAB [km]: ' num2str(LABInfo.zLAB/1e3)])
+        end
         [Vars,Info,kk]=var_save(Vars,Vark,Info,tnow_s,k,kk,LABInfo);
-        disp(['     T residual: ' num2str(resid.T)])
-        disp(['     zsol [km]: ' num2str(LABInfo.zSOL/1e3)])
-        disp(['     zLAB [km]: ' num2str(LABInfo.zLAB/1e3)])
     end
 
     [keepgoing,Info] = check_stop_run(keepgoing,Info,resid,ss_tol,tnow_s,...
@@ -156,14 +161,18 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % final variable save
-  disp(' '); disp('Calculations complete, wrapping up...')
+  if verbose > 0
+    disp(' '); disp('Calculations complete, wrapping up...')
+  end
   [Vars,Info,kk]=var_save(Vars,Vark,Info,tnow_s,k,kk,LABInfo);
   [Vars,Info]=var_finalize(Vars,Info,kk); % removes unfilled columns
   Info.tMyrs=Info.t/3600/24/365/1e6;
   Info.ssresid=resid.T;
 % elapsed time
   t_elapsed=toc(tinit);
-  disp(' ');disp(['Elapsed CPU time is ' num2str(t_elapsed/60) ' minutes'])
+  if verbose > 0
+    disp(' ');disp(['Elapsed CPU time is ' num2str(t_elapsed/60) ' minutes'])
+  end
 
 end
 
@@ -176,7 +185,7 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [Vars,Info,kk]=var_struct(Info,zs,outn)
+function [Vars,Info,kk] = var_struct(Info,zs,outn)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                              var_struct
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -208,7 +217,7 @@ function  Vars = var_populate(Vars,nz,outn,varargin)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [Vars,Info,kk]=var_save(Vars,Vark,Info,tnow_s,k,kk,LABinfo)
+function [Vars,Info,kk] = var_save(Vars,Vark,Info,tnow_s,k,kk,LABinfo)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                              var_save
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -226,12 +235,10 @@ function [Vars,Info,kk]=var_save(Vars,Vark,Info,tnow_s,k,kk,LABinfo)
     Info.zMO(kk) = LABinfo.zMO; Info.zMOid(kk) = LABinfo.zMOid;
 
     kk = kk+1;
-    tMyrs=tnow_s/3600/24/365/1e6;
-    fprintf('\n   Storing data at step %i, %0.3f Myrs',k,tMyrs);
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [Vars,Info]=var_finalize(Vars,Info,kk)
+function [Vars,Info] = var_finalize(Vars,Info,kk)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                              var_finalize
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -249,7 +256,7 @@ function [Vars,Info]=var_finalize(Vars,Info,kk)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [Vark,InitVals]=var_init(Info,BCs,dz)
+function [Vark,InitVals] = var_init(Info,BCs,dz)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % loads initial conditions, moves variables to cell centers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -280,7 +287,7 @@ function [Vark,InitVals]=var_init(Info,BCs,dz)
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-function [keepgoing,Info]=check_stop_run(keepgoing,Info,resid,ss_tol,tnow_s,...
+function [keepgoing,Info] = check_stop_run(keepgoing,Info,resid,ss_tol,tnow_s,...
                                     t_max_Myrs,kt_test)
 
     t_s_to_Myrs = 3600*24*365*1e6; % seconds --> Myr factor

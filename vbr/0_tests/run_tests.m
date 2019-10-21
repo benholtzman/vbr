@@ -1,54 +1,41 @@
-function TestResults = run_tests(test_type)
+function TestResults = run_tests(test_file_string)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TestResults = run_tests(test_type)
+% TestResults = run_tests(test_file_string)
 %
 % runs all the test functions
 %
 % Parameters
 % ----------
-% test_type    optional string declaring the test_type to run. Options are:
-%              'full_test'  runs all .m functions in this directory.
+% test_file_string    optional string to select which test functions to run.
+%                     will only run functions with matching string. Set to 'all'
+%                     or do not provide to run everything. 
 %
 %
 % Output
 % ------
 % TestResults   Structure with test results
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  if ~exist('test_type','var')
-    test_type='full_test';
+  if ~exist('test_file_string','var')
+    test_file_string='all';
   end
 
-  disp(['Running test_type: ',test_type]); disp('')
+  disp(['Running tests for test_file_string: ',test_file_string]); disp('')
 
   % initialize VBR
   addpath('../..')
   vbr_init
 
   % run test functions
-  TestResults=struct();
-  failedCount=0;
-  disp(['Starting ',test_type]); disp(' ')
-  if strcmp(test_type,'full_test')
+  disp(['Starting ',test_file_string]); disp(' ')
+  if strcmp(test_file_string,'all')
     % runs all test functions in this directory
     mfiles=dir('*.m');
-    for ifile = 1:numel(mfiles)
-      fname=mfiles(ifile).name;
-      if ~strcmp('run_tests.m',fname)
-        [fdir,funcname,ext]=fileparts(fname);
-        try
-          testResult=feval(funcname);
-          disp('    test passed :D'); disp(' ')
-        catch
-          disp(['    ',funcname,' failed :('])
-          disp(['    please run ',funcname,'() and debug.']); disp(' ')
-          testResult=false;
-          failedCount=failedCount+1;
-        end
-        TestResults.(funcname)=testResult;
-      end
-    end
   else
-    disp(['test_type ',test_type,' does not exist.'])
+    mfiles=dir(['*',test_file_string,'*.m']);
+  end
+
+  if numel(mfiles)>0
+    [TestResults,failedCount] = runTheMfiles(mfiles);
   end
 
   % display the failed test functions
@@ -67,4 +54,30 @@ function TestResults = run_tests(test_type)
     disp('all test functions ran successfully')
   end
 
+end
+
+function [TestResults,failedCount] = runTheMfiles(mfiles)
+  TestResults=struct();
+  failedCount=0;
+  for ifile = 1:numel(mfiles)
+    fname=mfiles(ifile).name;
+    if ~strcmp('run_tests.m',fname)
+      [fdir,funcname,ext]=fileparts(fname);
+      try
+        testResult=feval(funcname);
+        if testResult>0
+          disp('    test passed :D'); disp(' ')
+        else
+          failedCount=failedCount+1;
+          disp('    test failed :('); disp(' ')
+        end
+      catch
+        disp(['    ',funcname,' failed :('])
+        disp(['    please run ',funcname,'() and debug.']); disp(' ')
+        testResult=false;
+        failedCount=failedCount+1;
+      end
+      TestResults.(funcname)=testResult;
+    end
+  end
 end

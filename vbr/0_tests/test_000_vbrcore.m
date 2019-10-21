@@ -1,4 +1,4 @@
-function TestResult=test_000_vbrcore()
+function TestResult = test_000_vbrcore()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % TestResult = test_000_vbrcore()
 %

@@ -15,7 +15,7 @@
 % Initial conditions are given as input on cell edges.
 %
 % Final Output is output on cell edges in 2D arrays where each column
-% corresponds to a single timestep. i.e., phi(:,3) is the melt fraction
+% corresponds to a single timestep. i.e., T(:,3) is the temperature
 % profile at time step 3. Variables are stored in the Vars structure:
 %
 %%% Input
@@ -69,72 +69,69 @@ function [Vars,Info] = Thermal_Evolution(Info,settings)
 % space
   dz = settings.Zinfo.dz_m; % mesh spacing
   zs = settings.Zinfo.z_m; % vertical coordinate of cell edges
-% time
+  % time
   nt = settings.nt; % time steps to go!
   outk = settings.outk; % frequency of output (output every outk steps)
   outn = nt/outk; % number of timesteps to save
-% solution settings
+  % solution settings
   ss_tol = settings.sstol; % steady state tolerance
   verbose=settings.Flags.verbosity_level; % 1 for everything
-
-% Initialize flags and counters
+  % Initialize flags and counters
   k = 1;         % time step count
   tnow_s = 0;      % current model time
   t_max_Myrs = settings.t_max_Myrs; % max time [Myrs]
-% Boundary Conditions
+  % Boundary Conditions
   BCs = Info.BCs;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% mesh and initial values %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% input z is the staggered (cell edge) z, need cell-centered
+  % input z is the staggered (cell edge) z, need cell-centered
   z = stag(zs);
   z = [z(1)-dz; z(:); z(end)+dz];
 
-% initialize output structures:
+  % initialize output structures:
+  [Vars,Info,kk]=var_struct(Info,zs,outn);
 
-    [Vars,Info,kk]=var_struct(Info,zs,outn);
-
-% read in initial values to working structures
-
-     [Vark,InitVals] = var_init(Info,BCs,dz);
-     keepgoing = 1;
+  % read in initial values to working structures
+  [Vark,InitVals] = var_init(Info,BCs,dz);
+  keepgoing = 1;
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%% Initial calculations and output %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% initial calculation of LAB, SOL and MO depth
+  % initial calculation of LAB, SOL and MO depth
   LABInfo = find_LAB(Vark,z,settings,struct());
 
-% run some diffusion iterations on T to smooth out initial condition if desired
+  % run some diffusion iterations on T to smooth out initial condition if desired
   for it_k0 = 1:settings.T_init_diff_steps
     settings.Flags.TempUpdate='DiffusionOnly'; tnow_init = 0;
     [Vark,resid] = timestep(Vark,tnow_init,LABInfo,settings,z,dz,InitVals,BCs);
   end
   settings.Flags.TempUpdate='FullCalc';
 
-% save initial step
+  % save initial step
   [Vars,Info,kk]=var_save(Vars,Vark,Info,tnow_s,k,kk,LABInfo);
 
 %%% --------------------------------------------------------------------- %%
 %%% ---------- Solve Forward Problem (time stepping starts here) -------- %%
 %%% --------------------------------------------------------------------- %%
-LABInfo.lag_steps=0;
-while keepgoing == 1 && k <= nt
-    k = k + 1;
+  LABInfo.lag_steps=0;
+  while keepgoing == 1 && k <= nt
+      k = k + 1;
 
-%%%%%%%%%%%%%%%%
-%%% Time step %%
-%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%
+  %%% Time step %%
+  %%%%%%%%%%%%%%%%
 
     [Vark,resid,tnow_s,LABInfo] = timestep(Vark,tnow_s,LABInfo,settings,...
-                                                        z,dz,InitVals,BCs);
+                                                          z,dz,InitVals,BCs);
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%% Output and error/ss check %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %%% Output and error/ss check %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
     if mod(k,outk)==0;
         if verbose > 0
@@ -150,17 +147,13 @@ while keepgoing == 1 && k <= nt
     [keepgoing,Info] = check_stop_run(keepgoing,Info,resid,ss_tol,tnow_s,...
                                     t_max_Myrs,k <= nt);
 
+  end
 
-end
-% --------------------------------------------------------------------- %%
-% ----------               Endgame                             -------- %%
-% --------------------------------------------------------------------- %%
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % final save and cleanup %
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% final save and cleanup %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-% final variable save
+  % final variable save
   if verbose > 0
     disp(' '); disp('Calculations complete, wrapping up...')
   end
@@ -168,7 +161,7 @@ end
   [Vars,Info]=var_finalize(Vars,Info,kk); % removes unfilled columns
   Info.tMyrs=Info.t/3600/24/365/1e6;
   Info.ssresid=resid.T;
-% elapsed time
+  % elapsed time
   t_elapsed=toc(tinit);
   if verbose > 0
     disp(' ');disp(['Elapsed CPU time is ' num2str(t_elapsed/60) ' minutes'])
@@ -260,29 +253,28 @@ function [Vark,InitVals] = var_init(Info,BCs,dz)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % loads initial conditions, moves variables to cell centers
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%   read in initial values for all variables, move values from cell edges
-%   to cell centers.
-    fields = fieldnames(Info.init);
-    for ifi = 1:numel(fields(:,1));
+  % read in initial values for all variables, move values from cell edges
+  % to cell centers.
+  fields = fieldnames(Info.init);
+  for ifi = 1:numel(fields(:,1));
 
-        field_cc = fields{ifi}; % cell centered field name
-        if strcmp(fields{ifi},'Vbgzs')
-            field_cc = 'Vbgz';
-            Vark.Vbgzs=Info.init.Vbgzs;
-        end
-        Vark.(field_cc)=addghosts(stag(Info.init.(fields{ifi})));
-    end
+      field_cc = fields{ifi}; % cell centered field name
+      if strcmp(fields{ifi},'Vbgzs')
+          field_cc = 'Vbgz';
+          Vark.Vbgzs=Info.init.Vbgzs;
+      end
+      Vark.(field_cc)=addghosts(stag(Info.init.(fields{ifi})));
+  end
 
-%   apply BCs on T
-    Vark.T = BC_setghosts(Vark.T,BCs.val_T,BCs.type_T,dz);
+  % apply BCs on T
+  Vark.T = BC_setghosts(Vark.T,BCs.val_T,BCs.type_T,dz);
 
-%   save thermal properties at reference state
-    Cp_0 = addghosts(stag(Info.init.Cp_0)); % specific heat [J/kg/K]
-    Rho_0 = addghosts(stag(Info.init.Rho_0)); % density [kg/m3]
-    Kc_0 = addghosts(stag(Info.init.Kc_0)); % conductiviy [W/m/K]
-    InitVals.Cp_0=Cp_0;InitVals.Rho_0=Rho_0;InitVals.Kc_0=Kc_0;
-    Vark=rmfield(Vark,'Cp_0');Vark=rmfield(Vark,'Rho_0'); Vark=rmfield(Vark,'Kc_0');
-
+  % save thermal properties at reference state
+  Cp_0 = addghosts(stag(Info.init.Cp_0)); % specific heat [J/kg/K]
+  Rho_0 = addghosts(stag(Info.init.Rho_0)); % density [kg/m3]
+  Kc_0 = addghosts(stag(Info.init.Kc_0)); % conductiviy [W/m/K]
+  InitVals.Cp_0=Cp_0;InitVals.Rho_0=Rho_0;InitVals.Kc_0=Kc_0;
+  Vark=rmfield(Vark,'Cp_0');Vark=rmfield(Vark,'Rho_0'); Vark=rmfield(Vark,'Kc_0');
 
 end
 
@@ -290,18 +282,18 @@ end
 function [keepgoing,Info] = check_stop_run(keepgoing,Info,resid,ss_tol,tnow_s,...
                                     t_max_Myrs,kt_test)
 
-    t_s_to_Myrs = 3600*24*365*1e6; % seconds --> Myr factor
-    if resid.T<=ss_tol;
-        Info.final_message='Reached Steady State';
-        keepgoing = 0;
-    end
-    if tnow_s/t_s_to_Myrs > t_max_Myrs
-       keepgoing = 0;
-       Info.final_message=['Reached desired t: ' num2str(tnow_s/t_s_to_Myrs) '[Myr]'];
-    end
+  t_s_to_Myrs = 3600*24*365*1e6; % seconds --> Myr factor
+  if resid.T<=ss_tol;
+      Info.final_message='Reached Steady State';
+      keepgoing = 0;
+  end
+  if tnow_s/t_s_to_Myrs > t_max_Myrs
+     keepgoing = 0;
+     Info.final_message=['Reached desired t: ' num2str(tnow_s/t_s_to_Myrs) '[Myr]'];
+  end
 
-    if kt_test == 0
-        Info.final_message='reached maximum time steps';
-    end
+  if kt_test == 0
+      Info.final_message='reached maximum time steps';
+  end
 
 end

@@ -11,7 +11,8 @@ function fH2O=sr_water_fugacity(H2O_PPM,H2O_o,P_Pa,T_K)
   %        P_Pa      pressure [Pa]
   %        T_K       temperature [K]
   %        H2O_PPM   water concentration [PPM]
-  % 
+  %        H2O_o     min water concentration [PPM], H2O_PPM<H2O_o has no effect.
+  %
   % Output:
   % -------
   %        fH2O  water fugacity [MPa]

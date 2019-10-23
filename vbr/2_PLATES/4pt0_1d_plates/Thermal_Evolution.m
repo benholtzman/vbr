@@ -246,6 +246,12 @@ function [Vars,Info] = var_finalize(Vars,Info,kk)
     Info.zLAB = Info.zLAB(1:kk);Info.zLABid = Info.zLABid(1:kk);
     Info.zSOL = Info.zSOL(1:kk);Info.zSOLid = Info.zSOLid(1:kk);
     Info.zMO = Info.zMO(1:kk);Info.zMOid = Info.zMOid(1:kk);
+
+    Cconv={'Cs_H2O','Cs_CO2','Cf_H2O','Cf_CO2'};
+    for iFie=1:numel(Cconv)
+      Vars.(Cconv{iFie})=  Vars.(Cconv{iFie}) *1e4; % wt % to PPM
+    end
+
 end
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

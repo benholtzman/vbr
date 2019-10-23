@@ -37,7 +37,7 @@ end
 
 function Box=drive_svfm_plate(settings)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% this script builds the initial settings to call TwoPhase. Commonly
+% this script builds the initial settings to call Thermal_Evolution. Commonly
 % changed parameters are set here, less frequently changed parameters are
 % in initialize_settings. Anything set here can overwrite anything set in
 % settings.

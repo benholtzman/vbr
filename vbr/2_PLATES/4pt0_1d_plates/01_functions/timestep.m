@@ -96,7 +96,7 @@ function [dt] = dtCFL(vf,dz,cfl,dt_max)
   %
   % Output
   % ------
-  % dt     stable time step 
+  % dt     stable time step
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
    % calculate time step
      vfmax = max(abs(vf));

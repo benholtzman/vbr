@@ -20,9 +20,12 @@ function [settings]=init_settings(settings_in)
   settings.DBL_m = 10e3; % [m] mechancial boundary layer thickness at base of lith
                          % controls how quickly Tpot_asth approached Tpot_lith
 
-
-  if strcmp(settings.Flags.T_init,'oceanic')
-      settings.age0 = 5; % [Myrs] only used if T_init is oceanic.
+  if exist('settings_in','var')
+    if isstruct(settings_in)&&isfield(settings_in,'Flags')&&isfield(settings_in.Flags,'T_init')
+      if strcmp(settings_in.Flags.T_init,'oceanic')
+          settings.age0 = 5; % [Myrs] only used if T_init is oceanic.
+      end
+    end
   end
 
   settings.T_init_diff_steps = 0; % initial diffusion steps for smoothing init condition
@@ -44,8 +47,9 @@ function [settings]=init_settings(settings_in)
 % composition (uniform values for now)
   settings.kd_H2O = 1e-2; % partition coefficent for H2O, kd = Cs / Cf
   settings.kd_CO2 = 1e-4; % partition coefficent for CO2, kd = Cs / Cf
-  settings.Cs0_H2O = 0 * (1e-6 * 1e2); % initial water concentration [wt %]
-  settings.Cs0_CO2 = 0 * (1e-6 * 1e2); % initial water concentration [wt %]
+  settings.Cs0_H2O = 0; % initial water concentration [PPM]
+  settings.Cs0_CO2 = 0; % initial water concentration [PPM]
+  settings.F = 0.0; % the thermodynamic melt fraction to calculate fluid wt % at
 
 % thermal properties at reference state
   settings.Kc_olv = 4.17; % thermal conductivity [W/m/K], from Xu et al (see MaterialProperties.m)

@@ -56,7 +56,9 @@ function [Vars,Info]=postproc_append_astheno(Vars,Info,settings)
     Var_new.P(:,it)=P_hyd;
 
     % and recalculate solidus, phi
+    Var_new = convertVolatilePPMwt(Var_new,'to_wt');
     Solidus = SoLiquidus(P_hyd,Var_new.Cf_H2O(:,it),Var_new.Cf_CO2(:,it),'katz');
+    Var_new = convertVolatilePPMwt(Var_new,'to_PPM');
     Var_new.Tsol(:,it)=Solidus.Tsol;
     Var_new.phi(:,it) = ones(nz,1) * settings.phi_min;
     % conditional statement: if T > Tsol, ()==1

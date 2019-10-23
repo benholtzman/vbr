@@ -26,9 +26,9 @@ function [Info] = init_values(settings)
    Info.init.sig_MPa=settings.sig_MPa*ones(size(z));
    Info.init.Cs_H2O=settings.Cs0_H2O*ones(size(z))*1e-4; % PPM to wt %
    Info.init.Cs_CO2=settings.Cs0_CO2*ones(size(z))*1e-4; % PPM to wt %
-   Info.init.Cf_H2O = Info.init.Cs_H2O / settings.kd_H2O;
-   Info.init.Cf_CO2 = Info.init.Cs_CO2 / settings.kd_CO2;
-
+   Info.init.Cf_H2O = Info.init.Cs_H2O / (settings.kd_H2O + settings.F * (1-settings.kd_H2O));
+   Info.init.Cf_CO2 = Info.init.Cs_CO2 / (settings.kd_CO2 + settings.F * (1-settings.kd_CO2));
+   
 %  composition-dependent properties
 %     calculate the weighting function
       Zm=settings.Z_moho_km*1e3;

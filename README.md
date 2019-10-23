@@ -1,6 +1,6 @@
 # The Very Broadband Rheology (VBR) Calculator
 
-**Authors**: Ben Holtzman (benh@ldeo.columbia.edu), Chris Havlin (chris.havlin@gmail.com)
+**Authors**: Ben Holtzman (benh AT ldeo.columbia.edu), Chris Havlin (ch3126 AT columbia.edu)
 
 **Licensing**: The VBR calculator will soon be released under an open source license. Until then, please do not distribute without speaking with Holtzman and Havlin.
 

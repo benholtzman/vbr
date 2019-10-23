@@ -1,16 +1,13 @@
 function [Rho,Cp,Kc,P] = MaterialProperties(Rho_o,Kc_o,Cp_o,T,z,P0,dTdz_ad,PropType)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% [Rho,Cp,Kc,P] = MaterialProperties(Rho_o,Kc_o,Cp_o,T,z,P0,dTdz_ad,PropType)
+%
 % calculates density, specific heat and thermal conductivity as a function
 % of temperature (and pressure). Also outputs the hydrostatic pressure.
 %
-% There are a bunch of subfunctions for this one, I didn't think they'd be
-% used outside of MaterialProperties.m but they could be added as separate
-% functions if they were needed individually.
 %
-% CJH 2015.02.10
-%
-% input
-%
+% Parameters
+% ----------
 %  Rho_o   reference density at STP (array or scalar)
 %  Kc_o    reference conductivity at STP (array or scalar)
 %  Cp_o    reference heat capacity at STP (only used for constant values)
@@ -26,8 +23,8 @@ function [Rho,Cp,Kc,P] = MaterialProperties(Rho_o,Kc_o,Cp_o,T,z,P0,dTdz_ad,PropT
 %            'T_dep'    temperature dependent rho, Cp and Kc
 %            'PT_dep'   temperature and pressure dependent rho, Cp and Kc
 %
-% output (these are arrays if input T is an array)
-%
+% Output
+% ------
 %  Rho     density [kg m^-3]
 %  Cp      specific heat [J kg^-1 K^-1]
 %  Kc      thermal conductivity [W m^-1 K^-1]
@@ -36,7 +33,7 @@ function [Rho,Cp,Kc,P] = MaterialProperties(Rho_o,Kc_o,Cp_o,T,z,P0,dTdz_ad,PropT
 
 % set volume fraction forsterite (1 = all forsterite, 0 = all fayalite)
 % Reminder, Forsterite = Mg2SiO4, Fayalite = Fe2Si04.
-  FracFo = 0.9; % 
+  FracFo = 0.9; %
 
  if strcmp(PropType,'con') == 1
       Rho = Rho_o;

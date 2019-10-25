@@ -10,6 +10,11 @@ function [VBR] = Q_eFastBurgers(VBR)
 %
 % For High Temp Background only. To include peak, must use Q_eBurgers_f().
 %
+% reference:
+% Jackson & Faul, "Grainsize-sensitive viscoelastic relaxation in
+% olivine: Towards a robust laboratory-based model for seismological
+% application," Physics of the Earth and Planetary Interiors 183 (2010) 151–163
+%
 % Parameters:
 % ----------
 % VBR.   VBR structure with state variables and eBurger settings
@@ -54,7 +59,7 @@ function [VBR] = Q_eFastBurgers(VBR)
 
   % read in reference values
   Burger_params=VBR.in.anelastic.eBurgers;
-  bType=Burger_params.eBurgerMethod;  
+  bType=Burger_params.eBurgerMethod;
   if strcmp(bType,'bg_peak')
     wrn='WARNING: FastBurger method for eBurgers only works for bg_only, ';
     wrn=[wrn,'switch eBurgerMethod to PoinstWise to include peak.'];

@@ -3,8 +3,12 @@ function fH2O=sr_water_fugacity(H2O_PPM,H2O_o,P_Pa,T_K)
   %
   % fH2O=sr_water_fugacity(H2O_PPM,H2O_o,P_Pa,T_K)
   %
-  % calculates water fugacity following Kolhstedt [better citation]:
+  % calculates water fugacity following
+  %
   %          H2O = A_o * exp(-(E + P * V)/(R*T)) * fH2O
+  %
+  % equation 6 in Hirth and Kohlstedt, 2003, In Inside the Subduction
+  % Factory, J. Eiler (Ed.). https://doi.org/10.1029/138GM06
   %
   % Parameters:
   % -----------

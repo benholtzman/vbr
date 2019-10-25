@@ -3,7 +3,8 @@ function VBR = visc_calc_YT2016_solidus(VBR)
   %
   % VBR = visc_calc_YT2016_solidus(VBR)
   %
-  % calculates the viscosity from Yamauchi and Takei, JGR 2016
+  % calculates the viscosity from Yamauchi and Takei, JGR 2016,
+  % https://doi.org/10.1002/2016JB013316
   %
   % Parameters:
   % -----------
@@ -115,7 +116,7 @@ function A_n = calcA_n(Tn,phi,params)
   % -------
   % A_n    modified pre-exponential constant. effective viscosity eta is
   %            eta = A_n * eta_dry
-  %        where eta_dry is the melt-free diffusion creep viscosity. 
+  %        where eta_dry is the melt-free diffusion creep viscosity.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   T_eta=params.T_eta;

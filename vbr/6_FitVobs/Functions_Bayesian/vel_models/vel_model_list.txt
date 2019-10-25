@@ -1,9 +1,0 @@
-removing these from the repo, adding list for reference:
-
-USA_Chaietal2015.mat      
-USA_SchmandtLin2014ComboSchmandtetal2015.mat
-USA_Porrittetal2014.mat   
-USA_ShenRitzwoller2016.mat
-USA_Porteretal2015.mat    
-USA_Yuanetal2011.mat
-USA_Schmandtetal2015.mat

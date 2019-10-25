@@ -1,6 +1,6 @@
-function TestResult = test_004_fm_solidus()
+function TestResult = test_fm_plates_004_solidus()
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % TestResult = test_004_fm_solidus()
+  % TestResult = test_fm_plates_004_solidus()
   %
   % test of solidus calculation in forward model
   %
@@ -12,6 +12,7 @@ function TestResult = test_004_fm_solidus()
   % ------
   % TestResult   True if passed, False otherwise.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  disp('    **** Running test_fm_plates_004_solidus ****')
   TestResult=true;
 
   F = 0.05;

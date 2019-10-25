@@ -1,6 +1,6 @@
-function TestResult = test_000_vbrcore()
+function TestResult = test_vbrcore_001()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TestResult = test_000_vbrcore()
+% TestResult = test_vbrcore_001()
 %
 % test of vbr core functionality. Just tests that all methods run
 %
@@ -14,7 +14,7 @@ function TestResult = test_000_vbrcore()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   TestResult=true;
-  disp('    **** Running test_000_vbrcore ****')
+  disp('    **** Running test_vbrcore_001 ****')
 
   VBR.in.elastic.methods_list={'anharmonic';'poro_Takei';'SLB2005'};
   VBR.in.viscous.methods_list={'HK2003','LH2011'};

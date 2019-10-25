@@ -1,6 +1,6 @@
-function TestResult = test_001_fm_plates()
+function TestResult = test_fm_plates_001()
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% TestResult = test_001_fm_plates()
+% TestResult = test_fm_plates_001()
 %
 % simply check that the forward model (fm) code runs cleanly
 %
@@ -12,7 +12,7 @@ function TestResult = test_001_fm_plates()
 % ------
 % TestResult   True if passed, False otherwise.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  disp('    **** Running test_001_fm_plates ****')
+  disp('    **** Running test_fm_plates_001 ****')
 
   %  Load Default Settings
   [settings]=init_settings;
@@ -20,7 +20,7 @@ function TestResult = test_001_fm_plates()
   % Computational settings
   settings.dz0=3; % grid cell size [km]
   settings.Z_moho_km = 30; % Moho depth [km]
-  settings.Flags.verbosity_level = 0; % quiet! 
+  settings.Flags.verbosity_level = 0; % quiet!
 
   % time
   settings.nt= 10; % max number of time steps

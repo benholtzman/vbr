@@ -17,7 +17,7 @@ function vbr_init(varargin)
 % define available versions, defaults
   ValidOpts=struct();
   ValidOpts.vbr_version={'VBR_v0p95','VBR_stable'};
-  ValidOpts.plates_version={'4pt0_1d_plates','none'};
+  ValidOpts.plates_version={'ThermalEvolution_1d','none'};
   Options=struct('vbr_version',ValidOpts.vbr_version{1},...
                  'plates_version',ValidOpts.plates_version{1});
 
@@ -33,7 +33,6 @@ function vbr_init(varargin)
 
 % collect all the subdirectories under ./vbr/ to add
   subDirs2add={fullfile('4_VBR',Options.vbr_version),...
-               '0_COOKBOOK','1_LabData',...
                fullfile('6_FitVobs','matlab_FittingFunctions'),...
                fullfile('6_FitVobs','pyFits_v0p1')};
   for i_fo = 1:numel(subDirs2add)
@@ -45,7 +44,7 @@ function vbr_init(varargin)
   end
 
   if ~strcmp(Options.plates_version,'none')
-    path2add=fullfile(vbr_dir,'vbr','2_PLATES',Options.plates_version);
+    path2add=fullfile(vbr_dir,'vbr','ForwardModels',Options.plates_version);
     addpath(genpath(path2add));
   end
 

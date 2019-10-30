@@ -33,8 +33,8 @@ function vbr_init(varargin)
 
 % collect all the subdirectories under ./vbr/ to add
   subDirs2add={'vbrCore',...
-               fullfile('6_FitVobs','matlab_FittingFunctions'),...
-               fullfile('6_FitVobs','pyFits_v0p1')};
+               fullfile('fitting','matlab_FittingFunctions'),...
+               fullfile('fitting','pyFits_v0p1')};
   for i_fo = 1:numel(subDirs2add)
      fo=subDirs2add{i_fo};
      path2add=fullfile(vbr_dir,'vbr',fo);
@@ -44,7 +44,7 @@ function vbr_init(varargin)
   end
 
   if ~strcmp(Options.plates_version,'none')
-    path2add=fullfile(vbr_dir,'vbr','ForwardModels',Options.plates_version);
+    path2add=fullfile(vbr_dir,'vbr','forwardModels',Options.plates_version);
     addpath(genpath(path2add));
   end
 

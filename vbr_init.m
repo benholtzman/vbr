@@ -16,10 +16,8 @@ function vbr_init(varargin)
 
 % define available versions, defaults
   ValidOpts=struct();
-  ValidOpts.vbr_version={'VBR_v0p95','VBR_stable'};
   ValidOpts.plates_version={'ThermalEvolution_1d','none'};
-  Options=struct('vbr_version',ValidOpts.vbr_version{1},...
-                 'plates_version',ValidOpts.plates_version{1});
+  Options=struct('plates_version',ValidOpts.plates_version{1});
 
 % get full path to vbr, regardless of where vbr_init is called from
   p=mfilename('fullpath'); % full path of vbr_init without extension
@@ -29,7 +27,6 @@ function vbr_init(varargin)
 % add the vbr/support directory and validate input options
   addpath(genpath(fullfile(vbr_dir,'vbr','support')));
   Options=validateStructOpts('vbr_init',varargin,Options,ValidOpts);
-  disp(['initializing with vbr_version: ',Options.vbr_version])
 
 % collect all the subdirectories under ./vbr/ to add
   subDirs2add={'vbrCore',...

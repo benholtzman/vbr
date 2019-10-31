@@ -67,13 +67,17 @@ If your feature branch needs to use updates from other feature branches that hav
 
 In case you're new to git or developing VBR, here are some helpful tips!
 
+**frequent fetches**: To keep your local version of the repository up to date, get in the habit of frequently running a `git fetch` to update your local repository (start of your coding day, before switching branches, end of the day, etc.). If you then switch branches, you will know if you need to run `git pull` to update that branch.
+
 **commits**: When committing code, please keep the first line as a brief description. When a longer description is useful, add the longer description on the third line (to do this, it's easier to use `git commit` and edit the commit in your text editor rather than a single line commit, `git commit -m "commit message"`).
 
-**stashing**: If you need to swtich branches but aren't ready to commit changes to your code, you can stash your uncommitted changes. `git stash` will store uncommitted changes on current branch, `git stash apply` will restore those uncommited changes on your current branch.
+**stashing**: If you need to switch branches but aren't ready to commit changes to your code, you can stash your uncommitted changes. `git stash` will store uncommitted changes on current branch, `git stash apply` will restore those uncommitted changes on your current branch.
 
 **hot fixes**: for very quick bug fixes (typos, etc.), editing on the master branch is OK. If you're not sure whether you need a new branch, you probably need a new branch.
 
-**conflict resolution**: there are a number of tools to aid in conflict resolution. `git mergetool` will pull up a 3-way diff of your local file, the remote file and the most recent common ancestor base file and most editors will let you step through successive conflicts. If resolving conflicts for which there is a Pull Request, you can use github's online conflict resolution editor. If you use the atom editor with github integration, you can use the built in mergetool.
+**conflict resolution**: there are a number of tools to aid in conflict resolution. `git mergetool` will pull up a 3-way diff of your local file, the remote file and the most recent common ancestor base file and most editors will let you step through successive conflicts and choose which version to use for the conflict. If resolving conflicts for which there is a Pull Request, you can use github's online conflict resolution editor. If you use the atom editor with github integration, you can use the built in mergetool. Whatever tool you use, if you are unsure of how to resolve the conflict, you can check the commit history to find who made the changes causing you trouble and contact them (in general you shouldn't delete others changes without talking to them).
+
+**commit history**: `git log` will print a list of all the commits on your branch, `git log --pretty=format:"%h %s" --graph` will print the commit history in a pretty way. You can then pull up the details of a single commit with `git show commit_id` where `commit_id` is the ID of the commit. If you want less detail, you can also check a single `commit_id` with `git log --name-status --diff-filter="ACDMRT" -1 -U commit_id`.
 
 ## Adding a new VBR core method
 To add a new method to the VBR core:
@@ -98,10 +102,10 @@ The remainder of the function is where you write whatever calculations are appro
 4. To return the results of your function, modify the `VBR.out` structure appropriately, e.g., ```VBR.out.method_type.method_name.result = result;```
 where `method_type` is the same as the parameter file that you modified (`anelastic`,`elastic` or `viscous`) and `method_name` is the name you added to `params.possible_methods`
 
+5. If your new method relies on other methods (e.g., you're putting in a new anelastic method that requires an elastic method to exist), you can add your method to `vbr/vbrCore/functions/checkInput.m` following the other methods already there.
+
 To use your new method, simply add the new method name to the `methods_list`, before you call `VBRspine`, e.g.:
 ```
 VBR.in.method_type.methods_list={'method_name'}
 ```
 where `method_type` is `anelastic`,`elastic` or `viscous` and `method_name` is your new method.
-
-5. If your new method relies on other methods (e.g., you're putting in a new anelastic method that requires an elastic method to exist), you can add your method to `vbr/vbrCore/functions/checkInput.m` following the other methods already there.

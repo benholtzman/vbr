@@ -88,4 +88,4 @@ disp(' ');disp('--------------------------------------------------');disp(' ')
 
 disp('Computations complete, plotting final temperature profile from each run')
 
-fig = plotMultiModels(Box,6,settings,Work);
+plotBoxSummary(Box,settings,Work,'iBoxes',[5]);

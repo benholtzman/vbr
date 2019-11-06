@@ -115,6 +115,17 @@ function  plotBoxSummary(Box,settings,varargin)
     title(['z_{SOL} at ',num2str(Options.gridtime),' Myrs'])
     xlabel([strrep(settings.Box.var1name,'_','\_'),settings.Box.var1units])
     ylabel([strrep(settings.Box.var2name,'_','\_'),settings.Box.var2units])
+
+    % add the grid lines to separate 
+    hold on
+    for ivar1=1:1:settings.Box.nvar1
+      xval=ivar1+0.5;
+      plot([xval,xval],[0,settings.Box.nvar2+0.5],'k','linewidth',1.25)
+    end
+    for ivar2=1:1:settings.Box.nvar2
+      yval=ivar2+0.5;
+      plot([0,settings.Box.nvar1+0.5],[yval,yval],'k','linewidth',1.25)
+    end
   else
     plot(settings.Box.var1range,zSOLgrid,'.k')
     xlabel([strrep(settings.Box.var1name,'_','\_'),settings.Box.var1units])

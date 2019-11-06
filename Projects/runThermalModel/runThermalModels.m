@@ -8,14 +8,13 @@ clear
 % put VBR in the path
 path_to_top_level_vbr='../../';
 addpath(path_to_top_level_vbr)
-addpath('./extraFun')
 vbr_init
 
 % Parameter sweep settings
 %  define parameter sweep here. var1name must match EXACTLY a field in
 %  settings structure. var1 must be defined, var2 lines can be
 %  commented/deleted if desired.
-settings.Box.var1range = [1200,1400];
+settings.Box.var1range = [1200,1300,1400,1500];
 settings.Box.var1name = 'Tpot';
 settings.Box.var1units =' C';
 
@@ -88,4 +87,4 @@ disp(' ');disp('--------------------------------------------------');disp(' ')
 
 disp('Computations complete, plotting final temperature profile from each run')
 
-plotBoxSummary(Box,settings,'iBoxes',[5]);
+plotBoxSummary(Box,settings,'iBoxes',[2]);

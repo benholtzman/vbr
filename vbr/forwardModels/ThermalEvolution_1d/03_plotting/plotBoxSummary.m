@@ -42,14 +42,7 @@ function  plotBoxSummary(Box,settings,varargin)
     iBox=Options.iBoxes(iBox_indx);
     if iBox > 0
       [Vars,Info,settings] = pullFromBox(Box,iBox);
-      if strcmp(Options.savename,'none')
-        sname='none';
-      else
-        b=Options.savename;
-        prfx=b(1:strfind(b,'.')-1);
-        sffx=b(strfind(b,'.'):end);
-        sname=[prfx,'_box_',num2str(iBox),sffx];
-      end
+      sname=strrep(Options.savename,'.',['_box_',num2str(iBox),'.']); % unchanged if no '.'
       plotSummary(Vars,Info,'plot_every_k',Options.plot_every_k,...
         'plot_every_dt',Options.plot_every_dt,'depth_range',Options.depth_range,...
         'savename',sname);
@@ -62,7 +55,7 @@ function  plotBoxSummary(Box,settings,varargin)
   % temperature profiles
   subplot(2,2,1)
   hold on
-  if isfield(settings.Box,'nvar2')
+  if settings.Box.nvar2>1
     for iv2 = 1: settings.Box.nvar2
       cf=(iv2 - 1) / (settings.Box.nvar2 -1);
       plot(Box(1,iv2).Frames(end).Tsol,Box(1,iv2).run_info.Z_km,'color',[0,cf,0],'linestyle','--')
@@ -82,24 +75,34 @@ function  plotBoxSummary(Box,settings,varargin)
   subplot(2,2,2)
   Work.nBox=settings.Box.nvar1 * settings.Box.nvar2;
   hold on
+  timemax=0;
   for iBox=1:Work.nBox
     cf=(iBox - 1) / (Work.nBox  -1);
-    plot(Box(iBox).run_info.tMyrs,Box(iBox).run_info.zSOL/1000,'color',[cf,0,0],'marker','.')
+    zSOL=Box(iBox).run_info.zSOL/1000;
+    zSOL(zSOL==Box(iBox).run_info.Z_km(end))=nan;
+    plot(Box(iBox).run_info.tMyrs,zSOL,'color',[cf,0,0],'marker','.')
+    timemax=max([timemax,(Box(iBox).run_info.tMyrs(end))]);
   end
   box on
-  ylim([0,settings.Zinfo.asthenosphere_max_depth+10])
+  xlim([0,timemax])
   xlabel('model time [Myr]')
+  set(gca,'ydir','reverse')
   ylabel('z_{SOL} [km]')
 
   % zSOL vs sqrt(time)
   subplot(2,2,4)
   hold on
+  timemax=0;
   for iBox=1:Work.nBox
     cf=(iBox - 1) / (Work.nBox  -1);
-    plot(sqrt(Box(iBox).run_info.tMyrs),Box(iBox).run_info.zSOL/1000,'color',[cf,0,0],'marker','.')
+    zSOL=Box(iBox).run_info.zSOL/1000;
+    zSOL(zSOL==Box(iBox).run_info.Z_km(end))=nan;
+    plot(sqrt(Box(iBox).run_info.tMyrs),zSOL,'color',[cf,0,0],'marker','.')
+    timemax=max([timemax,sqrt(Box(iBox).run_info.tMyrs(end))]);
   end
   box on
-  ylim([0,settings.Zinfo.asthenosphere_max_depth+10])
+  xlim([0,timemax])
+  set(gca,'ydir','reverse')
   xlabel('sqrt(model time [Myr])')
   ylabel('z_{SOL} [km]')
 
@@ -116,7 +119,7 @@ function  plotBoxSummary(Box,settings,varargin)
     xlabel([strrep(settings.Box.var1name,'_','\_'),settings.Box.var1units])
     ylabel([strrep(settings.Box.var2name,'_','\_'),settings.Box.var2units])
 
-    % add the grid lines to separate 
+    % add the grid lines to separate
     hold on
     for ivar1=1:1:settings.Box.nvar1
       xval=ivar1+0.5;
@@ -127,17 +130,14 @@ function  plotBoxSummary(Box,settings,varargin)
       plot([0,settings.Box.nvar1+0.5],[yval,yval],'k','linewidth',1.25)
     end
   else
-    plot(settings.Box.var1range,zSOLgrid,'.k')
+    plot(settings.Box.var1range,zSOLgrid,'.k','markersize',12)
     xlabel([strrep(settings.Box.var1name,'_','\_'),settings.Box.var1units])
     ylabel(['z_{SOL} at ',num2str(Options.gridtime),' Myrs'])
   end
 
   % save it
   if ~strcmp(Options.savename,'none')
-    b=Options.savename;
-    prfx=b(1:strfind(b,'.')-1);
-    sffx=b(strfind(b,'.'):end);
-    sname=[prfx,'_summary',sffx];
+    sname=strrep(Options.savename,'.',['_summary','.'])
     saveas(sumFig,sname)
   end
 
@@ -173,10 +173,16 @@ function zSOLgrid = buildGrid(Box,settings,ttarg)
       for ivar2=1:settings.Box.nvar2
         [val,indx]=min(abs(Box(ivar1,ivar2).run_info.tMyrs-ttarg));
         zSOLgrid(ivar2,ivar1)=Box(ivar1,ivar2).run_info.zSOL(indx)/1000;
+        if zSOLgrid(ivar2,ivar1)==Box(ivar1,ivar2).run_info.Z_km(end)
+          zSOLgrid(ivar2,ivar1)=nan;
+        end
       end
     else
       [val,indx]=min(abs(Box(ivar1).run_info.tMyrs-ttarg));
       zSOLgrid(ivar1)=Box(ivar1).run_info.zSOL(indx)/1000;
+      if zSOLgrid(ivar1)==Box(ivar1).run_info.Z_km(end)
+        zSOLgrid(ivar1)=nan;
+      end
     end
   end
 end

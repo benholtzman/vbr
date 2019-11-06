@@ -28,18 +28,21 @@ function plotSummary(Vars,Info,varargin)
   Options=validateStructOpts('plotSummary',varargin,Options,ValidOpts);
 
   % initial plots over whole time range
+  zSOL=Info.zSOL/1000;
+  zSOL(zSOL==Info.z_km(end))=nan;
+
   fig=figure();
   subplot(2,3,[1,4])
   plot(Vars(:,end).Tsol,Info.z_km,'--k','linewidth',1.5)
 
   subplot(2,3,3)
-  plot(Info.tMyrs,Info.zSOL/1000,'k','linewidth',1.5,'displayname','z_{SOL}')
+  plot(Info.tMyrs,zSOL,'k','linewidth',1.5,'displayname','z_{SOL}')
   hold on
   plot(Info.tMyrs,Info.zLAB/1000,'--k','linewidth',1.5,'displayname','z_\eta')
   legend('location','southwest')
 
   subplot(2,3,6)
-  plot(sqrt(Info.tMyrs),(Info.zSOL)/1000,'k','linewidth',1.5)
+  plot(sqrt(Info.tMyrs),zSOL,'k','linewidth',1.5)
   hold on
   plot(sqrt(Info.tMyrs),(Info.zLAB)/1000,'--k','linewidth',1.5)
 
@@ -78,8 +81,8 @@ function plotSummary(Vars,Info,varargin)
 
     subplot(2,3,3)
     hold on
-    plot(Info.tMyrs(it),Info.zSOL(it)/1000,'color',[0,0,cf])
-    plot(Info.tMyrs(it),Info.zLAB(it)/1000,'color',[0,0,cf])
+    plot(Info.tMyrs(it),zSOL(it),'color',[0,0,cf],'markersize',10)
+    plot(Info.tMyrs(it),Info.zLAB(it)/1000,'color',[0,0,cf],'markersize',10)
     set(gca,'ydir','reverse')
     xlabel('model time [Myr]')
     xlim([0,max(Info.tMyrs)])
@@ -87,8 +90,8 @@ function plotSummary(Vars,Info,varargin)
 
     subplot(2,3,6)
     hold on
-    plot(sqrt(Info.tMyrs(it)),(Info.zSOL(it))/1000,'color',[0,0,cf])
-    plot(sqrt(Info.tMyrs(it)),(Info.zLAB(it))/1000,'color',[0,0,cf])
+    plot(sqrt(Info.tMyrs(it)),zSOL(it),'color',[0,0,cf],'markersize',10)
+    plot(sqrt(Info.tMyrs(it)),(Info.zLAB(it))/1000,'color',[0,0,cf],'markersize',10)
     set(gca,'ydir','reverse')
     xlabel('sqrt(model time) [Myr]')
     xlim([0,sqrt(max(Info.tMyrs))])

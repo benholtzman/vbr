@@ -133,7 +133,22 @@ function  plotBoxSummary(Box,settings,varargin)
 end
 
 function zSOLgrid = buildGrid(Box,settings,ttarg)
-
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % zSOLgrid = buildGrid(Box,settings,ttarg)
+  %
+  % builds the zSOL grid for a given time
+  %
+  % Parameters
+  % ----------
+  %   Box       the box structure array
+  %   settings  the box settings for the sweep
+  %   ttarg     the target time in Myrs to build the grid for
+  %
+  % Output
+  % ------
+  %   zSOLgrid  the matrix of zSOL at ttarg. If nvar2 == 1, will be 1d.
+  %             otherwise, size(zSOLgrid)=(nvar2,nvar1)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % initialize the grid
   if settings.Box.nvar2>1
     zSOLgrid=zeros(settings.Box.nvar2,settings.Box.nvar1);

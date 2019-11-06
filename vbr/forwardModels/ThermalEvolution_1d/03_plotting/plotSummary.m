@@ -16,7 +16,7 @@ function plotSummary(Vars,Info,varargin)
   %
   % Output
   % ------
-  %   fig     the figure handle
+  %   none     the figure handle
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % default options
@@ -96,8 +96,8 @@ function plotSummary(Vars,Info,varargin)
 
   end
 
-  % if ~strcmp(Options.savename,'none')
-  %   disp(['saving fig to ',Options.savename])
-  % end
+  if ~strcmp(Options.savename,'none')
+    saveas(fig,Options.savename)
+  end
 
 end

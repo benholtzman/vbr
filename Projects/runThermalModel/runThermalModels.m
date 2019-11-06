@@ -88,4 +88,4 @@ disp(' ');disp('--------------------------------------------------');disp(' ')
 
 disp('Computations complete, plotting final temperature profile from each run')
 
-plotBoxSummary(Box,settings,Work,'iBoxes',[5]);
+plotBoxSummary(Box,settings,'iBoxes',[5]);

@@ -65,10 +65,14 @@ for iBox = 1:Work.nBox
     VBR.in.SV.Ch2o = Box(iBox).Frames(end).Cs_H2O;
     
     % Set best fitting phi and g_um based on the previous Bayesian fit
-    T = Box(iBox).info.var1val;
-    VBR.in.SV.phi =  interp1(best_T_phi_g(:, 1), best_T_phi_g(:, 2), T);
+    Tp = Box(iBox).info.var1val;
     VBR.in.SV.dg_um = ...
-        interp1(best_T_phi_g(:, 1), best_T_phi_g(:, 3), T) .* ones(sz_SV);
+        interp1(best_T_phi_g(:, 1), best_T_phi_g(:, 3), Tp) .* ones(sz_SV);
+    % Add melt beneath the zPlate only
+    phi_asthenosphere = interp1(best_T_phi_g(:, 1), best_T_phi_g(:, 2), Tp);
+    VBR.in.SV.phi = zeros(sz_SV);
+    VBR.in.SV.phi(Box(iBox).run_info.Z_km > Box(iBox).info.var2val) = ...
+        phi_asthenosphere;
     % previous version (with g_um as input to the function)
 %     VBR.in.SV.phi =  Box(iBox).Frames(end).phi ;
 %     VBR.in.SV.dg_um = g_um * ones(sz_SV) ;

@@ -159,6 +159,7 @@ sc_posterior_S_given_Qinv = posterior_S_given_Qinv ...
 
 plot_Bayes(sc_posterior_S_given_Vs, sweep, 'Vs')
 plot_Bayes(sc_posterior_S_given_Qinv, sweep, 'Qinv')
+plot_tradeoffs_posterior(posterior_S_given_Vs, sweep, 'Vs')
 
 
 %% %%%%%%% Get posterior for State Variables given both Vs and Q %%%%%%% %%
@@ -210,7 +211,7 @@ labfile = './data/LAB_models/HopperFischer2018.mat';
 
 %%%%%%%% Generate geotherms and VBR boxes  %%%%%%%%            
 Files.SV_Box='./data/plate_VBR/BigBox.mat';
-Files.VBR_Box='./data/plate_VBR/thermalEvolution_VBR.mat';
+Files.VBR_Box='./data/plate_VBR/thermalEvolution_1.mat';
 defaults = init_settings;
 
 recalc_SV = 0;
@@ -232,11 +233,11 @@ end
 
 % Calculating VBR on BigBox takes < 1 minute
 VBRSettings.freq = logspace(-2.8,-1,4);
-VBRSettings.recalc_VBR=0;
+VBRSettings.recalc_VBR=1;
 sweep.TpC = sweep.T ...
     - defaults.dTdz_ad * mean([location.z_min, location.z_max]) * 1e3;
 best_Tp_phi_g = best_T_phi_g;
-best_Tp_phi_g(:, 1) = sweepTpC; % Replace T with Tp
+best_Tp_phi_g(:, 1) = sweep.TpC; % Replace T with Tp
 
 if ~exist(Files.VBR_Box,'file') || VBRSettings.recalc_VBR==1
     process_ThermalEvolution_vbr(Files,VBRSettings.freq, best_Tp_phi_g);
@@ -258,7 +259,7 @@ predicted_vals = calc_LAB_Vs(Files.VBR_Box, LAB_settings);
 params = make_param_grid(LABsweep.state_names, LABsweep);
 % Replace default PDF for TpC with the posterior calculated from Vs and Q
 params.TpC_pdf = repmat(...
-    interp1(sweepTpC, posterior_T, LABsweep.TpC)', ...
+    interp1(sweep.TpC, posterior_T, LABsweep.TpC)', ...
     1, length(LABsweep.zPlatekm));
 
 pdf_types = {'input', 'uniform'};

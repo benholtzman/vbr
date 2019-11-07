@@ -1,5 +1,5 @@
-function mean_val = extract_calculated_values_in_depth_range(sweep, ...
-    obs_name, q_method, depth_range)
+function [mean_val, z_inds] = extract_calculated_values_in_depth_range(...
+    sweep, obs_name, q_method, depth_range)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % sweep = extract_calculated_values_in_depth_range(sweep, depth_range)
@@ -48,12 +48,11 @@ function mean_val = extract_calculated_values_in_depth_range(sweep, ...
 
 mean_val = zeros(size(sweep.Box));
 depth_range = depth_range .* 1e3;
+z_inds = find(depth_range(1) <= sweep.z & sweep.z <= depth_range(2));
 
 for k = 1:numel(sweep.Box)
     mean_val(k) = mean( ...
-        sweep.Box(k).(q_method).(['mean', obs_name])( ...
-            depth_range(1) <= sweep.z & sweep.z <= depth_range(2) ...
-         ));
+        sweep.Box(k).(q_method).(['mean', obs_name])(z_inds));
     
 end
 

@@ -52,4 +52,4 @@ settings.Zinfo = init_mesh(settings.Zinfo); % build the mesh!
 disp(' ');disp('--------------------------------------------------');disp(' ')
 
 
-fig=plotSingleModel(Vars,Info);
+plotSummary(Vars,Info,'plot_every_dt',5);

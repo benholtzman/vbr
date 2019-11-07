@@ -23,7 +23,7 @@ settings.Zinfo.asthenosphere_max_depth = 350; % adiabatic T from zmax to here [k
 settings.Z_moho_km = 30; % Moho depth [km]
 
 % Computational settings
-settings.nt= 2;%5000; % max number of time steps
+settings.nt= 5000; % max number of time steps
 settings.outk = settings.nt ; % frequency of output (output every outk steps)
 % number of timesteps to save = outn = nt/outk
 settings.t_max_Myrs=500; % max time to calculate [Myr]

@@ -56,8 +56,11 @@ VBR.in.SV.Ch2o = zeros(size(z)); % in PPM!
 VBR.in.SV.rho = 3300 * ones(size(z)); % [Pa]
 VBR.in.SV.chi = ones(size(z));
 VBR.in.SV.f = logspace(-2.2,-1.3,10);
-% Note, need to define VBR.in.SV.T_K, .phi, and .dg_um.
-% This will be done in calculate_sweep()
+VBR.in.SV.T_K = 1350 + 273;
+VBR.in.SV.phi = 0;
+VBR.in.SV.dg_um = 1000;
+% Note, the parameters that we are sweeping through will be 
+% overwritten in calculate_sweep()!
 
 % write method list (these are the things to calculate)
 VBR.in.elastic.methods_list={'anharmonic'; 'poro_Takei'; 'SLB2005'};
@@ -80,6 +83,8 @@ sweep = sweep_params;
 sweep.z = VBR.in.z;
 sweep.Box = sweepBox;
 sweep.VBR = VBR;
+sweep.P_GPa = VBR.in.SV.P_GPa;
+sweep.cH2O = VBR.in.SV.Ch2o;
 sweep.state_names = {'T', 'phi', 'gs'};
 
 

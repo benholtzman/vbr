@@ -58,8 +58,8 @@ function Box = runSweep(ThermalSettings)
   settings.Z_moho_km = 10; % Moho depth [km]
 
   % Computational settings
-  settings.nt= 10;%500; % max number of time steps
-  settings.outk = 2;%10 ; % frequency of output (output every outk steps)
+  settings.nt= 500; % max number of time steps
+  settings.outk = 10 ; % frequency of output (output every outk steps)
   settings.t_max_Myrs=50; % max time to calculate [Myr]
   settings.sstol = 1e-5; % steady state target residual
   settings.Flags.verbosity_level = 0; % shhhhh!

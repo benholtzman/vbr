@@ -65,9 +65,10 @@ for iBox = 1:Work.nBox
     VBR.in.SV.Ch2o = Box(iBox).Frames(end).Cs_H2O;
     
     % Set best fitting phi and g_um based on the previous Bayesian fit
-    i_t = find(Box(iBox).info.var1range == Box(iBox).info.var1val);
-    VBR.in.SV.phi =  best_T_phi_g(i_t, 2);
-    VBR.in.SV.dg_um = best_T_phi_g(i_t, 3) .* ones(sz_SV) ;
+    T = Box(iBox).info.var1val;
+    VBR.in.SV.phi =  interp1(best_T_phi_g(:, 1), best_T_phi_g(:, 2), T);
+    VBR.in.SV.dg_um = ...
+        interp1(best_T_phi_g(:, 1), best_T_phi_g(:, 3), T) .* ones(sz_SV);
     % previous version (with g_um as input to the function)
 %     VBR.in.SV.phi =  Box(iBox).Frames(end).phi ;
 %     VBR.in.SV.dg_um = g_um * ones(sz_SV) ;

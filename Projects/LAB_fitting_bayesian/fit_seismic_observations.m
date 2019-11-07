@@ -97,8 +97,8 @@ load(fname, 'sweep');
 % Need to choose the attenuation method used for anelastic calculations
 %       possible values are {'AndradePsP', 'MTH2011', 'eBurgers'}
 q_method = 'AndradePsP';
-sweep.meanVs = extract_calculated_values_in_depth_range(sweep, ...
-    'Vs', q_method, [location.z_min, location.z_max]);
+[sweep.meanVs, sweep.z_inds] = extract_calculated_values_in_depth_range(...
+    sweep, 'Vs', q_method, [location.z_min, location.z_max]);
 sweep.meanQinv = extract_calculated_values_in_depth_range(sweep, ...
     'Qinv', q_method, [location.z_min, location.z_max]);
 
@@ -208,37 +208,41 @@ labfile = './data/LAB_models/HopperFischer2018.mat';
 % The probability that the given variable is actually correct.            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%% Generate geotherms and VBR boxes  %%%%%%%%
-% Ok, this is where we should actually load in the previously calculated  
-% box and then just update the phi, gs parameters - as the slow thing to  
-% calculate is the geotherm, and that won't change!  However, I forgot    
-% that was what was up and didn't leave enough time to write that little  
-% bit of code to reprocess.  So... for now, we recalculate...!            
-Files.SV_Box='./data/plate_VBR/thermalEvolution.mat';
+%%%%%%%% Generate geotherms and VBR boxes  %%%%%%%%            
+Files.SV_Box='./data/plate_VBR/BigBox.mat';
 Files.VBR_Box='./data/plate_VBR/thermalEvolution_VBR.mat';
 defaults = init_settings;
-LABsweep.recalc_SV = 0;
-LABsweep.TpC = sweep.T ...
-    - defaults.dTdz_ad * mean([location.z_min, location.z_max]) * 1e3;
-LABsweep.zPlatekm=80:10:150;
-LABsweep.state_names = {'TpC', 'zPlatekm'};
+
+recalc_SV = 0;
 
 % Thermal model sweep for thermodynamic state variables
-if ~exist(Files.SV_Box,'file') || LABsweep.recalc_SV==1
+if ~exist(Files.SV_Box,'file') || recalc_SV==1
+    LABsweep.TpC = 1350:25:1500;
+    LABsweep.zPlatekm = 60:20:160;
     generate_boxes_ThermalEvolution(Files.SV_Box, LABsweep.TpC,...
         LABsweep.zPlatekm); % builds T(z,t)
 else
+    Box = load(Files.SV_Box, 'Box');
+    LABsweep.TpC = Box.Box(1, 1).info.var1range;
+    LABsweep.zPlatekm = Box.Box(1, 1).info.var2range;
+    LABsweep.state_names = {'TpC', 'zPlatekm'};
     fprintf(['\nSV Box already exists, delete following file to ' ...
-        'recalculate\n    %s\n', Files.SV_Box])
+        'recalculate\n    %s\n'], Files.SV_Box)
 end
 
+% Calculating VBR on BigBox takes < 1 minute
 VBRSettings.freq = logspace(-2.8,-1,4);
 VBRSettings.recalc_VBR=0;
+sweep.TpC = sweep.T ...
+    - defaults.dTdz_ad * mean([location.z_min, location.z_max]) * 1e3;
+best_Tp_phi_g = best_T_phi_g;
+best_Tp_phi_g(:, 1) = sweepTpC; % Replace T with Tp
+
 if ~exist(Files.VBR_Box,'file') || VBRSettings.recalc_VBR==1
-    process_ThermalEvolution_vbr(Files,VBRSettings.freq, best_T_phi_g);
+    process_ThermalEvolution_vbr(Files,VBRSettings.freq, best_Tp_phi_g);
 else
     fprintf(['\nVBR Box already exists, delete following file to ' ...
-        'recalculate\n    %s\n', Files.VBR_Box])
+        'recalculate\n    %s\n'], Files.VBR_Box)
 end
 %%%%%%%%%%%%%%%%%% end VBR box calculations   %%%%%%%%%%%%%%%%%%
 
@@ -253,7 +257,9 @@ predicted_vals = calc_LAB_Vs(Files.VBR_Box, LAB_settings);
 % Default is to calculate these based on the ranges set in sweep_params
 params = make_param_grid(LABsweep.state_names, LABsweep);
 % Replace default PDF for TpC with the posterior calculated from Vs and Q
-params.TpC_pdf = repmat(posterior_T', 1, length(LABsweep.zPlatekm));
+params.TpC_pdf = repmat(...
+    interp1(sweepTpC, posterior_T, LABsweep.TpC)', ...
+    1, length(LABsweep.zPlatekm));
 
 pdf_types = {'input', 'uniform'};
 [prior_vars, sigma_vars] = priorModelProbs( ...
@@ -287,3 +293,10 @@ likelihood_LAB = probability_distributions('likelihood from residuals', ...
 posterior_vars_given_LAB = probability_distributions('A|B', ...
     likelihood_LAB, prior_vars, prior_LAB);
 plot_Bayes(posterior_vars_given_LAB, LABsweep, 'Vs, Qinv, LAB')
+
+
+%% PLOTTING NOTES
+% plot 2D trade-off curves for Vs, Qinv given 2 of the parameters, 
+% then plot the marginal probability of the third param
+% Pressure: box car over chosen depth range
+% put a line for water in as standard

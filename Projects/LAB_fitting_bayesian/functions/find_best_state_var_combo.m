@@ -40,7 +40,7 @@ var2 = sweep.state_names{2};
 var3 = sweep.state_names{3};
 
 best_vars = zeros(length(sweep.(var1)), 3);
-[var2_grid, var3_grid] = meshgrid(sweep.(var2), sweep.(var3));
+[var3_grid, var2_grid] = meshgrid(sweep.(var3), sweep.(var2));
 posterior_var1 = zeros(size(sweep.(var1)));
 
 

@@ -37,7 +37,7 @@ function predicted_vals = calc_LAB_Vs(VbrBoxFile, settings)
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-  fprintf("\n\n\nFitting LAB and asthenosphere velocity")
+  fprintf("\n\n\nFitting LAB and asthenosphere velocity\n")
   load(VbrBoxFile); % loads VBR structure
   settings=checkFittingSettings(settings,VBR); % process input args
 

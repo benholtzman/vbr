@@ -7,7 +7,7 @@
 %
 %  sets elastic parameters to match their results
 %% ===================================================================== %%
-   clear
+   clear; close all
 
 %% ====================================================
 %% Load and set VBR parameters ========================
@@ -63,10 +63,9 @@
    [VBR] = VBR_spine(VBR) ;
 
 %% ====================================================
-%% Display some things ================================
+%% frequency dependence ===============================
 %% ====================================================
 
-close all;
 figure;
 subplot(1,3,1)
 semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.M(1,:,:)/1e9));

@@ -51,7 +51,9 @@ function vbrBox = runVBR(Box,VBRsettings)
   VBR.in.anelastic.methods_list=VBRsettings.ane_meths;
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
   VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa]
-
+  VBR.in.anelastic.YT2016_solidus.useYT2016visc=1;
+  
+% params.alpha
   % Initialize box
   vbrBox(numel(Box))=struct();
 
@@ -59,7 +61,7 @@ function vbrBox = runVBR(Box,VBRsettings)
   for iBox = 1:numel(Box)
     vbrBox(iBox).info=Box(iBox).info;
     vbrBox(iBox).run_info=Box(iBox).run_info;
-    disp(['Running VBR calculator on run ',num2str(iBox),' of ',numel(Box)])
+    disp(['Running VBR calculator on run ',num2str(iBox),' of ',num2str(numel(Box))])
     VBR.in.SV=buildSVs(Box,iBox,VBRsettings.phi0,VBRsettings.freqs);
     [VBR] = VBR_spine(VBR) ;
     vbrBox(iBox).VBR=VBR;

@@ -44,7 +44,7 @@ function params = Params_Viscous(method)
     params.gamma=5;
 
     % method to use for dry (melt-free) diff. creep viscosity
-    params.eta_dry_method='LH2011';
+    params.eta_dry_method='YT2016_solidus';
 
     % flow law constants for their viscosity relationship.
     % Only used if eta_dry_method='YT2016_solidus'

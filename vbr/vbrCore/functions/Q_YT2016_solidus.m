@@ -30,7 +30,7 @@ function [VBR] = Q_YT2016_solidus(VBR)
     params=VBR.in.anelastic.YT2016_solidus;
 
     % maxwell time
-    tau_m=MaxwellTimes(VBR,Gu_in);
+    [tau_m,VBR]=MaxwellTimes(VBR,Gu_in);
 
     % calculate the Tn-dependent coefficients, A_p and sig_p
     [A_p,sig_p]=calcApSigp(Tn,phi,params);
@@ -116,23 +116,17 @@ function [A_p,sig_p] = calcApSigp(Tn,phi,params);
   sig_p(Tn >= sig_p_Tn_pts(2))=params.sig_p_fac_3;
 end
 
-function tau_m = MaxwellTimes(VBR,Gu_in)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % tau_m = MaxwellTimes(VBR,Gu_in)
+function [tau_m,VBR] = MaxwellTimes(VBR,Gu_in)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % [tau_m,VBR] = MaxwellTimes(VBR,Gu_in)
   % calculate the maxwell time for all state variables
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  [visc_exists,missing]=checkStructForField(VBR,{'in','viscous','methods_list'},0);
-  if VBR.in.anelastic.YT2016_solidus.useYT2016visc || visc_exists==0
-    % use YT2016's exact relationship
-    VBR = visc_calc_YT2016_solidus(VBR);
-    eta_diff = VBR.out.viscous.YT2016_solidus.diff.eta;
-  else
-    % use diffusion viscosity from VBR to get maxwell time
-    visc_method=VBR.in.viscous.methods_list{1};
-    eta_diff = VBR.out.viscous.(visc_method).diff.eta ; % viscosity for maxwell relaxation time
-    % melt enhancement correction ?
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  tree={'out';'viscous';'YT2016_solidus';'diff';'eta'};
+  [field_exists,missing] = checkStructForField(VBR,tree,0);
+  if field_exists == 0
+    [VBR] = loadThenCallMethod(VBR,'viscous','YT2016_solidus');
   end
+  eta_diff = VBR.out.viscous.YT2016_solidus.diff.eta;
   tau_m=eta_diff./Gu_in;
 
 end

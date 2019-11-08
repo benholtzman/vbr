@@ -25,7 +25,7 @@ function params = Params_Anelastic(method)
                       'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
     % fit paramter values from Table 2 of JF10 all melt-free samples
     params.method='PointWise'; % 'FastBurger' uses look-up table for integration, only works for high temp background
-                               % 'PointWise' integrates every frequency and state variable condition 
+                               % 'PointWise' integrates every frequency and state variable condition
     params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
     params.R = 8.314 ; % gas constant
     params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak'
@@ -137,8 +137,7 @@ function params = Params_Anelastic(method)
     % YT2016_solidus parameters
     params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     params.func_name='Q_YT2016_solidus'; % the name of the matlab function
-    params.useYT2016visc=0; % 1 to use exact viscosity relationship from YT2016
-
+    
     params.alpha_B=0.38;
     params.A_B=0.664;
     params.tau_pp=6*1e-5;

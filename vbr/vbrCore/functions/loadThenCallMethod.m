@@ -16,6 +16,14 @@ function [VBR] = loadThenCallMethod(VBR,property,meth)
   %  VBR: modified VBR structure
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   param_func = fetchParamFunction(property);
+
+  % make sure this property exists
+  tree={'in';property};
+  [field_exists,missing] = checkStructForField(VBR,tree,0);
+  if field_exists==0
+    VBR.in.(property)=struct();
+  end
+
   VBR.in.(property).(meth)=loadTheParams(VBR,property,param_func,meth);
   [VBR] = feval(VBR.in.(property).(meth).func_name,VBR);
 

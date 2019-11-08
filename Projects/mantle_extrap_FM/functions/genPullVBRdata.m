@@ -51,8 +51,7 @@ function vbrBox = runVBR(Box,VBRsettings)
   VBR.in.anelastic.methods_list=VBRsettings.ane_meths;
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
   VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa]
-  VBR.in.anelastic.YT2016_solidus.useYT2016visc=1;
-  
+
 % params.alpha
   % Initialize box
   vbrBox(numel(Box))=struct();

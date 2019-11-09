@@ -68,6 +68,8 @@ function params = Params_Anelastic(method)
     params.bg_peak.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
     params.bg_peak.Tau_HR = 1e7 ; % Relaxation time higher limit reference
     params.bg_peak.Tau_MR = 10^7.48 ; % Reference Maxwell relaxation time
+
+    params=load_extra_JF10params(params);
   end
 
   if strcmp(method,'AndradePsP')
@@ -137,7 +139,7 @@ function params = Params_Anelastic(method)
     % YT2016_solidus parameters
     params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     params.func_name='Q_YT2016_solidus'; % the name of the matlab function
-    
+
     params.alpha_B=0.38;
     params.A_B=0.664;
     params.tau_pp=6*1e-5;
@@ -160,4 +162,29 @@ function params = Params_Anelastic(method)
   params.melt_alpha = HK2003.diff.alf ; % steady state melt dependence (exp(-alf*phi))
   params.phi_c = HK2003.diff.phi_c ; % critical melt fraction
   params.x_phi_c = HK2003.diff.x_phi_c ; % melt effect factor
+end
+
+
+function params=load_extra_JF10params(params)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %
+  % loads fitting parameters of individual sample 6585 from JF10 table 1
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  params.s6585_bg_only.TR=1173; % ref temp [K]
+  params.s6585_bg_only.PR = 0.2; % ref confining pressure of experiments, GPa
+  params.s6585_bg_only.dR = 3.1; % ref grain size in microns
+  params.s6585_bg_only.G_UR = 62.0 ; % GPa, unrel. G, reference val.
+  params.s6585_bg_only.E = 303000 ; % J/mol
+  params.s6585_bg_only.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
+  params.s6585_bg_only.m_a = 1.19 ; % grain size exponent for tau_i, i in (L,H,P)
+  params.s6585_bg_only.m_v = 3 ; % viscous grain size exponent for maxwell time
+  params.s6585_bg_only.alf = 0.33 ; % is this the same as n in Andrade ?
+  params.s6585_bg_only.DeltaB = 1.4 ;% relaxation strength..
+  params.s6585_bg_only.Tau_LR = 1e-2 ; % Relaxation time lower limit reference
+  params.s6585_bg_only.Tau_HR = 1e6 ; % Relaxation time higher limit reference
+  params.s6585_bg_only.Tau_MR = 10^5.2 ; % Reference Maxwell relaxation time
+  params.s6585_bg_only.DeltaP=0; % no peak, set to 0
+  params.s6585_bg_only.sig=0;% no peak, set to 0
+  params.s6585_bg_only.Tau_PR=0;% no peak, set to 0
 end

@@ -15,8 +15,8 @@ function buildComparisons(VBR,HS,figDir)
   % none         (figures written to file)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % close all
-  % plotProfiles(VBR,HS,figDir); % depth profiles
-  % plotQprofiles(VBR,HS,figDir); % Q depth profiles
+  plotProfiles(VBR,HS,figDir); % depth profiles
+  plotQprofiles(VBR,HS,figDir); % Q depth profiles
   plotPreMelt(VBR,HS,figDir); % premelting analysis
   % plotVsBoxes(VBR,HS,figDir); % Vs depth profiles
   % plotComparisons(VBR,HS,figDir); % comparisons of anelastic methods

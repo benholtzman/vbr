@@ -98,15 +98,10 @@ function [A_p,sig_p] = calcApSigp(Tn,phi,params);
   sig_p_Tn_pts=params.sig_p_Tn_pts;
   Beta=params.Beta; %
   A_p=zeros(size(Tn));
-  A_p(Tn < Ap_Tn_pts(1))=params.Ap_fac_1 ;
-
-  msk=(Tn >= Ap_Tn_pts(1)) & (Tn < Ap_Tn_pts(2));
-  A_p(msk)= (params.Ap_fac_1 +params.Ap_fac_2*(Tn(msk)-Ap_Tn_pts(1)));
-
-  A_p((Tn(msk) >= Ap_Tn_pts(2)) & (Tn(msk) < 1))= params.Ap_fac_3;
-
-  msk=(Tn>=Ap_Tn_pts(3));
-  A_p(msk)= params.Ap_fac_3+Beta*phi(msk);
+  A_p(Tn>=Ap_Tn_pts(3))=params.Ap_fac_3+Beta*phi(Tn>=Ap_Tn_pts(3));
+  A_p(Tn<Ap_Tn_pts(3))=params.Ap_fac_3;
+  A_p(Tn<Ap_Tn_pts(2))=(params.Ap_fac_1 +params.Ap_fac_2*(Tn(Tn<Ap_Tn_pts(2))-Ap_Tn_pts(1)));
+  A_p(Tn < Ap_Tn_pts(1))=params.Ap_fac_1;
 
   sig_p=zeros(size(Tn));
   sig_p(Tn < sig_p_Tn_pts(1))=params.sig_p_fac_1;

@@ -7,12 +7,13 @@ function [SVs,HF] = genThermalModels()
 
   disp('Generating halfspace cooling profiles...')
   HF.Tsurf_C=0; % surface temperature [C]
-  HF.Tasth_C=1450; % asthenosphere temperature [C]
+  HF.Tasth_C=1400; % asthenosphere temperature [C]
   HF.V_cmyr=8; % half spreading rate [cm/yr]
   HF.Kappa=1e-6; % thermal diffusivity [m^2/s]
   HF.rho=3300; % density [kg/m3]
-  HF.t_Myr=linspace(10,20,2); % seaflor age [Myrs]
+  HF.t_Myr=linspace(1,50,50); % seaflor age [Myrs]
   HF.z_km=linspace(0,200,100)'; % depth, opposite vector orientation [km]
+  dTdz_ad=0.3; % C/km
 
 % HF calculations
   HF.s_in_yr=(3600*24*365); % seconds in a year [s]
@@ -24,7 +25,7 @@ function [SVs,HF] = genThermalModels()
   HF.T_C=zeros(numel(HF.z_km),numel(HF.x_km));
   for HFi_t = 1:numel(HF.t_s)
     HF.erf_arg=HF.z_km*1000/(2*sqrt(HF.Kappa*HF.t_s(HFi_t)));
-    HF.T_C(:,HFi_t)=HF.Tsurf_C+HF.dT * erf(HF.erf_arg);
+    HF.T_C(:,HFi_t)=HF.Tsurf_C+HF.dT * erf(HF.erf_arg)+dTdz_ad*HF.z_km;
   end
 
   % state variables
@@ -36,8 +37,8 @@ function [SVs,HF] = genThermalModels()
 
   % set the other state variables as matrices of same size
   sz=size(HF.T_C);
-  SVs.rho = 3300 * ones(sz); % density [kg m^-3]
-  SVs.sig_MPa = 10 * ones(sz); % differential stress [MPa]
+  SVs.rho = HF.rho * ones(sz); % density [kg m^-3]
+  SVs.sig_MPa = 0.1 * ones(sz); % differential stress [MPa]
   SVs.phi = 0.0 * ones(sz); % melt fraction
   SVs.dg_um = 0.01 * 1e6 * ones(sz); % grain size [um]
 

@@ -23,7 +23,7 @@ function VBR = genPullVBRdata(SVs,vbrboxname,VBRsettings)
     end
   else
     VBR = runVBR(SVs,VBRsettings);
-    % save(vbrboxname,'VBR')
+    save(vbrboxname,'VBR')
   end
 
 

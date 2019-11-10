@@ -351,11 +351,9 @@ function plotComparisons(Box,figDir)
     T=mean(B.VBR.in.SV.T_K(z_mask,:)-273,1);
     Tsol=mean(B.VBR.in.SV.Tsolidus_K(z_mask,:)-273,1);
     plot(t,T./Tsol,'k')
-    solparams = Params_Anelastic('YT2016_solidus');
     hold on
-    for iAp=1:numel(solparams.Ap_Tn_pts)
-      plot([t(1),t(end)],[solparams.Ap_Tn_pts(iAp),solparams.Ap_Tn_pts(iAp)],'--k')
-    end
+    plot([min(t),max(t)],[1,1],'--k')
+    plot([min(t),max(t)],[.9,.9],'--k')
 
     % hold on
     % plot(t,Tsol,'r','DisplayName','Tsol')

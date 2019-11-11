@@ -43,10 +43,9 @@ function tau = Q_eBurgers_mxwll(VBR,Gu)
   [visc_exists,missing]=checkStructForField(VBR,{'in','viscous','methods_list'},0);
   if Burger_params.useJF10visc || visc_exists==0
     % use JF10's exact relationship
-    scale=((d_mat./dR).^m_v).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+    scale=((d_mat./dR).^m_v).*exp((E/R).*(1./T_K_mat-1/TR)).*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
     scale=addMeltEffects(phi,scale,VBR.in.GlobalSettings,Burger_params);
     Tau_MR = Burger_params.(bType).Tau_MR ;
-
     tau.maxwell=Tau_MR .* scale ; % steady state viscous maxwell time
   else
     % use diffusion viscosity from VBR to get maxwell time
@@ -56,7 +55,7 @@ function tau = Q_eBurgers_mxwll(VBR,Gu)
   end
 
   % integration limits and peak location
-  LHP=((d_mat./dR).^m_a).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+  LHP=((d_mat./dR).^m_a).*exp((E/R).*(1./T_K_mat-1/TR)).*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
   LHP=addMeltEffects(phi,LHP,VBR.in.GlobalSettings,Burger_params);
   tau.L = Burger_params.(bType).Tau_LR * LHP;
   tau.H = Burger_params.(bType).Tau_HR * LHP;

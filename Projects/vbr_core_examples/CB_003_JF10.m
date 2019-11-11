@@ -1,8 +1,9 @@
 %% ===================================================================== %%
 %%                     CB_003_JF10.m
 %% ===================================================================== %%
-%  Calls VBR after setting the elastic modulus to match the JF10
-%  modulus.
+%  Reproduces figures 1a-1d from JF10: moduli and Qinv vs period for
+%  a single sample, #6585, using coefficients for the single sample fit
+%  in table 1 of JF10.
 %% ===================================================================== %%
    clear
 
@@ -32,6 +33,8 @@
 %  but you can load them here and adjust any one of them (rather than changing those
 %  parameter files).
    VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+   VBR.in.GlobalSettings.melt_enhacement=0;
+   VBR.in.anelastic.eBurgers.eBurgerMethod='s6585_bg_only'; % 'bg_only' or 'bg_peak' or 's6585_bg_only'
 
    % JF10 have Gu_0=62.5 GPa, but that's at 900 Kelvin and 0.2 GPa,
    % so set Gu_0_ol s.t. it ends up at 62.5 at those conditions
@@ -39,8 +42,7 @@
    dGdP=VBR.in.elastic.anharmonic.dG_dP;
    Tref=VBR.in.elastic.anharmonic.T_K_ref;
    Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
-   VBR.in.elastic.anharmonic.Gu_0_ol = 62.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
-
+   VBR.in.elastic.anharmonic.Gu_0_ol = 62 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
 
 %  frequencies to calculate at
    VBR.in.SV.f = 1./logspace(-2,4,100);
@@ -70,9 +72,9 @@
    [VBR] = VBR_spine(VBR) ;
 
    % adjust VBR input and get out eBurgers with background + peak
-   VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-   VBR.in.anelastic.eBurgers.eBurgerMethod='bg_peak';
-   VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP;
+   % VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+   VBR.in.anelastic.eBurgers.eBurgerMethod='s6585_bg_peak';
+   VBR.in.elastic.anharmonic.Gu_0_ol = 62 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP;
    [VBR_with_peak] = VBR_spine(VBR) ;
 
 %% ====================================================

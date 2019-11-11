@@ -49,13 +49,12 @@ function VBR = visc_calc_YT2016_solidus(VBR)
     VBRtemp.in.viscous.methods_list={visc_method}; % only use one method
     VBRtemp.in.SV.phi=0; % need melt-free viscosity
     VBRtemp=spineGeneralized(VBRtemp,'viscous');
-    % disp(fieldnames(VBRtemp.out))
     eta_dry = VBRtemp.out.viscous.(visc_method).diff.eta ;
   end
 
   % calculate full viscosity
   VBR.out.viscous.YT2016_solidus.diff.eta=A_n .* eta_dry;
-  VBR.out.viscous.YT2016_solidus.diff.eta_dry=eta_dry;
+  VBR.out.viscous.YT2016_solidus.diff.eta_meltfree=eta_dry;
 end
 
 function eta = YT2016_dryViscosity(VBR,params)

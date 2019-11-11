@@ -7,7 +7,7 @@
 %
 %  sets elastic parameters to match their results
 %% ===================================================================== %%
-   clear
+   clear; close all
 
 %% ====================================================
 %% Load and set VBR parameters ========================
@@ -21,12 +21,8 @@
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
-   VBR.in.elastic.methods_list={'anharmonic'};
+   VBR.in.elastic.methods_list={'anharmonic','poro_Takei'};
    VBR.in.anelastic.methods_list={'YT2016_solidus'};
-
-   % use the exact viscosity relationship in YT2016 for dry diff. creep visc.:
-   VBR.in.viscous.YT2016_solidus=Params_Viscous('YT2016_solidus');
-   VBR.in.viscous.YT2016_solidus.eta_dry_method='YT2016_solidus';
 
 %  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016
    VBR.in.elastic.anharmonic.Gu_0_ol=72.45; %[GPa]
@@ -67,10 +63,9 @@
    [VBR] = VBR_spine(VBR) ;
 
 %% ====================================================
-%% Display some things ================================
+%% frequency dependence ===============================
 %% ====================================================
 
-close all;
 figure;
 subplot(1,3,1)
 semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.M(1,:,:)/1e9));

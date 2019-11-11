@@ -93,7 +93,8 @@ function [VBR] = Q_eBurgers_f(VBR)
           int_J2 = trapz(Tau_X_vec,((Tau_X_vec.*D_vec)./(1+w^2.*Tau_X_vec.^2)));
           J2(i_glob) = (w*DeltaB*int_J2 + 1/(w*Tau_M));
 
-      elseif HTB_int_meth==1 % iterative quadrature
+      elseif HTB_int_meth==1 % use quadl
+
           Tau_fac = alf.*DeltaB./(Tau_H.^alf - Tau_L.^alf);
 
           FINT1 = @(x) (x.^(alf-1))./(1+(w.*x).^2);
@@ -104,6 +105,17 @@ function [VBR] = Q_eBurgers_f(VBR)
 
           J1(i_glob) = (1 + int1);
           J2(i_glob) = (int2 + 1./(w.*Tau_M));
+        elseif HTB_int_meth==2 % use quadgk
+            Tau_fac = alf.*DeltaB./(Tau_H.^alf - Tau_L.^alf);
+
+            FINT1 = @(x) (x.^(alf-1))./(1+(w.*x).^2);
+            int1 = Tau_fac.*quadgk(FINT1, Tau_L, Tau_H);
+
+            FINT2 = @(x) (x.^alf)./(1+(w.*x).^2);
+            int2 = w.*Tau_fac.*quadgk(FINT2, Tau_L, Tau_H);
+
+            J1(i_glob) = (1 + int1);
+            J2(i_glob) = (int2 + 1./(w.*Tau_M));
       end
 
       % add on peak if it's being used.
@@ -123,12 +135,10 @@ function [VBR] = Q_eBurgers_f(VBR)
       J2(i_glob)=Ju.*J2(i_glob);
 
       % See McCarthy et al, 2011, Appendix B, Eqns B6 !
-      J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;
+      % J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;
+      J2_J1_frac=1;
       Qinv(i_glob) = J2(i_glob)./J1(i_glob).*(J2_J1_frac.^-1);
       Q(i_glob) = 1./Qinv(i_glob);
-
-      %Q(i_glob) = J1(i_glob)./J2(i_glob) ;
-      %Qinv(i_glob) = 1./Q(i_glob) ; % J2 / J1
 
       M(i_glob) = (J1(i_glob).^2 + J2(i_glob).^2).^(-0.5) ;
       V(i_glob) = sqrt(M(i_glob)./rho) ;

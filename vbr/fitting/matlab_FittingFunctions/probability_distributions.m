@@ -140,7 +140,7 @@ function normal_pdf = normal_probability(x, mu, sigma)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
-normal_pdf = (2 * pi * sigma .^ 2)^-2 ...
+normal_pdf = (2 * pi * sigma .^ 2)^-0.5 ...
              * exp(-(x - mu) .^ 2 ./ (2 * sigma .^ 2));
 
 end

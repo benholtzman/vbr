@@ -20,7 +20,7 @@ addpath('./functions')
 [SVs,HS] = genThermalModels();
 
 % run Box through VBR calculator (or load if it exists)
-VBRsettings.ane_meths={'AndradePsP';'MTH2011';'eBurgers';'YT2016_solidus'};
+VBRsettings.ane_meths={'andrade_psp';'xfit_mxw';'eburgers_psp';'xfit_premelt'};
 VBRsettings.freqs=[0.01, 0.1];
 VBRsettings.phi0=0.01; % phi when T > Tsol
 VBR = genPullVBRdata(SVs,fullfile(pwd,'data/VBR_Box.mat'),VBRsettings);

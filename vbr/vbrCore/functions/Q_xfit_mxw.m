@@ -1,6 +1,6 @@
-function [VBR]=Q_MTH2011(VBR)
+function [VBR]=Q_xfit_mxw(VBR)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % [VBR]=Q_MTH2011(VBR)
+  % [VBR]=Q_xfit_mxw(VBR)
   %
   % master curve maxwell scaling
   %
@@ -73,7 +73,7 @@ function [VBR]=Q_MTH2011(VBR)
 
       tau_norm_f = max_tau_norm;
       tau_norm_vec_local = linspace(0,tau_norm_f,100) ;
-      X_tau = X_func(tau_norm_vec_local,VBR.in.anelastic.MTH2011) ;
+      X_tau = X_func(tau_norm_vec_local,VBR.in.anelastic.xfit_mxw) ;
 
       %FINT1 = trapz(X_tau) ;  %@(taup) (X_tau, taup
       %int1 = Tau_fac.*quad(FINT1, 0, tau_norm_i);
@@ -96,18 +96,19 @@ function [VBR]=Q_MTH2011(VBR)
   end % end the loop(s) over spatial dimension(s)
 
   %% WRITE VBR
-  VBR.out.anelastic.MTH2011.J1 = J1;
-  VBR.out.anelastic.MTH2011.J2 = J2;
-  VBR.out.anelastic.MTH2011.Q = Q;
-  VBR.out.anelastic.MTH2011.Qinv = Qinv;
-  VBR.out.anelastic.MTH2011.M=M;
-  VBR.out.anelastic.MTH2011.V=V;
-  VBR.out.anelastic.MTH2011.f_norm=f_norm_glob;
-  VBR.out.anelastic.MTH2011.tau_norm=tau_norm_glob;
-  VBR.out.anelastic.MTH2011.tau_M = tau.maxwell;
+  onm='xfit_mxw';
+  VBR.out.anelastic.(onm).J1 = J1;
+  VBR.out.anelastic.(onm).J2 = J2;
+  VBR.out.anelastic.(onm).Q = Q;
+  VBR.out.anelastic.(onm).Qinv = Qinv;
+  VBR.out.anelastic.(onm).M=M;
+  VBR.out.anelastic.(onm).V=V;
+  VBR.out.anelastic.(onm).f_norm=f_norm_glob;
+  VBR.out.anelastic.(onm).tau_norm=tau_norm_glob;
+  VBR.out.anelastic.(onm).tau_M = tau.maxwell;
 
   % calculate mean velocity along frequency dimension
-  VBR.out.anelastic.MTH2011.Vave = Q_aveVoverf(V,VBR.in.SV.f);
+  VBR.out.anelastic.(onm).Vave = Q_aveVoverf(V,VBR.in.SV.f);
 
 end
 

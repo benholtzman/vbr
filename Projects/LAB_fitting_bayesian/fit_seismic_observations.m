@@ -26,18 +26,18 @@
 %
 % Output:
 % -------
-%      sc_posterior_S_given_Vs 
+%      sc_posterior_S_given_Vs
 %               matrix of posterior probabilities for all combinations of
 %               sweep_params given the constraints from Vs observations
 %
-%      sc_posterior_S_given_Qinv 
+%      sc_posterior_S_given_Qinv
 %               matrix of posterior probabilities for all combinations of
 %               sweep_params given the constraints from Qinv observations
 %
-%      posterior_S_given_Vs_and_Qinv 
+%      posterior_S_given_Vs_and_Qinv
 %               matrix of posterior probabilities for all combinations of
 %               sweep_params given the constraints from both Vs and Qinv
-%               
+%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 %% Setup path structure
@@ -86,7 +86,7 @@ if ~exist(fname, 'file')
     % velocities go into the returned average Vs for those conditions
     sweep_params.per_bw_max = 30; % max period of range of mask (s)
     sweep_params.per_bw_min = 10; % min period of range of mask (s)
-    
+
     sweep = generate_parameter_sweep(sweep_params);
     clear sweep_params
     save data/plate_VBR/sweep.mat sweep
@@ -96,7 +96,7 @@ load(fname, 'sweep');
 % Extract the relevant values for the input depth range.
 % Need to choose the attenuation method used for anelastic calculations
 %       possible values are {'AndradePsP', 'MTH2011', 'eBurgers'}
-q_method = 'AndradePsP';
+q_method = 'andrade_psp';
 [sweep.meanVs, sweep.z_inds] = extract_calculated_values_in_depth_range(...
     sweep, 'Vs', q_method, [location.z_min, location.z_max]);
 sweep.meanQinv = extract_calculated_values_in_depth_range(sweep, ...
@@ -105,7 +105,7 @@ sweep.meanQinv = extract_calculated_values_in_depth_range(sweep, ...
 % For each of the variables in sweep, set the mean and std
 % Default is to calculate these based on the ranges set in sweep_params
 params = make_param_grid(sweep.state_names, sweep);
-% Note - can manually set the expected value and standard deviation for 
+% Note - can manually set the expected value and standard deviation for
 % each of your variables, e.g. params.T_mean = 1500; params.gs_std = 300;
 
 % Calculate the prior for either a normal or uniform distribution
@@ -174,9 +174,9 @@ plot_tradeoffs_posterior(posterior_S_given_Vs, sweep, 'Vs')
 % from both Vs and Q.                                                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% p(Vs, Qinv) is unknown, but will be the same for a given location 
+% p(Vs, Qinv) is unknown, but will be the same for a given location
 %   i.e. given combination of Vs and Qinv
-% Therefore pass 1 as last argument to probability_distributions() as a 
+% Therefore pass 1 as last argument to probability_distributions() as a
 % placeholder for this unknown p(Vs, Qinv).  Output is proportional to the
 % true probability.
 
@@ -209,7 +209,7 @@ labfile = './data/LAB_models/HopperFischer2018.mat';
 % The probability that the given variable is actually correct.            %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%% Generate geotherms and VBR boxes  %%%%%%%%            
+%%%%%%%% Generate geotherms and VBR boxes  %%%%%%%%
 Files.SV_Box='./data/plate_VBR/BigBox.mat';
 Files.VBR_Box='./data/plate_VBR/thermalEvolution_1.mat';
 defaults = init_settings;
@@ -297,7 +297,7 @@ plot_Bayes(posterior_vars_given_LAB, LABsweep, 'Vs, Qinv, LAB')
 
 
 %% PLOTTING NOTES
-% plot 2D trade-off curves for Vs, Qinv given 2 of the parameters, 
+% plot 2D trade-off curves for Vs, Qinv given 2 of the parameters,
 % then plot the marginal probability of the third param
 % Pressure: box car over chosen depth range
 % put a line for water in as standard

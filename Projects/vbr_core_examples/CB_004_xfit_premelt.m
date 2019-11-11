@@ -1,7 +1,7 @@
 %% ===================================================================== %%
-%%                     CB_004_YT2016_solidus.m
+%%                     CB_004_xfit_premelt.m
 %% ===================================================================== %%
-%  Calls VBR using YT2016_solidus method from:
+%  Calls VBR using xfit_premelt method from:
 %  Hatsuki Yamauchi and Yasuko Takei, JGR 2016, "Polycrystal anelasticity at
 %  near-solidus temperatures,"
 %
@@ -22,7 +22,7 @@
 %  all methods will end up as output like:
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
    VBR.in.elastic.methods_list={'anharmonic','poro_Takei'};
-   VBR.in.anelastic.methods_list={'YT2016_solidus'};
+   VBR.in.anelastic.methods_list={'xfit_premelt'};
 
 %  load anharmonic parameters, adjust Gu_0_ol and derivatives to match YT2016
    VBR.in.elastic.anharmonic.Gu_0_ol=72.45; %[GPa]
@@ -68,15 +68,15 @@
 
 figure;
 subplot(1,3,1)
-semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.M(1,:,:)/1e9));
+semilogx(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.xfit_premelt.M(1,:,:)/1e9));
 ylabel('M [GPa]'); xlabel('period [s]')
 ylim([0,80])
 
 subplot(1,3,2)
-loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.YT2016_solidus.Qinv(1,:,:)));
+loglog(1./VBR.in.SV.f,squeeze(VBR.out.anelastic.xfit_premelt.Qinv(1,:,:)));
 ylabel('Q^-1'); xlabel('period [s]')
 ylim([1e-3,.1])
 
 subplot(1,3,3)
-semilogx(1./VBR.in.SV.f,1e-3*squeeze(VBR.out.anelastic.YT2016_solidus.V(1,:,:)));
+semilogx(1./VBR.in.SV.f,1e-3*squeeze(VBR.out.anelastic.xfit_premelt.V(1,:,:)));
 ylabel('V_s [km/s]'); xlabel('period [s]')

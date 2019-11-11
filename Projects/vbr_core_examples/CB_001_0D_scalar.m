@@ -19,7 +19,7 @@
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
    VBR.in.elastic.methods_list={'anharmonic';'poro_Takei';'SLB2005'};
    VBR.in.viscous.methods_list={'HK2003'};
-   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'MTH2011'};
+   VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp';'xfit_mxw'};
 
 %  load anharmonic parameters, adjust Gu_0_ol
 %  all paramss in ../4_VBR/VBR_version/params/ will be loaded in call to VBR spine,
@@ -57,8 +57,8 @@
 %% Display some things ================================
 %% ====================================================
    disp(['Unrelaxed Vs = ' num2str(VBR.out.elastic.anharmonic.Vsu/1e3) ' km/s'])
-   disp('Andraded Pseudo Period results:')
+   disp('eBurgers Pseudo Period results:')
    for iFq = 1:numel(VBR.in.SV.f)
        disp(['Vs(' num2str(VBR.in.SV.f(iFq)) ' Hz)=' ...
-           num2str(VBR.out.anelastic.eBurgers.V(iFq)/1e3) ' km/s'])
+           num2str(VBR.out.anelastic.eburgers_psp.V(iFq)/1e3) ' km/s'])
    end

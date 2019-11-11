@@ -26,10 +26,10 @@ VBR.in.SV.f = freq;
 
 % write VBR methods lists (these are the things to calculate)
 VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'};
-VBR.in.viscous.methods_list={'LH2011'};
-VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'MTH2011'};
+VBR.in.viscous.methods_list={'HZK2011'};
+VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp';'xfit_mxw'};
 
-VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+VBR.in.anelastic.eBurgers=Params_Anelastic('eburgers_psp');
 %VBR.in.anelastic.eBurgers.method='FastBurger';
 VBR.in.anelastic.eBurgers.nTauGlob=3000; % points for global Tau discretization
 
@@ -63,7 +63,7 @@ for iBox = 1:Work.nBox
     VBR.in.SV.sig_MPa = 1 * ones(sz_SV) ; %Frames(ifr).sig_MPa ;
     VBR.in.SV.chi = Box(iBox).Frames(end).comp;
     VBR.in.SV.Ch2o = Box(iBox).Frames(end).Cs_H2O;
-    
+
     % Set best fitting phi and g_um based on the previous Bayesian fit
     Tp = Box(iBox).info.var1val;
     VBR.in.SV.dg_um = ...

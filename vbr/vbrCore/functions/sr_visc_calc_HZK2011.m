@@ -1,7 +1,7 @@
-function VBR= sr_visc_calc_LH2011(VBR)
+function VBR= sr_visc_calc_HZK2011(VBR)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
-  % VBR= sr_visc_calc_LH2011(VBR)
+  % VBR= sr_visc_calc_HZK2011(VBR)
   %
   % calculates strain rates and viscosities following Hansen, Zimmerman and
   % Kohlstedt, 2011, J. Geophys. Res., https://doi.org/10.1029/2011JB008220
@@ -9,13 +9,13 @@ function VBR= sr_visc_calc_LH2011(VBR)
   % Parameters:
   % -----------
   % VBR   the VBR structure, with state variables in VBR.in.SV. and parameters
-  %       loaded in VBR.in.viscous.LH2011
+  %       loaded in VBR.in.viscous.HZK2011
   %
   % Ouptut:
   % -------
   % VBR   the VBR structure with new fields
-  %       VBR.out.viscous.LH2011.(mech).sr and (mech).eta for each deformation
-  %       mechanism, e.g., VBR.out.viscous.LH2011.diff.sr for diffusion creep.
+  %       VBR.out.viscous.HZK2011.(mech).sr and (mech).eta for each deformation
+  %       mechanism, e.g., VBR.out.viscous.HZK2011.diff.sr for diffusion creep.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % extract state variables and parameters
@@ -25,7 +25,7 @@ function VBR= sr_visc_calc_LH2011(VBR)
   d = VBR.in.SV.dg_um ; % [um]
   phi = VBR.in.SV.phi ;
   fH2O=zeros(size(T_K)); % this is a dry flow law
-  params=VBR.in.viscous.LH2011;
+  params=VBR.in.viscous.HZK2011;
 
   % pressure dependent calculation?
   P_Pa = P_Pa.*(strcmp(params.P_dep_calc,'yes'));
@@ -36,7 +36,7 @@ function VBR= sr_visc_calc_LH2011(VBR)
 
   for ip = 1:3
      mech=possible_mechs{ip};
-     if isfield(VBR.in.viscous.LH2011,mech)
+     if isfield(VBR.in.viscous.HZK2011,mech)
         % pull out the flow law parameters
         FLP=params.(mech);
         % check for globalsettings, melt_enhacement fieldnames
@@ -48,13 +48,13 @@ function VBR= sr_visc_calc_LH2011(VBR)
         sr_tot=sr_tot+sr;
 
         % store it
-        VBR.out.viscous.LH2011.(mech).sr=sr;
-        VBR.out.viscous.LH2011.(mech).eta = sig*1e6./sr; % viscosity
+        VBR.out.viscous.HZK2011.(mech).sr=sr;
+        VBR.out.viscous.HZK2011.(mech).eta = sig*1e6./sr; % viscosity
      end
   end
 
   % store total composite strain rate and effective viscosity
-  VBR.out.viscous.LH2011.sr_tot=sr_tot; % total strain rate
-  VBR.out.viscous.LH2011.eta_total = sig*1e6./sr_tot ; % total viscosity
+  VBR.out.viscous.HZK2011.sr_tot=sr_tot; % total strain rate
+  VBR.out.viscous.HZK2011.eta_total = sig*1e6./sr_tot ; % total viscosity
 
 end

@@ -14,7 +14,7 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
   %
   % Output:
   % ------
-  % VBR    the VBR structure, now with VBR.out.anelastic.AndradePsP structure
+  % VBR    the VBR structure, now with VBR.out.anelastic.andrade_psp structure
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % State Variables
@@ -30,14 +30,15 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
   Tau0_vec = 1./f_vec ; % period
 
   % Andrade parameters, set in params file
-  n = VBR.in.anelastic.AndradePsP.n  ; % andrade exponent
-  Tau_MR = VBR.in.anelastic.AndradePsP.Tau_MR ; %
-  Beta = VBR.in.anelastic.AndradePsP.Beta ; %
+  andrade_nm='andrade_psp';
+  n = VBR.in.anelastic.(andrade_nm).n  ; % andrade exponent
+  Tau_MR = VBR.in.anelastic.(andrade_nm).Tau_MR ; %
+  Beta = VBR.in.anelastic.(andrade_nm).Beta ; %
 
   % Elastic-GBS relaxation peak parameters, set in params file
-  Te = VBR.in.anelastic.AndradePsP.Te ; %
-  Tgbs = VBR.in.anelastic.AndradePsP.Tgbs ; % sec
-  Delta = VBR.in.anelastic.AndradePsP.Delta ;% relaxation strength
+  Te = VBR.in.anelastic.(andrade_nm).Te ; %
+  Tgbs = VBR.in.anelastic.(andrade_nm).Tgbs ; % sec
+  Delta = VBR.in.anelastic.(andrade_nm).Delta ;% relaxation strength
 
   % pseudo-period master variable independent of period/freqency
   Xtilde = calculateXtilde(VBR);
@@ -99,24 +100,24 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
   end
 
   % Store output in VBR structure
-  VBR.out.anelastic.AndradePsP.J1 = J1;
-  VBR.out.anelastic.AndradePsP.J2 = J2;
-  VBR.out.anelastic.AndradePsP.Q = Qa;
-  VBR.out.anelastic.AndradePsP.Qinv = Qinv;
-  VBR.out.anelastic.AndradePsP.M=Ma;
-  VBR.out.anelastic.AndradePsP.V=Va;
-  VBR.out.anelastic.AndradePsP.J1_gbs = J1_gbs;
-  VBR.out.anelastic.AndradePsP.J2_gbs = J2_gbs;
-  VBR.out.anelastic.AndradePsP.Q_gbs = Q_gbs;
-  VBR.out.anelastic.AndradePsP.M_gbs=M_gbs;
-  VBR.out.anelastic.AndradePsP.J1_comp = J1_comp;
-  VBR.out.anelastic.AndradePsP.J2_comp = J2_comp;
-  VBR.out.anelastic.AndradePsP.Q_comp = Q_comp;
-  VBR.out.anelastic.AndradePsP.M_comp=M_comp;
-  VBR.out.anelastic.AndradePsP.Va_comp=Va_comp;
+  VBR.out.anelastic.(andrade_nm).J1 = J1;
+  VBR.out.anelastic.(andrade_nm).J2 = J2;
+  VBR.out.anelastic.(andrade_nm).Q = Qa;
+  VBR.out.anelastic.(andrade_nm).Qinv = Qinv;
+  VBR.out.anelastic.(andrade_nm).M=Ma;
+  VBR.out.anelastic.(andrade_nm).V=Va;
+  VBR.out.anelastic.(andrade_nm).J1_gbs = J1_gbs;
+  VBR.out.anelastic.(andrade_nm).J2_gbs = J2_gbs;
+  VBR.out.anelastic.(andrade_nm).Q_gbs = Q_gbs;
+  VBR.out.anelastic.(andrade_nm).M_gbs=M_gbs;
+  VBR.out.anelastic.(andrade_nm).J1_comp = J1_comp;
+  VBR.out.anelastic.(andrade_nm).J2_comp = J2_comp;
+  VBR.out.anelastic.(andrade_nm).Q_comp = Q_comp;
+  VBR.out.anelastic.(andrade_nm).M_comp=M_comp;
+  VBR.out.anelastic.(andrade_nm).Va_comp=Va_comp;
 
   % calculate mean velocity along frequency dimension
-  VBR.out.anelastic.AndradePsP.Vave = Q_aveVoverf(Va,f_vec);
+  VBR.out.anelastic.(andrade_nm).Vave = Q_aveVoverf(Va,f_vec);
 
 end
 
@@ -143,7 +144,7 @@ function Xtilde = calculateXtilde(VBR)
   %
   % Output:
   % ------
-  % Xtilde    the master variable 
+  % Xtilde    the master variable
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % state variables
@@ -153,7 +154,7 @@ function Xtilde = calculateXtilde(VBR)
   phi =  VBR.in.SV.phi ;
 
   % pull out andrade master-variable parameters
-  Andrade_params=VBR.in.anelastic.AndradePsP;
+  Andrade_params=VBR.in.anelastic.andrade_psp;
   TR = Andrade_params.TR; % reference temperature in K
   PR = Andrade_params.PR *1e9 ; % reference pressure in Pa
   dR = Andrade_params.dR ; % reference grain size, microns

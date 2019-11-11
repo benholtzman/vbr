@@ -17,7 +17,7 @@
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
-   VBR.in.viscous.methods_list={'HK2003','LH2011'};
+   VBR.in.viscous.methods_list={'HK2003','HZK2011'};
 
 %% ====================================================
 %% Define the Thermodynamic State =====================

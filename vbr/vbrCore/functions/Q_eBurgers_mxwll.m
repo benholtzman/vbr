@@ -20,8 +20,8 @@ function tau = Q_eBurgers_mxwll(VBR,Gu)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % read in parameters
-  Burger_params=VBR.in.anelastic.eBurgers;
-  bType=Burger_params.eBurgerMethod;
+  Burger_params=VBR.in.anelastic.eburgers_psp;
+  bType=Burger_params.eBurgerFit;
 
   % state variables for either maxwell time or integration limits, peak loc:
   phi =  VBR.in.SV.phi ;

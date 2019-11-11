@@ -1,7 +1,7 @@
-function VBR = visc_calc_YT2016_solidus(VBR)
+function VBR = visc_calc_xfit_premelt(VBR)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
-  % VBR = visc_calc_YT2016_solidus(VBR)
+  % VBR = visc_calc_xfit_premelt(VBR)
   %
   % calculates the viscosity from Yamauchi and Takei, JGR 2016,
   % https://doi.org/10.1002/2016JB013316
@@ -14,7 +14,7 @@ function VBR = visc_calc_YT2016_solidus(VBR)
   %       solidus, Tsolidus_K.
   %
   %       if the eta_dry_method parameter for this method is set to
-  %       'YT2016_solidus', will use the exact viscosity from Yamauchi and
+  %       'xfit_premelt', will use the exact viscosity from Yamauchi and
   %       Takei for the melt-free viscosity, otherwise eta_dry_method can be
   %       set to any VBR viscous method, see vbrListMethods()
   %
@@ -27,10 +27,10 @@ function VBR = visc_calc_YT2016_solidus(VBR)
   if ~isfield(VBR.in,'viscous')
     VBR.in.viscous=struct();
   end
-  if isfield(VBR.in.viscous,'YT2016_solidus')==0
-    params=Params_Viscous('YT2016_solidus');
+  if isfield(VBR.in.viscous,'xfit_premelt')==0
+    params=Params_Viscous('xfit_premelt');
   else
-    params=VBR.in.viscous.YT2016_solidus;
+    params=VBR.in.viscous.xfit_premelt;
   end
 
   % calculate solidus-depdendent activation energy factor & melt effects
@@ -39,7 +39,7 @@ function VBR = visc_calc_YT2016_solidus(VBR)
 
   % calculate melt-free viscosity
   visc_method=params.eta_dry_method;
-  if strcmp(visc_method,'YT2016_solidus')
+  if strcmp(visc_method,'xfit_premelt')
     % use exactly what is in YT2016
     eta_dry=YT2016_dryViscosity(VBR,params);
   else
@@ -53,8 +53,8 @@ function VBR = visc_calc_YT2016_solidus(VBR)
   end
 
   % calculate full viscosity
-  VBR.out.viscous.YT2016_solidus.diff.eta=A_n .* eta_dry;
-  VBR.out.viscous.YT2016_solidus.diff.eta_meltfree=eta_dry;
+  VBR.out.viscous.xfit_premelt.diff.eta=A_n .* eta_dry;
+  VBR.out.viscous.xfit_premelt.diff.eta_meltfree=eta_dry;
 end
 
 function eta = YT2016_dryViscosity(VBR,params)

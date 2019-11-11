@@ -48,6 +48,8 @@ VBR.out.anelastic.AndradePsP
 ```
 beneath which there will be fields for the output for the calculations, e.g., ```VBR.out.anelastic.AndradePsP.Q``` for quality factor Q (attenuation=Q<sup>-1</sup>).
 
+After VBR is initialized, a list of available methods can be printed by running `vbrListMethods()`.
+
 ### Initialize the State Variables
 
 The input structure ```VBR.in.SV``` contains the state variables that define the conditions at which you want to apply the methods. The following fields **MUST** be defined:

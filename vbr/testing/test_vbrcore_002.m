@@ -17,7 +17,7 @@ function TestResult = test_vbrcore_002()
   disp('    **** Running test_vbrcore_002 ****')
 
   VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'};
-  VBR.in.anelastic.methods_list={'YT2016_solidus'};
+  VBR.in.anelastic.methods_list={'xfit_premelt'};
 
   %  frequencies to calculate at
   VBR.in.SV.f = [0.01,0.1];
@@ -36,18 +36,18 @@ function TestResult = test_vbrcore_002()
   VBR.in.SV.phi = 0.0 * ones(sz); % melt fraction
   VBR.in.SV.phi(VBR.in.SV.T_K>=VBR.in.SV.Tsolidus_K)=0.01;
 
-  % call VBR with different dry viscosity methods for YT2016_solidus
-  visc_meths_to_use={'YT2016_solidus';'HK2003';'LH2011'};
+  % call VBR with different dry viscosity methods for xfit_premelt
+  visc_meths_to_use={'xfit_premelt';'HK2003';'HZK2011'};
   for ivisc=1:numel(visc_meths_to_use)
-    VBR.in.viscous.YT2016_solidus.eta_dry_method=visc_meths_to_use{ivisc};
+    VBR.in.viscous.xfit_premelt.eta_dry_method=visc_meths_to_use{ivisc};
     VBRout(ivisc).VBR=VBR_spine(VBR);
   end
 
   % check if they're different
   for ivisc=2:numel(visc_meths_to_use)
     vmeth=visc_meths_to_use{ivisc};
-    this_eta=VBRout(ivisc).VBR.out.viscous.YT2016_solidus.diff.eta;
-    ref_eta=VBRout(1).VBR.out.viscous.YT2016_solidus.diff.eta;
+    this_eta=VBRout(ivisc).VBR.out.viscous.xfit_premelt.diff.eta;
+    ref_eta=VBRout(1).VBR.out.viscous.xfit_premelt.diff.eta;
     deta=abs(this_eta-ref_eta);
     if sum(deta)==0
       disp('Diffusion creep viscosities are identical')
@@ -57,15 +57,15 @@ function TestResult = test_vbrcore_002()
 
   % check if they match the dry phi
   VBR.in.SV.phi(:)=0;
-  visc_meths_to_use={'HK2003';'LH2011'};
+  visc_meths_to_use={'HK2003';'HZK2011'};
   for ivisc=1:numel(visc_meths_to_use)
     vmeth=visc_meths_to_use{ivisc};
-    VBR.in.viscous.methods_list={'YT2016_solidus';vmeth};
-    VBR.in.viscous.YT2016_solidus.eta_dry_method=visc_meths_to_use{ivisc};
+    VBR.in.viscous.methods_list={'xfit_premelt';vmeth};
+    VBR.in.viscous.xfit_premelt.eta_dry_method=visc_meths_to_use{ivisc};
     VBR=VBR_spine(VBR);
 
-    % melt free calculated by YT2016_solidus
-    this_eta=VBR.out.viscous.YT2016_solidus.diff.eta_meltfree;
+    % melt free calculated by xfit_premelt
+    this_eta=VBR.out.viscous.xfit_premelt.diff.eta_meltfree;
 
     % the diffusion creep visc calculated with phi=0 directly
     ref_eta=VBR.out.viscous.(vmeth).diff.eta;

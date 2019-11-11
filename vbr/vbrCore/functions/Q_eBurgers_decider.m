@@ -15,12 +15,12 @@ function [VBR] = Q_eBurgers_decider(VBR)
   % -----
   % VBR   the VBR structure, with VBR.out.anelastic.eBurgers structure
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  if strcmp(lower(VBR.in.anelastic.eBurgers.method),'pointwise')
+  if strcmp(lower(VBR.in.anelastic.eburgers_psp.method),'pointwise')
     VBR=Q_eBurgers_f(VBR);
-  elseif strcmp(lower(VBR.in.anelastic.eBurgers.method),'fastburger')
+  elseif strcmp(lower(VBR.in.anelastic.eburgers_psp.method),'fastburger')
     [VBR]=Q_eFastBurgers(VBR) ;
   else
-    meth=[VBR.in.anelastic.eBurgers.method, 'does not exist'];
+    meth=[VBR.in.anelastic.eburgers_psp.method, 'does not exist'];
     disp(['WARNING: eBurgers method ',meth,'. Must be PointWise or FastBurger'])
   end
 end

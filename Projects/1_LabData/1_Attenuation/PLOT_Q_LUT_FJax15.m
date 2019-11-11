@@ -3,6 +3,11 @@
 % and test fit to eBurgersPsP (and AndradePsP)
 clear all ; clf;
 
+% put VBR in the path
+  path_to_top_level_vbr='../../../';
+  addpath(path_to_top_level_vbr)
+  vbr_init
+
 % LOAD THE DATA
 if ~exist('ExptData.mat')
   Make_DATA ;
@@ -29,44 +34,31 @@ VBR.in.elastic.methods_list={'anharmonic'};
 VBR.in.viscous.methods_list={'HK2003';'LH2011'};
 VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
-VBR.in.anelastic.eBurgers.eBurgerMethod='bg_peak'; % 'bg_only' or 'bg_peak'
+
+
+VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+fit_type='bg_peak';
+VBR.in.anelastic.eBurgers.eBurgerMethod=fit_type; % 'bg_only' or 'bg_peak'
 VBR.in.GlobalSettings.melt_enhacement = 0 ;
 
 
 % ===================================================
 % rescale the reference modulus =====================
 
+% pull out anharmonic scaling
 dGdT=VBR.in.elastic.anharmonic.dG_dT;
 dGdP=VBR.in.elastic.anharmonic.dG_dP;
 Tref=VBR.in.elastic.anharmonic.T_K_ref;
 Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
 
+% JF10 ref modulus is for their T/P (900C,.2GPa):
+Gu0_x=VBR.in.anelastic.eBurgers.(fit_type).G_UR;
+T_ref_JF10=VBR.in.anelastic.eBurgers.(fit_type).TR;
+P_ref_JF10=VBR.in.anelastic.eBurgers.(fit_type).PR;
 
-% % method from CB_003_JF10:
-% % JF10 have Gu_0=62.5 GPa, but that's at 900 Kelvin and 0.2 GPa,
-% % so set Gu_0_ol s.t. it ends up at 62.5 at those conditions
-% Gu_ref = data.FaulJax15(1).exptCond.Gu
-% Gu_0_ol = Gu_ref - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP
-% VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;   % olivine reference shear modulus [GPa]
-
-% method from Make_LUT:
-% JF10 have Gu_0=66.5 GPa, but that's at 900 C and 0.2 GPa,
-% so set Gu_0_ol s.t. it ends up at 66.5 at those conditions
-% calculate dGdT from their figure.
-G_900=66.5; % from plot at log10(period)=-2
-G_1200=58; % from plot at log10(period)=-2
-dGdT=(G_1200 - G_900)/(1200-900);
-VBR.in.elastic.anharmonic.dG_dT=dGdT * 1e9; % Pa / C
-dGdT=VBR.in.elastic.anharmonic.dG_dT;
-
-% set JF10 ref modulus and ref T/P
-Gu0_x=G_900;
-T_ref_JF10=900+273;
-P_ref_JF10=0.2;
 % back out ref Modlus at STP.
 Gu_0_ol =  Gu0_x - (T_ref_JF10-Tref) * dGdT/1e9 - (P_ref_JF10-Pref)*dGdP
-% olivine reference shear modulus [GPa]
-VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;
+VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;% olivine reference shear modulus [GPa]
 
 % ==================================================
 %  frequencies to calculate at
@@ -150,7 +142,7 @@ for iT = 1:nlines
     Qs = VBR.out.anelastic.eBurgers.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
     Q = squeeze(Qs) ;
   elseif strcmp(runVBRwhere,'here')==1
-    Q(:) = squeeze(VBR.out.anelastic.eBurgers.Q(1,iT,:)) ;
+    Q = squeeze(VBR.out.anelastic.eBurgers.Q(1,iT,:)) ;
   end
 
   if plot_vs_freq
@@ -172,8 +164,8 @@ for iT = 1:nlines
 end
 
 axis tight
-%xlim([1.8e1 3e2])
-%ylim([1e-6 5e-4])
+% xlim([1.8e1 3e2])
+ylim([-2.3,.5])
 title(['Extended Burgers'],'fontname','Times New Roman','fontsize',LBLFNT);
 xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
 ylabel('log_{10} Q^{-1}, attenuation', 'fontname','Times New Roman','fontsize', LBLFNT)
@@ -226,7 +218,7 @@ for iT = 1:nlines
     Ms = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
     M = squeeze(Ms) ;
   elseif strcmp(runVBRwhere,'here')==1
-    M(:) = squeeze(VBR.out.anelastic.eBurgers.M(1,iT,:)./1e9) ;
+    M = squeeze(VBR.out.anelastic.eBurgers.M(1,iT,:)./1e9) ;
   end
 
   if plot_vs_freq
@@ -249,6 +241,7 @@ for iT = 1:nlines
 end
 
 axis tight
+ylim([0,80])
 %xlim([1.8e1 3e2])
 %ylim([1e-6 5e-4])
 

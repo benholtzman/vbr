@@ -58,29 +58,19 @@ function params = Params_Anelastic(method)
     params.Delta = 0.3 ; % Relaxation strength
   end
 
-  if strcmp(method,'Andrade')
+  if strcmp(method,'AndradeMxw')
     % ANDRADE parameters (from Sundberg+Cooper)
-    params.func_name=''; % the name of the matlab function
-    params.n = 1/3 ; % 1/3 ;
+    params.func_name='Andrade_Mxw_f'; % the name of the matlab function
+    params.n = 1/2 ; % 1/3 ;
     % scaling option:
-    %   1= experimental params,
-    %   2= Marshall's email
-    %   3= pseudoperiod
+    %   1= Bunton's thesis- Andrade transient Beta only a function of G, eta_diff_ss
+    %   2= Mixture of 1 and SundbergCooper2010-- add a bump.
     params.scaling_opt=1 ;
-
-    % for 1200, 1250, 1300 C
-    %params.A_vec =  [ 5.1e-12 9.83e-12 2.7e-11 ] ;
-    %params.eta_ss_vec = [ 3.42e12 8.14e11 1.87e11 ];
-    %params.A_vec =  [ 6.37e-12 1.34e-11 2.8e-11 ] ;
-    params.A =  2.8e-11 ;
-    params.eta_ss =  1.86e11 ;
-
     % Bump on (1) or off (0) --
-    params.bump = 1 ;
-    params.Te = 0.17 ; % not sure what this is
-    params.Tgbs = 0.05 ;% sec
-    params.Delta = 0.5 ; % 0.43 ; % Relaxation strength
-    params.FUDGE = 0.7 ;
+    params.bump = 0 ;
+    % for using Bunton's flow law in thesis for expt fitting: 
+    params.eta0_local = 1e7 ; % no idea !
+
   end
 
   if strcmp(method,'MTH2011')

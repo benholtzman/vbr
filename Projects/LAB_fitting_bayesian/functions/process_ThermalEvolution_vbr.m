@@ -25,7 +25,7 @@ function VBRBox=drive_VBR(Work, freq, best_T_phi_g)
 VBR.in.SV.f = freq;
 
 % write VBR methods lists (these are the things to calculate)
-VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'};
+VBR.in.elastic.methods_list={'anharmonic';'anh_poro'};
 VBR.in.viscous.methods_list={'HZK2011'};
 VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp';'xfit_mxw'};
 

@@ -1,6 +1,6 @@
 % PLOT Experimental data from
 % Faul and Jackson, 2015 (Ann. Rev.), compilation of other data datasets
-% and test fit to eBurgersPsP (and AndradePsP)
+% and test fit to eburgers_psp (and andrade_psp)
 clear all ; clf;
 
 % put VBR in the path
@@ -36,9 +36,9 @@ VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp'};
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
 
 
-VBR.in.anelastic.eBurgers=Params_Anelastic('eburgers_psp');
+VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
 fit_type='bg_peak';
-VBR.in.anelastic.eBurgers.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
+VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
 VBR.in.GlobalSettings.melt_enhacement = 0 ;
 
 
@@ -52,9 +52,9 @@ Tref=VBR.in.elastic.anharmonic.T_K_ref;
 Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
 
 % JF10 ref modulus is for their T/P (900C,.2GPa):
-Gu0_x=VBR.in.anelastic.eBurgers.(fit_type).G_UR;
-T_ref_JF10=VBR.in.anelastic.eBurgers.(fit_type).TR;
-P_ref_JF10=VBR.in.anelastic.eBurgers.(fit_type).PR;
+Gu0_x=VBR.in.anelastic.eburgers_psp.(fit_type).G_UR;
+T_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).TR;
+P_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).PR;
 
 % back out ref Modlus at STP.
 Gu_0_ol =  Gu0_x - (T_ref_JF10-Tref) * dGdT/1e9 - (P_ref_JF10-Pref)*dGdP
@@ -82,9 +82,9 @@ VBR.in.SV.phi = data.FaulJax15(1).exptCond.phi_0 .* ones(sz); % melt fraction
 [VBR] = VBR_spine(VBR) ;
 end
 
-% % adjust VBR input and get out eBurgers with background + peak
-% VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-% VBR.in.anelastic.eBurgers.eBurgerFit='bg_peak';
+% % adjust VBR input and get out eburgers_psp with background + peak
+% VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
+% VBR.in.anelastic.eburgers_psp.eBurgerFit='bg_peak';
 % % Gu_0_ol = 62.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
 % VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
 %
@@ -139,10 +139,10 @@ for iT = 1:nlines
   if strcmp(runVBRwhere,'LUT')==1
     state = data.FaulJax15(iT).exptCond ;
     [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-    Qs = VBR.out.anelastic.eBurgers.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
+    Qs = VBR.out.anelastic.eburgers_psp.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
     Q = squeeze(Qs) ;
   elseif strcmp(runVBRwhere,'here')==1
-    Q = squeeze(VBR.out.anelastic.eBurgers.Q(1,iT,:)) ;
+    Q = squeeze(VBR.out.anelastic.eburgers_psp.Q(1,iT,:)) ;
   end
 
   if plot_vs_freq
@@ -187,7 +187,7 @@ for iT = 1:nlines
         %
         % state = data.FaulJax15(iT).exptCond ;
         % [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-        % G = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:) ;
+        % G = VBR.out.anelastic.eburgers_psp.M(i_T_d1, i_g_d2, i_P_d3,:) ;
         % G = squeeze(G) ;
         %
         % if plot_vs_freq
@@ -215,10 +215,10 @@ for iT = 1:nlines
   if strcmp(runVBRwhere,'LUT')==1
     state = data.FaulJax15(iT).exptCond ;
     [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-    Ms = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
+    Ms = VBR.out.anelastic.eburgers_psp.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
     M = squeeze(Ms) ;
   elseif strcmp(runVBRwhere,'here')==1
-    M = squeeze(VBR.out.anelastic.eBurgers.M(1,iT,:)./1e9) ;
+    M = squeeze(VBR.out.anelastic.eburgers_psp.M(1,iT,:)./1e9) ;
   end
 
   if plot_vs_freq

@@ -27,8 +27,8 @@ function [VBR] = Q_eBurgers_f(VBR)
   w_vec = 2*pi.*f_vec ;
 
   % unrelaxed compliance and density
-  if isfield(VBR.in.elastic,'poro_Takei')
-   Mu = VBR.out.elastic.poro_Takei.Gu ;
+  if isfield(VBR.in.elastic,'anh_poro')
+   Mu = VBR.out.elastic.anh_poro.Gu ;
   elseif isfield(VBR.in.elastic,'anharmonic')
    Mu = VBR.out.elastic.anharmonic.Gu ;
   end

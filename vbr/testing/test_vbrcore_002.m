@@ -16,7 +16,7 @@ function TestResult = test_vbrcore_002()
   TestResult=true;
   disp('    **** Running test_vbrcore_002 ****')
 
-  VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'};
+  VBR.in.elastic.methods_list={'anharmonic';'anh_poro'};
   VBR.in.anelastic.methods_list={'xfit_premelt'};
 
   %  frequencies to calculate at

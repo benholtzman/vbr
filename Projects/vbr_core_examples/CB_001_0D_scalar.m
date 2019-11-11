@@ -17,7 +17,7 @@
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
-   VBR.in.elastic.methods_list={'anharmonic';'poro_Takei';'SLB2005'};
+   VBR.in.elastic.methods_list={'anharmonic';'anh_poro';'SLB2005'};
    VBR.in.viscous.methods_list={'HK2003'};
    VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp';'xfit_mxw'};
 

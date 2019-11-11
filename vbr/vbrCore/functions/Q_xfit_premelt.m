@@ -18,8 +18,8 @@ function [VBR] = Q_xfit_premelt(VBR)
 
   if has_solidus
     % state variables
-    if isfield(VBR.in.elastic,'poro_Takei')
-      Gu_in = VBR.out.elastic.poro_Takei.Gu;
+    if isfield(VBR.in.elastic,'anh_poro')
+      Gu_in = VBR.out.elastic.anh_poro.Gu;
     elseif isfield(VBR.in.elastic,'anharmonic')
       Gu_in = VBR.out.elastic.anharmonic.Gu;
     end

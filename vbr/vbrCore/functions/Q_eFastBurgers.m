@@ -41,8 +41,8 @@ function [VBR] = Q_eFastBurgers(VBR)
   %% read in thermodynamic state
   %% ===========================
   f_vec = VBR.in.SV.f ;
-  if isfield(VBR.in.elastic,'poro_Takei')
-    Mu = VBR.out.elastic.poro_Takei.Gu ;
+  if isfield(VBR.in.elastic,'anh_poro')
+    Mu = VBR.out.elastic.anh_poro.Gu ;
   elseif isfield(VBR.in.elastic,'anharmonic')
     Mu = VBR.out.elastic.anharmonic.Gu ;
   end

@@ -18,8 +18,8 @@ function [VBR]=Q_Andrade_Mxw_f(VBR)
 
   % Bringing in mechanical properties
   % Modulus:
-  if isfield(VBR.in.elastic,'poro_Takei')
-    Mu_in = VBR.out.elastic.poro_Takei.Gu ;
+  if isfield(VBR.in.elastic,'anh_poro')
+    Mu_in = VBR.out.elastic.anh_poro.Gu ;
   elseif isfield(VBR.in.elastic,'anharmonic')
     Mu_in = VBR.out.elastic.anharmonic.Gu ;
   end

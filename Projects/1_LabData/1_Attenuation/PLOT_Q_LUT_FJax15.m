@@ -1,16 +1,106 @@
+% PLOT Experimental data from
+% Faul and Jackson, 2015 (Ann. Rev.), compilation of other data datasets
+% and test fit to eBurgersPsP (and AndradePsP)
+clear all ; clf;
 
-addpath('./datasets') ;
-%VBR_LUT = load('VBR_LUT_labdata') ;
-VBR_LUT = load('VBR_LUT_labdata_y190304');
-VBR = VBR_LUT.VBR ;
-VBR.in.SV_vectors;
-
+% LOAD THE DATA
 if ~exist('ExptData.mat')
   Make_DATA ;
 end
 load('ExptData.mat');
 data = Data ;
-%find_index_f ;
+
+% ===========================================
+% LOAD THE VBR or Run it here... not as LUT.
+
+runVBRwhere='here' % 'LUT'
+
+if strcmp(runVBRwhere,'LUT')==1
+  load('VBR_LUT_labdata');
+end
+
+if strcmp(runVBRwhere,'here')==1
+for i=1:length(data.FaulJax15)
+  T_C_vec(i) = data.FaulJax15(i).exptCond.T_C  ;
+end
+T_C_vec ;
+
+VBR.in.elastic.methods_list={'anharmonic'};
+VBR.in.viscous.methods_list={'HK2003';'LH2011'};
+VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};
+VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+VBR.in.anelastic.eBurgers.eBurgerMethod='bg_peak'; % 'bg_only' or 'bg_peak'
+VBR.in.GlobalSettings.melt_enhacement = 0 ;
+
+
+% ===================================================
+% rescale the reference modulus =====================
+
+dGdT=VBR.in.elastic.anharmonic.dG_dT;
+dGdP=VBR.in.elastic.anharmonic.dG_dP;
+Tref=VBR.in.elastic.anharmonic.T_K_ref;
+Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
+
+
+% % method from CB_003_JF10:
+% % JF10 have Gu_0=62.5 GPa, but that's at 900 Kelvin and 0.2 GPa,
+% % so set Gu_0_ol s.t. it ends up at 62.5 at those conditions
+% Gu_ref = data.FaulJax15(1).exptCond.Gu
+% Gu_0_ol = Gu_ref - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP
+% VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;   % olivine reference shear modulus [GPa]
+
+% method from Make_LUT:
+% JF10 have Gu_0=66.5 GPa, but that's at 900 C and 0.2 GPa,
+% so set Gu_0_ol s.t. it ends up at 66.5 at those conditions
+% calculate dGdT from their figure.
+G_900=66.5; % from plot at log10(period)=-2
+G_1200=58; % from plot at log10(period)=-2
+dGdT=(G_1200 - G_900)/(1200-900);
+VBR.in.elastic.anharmonic.dG_dT=dGdT * 1e9; % Pa / C
+dGdT=VBR.in.elastic.anharmonic.dG_dT;
+
+% set JF10 ref modulus and ref T/P
+Gu0_x=G_900;
+T_ref_JF10=900+273;
+P_ref_JF10=0.2;
+% back out ref Modlus at STP.
+Gu_0_ol =  Gu0_x - (T_ref_JF10-Tref) * dGdT/1e9 - (P_ref_JF10-Pref)*dGdP
+% olivine reference shear modulus [GPa]
+VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;
+
+% ==================================================
+%  frequencies to calculate at
+VBR.in.SV.f = 1./logspace(0,3,30);
+% [0.7804 0.2616 0.1561 0.0863 0.0456 0.0214 0.0100 0.0048 0.0021 0.0010]
+
+%  size of the state variable arrays. arrays can be any shape
+%  but all arays must be the same shape.
+VBR.in.SV.T_K = T_C_vec+273 ;
+VBR.in.SV_vectors.T_K_vec_dim1 = VBR.in.SV.T_K ;
+sz=size(VBR.in.SV.T_K) ; % temperature [K]
+
+%  remaining state variables (ISV)
+VBR.in.SV.dg_um= data.FaulJax15(1).exptCond.dg_0 .* ones(sz);
+VBR.in.SV.P_GPa = data.FaulJax15(1).exptCond.P_GPa .* ones(sz); % pressure [GPa]
+VBR.in.SV.rho = data.FaulJax15(1).exptCond.rho .* ones(sz); % density [kg m^-3]
+VBR.in.SV.sig_MPa = (data.FaulJax15(1).exptCond.sig_0 .* ones(sz))./1e6; % differential stress [MPa]
+VBR.in.SV.phi = data.FaulJax15(1).exptCond.phi_0 .* ones(sz); % melt fraction
+
+% run VBR
+[VBR] = VBR_spine(VBR) ;
+end
+
+% % adjust VBR input and get out eBurgers with background + peak
+% VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+% VBR.in.anelastic.eBurgers.eBurgerMethod='bg_peak';
+% % Gu_0_ol = 62.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
+% VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
+%
+% [VBR_with_peak] = VBR_spine(VBR) ;
+
+% ===================================
+% PLOTTING
+% ===================================
 
 % left bottom width height
 W = 0.33 ;
@@ -28,75 +118,56 @@ dotsize = 12;
 dotsize_D = 20 ;
 
 
-plot_vs_freq=0;
+plot_vs_freq=1;
 if plot_vs_freq
   xlabel_text='log_{10} frequency';
 else
   xlabel_text='log_{10} period';
 end
 
-% VBR = VBR_sols(1).VBR ;
-% d = VBR.SSV.dg_um(1) ;
-% P = VBR.ISV.P_GPa(1) ;
-
 %% PLOT =======================================================
-% MAKE THE DATA LISTS
-% [BH 2019: What was this for? ]
-% for j = 1:nlines
-%     data(j).T = VBR_sols(j).T_params ;
-%     data(j).logf = Data.SundCoop(j).logf ;
-%     data(j).logQ = log10(1./Data.SundCoop(j).Qinv) ;
-%     data(j).G = Data.SundCoop(j).G ;
-% end
-
-%colorscale = [ 1 0.5 0.2 ; 1 0 0 ] ;
-%cool to warm:
 nlines = length(data.FaulJax15) ; %length(VBR_sols(1).T_params) ;
-
+%cool to warm:
 colorscale(:,1) = linspace(0.5,1,nlines) ;
 colorscale(:,2) = linspace(0,0,nlines) ;
 colorscale(:,3) = linspace(1,0,nlines) ;
-
-%%  function to find the VBR solutions at each expt condition =================
-
-
 
 %%  ==================================================
 %%  finding and PLOTTING !
 %%  ==================================================
 f_vec = VBR.in.SV.f ;
-clf;
+
 %%  Q vs FREQUENCY (BURGERS) ==================================================
 axes('Position', plot_row1_A);
 
-
 for iT = 1:nlines
-        %LineW = LineW_vec(j);
-        clr = colorscale(iT,:) ;
-        % %f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
-        % %I_fM = find(f>=f_M,1);
+    %LineW = LineW_vec(j);
+    clr = colorscale(iT,:) ;
 
-        state = data.FaulJax15(iT).exptCond ;
-        [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+  if strcmp(runVBRwhere,'LUT')==1
+    state = data.FaulJax15(iT).exptCond ;
+    [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+    Qs = VBR.out.anelastic.eBurgers.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
+    Q = squeeze(Qs) ;
+  elseif strcmp(runVBRwhere,'here')==1
+    Q(:) = squeeze(VBR.out.anelastic.eBurgers.Q(1,iT,:)) ;
+  end
 
-        Qs = VBR.out.anelastic.eBurgers.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
-        Q = squeeze(Qs) ;
+  if plot_vs_freq
+    plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+  else
+    plot(log10(1./f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+  end
 
-        if plot_vs_freq
-          plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
-        else
-          plot(log10(1./f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
-        end
-        % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
-
-        % PLOT DATA
-        data_log10_Qinv = data.FaulJax15(iT).Results.log10_Qinv ;
-        if plot_vs_freq
-          plot(state.logf,data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-        else
-          plot(log10(1./(10.^state.logf)),data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-        end
-        %plot(data.TanJax.exptCond.logf,1./(data.TanJax.Results.Qinv),'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+  % PLOT DATA
+  data_log10_Qinv = data.FaulJax15(iT).Results.log10_Qinv ;
+  if plot_vs_freq
+    data_freq = data.FaulJax15(iT).exptCond.f ;
+    plot(log10(data_freq),data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+  else
+    data_logPer = data.FaulJax15(iT).exptCond.logPer
+    plot(data_logPer,data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+  end
 
 end
 
@@ -112,38 +183,68 @@ set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],
 
 
 
-
 %%  G vs FREQUENCY (BURGERS) ==================================================
-axes('Position', plot_row2_C);
+axes('Position', plot_row1_B);
 
 
 for iT = 1:nlines
         %LineW = LineW_vec(j);
-        clr = colorscale(iT,:) ;
-        % %f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
-        % %I_fM = find(f>=f_M,1);
+        % clr = colorscale(iT,:) ;
+        % % %f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
+        % % %I_fM = find(f>=f_M,1);
+        %
+        % state = data.FaulJax15(iT).exptCond ;
+        % [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+        % G = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:) ;
+        % G = squeeze(G) ;
+        %
+        % if plot_vs_freq
+        %   plot(log10(f_vec),G./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
+        % else
+        %   plot(log10(1./f_vec), G./1e9, 'k-','LineWidth', LineW, 'Color', clr); hold on;
+        % end
+        % % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
+        %
+        % % PLOT DATA
+        %
+        % data_G = data.FaulJax15(iT).Results.G ;
+        % if plot_vs_freq
+        %   data_freq = data.FaulJax15(iT).exptCond.f ;
+        %   plot(log10(data_freq),data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        % else
+        %   logPer = data.FaulJax15(iT).exptCond.logPer ;
+        %   plot(logPer,data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+        % end
+        % %plot(data.TanJax.exptCond.logf,1./(data.TanJax.Results.Qinv),'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
 
-        state = data.FaulJax15(iT).exptCond ;
-        [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+    %LineW = LineW_vec(j);
+    clr = colorscale(iT,:) ;
 
-        G = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:) ;
-        G = squeeze(G) ;
+  if strcmp(runVBRwhere,'LUT')==1
+    state = data.FaulJax15(iT).exptCond ;
+    [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+    Ms = VBR.out.anelastic.eBurgers.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
+    M = squeeze(Ms) ;
+  elseif strcmp(runVBRwhere,'here')==1
+    M(:) = squeeze(VBR.out.anelastic.eBurgers.M(1,iT,:)./1e9) ;
+  end
 
-        if plot_vs_freq
-          plot(log10(f_vec),G./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
-        else
-          plot(log10(1./f_vec),G./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
-        end
-        % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
+  if plot_vs_freq
+    plot(log10(f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
+  else
+    plot(log10(1./f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
+  end
 
-        % PLOT DATA
-        data_G = data.FaulJax15(iT).Results.G ;
-        if plot_vs_freq
-          plot(state.logf,data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-        else
-          plot(log10(1./(10.^state.logf)),data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-        end
-        %plot(data.TanJax.exptCond.logf,1./(data.TanJax.Results.Qinv),'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+  % PLOT DATA
+  data_M = data.FaulJax15(iT).Results.G ;
+  if plot_vs_freq
+    data_freq = data.FaulJax15(iT).exptCond.f ;
+    plot(log10(data_freq),data_M,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+  else
+    data_logPer = data.FaulJax15(iT).exptCond.logPer
+    plot(data_logPer,data_M,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+  end
+
 
 end
 

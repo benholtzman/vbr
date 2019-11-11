@@ -89,13 +89,13 @@ if ~exist(fname, 'file')
 
     sweep = generate_parameter_sweep(sweep_params);
     clear sweep_params
-    save data/plate_VBR/sweep.mat sweep
+    save(fname, 'sweep')
 end
 
 load(fname, 'sweep');
 % Extract the relevant values for the input depth range.
 % Need to choose the attenuation method used for anelastic calculations
-%       possible values are {'AndradePsP', 'MTH2011', 'eBurgers'}
+%       see possible methods by running vbrListMethods()
 q_method = 'andrade_psp';
 [sweep.meanVs, sweep.z_inds] = extract_calculated_values_in_depth_range(...
     sweep, 'Vs', q_method, [location.z_min, location.z_max]);
@@ -294,10 +294,3 @@ likelihood_LAB = probability_distributions('likelihood from residuals', ...
 posterior_vars_given_LAB = probability_distributions('A|B', ...
     likelihood_LAB, prior_vars, prior_LAB);
 plot_Bayes(posterior_vars_given_LAB, LABsweep, 'Vs, Qinv, LAB')
-
-
-%% PLOTTING NOTES
-% plot 2D trade-off curves for Vs, Qinv given 2 of the parameters,
-% then plot the marginal probability of the third param
-% Pressure: box car over chosen depth range
-% put a line for water in as standard

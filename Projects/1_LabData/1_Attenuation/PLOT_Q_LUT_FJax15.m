@@ -31,14 +31,14 @@ end
 T_C_vec ;
 
 VBR.in.elastic.methods_list={'anharmonic'};
-VBR.in.viscous.methods_list={'HK2003';'LH2011'};
-VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};
+VBR.in.viscous.methods_list={'HK2003';'HZK2011'};
+VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp'};
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
 
 
-VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
+VBR.in.anelastic.eBurgers=Params_Anelastic('eburgers_psp');
 fit_type='bg_peak';
-VBR.in.anelastic.eBurgers.eBurgerMethod=fit_type; % 'bg_only' or 'bg_peak'
+VBR.in.anelastic.eBurgers.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
 VBR.in.GlobalSettings.melt_enhacement = 0 ;
 
 
@@ -84,7 +84,7 @@ end
 
 % % adjust VBR input and get out eBurgers with background + peak
 % VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-% VBR.in.anelastic.eBurgers.eBurgerMethod='bg_peak';
+% VBR.in.anelastic.eBurgers.eBurgerFit='bg_peak';
 % % Gu_0_ol = 62.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
 % VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
 %

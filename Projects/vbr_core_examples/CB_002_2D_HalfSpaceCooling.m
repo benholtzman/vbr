@@ -45,7 +45,7 @@
 
   VBR.in.elastic.methods_list={'anharmonic'};
   VBR.in.viscous.methods_list={'HK2003'};
-  VBR.in.anelastic.methods_list={'AndradePsP';'MTH2011'};
+  VBR.in.anelastic.methods_list={'andrade_psp';'xfit_mxw'};
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
   VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa]
   VBR.in.SV.f = [0.01, 0.02, 0.04, 0.1];%  frequencies to calculate at
@@ -87,19 +87,19 @@
 % contour shear wave velocity at different frequencies
   for i_f=1:3
      ax=subplot(2,2,i_f+1);
-     contourf(HF.t_Myr,HF.z_km,VBR.out.anelastic.AndradePsP.V(:,:,i_f)/1e3,20,'LineColor','none')
+     contourf(HF.t_Myr,HF.z_km,VBR.out.anelastic.andrade_psp.V(:,:,i_f)/1e3,20,'LineColor','none')
      colormap(ax,winter);
      xlabel('Seaflor Age [Myr]')
      ylabel('Depth [km]')
      set(gca,'ydir','reverse')
-     title(['V_s [km/s] AndradePsP at ',num2str(VBR.in.SV.f(i_f)),' Hz'])
+     title(['V_s [km/s] andrade_psp at ',num2str(VBR.in.SV.f(i_f)),' Hz'])
      colorbar()
   end
 
 % contour percent difference in shear wave velo between two anelastic methods
 % at different frequencies
-  dV=abs(VBR.out.anelastic.AndradePsP.V-VBR.out.anelastic.MTH2011.V);
-  dV=dV./VBR.out.anelastic.MTH2011.V*100;
+  dV=abs(VBR.out.anelastic.andrade_psp.V-VBR.out.anelastic.xfit_mxw.V);
+  dV=dV./VBR.out.anelastic.xfit_mxw.V*100;
   figure()
   for i_f=1:4
      subplot(2,2,i_f)

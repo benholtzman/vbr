@@ -1,6 +1,6 @@
-function [VBR] = Q_YT2016_solidus(VBR)
+function [VBR] = Q_xfit_premelt(VBR)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % [VBR] = Q_YT2016_solidus(VBR)
+  % [VBR] = Q_xfit_premelt(VBR)
   % near-solidus anelastic scaling from [1]
   % Requires the solidus, VBR.in.SV.Tsolidus_K, as an additional state variable
   %
@@ -27,7 +27,7 @@ function [VBR] = Q_YT2016_solidus(VBR)
     rho = VBR.in.SV.rho ;
     phi = VBR.in.SV.phi ;
     Tn=VBR.in.SV.T_K./VBR.in.SV.Tsolidus_K ; % solidus-normalized temperature
-    params=VBR.in.anelastic.YT2016_solidus;
+    params=VBR.in.anelastic.xfit_premelt;
 
     % maxwell time
     [tau_m,VBR]=MaxwellTimes(VBR,Gu_in);
@@ -71,7 +71,7 @@ function [VBR] = Q_YT2016_solidus(VBR)
     VBRout.J2 = J2;
 
     % J2_J1_frac=(1+sqrt(1+(J2./J1).^2))/2;
-    J2_J1_frac=1; 
+    J2_J1_frac=1;
     rho_f = proc_add_freq_indeces(rho,n_freq);
     VBRout.V=sqrt(1./(J1.*rho_f)).*(J2_J1_frac.^(-1/2));
     VBRout.M1 = 1./J1;
@@ -84,7 +84,7 @@ function [VBR] = Q_YT2016_solidus(VBR)
     VBRout.Vave = Q_aveVoverf(VBRout.V,VBR.in.SV.f);
 
     % store the output structure
-    VBR.out.anelastic.YT2016_solidus=VBRout;
+    VBR.out.anelastic.xfit_premelt=VBRout;
 
   end % end of has_solidus check
 end
@@ -117,12 +117,12 @@ function [tau_m,VBR] = MaxwellTimes(VBR,Gu_in)
   % [tau_m,VBR] = MaxwellTimes(VBR,Gu_in)
   % calculate the maxwell time for all state variables
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  tree={'out';'viscous';'YT2016_solidus';'diff';'eta'};
+  tree={'out';'viscous';'xfit_premelt';'diff';'eta'};
   [field_exists,missing] = checkStructForField(VBR,tree,0);
   if field_exists == 0
-    [VBR] = loadThenCallMethod(VBR,'viscous','YT2016_solidus');
+    [VBR] = loadThenCallMethod(VBR,'viscous','xfit_premelt');
   end
-  eta_diff = VBR.out.viscous.YT2016_solidus.diff.eta;
+  eta_diff = VBR.out.viscous.xfit_premelt.diff.eta;
   tau_m=eta_diff./Gu_in;
 
 end

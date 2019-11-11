@@ -55,6 +55,62 @@ for iT=1: length(T_C_vec)
 end
 
 
+
+% ======================================================
+% BUNTON and COOPER DATA
+
+datadir = '../../../../vbrWork/expt_data/3_attenuation/' ;
+BC_datadir = [datadir,'Bunton/'] ;
+addpath(BC_datadir) ;
+%
+% Qinv_freq_1200C.csv  Qinv_freq_1250C.csv   Qinv_freq_1300C.csv
+%G_filelist = {'logflogQinv_d4_1200C.csv', 'G_freq_1250C.csv', 'G_freq_1300C.csv'} ;
+Qinv_filelist = {'logflogQinv_d4_1200C.csv', 'logflogQinv_d4_1225C.csv', 'logflogQinv_d4_1250C.csv', 'logflogQinv_d4_1285C.csv', 'logflogQinv_d4_1300C.csv'};
+T_C_vec = [1200 1225 1250 1285 1300]; % ideally read these in from the filenames :)
+
+
+for iT=1:length(T_C_vec)
+
+  T_C = T_C_vec(iT) ;
+  %Gfilename = G_filelist{iT} ;
+  %disp(Gfilename);
+  %data_G = load(Gfilename);
+  %f = transpose(data_G(:,1)) ;
+  %Per = 1./f;
+  %logPer = log10(Per) ;
+
+  Qfilename = Qinv_filelist{iT};
+  disp(Qfilename);
+  data_Qinv = load(Qfilename);
+  log10f = transpose(data_Qinv(:,1)) ;
+  f = 10.^log10f ;
+  Per = 1./f;
+  logPer = log10(Per) ;
+
+  Data.BuntonCoop01(iT).Results.log10_Qinv = data_Qinv(:,2) ;
+  %Data.BuntonCoop10(iT).Results.G = data_G(:,2) ;
+
+  Data.BuntonCoop01(iT).exptCond.T_C = T_C ;
+  Data.BuntonCoop01(iT).exptCond.P_GPa = 101325*1e-9 ; % confining pressure-- Room pressure
+  Data.BuntonCoop01(iT).exptCond.Gu = 65 ; % reference G ! not sure what this is.. placeholder
+  Data.BuntonCoop01(iT).exptCond.rho = 3300 ; % reference density ! not sure what this is.. placeholder
+  Data.BuntonCoop01(iT).exptCond.dg_0 = 4.0 ; % grain size, in microns
+  Data.BuntonCoop01(iT).exptCond.Ch2o_0 = 0 ; % water content (wt %?)
+  Data.BuntonCoop01(iT).exptCond.sig_0 = 1e5 ; % stress,  Pa (cnvrted to MPa in spine)
+  Data.BuntonCoop01(iT).exptCond.phi_0 = 0.00 ; % melt fraction
+  Data.BuntonCoop01(iT).exptCond.logPer = logPer ; %
+  Data.BuntonCoop01(iT).exptCond.f = f ;
+  Data.BuntonCoop01(iT).exptCond.logf = log10f ;
+
+end
+
+save('./ExptData.mat', 'Data')
+
+% ======================================================
+return
+% ======================================================
+
+
 % ======================================================
 % SUNDBERG and COOPER DATA
 

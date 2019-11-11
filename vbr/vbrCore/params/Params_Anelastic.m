@@ -16,7 +16,7 @@ function params = Params_Anelastic(method)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % available anelastic methods
-  params.possible_methods={'eburgers_psp','andrade_psp','xfit_mxw','xfit_premelt'};
+  params.possible_methods={'eburgers_psp','andrade_psp','xfit_mxw','xfit_premelt','andrade_mxw'};
 
   if strcmp(method,'eburgers_psp')
     % extended burgers parameters
@@ -58,10 +58,10 @@ function params = Params_Anelastic(method)
     params.Delta = 0.3 ; % Relaxation strength
   end
 
-  if strcmp(method,'AndradeMxw')
+  if strcmp(method,'andrade_mxw')
     % ANDRADE parameters (from Sundberg+Cooper)
-    params.func_name='Andrade_Mxw_f'; % the name of the matlab function
-    params.n = 1/2 ; % 1/3 ;
+    params.func_name='Q_Andrade_Mxw_f'; % the name of the matlab function
+    params.alf = 1/2 ; % 1/3 ;
     % scaling option:
     %   1= Bunton's thesis- Andrade transient Beta only a function of G, eta_diff_ss
     %   2= Mixture of 1 and SundbergCooper2010-- add a bump.

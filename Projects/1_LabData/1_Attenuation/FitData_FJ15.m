@@ -18,13 +18,13 @@ data = Data ;
 % ===========================================
 % LOAD THE VBR or Run it here... not as LUT.
 
-runVBRwhere='here' % 'LUT'
+%runVBRwhere='here' % 'LUT'
 
-if strcmp(runVBRwhere,'LUT')==1
-  load('VBR_LUT_labdata');
-end
+% if strcmp(runVBRwhere,'LUT')==1
+%   load('VBR_LUT_labdata');
+% end
 
-if strcmp(runVBRwhere,'here')==1
+% if strcmp(runVBRwhere,'here')==1
 for i=1:length(data.FaulJax15)
   T_C_vec(i) = data.FaulJax15(i).exptCond.T_C  ;
 end
@@ -80,7 +80,7 @@ VBR.in.SV.phi = data.FaulJax15(1).exptCond.phi_0 .* ones(sz); % melt fraction
 
 % run VBR
 [VBR] = VBR_spine(VBR) ;
-end
+% end
 
 % % adjust VBR input and get out eburgers_psp with background + peak
 % VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
@@ -136,14 +136,14 @@ for iT = 1:nlines
     %LineW = LineW_vec(j);
     clr = colorscale(iT,:) ;
 
-  if strcmp(runVBRwhere,'LUT')==1
-    state = data.FaulJax15(iT).exptCond ;
-    [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-    Qs = VBR.out.anelastic.eburgers_psp.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
-    Q = squeeze(Qs) ;
-  elseif strcmp(runVBRwhere,'here')==1
+  % if strcmp(runVBRwhere,'LUT')==1
+  %   state = data.FaulJax15(iT).exptCond ;
+  %   [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+  %   Qs = VBR.out.anelastic.eburgers_psp.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
+  %   Q = squeeze(Qs) ;
+  % elseif strcmp(runVBRwhere,'here')==1
     Q = squeeze(VBR.out.anelastic.eburgers_psp.Q(1,iT,:)) ;
-  end
+  % end
 
   if plot_vs_freq
     plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
@@ -212,14 +212,14 @@ for iT = 1:nlines
     %LineW = LineW_vec(j);
     clr = colorscale(iT,:) ;
 
-  if strcmp(runVBRwhere,'LUT')==1
-    state = data.FaulJax15(iT).exptCond ;
-    [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-    Ms = VBR.out.anelastic.eburgers_psp.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
-    M = squeeze(Ms) ;
-  elseif strcmp(runVBRwhere,'here')==1
+  % if strcmp(runVBRwhere,'LUT')==1
+  %   state = data.FaulJax15(iT).exptCond ;
+  %   [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+  %   Ms = VBR.out.anelastic.eburgers_psp.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
+  %   M = squeeze(Ms) ;
+%  elseif strcmp(runVBRwhere,'here')==1
     M = squeeze(VBR.out.anelastic.eburgers_psp.M(1,iT,:)./1e9) ;
-  end
+%  end
 
   if plot_vs_freq
     plot(log10(f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;

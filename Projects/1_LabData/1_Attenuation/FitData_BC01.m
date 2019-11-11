@@ -18,47 +18,47 @@ data = Data ;
 % ===========================================
 % LOAD THE VBR or Run it here... not as LUT.
 
-runVBRwhere='here' % 'LUT'
+% runVBRwhere='here' % 'LUT'
+%
+% if strcmp(runVBRwhere,'LUT')==1
+%   load('VBR_LUT_labdata');
+% end
 
-if strcmp(runVBRwhere,'LUT')==1
-  load('VBR_LUT_labdata');
+% if strcmp(runVBRwhere,'here')==1
+for i=1:length(data.BuntonCoop01)
+  T_C_vec(i) = data.BuntonCoop01(i).exptCond.T_C  ;
 end
-
-if strcmp(runVBRwhere,'here')==1
-for i=1:length(data.FaulJax15)
-  T_C_vec(i) = data.FaulJax15(i).exptCond.T_C  ;
-end
-T_C_vec ;
+T_C_vec
 
 VBR.in.elastic.methods_list={'anharmonic'};
 VBR.in.viscous.methods_list={'HK2003';'HZK2011'};
-VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp'};
+VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp';'andrade_mxw'};
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
 
 
-VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
-fit_type='bg_peak';
-VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
+% VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
+% fit_type='bg_peak';
+% VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
 VBR.in.GlobalSettings.melt_enhacement = 0 ;
 
 
 % ===================================================
 % rescale the reference modulus =====================
 
-% pull out anharmonic scaling
-dGdT=VBR.in.elastic.anharmonic.dG_dT;
-dGdP=VBR.in.elastic.anharmonic.dG_dP;
-Tref=VBR.in.elastic.anharmonic.T_K_ref;
-Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
+% % pull out anharmonic scaling
+% dGdT=VBR.in.elastic.anharmonic.dG_dT;
+% dGdP=VBR.in.elastic.anharmonic.dG_dP;
+% Tref=VBR.in.elastic.anharmonic.T_K_ref;
+% Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
 
 % JF10 ref modulus is for their T/P (900C,.2GPa):
-Gu0_x=VBR.in.anelastic.eburgers_psp.(fit_type).G_UR;
-T_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).TR;
-P_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).PR;
+% Gu0_x=VBR.in.anelastic.eburgers_psp.(fit_type).G_UR;
+% T_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).TR;
+% P_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).PR;
 
-% back out ref Modlus at STP.
-Gu_0_ol =  Gu0_x - (T_ref_JF10-Tref) * dGdT/1e9 - (P_ref_JF10-Pref)*dGdP
-VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;% olivine reference shear modulus [GPa]
+% % back out ref Modlus at STP.
+% Gu_0_ol =  Gu0_x - (T_ref_JF10-Tref) * dGdT/1e9 - (P_ref_JF10-Pref)*dGdP
+% VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;% olivine reference shear modulus [GPa]
 
 % ==================================================
 %  frequencies to calculate at
@@ -72,15 +72,15 @@ VBR.in.SV_vectors.T_K_vec_dim1 = VBR.in.SV.T_K ;
 sz=size(VBR.in.SV.T_K) ; % temperature [K]
 
 %  remaining state variables (ISV)
-VBR.in.SV.dg_um= data.FaulJax15(1).exptCond.dg_0 .* ones(sz);
-VBR.in.SV.P_GPa = data.FaulJax15(1).exptCond.P_GPa .* ones(sz); % pressure [GPa]
-VBR.in.SV.rho = data.FaulJax15(1).exptCond.rho .* ones(sz); % density [kg m^-3]
-VBR.in.SV.sig_MPa = (data.FaulJax15(1).exptCond.sig_0 .* ones(sz))./1e6; % differential stress [MPa]
-VBR.in.SV.phi = data.FaulJax15(1).exptCond.phi_0 .* ones(sz); % melt fraction
+VBR.in.SV.dg_um= data.BuntonCoop01(1).exptCond.dg_0 .* ones(sz);
+VBR.in.SV.P_GPa = data.BuntonCoop01(1).exptCond.P_GPa .* ones(sz); % pressure [GPa]
+VBR.in.SV.rho = data.BuntonCoop01(1).exptCond.rho .* ones(sz); % density [kg m^-3]
+VBR.in.SV.sig_MPa = (data.BuntonCoop01(1).exptCond.sig_0 .* ones(sz))./1e6; % differential stress [MPa]
+VBR.in.SV.phi = data.BuntonCoop01(1).exptCond.phi_0 .* ones(sz); % melt fraction
 
 % run VBR
 [VBR] = VBR_spine(VBR) ;
-end
+% end
 
 % % adjust VBR input and get out eburgers_psp with background + peak
 % VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
@@ -118,7 +118,7 @@ else
 end
 
 %% PLOT =======================================================
-nlines = length(data.FaulJax15) ; %length(VBR_sols(1).T_params) ;
+nlines = length(data.BuntonCoop01) ; %length(VBR_sols(1).T_params) ;
 %cool to warm:
 colorscale(:,1) = linspace(0.5,1,nlines) ;
 colorscale(:,2) = linspace(0,0,nlines) ;
@@ -136,14 +136,17 @@ for iT = 1:nlines
     %LineW = LineW_vec(j);
     clr = colorscale(iT,:) ;
 
-  if strcmp(runVBRwhere,'LUT')==1
-    state = data.FaulJax15(iT).exptCond ;
-    [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-    Qs = VBR.out.anelastic.eburgers_psp.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
-    Q = squeeze(Qs) ;
-  elseif strcmp(runVBRwhere,'here')==1
-    Q = squeeze(VBR.out.anelastic.eburgers_psp.Q(1,iT,:)) ;
-  end
+  % if strcmp(runVBRwhere,'LUT')==1
+  %   state = data.FaulJax15(iT).exptCond ;
+  %   [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
+  %   Qs = VBR.out.anelastic.eburgers_psp.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
+  %   Q = squeeze(Qs) ;
+  % elseif strcmp(runVBRwhere,'here')==1
+  %   Q = squeeze(VBR.out.anelastic.eburgers_psp.Q(1,iT,:)) ;
+  % end
+
+  Q = squeeze(VBR.out.anelastic.andrade_mxw.Q(1,iT,:)) ;
+
 
   if plot_vs_freq
     plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
@@ -152,12 +155,12 @@ for iT = 1:nlines
   end
 
   % PLOT DATA
-  data_log10_Qinv = data.FaulJax15(iT).Results.log10_Qinv ;
+  data_log10_Qinv = data.BuntonCoop01(iT).Results.log10_Qinv ;
   if plot_vs_freq
-    data_freq = data.FaulJax15(iT).exptCond.f ;
+    data_freq = data.BuntonCoop01(iT).exptCond.f ;
     plot(log10(data_freq),data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
   else
-    data_logPer = data.FaulJax15(iT).exptCond.logPer
+    data_logPer = data.BuntonCoop01(iT).exptCond.logPer
     plot(data_logPer,data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
   end
 
@@ -165,8 +168,8 @@ end
 
 axis tight
 % xlim([1.8e1 3e2])
-ylim([-2.3,.5])
-title(['Extended Burgers'],'fontname','Times New Roman','fontsize',LBLFNT);
+ylim([-2.1,.5])
+title(['Andrade scaled by Maxwell'],'fontname','Times New Roman','fontsize',LBLFNT);
 xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
 ylabel('log_{10} Q^{-1}, attenuation', 'fontname','Times New Roman','fontsize', LBLFNT)
 %ylabel('log_{10} Q^{-1}, (J_1/J_2)', 'fontname','Times New Roman','fontsize', LBLFNT)
@@ -174,6 +177,9 @@ set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
 
 
+% ===================
+return
+% ===================
 
 %%  G vs FREQUENCY (BURGERS) ==================================================
 axes('Position', plot_row1_B);

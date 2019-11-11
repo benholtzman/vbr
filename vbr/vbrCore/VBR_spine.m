@@ -49,7 +49,7 @@ function [VBR] = VBR_spine(VBR)
   VBR = checkInput(VBR);
   telapsed=struct();
   if VBR.status==0
-     disp(VBR.error_message)
+     fprintf(VBR.error_message)
      return
   end
 

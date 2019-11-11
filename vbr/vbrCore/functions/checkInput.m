@@ -65,7 +65,7 @@ function [VBR]=checkInput(VBR)
               msg=['VBR.in.',typ,'.',method,' does not have a required method set, setting:'];
               msg_2=["\n   VBR.in.",typ,'.',fieldvars{1},'.methods_list={''',Defs{ri},'''}',"\n"];
               msg=strcat(msg,msg_2);
-              disp(msg)
+              fprintf(msg)
             else
               VBR.status=0;
             end

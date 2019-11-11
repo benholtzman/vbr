@@ -9,19 +9,31 @@ clear Data
 % so you should use it). columns that say either f/fm or normalized f are
 % the ones I use for the master curve. in all cases I used the viscosities
 % reported in those papers.
-addpath('./datasets/FJ2015_data/')
+
+% November 8, 2019 (Ben):
+% the data is stored outside of the vbr repository because we do not want to release
+% the data with the codes without explicit permission... so it must be read in..
+% [AND IT MUST BE MOVED OUT OF THIS CODE !! ]
+% re
+
+% ======================================================
+% FAUL AND JACKSON 2015 DATA (that includes previous papers, right?)
+datadir = '../../../../vbrWork/expt_data/3_attenuation/' ;
+FJ_datadir = [datadir,'FJ2015_data/'] ;
+addpath(FJ_datadir) ;
 G_filelist = {"T900_SanCarlos_G.csv", "T1000_SanCarlos_G.csv", "T1100_SanCarlos_G.csv", "T1200_SanCarlos_G.csv"}
 Qinv_filelist = {"T900_SanCarlos_Qinv.csv","T1000_SanCarlos_Qinv.csv","T1100_SanCarlos_Qinv.csv","T1200_SanCarlos_Qinv.csv"};
-T_C_vec = [900 1000 1100 1200];
+T_C_vec = [900 1000 1100 1200]; % ideally read these in from the filenames :)
 
 
-for iT=1:4
+for iT=1: length(T_C_vec)
 
   T_C = T_C_vec(iT)
   Gfilename = G_filelist{iT} ;
   disp(Gfilename);
   data_G = load(Gfilename);
-
+  logPer = transpose(data_G(:,1)) ;
+  f = 1./(10.^logPer);
   Qfilename = Qinv_filelist{iT};
   disp(Qfilename);
   data_Qinv = load(Qfilename);
@@ -34,17 +46,68 @@ for iT=1:4
   Data.FaulJax15(iT).exptCond.Ch2o_0 = 0 ; % water content (wt %?)
   Data.FaulJax15(iT).exptCond.sig_0 = 1e5 ; % stress,  Pa (cnvrted to MPa in spine)
   Data.FaulJax15(iT).exptCond.phi_0 = 0.00 ; % melt fraction
-  %Data.FaulJax15(iT).exptCond.f = [ 0.0056000 0.0100000 0.017800 0.031600 0.056200 0.10000 0.17780 0.31600 0.56230 1.0000 ];
-  logPer = transpose(data_G(:,1)) ;
-  f = 1./(10.^logPer);
   Data.FaulJax15(iT).exptCond.logPer = logPer ; %
   Data.FaulJax15(iT).exptCond.f = f ;
   Data.FaulJax15(iT).exptCond.logf = log10(f) ;
-
   Data.FaulJax15(iT).Results.log10_Qinv = data_Qinv(:,2) ;
   Data.FaulJax15(iT).Results.G = data_G(:,2) ;
 
 end
+
+
+% ======================================================
+% SUNDBERG and COOPER DATA
+
+datadir = '../../../../vbrWork/expt_data/3_attenuation/' ;
+SC_datadir = [datadir,'SundCoop2010_data/'] ;
+addpath(SC_datadir) ;
+%
+% Qinv_freq_1200C.csv  Qinv_freq_1250C.csv   Qinv_freq_1300C.csv
+G_filelist = {'G_freq_1200C.csv', 'G_freq_1250C.csv', 'G_freq_1300C.csv'} ;
+Qinv_filelist = {'Qinv_freq_1200C.csv', 'Qinv_freq_1250C.csv', 'Qinv_freq_1300C.csv'};
+T_C_vec = [1200 1250 1300]; % ideally read these in from the filenames :)
+
+
+for iT=1:length(T_C_vec)
+
+  T_C = T_C_vec(iT)
+  Gfilename = G_filelist{iT} ;
+  disp(Gfilename);
+  data_G = load(Gfilename);
+  f = transpose(data_G(:,1)) ;
+  Per = 1./f;
+  logPer = log10(Per) ;
+  Qfilename = Qinv_filelist{iT};
+  disp(Qfilename);
+  data_Qinv = load(Qfilename);
+
+  Data.SundCoop10(iT).Results.log10_Qinv = data_Qinv(:,2) ;
+  Data.SundCoop10(iT).Results.G = data_G(:,2) ;
+
+  Data.SundCoop10(iT).exptCond.T_C = T_C ;
+  Data.SundCoop10(iT).exptCond.P_GPa = 0.300 ; % confining pressure
+  Data.SundCoop10(iT).exptCond.Gu = 65 ; % reference G ! not sure what this is.. placeholder
+  Data.SundCoop10(iT).exptCond.rho = 3300 ; % reference density ! not sure what this is.. placeholder
+  Data.SundCoop10(iT).exptCond.dg_0 = 17.1 ; % grain size, in microns
+  Data.SundCoop10(iT).exptCond.Ch2o_0 = 0 ; % water content (wt %?)
+  Data.SundCoop10(iT).exptCond.sig_0 = 1e5 ; % stress,  Pa (cnvrted to MPa in spine)
+  Data.SundCoop10(iT).exptCond.phi_0 = 0.00 ; % melt fraction
+  Data.SundCoop10(iT).exptCond.logPer = logPer ; %
+  Data.SundCoop10(iT).exptCond.f = f ;
+  Data.SundCoop10(iT).exptCond.logf = log10(f) ;
+
+end
+
+save('./ExptData.mat', 'Data')
+
+
+
+
+% ========
+return
+% ========
+% ALL THE REST MUST BE REPLACED AND DELETED !
+
 
 
 %% TAN & FAUL & JACKSON ()
@@ -139,5 +202,3 @@ Data.SundCoop(3).exptCond.f = [ 0.0056000 0.0100000 0.017800 0.031600 0.056200 0
 Data.SundCoop(3).exptCond.logf = log10(Data.SundCoop(2).exptCond.f) ;
 Data.SundCoop(3).Results.Qinv = [ 1.7473 1.2105 0.9289 0.7106 0.5611 0.4459 0.3586 0.3251 0.2992 0.3001 ] ;
 Data.SundCoop(3).Results.G = [ 4.9 7.4 9.8 12.5 15.0 17.4 20.0 22.3 23.8 26.0 ] ;
-
-save('ExptData.mat', 'Data')

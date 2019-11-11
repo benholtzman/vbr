@@ -10,23 +10,23 @@
    clear
 
 %filename = 'VBR_GIA_LUT_asth.mat'
-filename = 'VBR_LUT_labdata_y190304.mat'
+filename = 'VBR_LUT_labdata.mat'
 %filename = 'VBR_T_gs_melt_LUT.mat'
 %% ====================================================
 %% Load and set VBR parameters ========================
 %% ====================================================
 
 %  put VBR in the path
-   VBR_version = 'VBR_v0p95';
-   addpath(genpath(['../../../vbr/4_VBR/',VBR_version ])); % recursive add path
+%   VBR_version = 'VBR_v0p95';
+%   addpath(genpath(['../../../vbr/4_VBR/',VBR_version ])); % recursive add path
 
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
 %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
- VBR.in.elastic.methods_list={'anharmonic';'poro_Takei'}; %;'SLB2005'};
- VBR.in.viscous.methods_list={'HK2003'; 'LH2012'};
- VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT2016_solidus';'YT_maxwell'};
- VBR.in.GlobalSettings.melt_enhacement=0; % turn off critcal melt fraction effect
+ VBR.in.elastic.methods_list={'anharmonic'}; %;'SLB2005'};
+ VBR.in.viscous.methods_list={'HK2003'; 'LH2011'};
+ VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP';'YT2016_solidus';'MTH2011'};
+ VBR.in.GlobalSettings.melt_enhacement=0; % 1=on; 0=turn off critcal melt fraction effect
 
 %  load anharmonic parameters, adjust Gu_0_ol and derivatives to match JF10
  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
@@ -60,7 +60,7 @@ fmin = 0.001 ; %
 fmax = 2.0 ; %
 f_vec = logspace(log10(fmin),log10(fmax),20) ;
 VBR.in.SV.f = f_vec ;
-% FJax: f = [ 0.0056000 0.0100000 0.017800 0.031600 0.056200 0.10000 0.17780 0.31600 0.56230 1.0000 ]
+
 %% ====================================================
 %% define variable vectors ============================
 %% ====================================================
@@ -80,7 +80,6 @@ VBR.in.SV_vectors.P_GPa_vec_dim3 = P_GPa_vec ;
 
 %[T_K_ra,gs_um_ra] = ndgrid(T_C_vec+273, gs_um_vec) ;
 [T_K_ra,gs_um_ra,P_GPa_ra] = ndgrid(T_C_vec+273,gs_um_vec,P_GPa_vec) ;
-%T_K_ra = T_K_ra'
 oneses = ones(size(T_K_ra)) ; %,len(gs_um_vec),len(phi_vec));
 sz=size(oneses) ; %
 
@@ -98,7 +97,7 @@ sz=size(oneses) ; %
 %  size of the state variable arrays. arrays can be any shape
 %  but all arays must be the same shape.
 VBR.in.SV.T_K= T_K_ra ; % VBR.in.SV.T_C+273; % temperature [K]
-VBR.in.SV.dg_um = gs_um_ra;
+VBR.in.SV.dg_um = gs_um_ra ;
 
 %  intensive state variables (ISV)
 VBR.in.SV.P_GPa = P_GPa_ra; % pressure [GPa]
@@ -106,25 +105,25 @@ VBR.in.SV.rho = 3300 * oneses; % density [kg m^-3]
 VBR.in.SV.sig_MPa = 0.1 * oneses; % differential stress [MPa]
 
 % asthenosphere conditions
-   %VBR.in.SV.dg_um = 5e3*oneses;
-   % VBR.in.SV.P_GPa = 0.3 * oneses; % pressure [GPa]
-   % VBR.in.SV.rho = 3300 * oneses; % density [kg m^-3]
-  %VBR.in.SV.sig_MPa = 0.5 * oneses; % differential stress [MPa]
+%VBR.in.SV.dg_um = 5e3*oneses;
+% VBR.in.SV.P_GPa = 0.3 * oneses; % pressure [GPa]
+% VBR.in.SV.rho = 3300 * oneses; % density [kg m^-3]
+%VBR.in.SV.sig_MPa = 0.5 * oneses; % differential stress [MPa]
 
-   VBR.in.SV.chi = oneses; % composition fraction  1 = olivine, 0 = crust
+VBR.in.SV.chi = oneses; % composition fraction  1 = olivine, 0 = crust
 
 %  structural state variables (SSV)
-   VBR.in.SV.phi = 0.0 * oneses; % melt fraction
+VBR.in.SV.phi = 0.0 * oneses; % melt fraction
 
 %  compositional state variables (CSV)
-   VBR.in.SV.Ch2o = 0 * oneses ; % water concentration
+VBR.in.SV.Ch2o = 0 * oneses ; % water concentration
 
 %  this method requires the solidus
 %  you should write your own function for the solidus that takes all the other
 %  state variables as input. This is just for illustration
-   dTdz=0.5 ; % solidus slope [C/km]
-   dTdP=dTdz / 3300 / 9.8 / 1000 * 1e9; % [C/GPa ]
-   VBR.in.SV.Tsolidus_K=1000+dTdP*VBR.in.SV.P_GPa;
+dTdz=0.5 ; % solidus slope [C/km]
+dTdP=dTdz / 3300 / 9.8 / 1000 * 1e9; % [C/GPa ]
+VBR.in.SV.Tsolidus_K=1000+dTdP*VBR.in.SV.P_GPa;
 
 %% ====================================================
 %% CALL THE VBR CALCULATOR ============================

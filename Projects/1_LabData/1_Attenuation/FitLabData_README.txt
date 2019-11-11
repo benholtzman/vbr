@@ -1,3 +1,14 @@
+TO DO this weekend" 
+
+1) plot cooper data.. 
+2) work that math for the anharmonic scaling
+3) work that math for cooper scaling
+
+4) get takei data from web
+5) fit takei maxwell data
+
+6) read emily's thing and finish the flowchart. 
+
 # README: Fitting experimental data
 
 (1) Assemble the experimental data-- this is currently done in "Make_DATA.m",

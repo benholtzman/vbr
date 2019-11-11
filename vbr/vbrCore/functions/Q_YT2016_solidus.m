@@ -70,7 +70,8 @@ function [VBR] = Q_YT2016_solidus(VBR)
     VBRout.J1 = J1;
     VBRout.J2 = J2;
 
-    J2_J1_frac=(1+sqrt(1+(J2./J1).^2))/2;
+    % J2_J1_frac=(1+sqrt(1+(J2./J1).^2))/2;
+    J2_J1_frac=1; 
     rho_f = proc_add_freq_indeces(rho,n_freq);
     VBRout.V=sqrt(1./(J1.*rho_f)).*(J2_J1_frac.^(-1/2));
     VBRout.M1 = 1./J1;

@@ -19,55 +19,19 @@ function params = Params_Anelastic(method)
   params.possible_methods={'eBurgers','AndradePsP','MTH2011','YT2016_solidus'};
 
   if strcmp(method,'eBurgers')
-    % extended BURGERS parameters
+    % extended burgers parameters
     params.func_name='Q_eBurgers_decider'; % the name of the matlab function
     params.citations={'Faul and Jackson, 2015, Ann. Rev. of Earth and Planetary Sci., https://doi.org/10.1146/annurev-earth-060313-054732',...
                       'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
-    % fit paramter values from Table 2 of JF10 all melt-free samples
     params.method='PointWise'; % 'FastBurger' uses look-up table for integration, only works for high temp background
                                % 'PointWise' integrates every frequency and state variable condition
     params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
     params.R = 8.314 ; % gas constant
-    params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak'
-    params.useJF10visc=1; % if 1, will use the scaling from JF10 for maxwell time.
+    params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak' or 's6585_bg_only'
+    params.useJF10visc=1; % if 1, will use the scaling from JF10 for maxwell time. If 0, will calculate
     params.integration_method=0; % 0 for trapezoidal, 1 for quadrature.
     params.tau_integration_points = 500 ; % number of points for integration of high-T background if trapezoidal
-
-    % best high-temp background only fit:
-    params.bg_only.TR=1173; % ref temp [K]
-    params.bg_only.PR = 0.2; % ref confining pressure of experiments, GPa
-    params.bg_only.dR = 13.4; % ref grain size in microns
-    params.bg_only.G_UR = 62.5 ; % GPa, unrel. G, reference val.
-    params.bg_only.E = 303000 ; % J/mol
-    params.bg_only.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
-    params.bg_only.m_a = 1.19 ; % grain size exponent for tau_i, i in (L,H,P)
-    params.bg_only.m_v = 3 ; % viscous grain size exponent for maxwell time
-    params.bg_only.alf = 0.257 ; % is this the same as n in Andrade ?
-    params.bg_only.DeltaB = 1.13 ;% relaxation strength..
-    params.bg_only.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
-    params.bg_only.Tau_HR = 1e7 ; % Relaxation time higher limit reference
-    params.bg_only.Tau_MR = 10^6.95 ; % Reference Maxwell relaxation time
-    params.bg_only.DeltaP=0; % no peak, set to 0
-    params.bg_only.sig=0;% no peak, set to 0
-    params.bg_only.Tau_PR=0;% no peak, set to 0
-
-    % best high-temp background + peak fit:
-    params.bg_peak.DeltaP=0.057; % relaxation strength of peak
-    params.bg_peak.sig=4; % sigma, peak breadth
-    params.bg_peak.Tau_PR=10^-3.4;
-    params.bg_peak.TR=1173; % ref temp [K]
-    params.bg_peak.PR = 0.2; % ref confining pressure of experiments, GPa
-    params.bg_peak.dR = 13.4; % ref grain size in microns
-    params.bg_peak.G_UR = 66.5 ; % GPa, unrel. G, reference val.
-    params.bg_peak.E = 360000 ; % J/mol
-    params.bg_peak.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
-    params.bg_peak.m_a = 1.31 ; % grain size exponent for tau_i, i in (L,H,P)
-    params.bg_peak.m_v = 3 ; % viscous grain size exponent for maxwell time
-    params.bg_peak.alf = 0.274 ; % is this the same as n in Andrade ?
-    params.bg_peak.DeltaB = 1.13 ;% relaxation strength of background.
-    params.bg_peak.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
-    params.bg_peak.Tau_HR = 1e7 ; % Relaxation time higher limit reference
-    params.bg_peak.Tau_MR = 10^7.48 ; % Reference Maxwell relaxation time
+    params=load_JF10_eBurger_params(params);
   end
 
   if strcmp(method,'AndradePsP')
@@ -137,7 +101,7 @@ function params = Params_Anelastic(method)
     % YT2016_solidus parameters
     params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     params.func_name='Q_YT2016_solidus'; % the name of the matlab function
-    
+
     params.alpha_B=0.38;
     params.A_B=0.664;
     params.tau_pp=6*1e-5;
@@ -160,4 +124,78 @@ function params = Params_Anelastic(method)
   params.melt_alpha = HK2003.diff.alf ; % steady state melt dependence (exp(-alf*phi))
   params.phi_c = HK2003.diff.phi_c ; % critical melt fraction
   params.x_phi_c = HK2003.diff.x_phi_c ; % melt effect factor
+end
+
+
+function params=load_JF10_eBurger_params(params)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads fitting parameters
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  % multiple sample best high-temp background only fit:
+  params.bg_only.dR = 13.4; % ref grain size in microns
+  params.bg_only.G_UR = 62.5 ; % GPa, unrel. G, reference val.
+  params.bg_only.E = 303000 ; % J/mol
+  params.bg_only.m_a = 1.19 ; % grain size exponent for tau_i, i in (L,H,P)
+  params.bg_only.alf = 0.257 ; % high temp background tau exponent
+  params.bg_only.DeltaB = 1.13 ;% relaxation strength..
+  params.bg_only.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
+  params.bg_only.Tau_HR = 1e7 ; % Relaxation time higher limit reference
+  params.bg_only.Tau_MR = 10^6.95 ; % Reference Maxwell relaxation time
+  params.bg_only.DeltaP=0; % no peak, set to 0
+  params.bg_only.sig=0;% no peak, set to 0
+  params.bg_only.Tau_PR=0;% no peak, set to 0
+
+  % multiple sample best high-temp background + peak fit:
+  params.bg_peak.DeltaP=0.057; % relaxation strength of peak
+  params.bg_peak.sig=4; % sigma, peak breadth
+  params.bg_peak.Tau_PR=10^-3.4; % center maxwell time
+  params.bg_peak.dR = 13.4; % ref grain size in microns
+  params.bg_peak.G_UR = 66.5 ; % GPa, unrel. G, reference val.
+  params.bg_peak.E = 360000 ; % J/mol
+  params.bg_peak.m_a = 1.31 ; % grain size exponent for tau_i, i in (L,H,P)
+  params.bg_peak.alf = 0.274 ; % high temp background tau exponent
+  params.bg_peak.DeltaB = 1.13 ;% relaxation strength of background.
+  params.bg_peak.Tau_LR = 1e-3 ; % Relaxation time lower limit reference
+  params.bg_peak.Tau_HR = 1e7 ; % Relaxation time higher limit reference
+  params.bg_peak.Tau_MR = 10^7.48 ; % Reference Maxwell relaxation time
+
+  % single sample 6585 fit, HTB only
+  params.s6585_bg_only.dR = 3.1; % ref grain size in microns
+  params.s6585_bg_only.G_UR = 62.0 ; % GPa, unrel. G, reference val.
+  params.s6585_bg_only.E = 303000 ; % J/mol
+  params.s6585_bg_only.m_a = 1.19 ; % grain size exponent for tau_i, i in (L,H,P)
+  params.s6585_bg_only.alf = 0.33 ; % high temp background tau exponent
+  params.s6585_bg_only.DeltaB = 1.4 ;% relaxation strength.
+  params.s6585_bg_only.Tau_LR = 1e-2 ; % Relaxation time lower limit reference
+  params.s6585_bg_only.Tau_HR = 1e6 ; % Relaxation time higher limit reference
+  params.s6585_bg_only.Tau_MR = 10^5.2 ; % Reference Maxwell relaxation time
+  params.s6585_bg_only.DeltaP=0; % no peak, set to 0
+  params.s6585_bg_only.sig=0;% no peak, set to 0
+  params.s6585_bg_only.Tau_PR=0;% no peak, set to 0
+
+  % single sample 6585 fit, HTB + dissipation peak
+  params.s6585_bg_peak.DeltaP=0.07; % relaxation strength of peak
+  params.s6585_bg_peak.sig=4; % sigma, peak breadth
+  params.s6585_bg_peak.Tau_PR=10^-2.9; % center maxwell time
+  params.s6585_bg_peak.dR = 3.1; % ref grain size in microns
+  params.s6585_bg_peak.G_UR = 66.5 ; % GPa, unrel. G, reference val.
+  params.s6585_bg_peak.E = 327000 ; % J/mol
+  params.s6585_bg_peak.m_a = 1.19 ; % grain size exponent for tau_i, i in (L,H,P)
+  params.s6585_bg_peak.alf = 0.33 ; % high temp background tau exponent
+  params.s6585_bg_peak.DeltaB = 1.4 ;% relaxation strength..
+  params.s6585_bg_peak.Tau_LR = 1e-2 ; % Relaxation time lower limit reference
+  params.s6585_bg_peak.Tau_HR = 1e6 ; % Relaxation time higher limit reference
+  params.s6585_bg_peak.Tau_MR = 10^5.4 ; % Reference Maxwell relaxation time
+
+  % parameters commmon to all the above
+  meths={'s6585_bg_peak';'s6585_bg_only';'bg_peak';'bg_only'};
+  for imeth=1:numel(meths)
+    meth=meths{imeth};
+    params.(meth).TR=1173; % ref temp [K]
+    params.(meth).PR = 0.2; % ref confining pressure of experiments, GPa
+    params.(meth).Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
+    params.(meth).m_v = 3 ; % viscous grain size exponent for maxwell time
+  end
+
 end

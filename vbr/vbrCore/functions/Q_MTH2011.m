@@ -83,7 +83,8 @@ function [VBR]=Q_MTH2011(VBR)
       J2(i_glob) = Ju.*((pi/2)*X_tau(end) + tau_norm(i));
 
       % See McCarthy et al, 2011, Appendix B, Eqns B6 !
-      J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;
+      % J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;
+      J2_J1_frac=1;
       Qinv(i_glob) = J2(i_glob)./J1(i_glob).*(J2_J1_frac.^-1);
       Q(i_glob) = 1./Qinv(i_glob);
       M(i_glob) = 1./sqrt(J1(i_glob).^2+J2(i_glob).^2);

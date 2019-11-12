@@ -38,9 +38,7 @@ function vbr_init(varargin)
   Options=validateStructOpts('vbr_init',varargin,Options,ValidOpts);
 
 % collect all the subdirectories under ./vbr/ to add
-  subDirs2add={'vbrCore',...
-               fullfile('fitting','matlab_FittingFunctions'),...
-               fullfile('fitting','pyFits_v0p1')};
+  subDirs2add={'vbrCore';'fitting'};
   success=1;
   for i_fo = 1:numel(subDirs2add)
     fo=subDirs2add{i_fo};
@@ -62,7 +60,7 @@ function vbr_init(varargin)
 
   if ~strcmp(lower(Options.forwardModel),'none')
     path2add=fullfile(vbr_dir,'vbr','forwardModels',Options.forwardModel);
-    if exist(path2add,'dir')      
+    if exist(path2add,'dir')
       addpath(genpath(path2add));
     else
       disp('Forward Model path does not exist, no forward model at this path:')

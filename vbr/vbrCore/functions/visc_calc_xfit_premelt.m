@@ -79,10 +79,7 @@ function eta = YT2016_dryViscosity(VBR,params)
     Tr=params.Tr_K; % ref. temp [K]
     Pr=params.Pr_Pa; % ref. pressure [Pa]
     eta_r=params.eta_r; % viscosity at (Tr,Pr,dr) [Pa s]
-
-  % ref. grain size. per p7817 of reference paper (second paragraph). dr=d. i.e.,
-  % gain size dependence is in eta_r.
-    dr=VBR.in.SV.dg_um; % grain size independent beyond what is in etar, see
+    dr=params.dg_um_r; % ref. grain size [um]
 
   % constants
     H=params.H; % activation energy [J/mol], figure 20 of reference paper

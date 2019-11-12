@@ -46,15 +46,19 @@ function params = Params_Viscous(method)
     % method to use for dry (melt-free) diff. creep viscosity
     params.eta_dry_method='xfit_premelt';
 
-    % flow law constants for their viscosity relationship.
-    % Only used if eta_dry_method='YT2016_solidus'
-    params.Tr_K=1200+273; % p7817 of reference paper, second paragraph
-    params.Pr_Pa=1.5*1e9; % p7817 of reference paper, second paragraph
+    % flow law constants for YT2016
+    params.Tr_K=1200+273; % p7817 of YT2016, second paragraph
+    params.Pr_Pa=1.5*1e9; % p7817 of YT2016, second paragraph
     params.eta_r=6.22*1e21; % figure 20 of reference paper
-    params.H=462.5*1e3; % activation energy [J/mol], figure 20 of reference paper
-    params.V=7.913*1e-6; % activation vol [m3/mol], figure 20 of reference paper
+    params.H=462.5*1e3; % activation energy [J/mol], figure 20 of YT2016
+    params.V=7.913*1e-6; % activation vol [m3/mol], figure 20 of YT2016
     params.R=8.314; % gas constant [J/mol/K]
-    params.m=3; % grain size exponent -- but this does not matter since dr = d.
+    params.m=3; % grain size exponent
+    params.dg_um_r=.004*1e6; % reference grain size [um]
+    % note that in YT2016 (section 4.4), YT2016 fit for H, V following
+    % Priestly & McKenzie EPSL 2013 and dg_um = dg_um_r. This assumes that
+    % the grain size is at the mean grain size of the upper mantle, which
+    % Priestly & McKenzie calculate as 4 mm.
   end
 
 

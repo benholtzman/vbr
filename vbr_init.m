@@ -62,8 +62,7 @@ function vbr_init(varargin)
 
   if ~strcmp(lower(Options.forwardModel),'none')
     path2add=fullfile(vbr_dir,'vbr','forwardModels',Options.forwardModel);
-    if exist(path2add,'dir')
-      disp(['VBR forward model ',Options.forwardModel,' added to path'])
+    if exist(path2add,'dir')      
       addpath(genpath(path2add));
     else
       disp('Forward Model path does not exist, no forward model at this path:')

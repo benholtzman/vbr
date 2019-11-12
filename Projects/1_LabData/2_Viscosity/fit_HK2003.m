@@ -23,11 +23,29 @@ function fit_HK2003()
   VBR.in.SV.phi = 0.0*ones(size(stress));
   VBR.in.SV.Ch2o = 0*ones(size(stress));
 
+
+
+
+
   %% write method list (these are the things to calculate)
   VBR.in.viscous.methods_list={'HK2003'};
   VBR.in.viscous.HK2003 = Params_Viscous('HK2003');
   VBR.in.viscous.HK2003.possible_mechs={'disl';'diff';};
   VBR.in.GlobalSettings.melt_enhancement=0;
+  pa=VBR.in.viscous.HK2003.disl;
+
+  disp('dislocation coefficients and exponents:')
+  disp(pa)
+  P=VBR.in.SV.P_GPa*1e9;
+  arrh=exp(-(pa.Q+pa.V*P)./(8.314*VBR.in.SV.T_K));
+  sr_dis=pa.A *(VBR.in.SV.dg_um.^(-pa.p)).* VBR.in.SV.sig_MPa.^pa.n .* arrh;
+
+  pa=VBR.in.viscous.HK2003.diff;
+  % pa.V=15*(10^-6);
+  disp('diffusion coefficients and exponents:')
+  disp(pa)
+  arrh=exp(-(pa.Q+pa.V*P)./(8.314*VBR.in.SV.T_K));
+  sr_diff=pa.A *(VBR.in.SV.dg_um.^(-pa.p)).* (VBR.in.SV.sig_MPa.^pa.n) .* arrh;
 
   %% calculate viscosity
   [VBR] = VBR_spine(VBR);
@@ -37,6 +55,8 @@ function fit_HK2003()
   loglog(stress,VBR.out.viscous.HK2003.diff.sr,'--k','displayname','diff','linewidth',1.5)
   hold on
   loglog(stress,VBR.out.viscous.HK2003.disl.sr,'k','displayname','disl','linewidth',1.5)
+  loglog(stress,sr_dis,'--r','displayname','disl raw','linewidth',1.5)
+  loglog(stress,sr_diff,'r','displayname','diff raw','linewidth',1.5)
   if isfield(VBR.out.viscous.HK2003,'gbs')
      loglog(stress,VBR.out.viscous.HK2003.gbs.sr,'--b','displayname','gbs','linewidth',1.5)
   end

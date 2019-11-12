@@ -170,7 +170,7 @@ function Xtilde = calculateXtilde(VBR)
   alpha = Andrade_params.melt_alpha ;
   phi_c = Andrade_params.phi_c ;
   x_phi_c = Andrade_params.x_phi_c ;
-  if VBR.in.GlobalSettings.melt_enhacement==0
+  if VBR.in.GlobalSettings.melt_enhancement==0
     x_phi_c=1;
   else
     Xtilde = Xtilde / x_phi_c ;

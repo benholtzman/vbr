@@ -24,6 +24,7 @@ function params = Params_Viscous(method)
   if strcmp(method,'HK2003')
     % hirth and kohlstedt 2003
     params = load_HK03_flowlaw_constants(phi_c,x_phi_c); % load standard constants
+    params.possible_mechs={'diff','disl','gbs'};
     params.func_name='sr_visc_calc_HK2003'; % the name of the matlab function
     params.citations={'Hirth and Kohlstedt, 2003, In Inside the Subduction Factory, J. Eiler (Ed.). https://doi.org/10.1029/138GM06 '};
     params.ch2o_o = 50; % reference water content [ppm] ("dry" below this value)
@@ -31,6 +32,7 @@ function params = Params_Viscous(method)
   elseif strcmp(method,'HZK2011')
     % hansen et al., 2011
     params = load_HZK2011_flowlaw_constants(phi_c,x_phi_c); %  load standard constants
+    params.possible_mechs={'diff','disl','gbs'};
     params.citations={'Hansen, Zimmerman and Kohlstedt, 2011, J. Geophys. Res., https://doi.org/10.1029/2011JB008220'};
     params.func_name='sr_visc_calc_HZK2011'; % the name of the matlab function
     params.P_dep_calc='yes'; % pressure-dependent calculation? 'yes' or 'no'.

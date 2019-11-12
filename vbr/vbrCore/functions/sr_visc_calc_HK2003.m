@@ -30,8 +30,8 @@ function VBR= sr_visc_calc_HK2003(VBR)
   d = VBR.in.SV.dg_um ; % [um]
   phi = VBR.in.SV.phi ;
   Ch2o=VBR.in.SV.Ch2o; % in [PPM]!
-  ch2o=VBR.in.viscous.HK2003.ch2o_o; % effectively dry below this [PPM]
   params=VBR.in.viscous.HK2003;
+  ch2o=params.ch2o_o; % effectively dry below this [PPM]
 
   % pressure dependent calculation?
   P_Pa = P_Pa.*(strcmp(params.P_dep_calc,'yes'));
@@ -42,14 +42,14 @@ function VBR= sr_visc_calc_HK2003(VBR)
 
   %calculate strain rate [1/s]
   sr_tot = 0;
-  possible_mechs={'diff';'disl';'gbs'};
+  possible_mechs=params.possible_mechs;
 
-  for ip = 1:3
+  for ip = 1:numel(possible_mechs)
      mech=possible_mechs{ip};
      if isfield(VBR.in.viscous.HK2003,mech)
         % prep the flow law parameters
         FLP=prep_constants(fH2O,T_K,params.(mech),mech);
-        if VBR.in.GlobalSettings.melt_enhacement==0
+        if VBR.in.GlobalSettings.melt_enhancement==0
            FLP.x_phi_c=1;
         end
         % calculate strain rate

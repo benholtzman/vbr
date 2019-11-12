@@ -54,7 +54,6 @@ function VBR = runVBR(SVs,VBRsettings);
 
   VBR.in.SV=SVs;
   VBR.in.SV.f=VBRsettings.freqs;
-  VBR.in.SV.phi= VBRsettings.phi0 * (SVs.T_K>=SVs.Tsolidus_K); % melt fraction
   disp('Calculating material properties....')
   [VBR] = VBR_spine(VBR) ;
 end

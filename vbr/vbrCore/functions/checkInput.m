@@ -63,7 +63,7 @@ function [VBR]=checkInput(VBR)
             if strcmp(Defs{ri},'null')==0
               VBR.in.(fieldvars{1}).methods_list={Defs{ri}};
               msg=['VBR.in.',typ,'.',method,' does not have a required method set, setting:'];
-              msg_2=["\n   VBR.in.",typ,'.',fieldvars{1},'.methods_list={''',Defs{ri},'''}',"\n"];
+              msg_2=["\n   VBR.in.",fieldvars{1},'.methods_list={''',Defs{ri},'''}',"\n"];
               msg=strcat(msg,msg_2);
               fprintf(msg)
             else

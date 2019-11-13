@@ -6,7 +6,9 @@ function VBR=plot_premelt()
   addpath(path_to_top_level_vbr)
   vbr_init
 
+  VBR.in.elastic.methods_list={'anharmonic'};
   VBR.in.viscous.methods_list={'xfit_premelt'};
+  VBR.in.anelastic.methods_list={'xfit_premelt'};
   VBR.in.viscous.xfit_premelt=SetBorneolParams();
 
   % construct state variable fields
@@ -17,7 +19,7 @@ function VBR=plot_premelt()
   VBR.in.SV.phi = 0.0 * ones(size(VBR.in.SV.T_K));
   VBR.in.SV.rho = 3300* ones(size(VBR.in.SV.T_K));
   VBR.in.SV.Tsolidus_K=80* ones(size(VBR.in.SV.T_K))+273;
-
+  VBR.in.SV.f=[0.1];
   VBR=VBR_spine(VBR);
 
   % plot

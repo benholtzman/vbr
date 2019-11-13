@@ -104,6 +104,60 @@ for iT=1:length(T_C_vec)
 
 end
 
+
+% ======================================================
+% YAMAUCHI-TAKEI 2016 data
+
+datadir = '../../../../vbrWork/expt_data/3_attenuation/' ;
+YT_datadir = [datadir,'Yamauchi2016/'] ;
+addpath(YT_datadir) ;
+
+%
+% Qinv_freq_1200C.csv  Qinv_freq_1250C.csv   Qinv_freq_1300C.csv
+%G_filelist = {'logflogQinv_d4_1200C.csv', 'G_freq_1250C.csv', 'G_freq_1300C.csv'} ;
+%Qinv_filelist = {'logflogQinv_d4_1200C.csv', 'logflogQinv_d4_1225C.csv', 'logflogQinv_d4_1250C.csv', 'logflogQinv_d4_1285C.csv', 'logflogQinv_d4_1300C.csv'};
+Qinv_filelist = dir([YT_datadir,'YT16_s40_fQinv_*']) ;
+G_filelist = dir([YT_datadir,'YT16_s40_fE_*']) ;
+
+T_C_vec = [8 13 18 23 29 35 39 47] ; % ideally read these in from the filenames :)
+
+
+for iT=1:length(T_C_vec)
+
+  T_C = T_C_vec(iT) ;
+
+  Gfilename = G_filelist(iT).name ;
+  disp(Gfilename);
+  data_G = load(Gfilename);
+  f = transpose(data_G(:,1)) ;
+  Per = 1./f;
+  logPer = log10(Per) ;
+
+  Qfilename = Qinv_filelist(iT).name;
+  disp(Qfilename);
+  data_Qinv = load(Qfilename);
+  f = transpose(data_Qinv(:,1)) ;
+  Per = 1./f;
+  logPer = log10(Per) ;
+
+  Data.YT16(iT).Results.Qinv = data_Qinv(:,2) ;
+  Data.YT16(iT).Results.log10_Qinv = log10(Data.YT16(iT).Results.Qinv) ;
+  Data.YT16(iT).Results.G = data_G(:,2) ;
+
+  Data.YT16(iT).exptCond.T_C = T_C ;
+  Data.YT16(iT).exptCond.P_GPa = 101325*1e-9 ; % confining pressure-- Room pressure
+  Data.YT16(iT).exptCond.Gu = 2.6 ; % reference G ! not sure what this is.. placeholder
+  Data.YT16(iT).exptCond.rho = 1.011e3 ; % reference density ! not sure what this is.. placeholder
+  Data.YT16(iT).exptCond.dg_0 = 24.4 ; % grain size, in microns
+  Data.YT16(iT).exptCond.Ch2o_0 = 0 ; % water content (wt %?)
+  Data.YT16(iT).exptCond.sig_0 = 1e3 ; % stress,  Pa (cnvrted to MPa in spine)
+  Data.YT16(iT).exptCond.phi_0 = 0.00 ; % melt fraction
+  Data.YT16(iT).exptCond.logPer = logPer ; %
+  Data.YT16(iT).exptCond.f = f ;
+  Data.YT16(iT).exptCond.logf = log10f ;
+
+end
+
 save('./ExptData.mat', 'Data')
 
 % ======================================================

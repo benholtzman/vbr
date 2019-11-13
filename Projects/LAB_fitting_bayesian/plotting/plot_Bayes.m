@@ -1,4 +1,4 @@
-function plot_Bayes(posterior, sweep, obs_name)
+function plot_Bayes(posterior, sweep, obs_name, q_method)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % plot_Bayes(posterior, sweep, obs_name)
@@ -21,6 +21,10 @@ function plot_Bayes(posterior, sweep, obs_name)
 %
 %       obs_name            string of the observation name, e.g. Vs, Qinv
 %                           Only used to label the figure.
+%       
+%       q_method            string of the method to use for calculating
+%                           the anelastic effects on seismic properties
+%                           Only used to label the figure.
 %
 % Output:
 % -------
@@ -29,6 +33,7 @@ function plot_Bayes(posterior, sweep, obs_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   figure()
+  q_method = strrep(q_method, '_', '\_');
   
   max_val = max(posterior(:));
   i_best = find(posterior(:) == max_val);
@@ -57,13 +62,15 @@ function plot_Bayes(posterior, sweep, obs_name)
       title({['max(p) = ', num2str(max_val),' at ']; ...
           [fields{2}, ' = ', num2str(X(i_best)), ', ' ...
           fields{1}, ' = ', num2str(Y(i_best)), ', ', ...
-          fields{3} ' = ', num2str(Z(i_best))]}, 'FontSize', 14)
+          fields{3} ' = ', num2str(Z(i_best))]; ...
+          ['using ', q_method]}, 'FontSize', 14)
       
   else
       imagesc(X(1,:), Y(:,1), posterior);
       title({['max(P)=', num2str(max_val),' at ']; ...
           [fields{2}, ' = ', num2str(X(i_best)), ', ' ...
-          fields{1}, ' = ', num2str(Y(i_best))]}, 'FontSize', 14)
+          fields{1}, ' = ', num2str(Y(i_best))]; ...
+          ['using ', q_method]}, 'FontSize', 14)
   end
   
   cblabel = ['P(', fields_str, ' | ', obs_name ')'];

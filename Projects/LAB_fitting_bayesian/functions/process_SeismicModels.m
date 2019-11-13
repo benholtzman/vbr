@@ -1,5 +1,5 @@
-function [prior, obs_value, obs_error] = process_SeismicModels( ...
-    obs_name, location, model_file)
+function [obs_value, obs_error] = process_SeismicModels( ...
+    obs_name, location, model_file, ifplot)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % [prior, obs_error] = process_SeismicModels(obs_name, location, model_file)
@@ -44,77 +44,14 @@ function [prior, obs_value, obs_error] = process_SeismicModels( ...
 %                           a default value is assumed, with a message
 %                           printed to the command line.
 %
+%       ifplot      set to True if want to plot the observation as a 
+%                   function of depth
+%
 %
 % Output:
 % -------
-%       prior       prior probability of the observed value at the input
-%                   location given variability & error in the model
 %
 %       obs_value   value of the observation at input location
-%
-%       obs_error   standard deviation of the observation, taken to be the
-%                   maximum of the reported uncertainty on the measurement
-%                   and the standard deviation within the averaging lat,
-%                   lon, depth volume
-%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-
-[obs_value, obs_error] = load_seismic_data(model_file, location, obs_name);
-
-% Assume that the distribution is normal & centred on observed value
-prior = probability_distributions('normal', obs_value, obs_value, obs_error);
-
-
-end
-
-
-function [obs_value, obs_error] = ...
-    load_seismic_data(model_file, location, fieldname)
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%
-% [obs_value, obs_error] = ...
-%       load_seismic_data(model_file, location, fieldname)
-%
-% Load in seismic observations saved in model_file and extract the value
-% of that observable at the given location and the standard deviation.
-%
-%
-% Parameters:
-% -----------
-%       obs_name    string of observation name, e.g. 'Vs', 'Qinv', 'LAB'
-%
-%       location    structure with the following required fields
-%           lat         latitude [degrees North]
-%           lon         longitude - assumed to be positive [degrees East]
-%           z_min       minimum depth for observation range [km]
-%           z_max       maximum depth for observation range [km]
-%          (smooth_rad) half-width of box size in which to average
-%                       observations - if this field is not in location,
-%                       a default value of 0.5 is assumed [degrees E and N]
-%
-%       model_file  string with path to saved .mat file of observations
-%                   This .mat file is expected to contain a single variable
-%                   [obs_name]_Model with the following structure.
-%
-%           [obs_name]_Model    structure with the following fields
-%               Latitude    n_lat vector of latitude points [degrees N]
-%               Longitude   n_lon vector of longitude points [degrees E]
-%                           (will add 360 degrees to negative values)
-%               (Depth)     n_dep vector of depth points [km]
-%                           (some observables, e.g. LAB, are not f(Depth))
-%               [obs_name]  (n_lat, n_lon, n_dep) matrix of values of this
-%                           seismic property based on observations
-%               (Error)     (n_lat, n_lon, n_dep) matrix of uncertainty of
-%                           this seismic property based on observations.
-%                           This is often not reported!  In which case,
-%                           a default value is assumed, with a message
-%                           printed to the command line.
-%
-%
-% Output:
-% -------
-%       obs_value   value of observation at the input location
 %
 %       obs_error   standard deviation of the observation, taken to be the
 %                   maximum of the reported uncertainty on the measurement
@@ -130,7 +67,7 @@ Model = Model.(varname{1});  % e.g. 'Vs_Model' to just 'Model'
 
 % Check if there are any uncertainties saved in the model - if there
 % are none, put in a constant error
-Model=check_errors(Model, fieldname);
+Model=check_errors(Model, obs_name);
 
 
 % Check model coordinate overlap and then limit measurements to
@@ -139,14 +76,29 @@ Model=check_errors(Model, fieldname);
 if ~ returnCode
     return
 end
-Model = limit_by_coords(Model, fieldname, location);
+Model = limit_by_coords(Model, obs_name, location);
 
 % Find median and error
-obs_value = find_median(Model, fieldname);
-median_error = find_median(Model, 'Error');
-lateral_error = find_lateral_error(Model, fieldname);
+obs_value_z = find_median(Model, obs_name);
+median_error_z = find_median(Model, 'Error');
+lateral_error_z = find_lateral_error(Model, obs_name);
 %fprintf('\n%s:  %g, %g\n', fieldname, median_error, lateral_error)
-obs_error = max(median_error, lateral_error);
+obs_error_z = max(median_error_z, lateral_error_z);
+
+
+% Find the average value in depth
+if isfield(Model, 'Depth')    
+    [obs_value, obs_error] = limit_by_depth(obs_value_z, obs_error_z,...
+        Model.Depth, location);
+    
+    if ifplot
+        plot_seismic_obs(obs_value_z, obs_error_z, obs_name,...
+            Model.Depth, location, obs_value, obs_error)
+    end
+else
+    obs_value = obs_value_z;
+    obs_error = obs_error_z;
+end
 
 
 end
@@ -288,7 +240,7 @@ function Model = limit_by_coords(Model, field_name, location)
 % Model = limit_by_coords(Model, field_name, location)
 %
 % Take the slice of Model that is defined by the box described in
-% 'location'.
+% 'location'.  Keep the whole profile in depth.
 %
 %
 % Parameters:
@@ -341,20 +293,60 @@ lat_mask = (Model.Latitude >= lat - d_deg ...
     & Model.Latitude <= lat + d_deg);
 lon_mask = (Model.Longitude >= lon - d_deg ...
     & Model.Longitude <= lon + d_deg);
-if isfield(Model, 'Depth')
-    depth_mask = (Model.Depth >= location.z_min ...
-        & Model.Depth <= location.z_max);
-else
-    depth_mask = 1;
-end
 
 % apply masks
 Model.Longitude=Model.Longitude(lon_mask);
 Model.Latitude=Model.Latitude(lat_mask);
-Model.(field_name) = Model.(field_name)(lat_mask,lon_mask,depth_mask);
-Model.Error = Model.Error(lat_mask,lon_mask,depth_mask);
+Model.(field_name) = Model.(field_name)(lat_mask, lon_mask, :);
+Model.Error = Model.Error(lat_mask, lon_mask, :);
 
 end
+
+function [obs_value, obs_error] = limit_by_depth(obs_value, obs_error,...
+        depth, location)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% [obs_value, obs_error] = limit_by_depth(obs_value, obs_error,...
+%        depth, location)
+%
+% Take the observed values and errors as a function of depth and return
+% the median value from the desired depth range.
+%
+%
+% Parameters:
+% -----------
+%       obs_value   value of observation at the input location as a
+%                   function of depth
+%
+%       obs_error   standard deviation of the observation as a 
+%                   function of depth 
+%
+%        depth     n_dep vector of depth points [km] for observeable
+%
+%       location    structure with the following required fields
+%           z_min       minimum depth for observation range [km]
+%           z_max       maximum depth for observation range [km]
+%
+%
+% Output:
+% -------
+%       obs_value   value of observation at the input location at a 
+%                   given depth
+%
+%       obs_error   standard deviation of the observation at a given 
+%                   depth
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+depth_mask = (depth >= location.z_min & depth <= location.z_max);
+obs_value = median(obs_value(depth_mask), 'omitnan');
+obs_error = median(obs_error(depth_mask), 'omitnan');
+
+
+
+end
+
+
 
 function medianVal = find_median(Model, field_name)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -387,13 +379,19 @@ function medianVal = find_median(Model, field_name)
 %
 % Output:
 % -------
-%       medianVal   the median of all values in Model
+%       medianVal   the median of all values in Model (as a function of
+%                   depth if the observeable is known as f(depth))
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 allVals=Model.(field_name);
-medianVal = median( ...
-    reshape(allVals, 1, numel(allVals)), 'omitnan' ...
-    );
+if isfield(Model, 'Depth')
+    n_z = length(Model.Depth);
+    medianVal = median(...
+        reshape(allVals, numel(allVals) / n_z, n_z), 'omitnan');
+else
+    medianVal = median( ...
+        reshape(allVals, 1, numel(allVals)), 'omitnan');
+end
 
 end
 
@@ -427,11 +425,17 @@ function lateral_error = find_lateral_error(Model, field_name)
 % Output:
 % -------
 %       lateral_error   the standard deviation of all values in Model
+%                       as a function of depth if the observeable is f(z)
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 allVals = Model.(field_name);
-lateral_error = std( ...
-    reshape(allVals, 1, numel(allVals)), 'omitnan' ...
-    );
+if isfield(Model, 'Depth')
+    n_z = length(Model.Depth);
+    lateral_error = std(...
+        reshape(allVals, numel(allVals) / n_z, n_z), 'omitnan');
+else
+    lateral_error = std( ...
+        reshape(allVals, 1, numel(allVals)), 'omitnan');
+end
 
 end

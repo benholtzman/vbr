@@ -14,7 +14,7 @@ function [VBR] = el_ModUnrlx_MELT_f(VBR)
   %
   % Output:
   % ------
-  % VBR    the VBR structure, with VBR.out.elastic.poro_Takei structure
+  % VBR    the VBR structure, with VBR.out.elastic.anh_poro structure
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % check that anharmonic method was run, run it if not
@@ -30,7 +30,7 @@ function [VBR] = el_ModUnrlx_MELT_f(VBR)
   rho = VBR.in.SV.rho;
 
   % read in parameters
-  poro_p = VBR.in.elastic.poro_Takei; anharm_p= VBR.in.elastic.anharmonic;
+  poro_p = VBR.in.elastic.anh_poro; anharm_p= VBR.in.elastic.anharmonic;
   A  = poro_p.Melt_A  ; % wetting angle factor (1:2.3, Yoshino)
   Km = poro_p.Melt_Km; % bulk modulus of the melt [Pa]
   nu = anharm_p.nu; % Poisson's ratio
@@ -51,7 +51,7 @@ function [VBR] = el_ModUnrlx_MELT_f(VBR)
   poro.Vsu = Vs;
 
   % save to global VBR structure
-  VBR.out.elastic.poro_Takei=poro;
+  VBR.out.elastic.anh_poro=poro;
 end
 
 function [Vp,Vs] = Vp_Vs_calc(phi,Gu,nu,Gamma_G,Gamma_K,rho,K_m)

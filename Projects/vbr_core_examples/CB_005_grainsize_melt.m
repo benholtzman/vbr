@@ -1,7 +1,7 @@
 %% ===================================================================== %%
 %%                     CB_005_grainsize_melt.m
 %% ===================================================================== %%
-%  Compares YT2016_solidus and AndradePsp at a range of grain size and
+%  Compares xfit_premelt and AndradePsp at a range of grain size and
 %  melt fractions for a single period (100s) at astheno conditions.
 %% ===================================================================== %%
    clear
@@ -17,7 +17,7 @@
 
 %  write method list (these are the things to calculate)
    VBR.in.elastic.methods_list={'anharmonic'};
-   VBR.in.anelastic.methods_list={'AndradePsP','YT2016_solidus'};
+   VBR.in.anelastic.methods_list={'andrade_psp','xfit_premelt'};
 
 %  frequencies to calculate at
    VBR.in.SV.f = 0.01;
@@ -40,7 +40,7 @@
    VBR.in.SV.P_GPa = 3.2 * ones(sz); % pressure [GPa]
    VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
    VBR.in.SV.sig_MPa = 0.1 * ones(sz); % differential stress [MPa]
-   
+
 %  this method requires the solidus
 %  you should write your own function for the solidus that takes all the other
 %  state variables as input. This is just for illustration
@@ -61,21 +61,21 @@
 close all;
 figure;
 subplot(1,3,1)
-contourf(log10(dg_m),log10(phi),VBR.out.anelastic.YT2016_solidus.V/1e3,100,'LineStyle','none');
+contourf(log10(dg_m),log10(phi),VBR.out.anelastic.xfit_premelt.V/1e3,100,'LineStyle','none');
 colorbar
-title('Vs [km/s], YT2016 solidus')
+title('Vs [km/s], xfit_premelt')
 xlabel('d [um]'); ylabel('log10(phi)')
 
 subplot(1,3,2)
-contourf(log10(dg_m),log10(phi),VBR.out.anelastic.AndradePsP.V/1e3,100,'LineStyle','none');
+contourf(log10(dg_m),log10(phi),VBR.out.anelastic.andrade_psp.V/1e3,100,'LineStyle','none');
 colorbar
-title('Vs [km/s], AndradePsP')
+title('Vs [km/s], andrade_psp')
 xlabel('log10(d [um])');
 
 subplot(1,3,3)
-dV=(VBR.out.anelastic.YT2016_solidus.V-VBR.out.anelastic.AndradePsP.V) ./ ...
-     VBR.out.anelastic.AndradePsP.V;
+dV=(VBR.out.anelastic.xfit_premelt.V-VBR.out.anelastic.andrade_psp.V) ./ ...
+     VBR.out.anelastic.andrade_psp.V;
 contourf(log10(dg_m),log10(phi),dV,100,'LineStyle','none');
 colorbar
-title('( YT2016 - AndradePSP ) / AndradePSP')
+title('( xfit_premelt - andrade_psp ) / andrade_psp')
 xlabel('log10(d [um])');

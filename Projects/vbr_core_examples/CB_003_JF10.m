@@ -18,15 +18,9 @@
 
 %  write method list (these are the things to calculate)
 %  all methods will end up as output like:
-%      VBR.out.elastic.anharmonic, VBR.out.anelastic.eBurgers, etc.
+%      VBR.out.elastic.anharmonic, VBR.out.anelastic.eburgers_psp, etc.
    VBR.in.elastic.methods_list={'anharmonic'};
-   VBR.in.anelastic.methods_list={'eBurgers';'AndradePsP'};
-
-   % uncomment to use VBR viscosity for maxwell time calculation:
-   % VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-   % VBR.in.viscous.methods_list={'LH2011'};
-   % VBR.in.anelastic.eBurgers.useJF10visc=0;
-
+   VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp'};
 
 %  load anharmonic parameters, adjust Gu_0_ol
 %  all paramss in ../4_VBR/VBR_version/params/ will be loaded in call to VBR spine,
@@ -34,7 +28,8 @@
 %  parameter files).
    VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
    VBR.in.GlobalSettings.melt_enhacement=0;
-   VBR.in.anelastic.eBurgers.eBurgerMethod='s6585_bg_only'; % 'bg_only' or 'bg_peak' or 's6585_bg_only'
+   VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
+   VBR.in.anelastic.eburgers_psp.eBurgerMethod='s6585_bg_only'; % 'bg_only' or 'bg_peak' or 's6585_bg_only'
 
    % JF10 have Gu_0=62.5 GPa, but that's at 900 Kelvin and 0.2 GPa,
    % so set Gu_0_ol s.t. it ends up at 62.5 at those conditions
@@ -42,7 +37,8 @@
    dGdP=VBR.in.elastic.anharmonic.dG_dP;
    Tref=VBR.in.elastic.anharmonic.T_K_ref;
    Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
-   VBR.in.elastic.anharmonic.Gu_0_ol = 62 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
+   GUJF10=VBR.in.anelastic.eburgers_psp.s6585_bg_only.G_UR;
+   VBR.in.elastic.anharmonic.Gu_0_ol = GUJF10 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP; % olivine reference shear modulus [GPa]
 
 %  frequencies to calculate at
    VBR.in.SV.f = 1./logspace(-2,4,100);
@@ -68,13 +64,14 @@
 %% CALL THE VBR CALCULATOR ============================
 %% ====================================================
 
-   % run it initially (eBurgers uses high-temp background only by default)
+   % run it initially (eburgers_psp uses high-temp background only by default)
    [VBR] = VBR_spine(VBR) ;
 
-   % adjust VBR input and get out eBurgers with background + peak
-   % VBR.in.anelastic.eBurgers=Params_Anelastic('eBurgers');
-   VBR.in.anelastic.eBurgers.eBurgerMethod='s6585_bg_peak';
-   VBR.in.elastic.anharmonic.Gu_0_ol = 62 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP;
+   % adjust VBR input and get out eburgers_psp with background + peak
+   % VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
+   VBR.in.anelastic.eburgers_psp.eBurgerFit='s6585_bg_peak';
+   GUJF10=VBR.in.anelastic.eburgers_psp.s6585_bg_peak.G_UR;
+   VBR.in.elastic.anharmonic.Gu_0_ol = GUJF10 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP;
    [VBR_with_peak] = VBR_spine(VBR) ;
 
 %% ====================================================
@@ -86,10 +83,10 @@ figure;
 
 for iTemp = 1:numel(VBR.in.SV.T_K)
 
-  M_bg=squeeze(VBR.out.anelastic.eBurgers.M(1,iTemp,:)/1e9);
-  M_bg_peak=squeeze(VBR_with_peak.out.anelastic.eBurgers.M(1,iTemp,:)/1e9);
-  Q_bg=squeeze(VBR.out.anelastic.eBurgers.Qinv(1,iTemp,:));
-  Q_bg_peak=squeeze(VBR_with_peak.out.anelastic.eBurgers.Qinv(1,iTemp,:));
+  M_bg=squeeze(VBR.out.anelastic.eburgers_psp.M(1,iTemp,:)/1e9);
+  M_bg_peak=squeeze(VBR_with_peak.out.anelastic.eburgers_psp.M(1,iTemp,:)/1e9);
+  Q_bg=squeeze(VBR.out.anelastic.eburgers_psp.Qinv(1,iTemp,:));
+  Q_bg_peak=squeeze(VBR_with_peak.out.anelastic.eburgers_psp.Qinv(1,iTemp,:));
   logper=log10(1./VBR.in.SV.f);
   R=(iTemp-1) / (numel(VBR.in.SV.T_K)-1);
   B=1 - (iTemp-1) / (numel(VBR.in.SV.T_K)-1);

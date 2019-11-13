@@ -63,9 +63,16 @@ VBR.in.SV.dg_um = 1000;
 % overwritten in calculate_sweep()!
 
 % write method list (these are the things to calculate)
-VBR.in.elastic.methods_list={'anharmonic'; 'poro_Takei'; 'SLB2005'};
-VBR.in.viscous.methods_list={'HK2003'; 'LH2011'};
-VBR.in.anelastic.methods_list={'eBurgers'; 'AndradePsP'; 'MTH2011'};
+% Use all available methods except xfit_premelt
+elastic = feval(fetchParamFunction('elastic'), '');
+VBR.in.elastic.methods_list = elastic.possible_methods(...
+    ~strcmp(elastic.possible_methods, 'xfit_premelt')); 
+viscous = feval(fetchParamFunction('viscous'), '');
+VBR.in.viscous.methods_list = viscous.possible_methods(...
+    ~strcmp(viscous.possible_methods, 'xfit_premelt'));
+anelastic = feval(fetchParamFunction('anelastic'), '');
+VBR.in.anelastic.methods_list = anelastic.possible_methods(...
+    ~strcmp(anelastic.possible_methods, 'xfit_premelt')); 
 
 % load in settings that you might want to overwrite (optional)
 %  (each will be called internally if you don't call them here)

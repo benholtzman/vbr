@@ -41,8 +41,8 @@ function [VBR] = Q_eFastBurgers(VBR)
   %% read in thermodynamic state
   %% ===========================
   f_vec = VBR.in.SV.f ;
-  if isfield(VBR.in.elastic,'poro_Takei')
-    Mu = VBR.out.elastic.poro_Takei.Gu ;
+  if isfield(VBR.in.elastic,'anh_poro')
+    Mu = VBR.out.elastic.anh_poro.Gu ;
   elseif isfield(VBR.in.elastic,'anharmonic')
     Mu = VBR.out.elastic.anharmonic.Gu ;
   end
@@ -58,8 +58,8 @@ function [VBR] = Q_eFastBurgers(VBR)
   J2 = J1; Q = J1; Qinv = J1; M = J1; V = J1;
 
   % read in reference values
-  Burger_params=VBR.in.anelastic.eBurgers;
-  bType=Burger_params.eBurgerMethod;
+  Burger_params=VBR.in.anelastic.eburgers_psp;
+  bType=Burger_params.eBurgerFit;
   if strcmp(bType,'bg_peak')
     wrn='WARNING: FastBurger method for eBurgers only works for bg_only, ';
     wrn=[wrn,'switch eBurgerMethod to PoinstWise to include peak.'];
@@ -149,14 +149,15 @@ function [VBR] = Q_eFastBurgers(VBR)
   end
 
   %% WRITE VBR
-  VBR.out.anelastic.eBurgers.J1 = J1;
-  VBR.out.anelastic.eBurgers.J2 = J2;
-  VBR.out.anelastic.eBurgers.Q = Q;
-  VBR.out.anelastic.eBurgers.Qinv = Qinv;
-  VBR.out.anelastic.eBurgers.M=M;
-  VBR.out.anelastic.eBurgers.V=V;
+  onm='eburgers_psp';
+  VBR.out.anelastic.(onm).J1 = J1;
+  VBR.out.anelastic.(onm).J2 = J2;
+  VBR.out.anelastic.(onm).Q = Q;
+  VBR.out.anelastic.(onm).Qinv = Qinv;
+  VBR.out.anelastic.(onm).M=M;
+  VBR.out.anelastic.(onm).V=V;
 
   % calculate mean velocity along frequency dimension
-  VBR.out.anelastic.eBurgers.Vave = Q_aveVoverf(V,f_vec);
+  VBR.out.anelastic.(onm).Vave = Q_aveVoverf(V,f_vec);
 
 end

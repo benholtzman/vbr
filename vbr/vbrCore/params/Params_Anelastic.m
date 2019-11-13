@@ -16,9 +16,9 @@ function params = Params_Anelastic(method)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % available anelastic methods
-  params.possible_methods={'eBurgers','AndradePsP','MTH2011','YT2016_solidus'};
+  params.possible_methods={'eburgers_psp','andrade_psp','xfit_mxw','xfit_premelt','andrade_mxw'};
 
-  if strcmp(method,'eBurgers')
+  if strcmp(method,'eburgers_psp')
     % extended burgers parameters
     params.func_name='Q_eBurgers_decider'; % the name of the matlab function
     params.citations={'Faul and Jackson, 2015, Ann. Rev. of Earth and Planetary Sci., https://doi.org/10.1146/annurev-earth-060313-054732',...
@@ -27,14 +27,14 @@ function params = Params_Anelastic(method)
                                % 'PointWise' integrates every frequency and state variable condition
     params.nTauGlob=3000; % points for global Tau discretization ('FastBurger' ONLY)
     params.R = 8.314 ; % gas constant
-    params.eBurgerMethod='bg_only'; % 'bg_only' or 'bg_peak' or 's6585_bg_only'
+    params.eBurgerFit='bg_only'; % 'bg_only' or 'bg_peak' or 's6585_bg_only'
     params.useJF10visc=1; % if 1, will use the scaling from JF10 for maxwell time. If 0, will calculate
     params.integration_method=0; % 0 for trapezoidal, 1 for quadrature.
     params.tau_integration_points = 500 ; % number of points for integration of high-T background if trapezoidal
     params=load_JF10_eBurger_params(params);
   end
 
-  if strcmp(method,'AndradePsP')
+  if strcmp(method,'andrade_psp')
     % ANDRADE (pseudoperiod scaling) parameters
     params.func_name='Q_Andrade_PseudoP_f'; % the name of the matlab function
     params.citations={'Jackson and Faul, 2010, Phys. Earth Planet. Inter., https://doi.org/10.1016/j.pepi.2010.09.005'};
@@ -58,35 +58,25 @@ function params = Params_Anelastic(method)
     params.Delta = 0.3 ; % Relaxation strength
   end
 
-  if strcmp(method,'Andrade')
+  if strcmp(method,'andrade_mxw')
     % ANDRADE parameters (from Sundberg+Cooper)
-    params.func_name=''; % the name of the matlab function
-    params.n = 1/3 ; % 1/3 ;
+    params.func_name='Q_Andrade_Mxw_f'; % the name of the matlab function
+    params.alf = 1/2 ; % 1/3 ;
     % scaling option:
-    %   1= experimental params,
-    %   2= Marshall's email
-    %   3= pseudoperiod
+    %   1= Bunton's thesis- Andrade transient Beta only a function of G, eta_diff_ss
+    %   2= Mixture of 1 and SundbergCooper2010-- add a bump.
     params.scaling_opt=1 ;
-
-    % for 1200, 1250, 1300 C
-    %params.A_vec =  [ 5.1e-12 9.83e-12 2.7e-11 ] ;
-    %params.eta_ss_vec = [ 3.42e12 8.14e11 1.87e11 ];
-    %params.A_vec =  [ 6.37e-12 1.34e-11 2.8e-11 ] ;
-    params.A =  2.8e-11 ;
-    params.eta_ss =  1.86e11 ;
-
     % Bump on (1) or off (0) --
-    params.bump = 1 ;
-    params.Te = 0.17 ; % not sure what this is
-    params.Tgbs = 0.05 ;% sec
-    params.Delta = 0.5 ; % 0.43 ; % Relaxation strength
-    params.FUDGE = 0.7 ;
+    params.bump = 0 ;
+    % for using Bunton's flow law in thesis for expt fitting:
+    params.eta0_local = 1e7 ; % no idea !
+
   end
 
-  if strcmp(method,'MTH2011')
-    % MTH2011 parameters
+  if strcmp(method,'xfit_mxw')
+    % xfit_mxw parameters
     params.citations={'McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384'};
-    params.func_name='Q_MTH2011'; % the name of the matlab function
+    params.func_name='Q_xfit_mxw'; % the name of the matlab function
     params.beta1 = 0.32 ;
     params.beta2 = 1853.0 ;
     params.alpha2 = 0.5 ;
@@ -97,10 +87,10 @@ function params = Params_Anelastic(method)
     params.description='master curve maxwell scaling';
   end
 
-  if strcmp(method,'YT2016_solidus')
-    % YT2016_solidus parameters
+  if strcmp(method,'xfit_premelt')
+    % xfit_premelt parameters
     params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
-    params.func_name='Q_YT2016_solidus'; % the name of the matlab function
+    params.func_name='Q_xfit_premelt'; % the name of the matlab function
 
     params.alpha_B=0.38;
     params.A_B=0.664;
@@ -118,7 +108,7 @@ function params = Params_Anelastic(method)
   end
 
   % melt enhancement effects, used by multiple of the above methods
-  % set VBR.in.GlobalSettings.melt_enhacement=0 to turn off
+  % set VBR.in.GlobalSettings.melt_enhancement=0 to turn off
   % see Holtzman, G-cubed, 2016 http://dx.doi.org/10.1002/2015GC006102
   HK2003 = Params_Viscous('HK2003'); % viscous parameters
   params.melt_alpha = HK2003.diff.alf ; % steady state melt dependence (exp(-alf*phi))

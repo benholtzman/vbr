@@ -3,9 +3,9 @@ function [VBR]=checkInput(VBR)
   %
   % [VBR]=checkInput(VBR)
   %
-  % checkInput() looks for some dependency errors. e.g., the MTH2011 method
+  % checkInput() looks for some dependency errors. e.g., the xfit_mxw method
   % requires a viscous method to run, all the anelastic calculation require a
-  % pure elastic calculation.   
+  % pure elastic calculation.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % initialize error storage
@@ -14,22 +14,22 @@ function [VBR]=checkInput(VBR)
 
   % build requirements lists
   % each row = 'structure field containing method','the method','structure field(s) required under VBR.in'
-  Reqs={'anelastic','MTH2011','viscous','method';
-        'anelastic','MTH2011','elastic','method';
-        'anelastic','eBurgers','elastic','method';
-        'anelastic','AndradePsP','elastic','method';
-        'anelastic','YT2016_solidus','elastic','method';
-        'anelastic','YT2016_solidus','SV.Tsolidus_K','SV'};
+  Reqs={'anelastic','xfit_mxw','viscous','method';
+        'anelastic','xfit_mxw','elastic','method';
+        'anelastic','eburgers_psp','elastic','method';
+        'anelastic','andrade_psp','elastic','method';
+        'anelastic','xfit_premelt','elastic','method';
+        'anelastic','xfit_premelt','SV.Tsolidus_K','SV'};
 
   % list of messages to display for each of those requirements
-  Msgs={'MTH2011 requires a viscosity method. e.g., VBR.in.viscous.methods_list={''LH2011''};';
-        'MTH2011 requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
-        'eBurgers requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
-        'AndradePsP requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
-        'YT2016_solidus requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
-        'YT2016_solidus requires a solidus state variable e.g., VBR.in.SV.Tsolidus_K=1200*ones(size(T))'};
+  Msgs={'xfit_mxw requires a viscosity method. e.g., VBR.in.viscous.methods_list={''HZK2011''};';
+        'xfit_mxw requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
+        'eburgers_psp requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
+        'andrade_psp requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
+        'xfit_premelt requires an elasticity method. e.g., VBR.in.elastic.methods_list={''anharmonic''}';
+        'xfit_premelt requires a solidus state variable e.g., VBR.in.SV.Tsolidus_K=1200*ones(size(T))'};
 
-  Defs={'LH2011';
+  Defs={'HZK2011';
         'anharmonic';
         'anharmonic';
         'anharmonic';
@@ -37,7 +37,7 @@ function [VBR]=checkInput(VBR)
         'null'} ;
 
   % defaults for GlobalSettings
-  GlobalDefaults.melt_enhacement=1; % global melt enhacement flag on/off.
+  GlobalDefaults.melt_enhancement=1; % global melt enhacement flag on/off.
 
   % loop over requirements, check them.
   for ri = 1:size(Reqs,1)
@@ -63,9 +63,9 @@ function [VBR]=checkInput(VBR)
             if strcmp(Defs{ri},'null')==0
               VBR.in.(fieldvars{1}).methods_list={Defs{ri}};
               msg=['VBR.in.',typ,'.',method,' does not have a required method set, setting:'];
-              msg_2=["\n   VBR.in.",typ,'.',fieldvars{1},'.methods_list={''',Defs{ri},'''}',"\n"];
+              msg_2=["\n   VBR.in.",fieldvars{1},'.methods_list={''',Defs{ri},'''}',"\n"];
               msg=strcat(msg,msg_2);
-              disp(msg)
+              fprintf(msg)
             else
               VBR.status=0;
             end

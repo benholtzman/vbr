@@ -14,7 +14,7 @@ function [params] = Params_Elastic(method)
   % ------
   % params    the parameter structure for the elastic method
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  params.possible_methods={'anharmonic','poro_Takei','SLB2005'};
+  params.possible_methods={'anharmonic','anh_poro','SLB2005'};
 
   if strcmp(method,'anharmonic')
     params.func_name='el_anharmonic'; % the name of the matlab function
@@ -38,7 +38,7 @@ function [params] = Params_Elastic(method)
 
     params.nu = 0.25 ; % poisson's ratio
 
-  elseif strcmp(method,'poro_Takei')
+  elseif strcmp(method,'anh_poro')
     params.func_name='el_ModUnrlx_MELT_f'; % the name of the matlab function
     %% parameters for poro-elastic melt effect
     params.Melt_A  = 1.6 ; % 1:2.3 depending upon the wetting angle (see Yoshino).

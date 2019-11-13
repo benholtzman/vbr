@@ -20,8 +20,8 @@ function tau = Q_eBurgers_mxwll(VBR,Gu)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % read in parameters
-  Burger_params=VBR.in.anelastic.eBurgers;
-  bType=Burger_params.eBurgerMethod;
+  Burger_params=VBR.in.anelastic.eburgers_psp;
+  bType=Burger_params.eBurgerFit;
 
   % state variables for either maxwell time or integration limits, peak loc:
   phi =  VBR.in.SV.phi ;
@@ -43,7 +43,7 @@ function tau = Q_eBurgers_mxwll(VBR,Gu)
   [visc_exists,missing]=checkStructForField(VBR,{'in','viscous','methods_list'},0);
   if Burger_params.useJF10visc || visc_exists==0
     % use JF10's exact relationship
-    scale=((d_mat./dR).^m_v).*exp((E/R).*(1./T_K_mat-1/TR)).*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+    scale=((d_mat./dR).^m_v).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
     scale=addMeltEffects(phi,scale,VBR.in.GlobalSettings,Burger_params);
     Tau_MR = Burger_params.(bType).Tau_MR ;
     tau.maxwell=Tau_MR .* scale ; % steady state viscous maxwell time
@@ -55,7 +55,7 @@ function tau = Q_eBurgers_mxwll(VBR,Gu)
   end
 
   % integration limits and peak location
-  LHP=((d_mat./dR).^m_a).*exp((E/R).*(1./T_K_mat-1/TR)).*exp(-(Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
+  LHP=((d_mat./dR).^m_a).*exp((E/R).*(1./T_K_mat-1/TR)).*exp((Vstar/R).*(P_Pa_mat./T_K_mat-PR/TR));
   LHP=addMeltEffects(phi,LHP,VBR.in.GlobalSettings,Burger_params);
   tau.L = Burger_params.(bType).Tau_LR * LHP;
   tau.H = Burger_params.(bType).Tau_HR * LHP;
@@ -73,7 +73,7 @@ function scaleMat=addMeltEffects(phi,scaleMat,GlobalSettings,Burger_params)
   % ----------
   % phi              melt fraction
   % scaleMat         the initial maxwell time matrix
-  % GlobalSettings   global settings structure with melt_enhacement flag
+  % GlobalSettings   global settings structure with melt_enhancement flag
   % Burger_params    the parameter structure for burgers model
   %
   % Output:
@@ -87,7 +87,7 @@ function scaleMat=addMeltEffects(phi,scaleMat,GlobalSettings,Burger_params)
   x_phi_c = Burger_params.x_phi_c ;% melt enhancement factor
 
   % x_phi_c adjustment ("nominally melt free" to truly melt free)
-  if GlobalSettings.melt_enhacement==0
+  if GlobalSettings.melt_enhancement==0
     x_phi_c=1;
   else
     scaleMat = scaleMat.* x_phi_c ;

@@ -19,7 +19,7 @@ function [VBR] = Q_eBurgers_f(VBR)
   %
   % Output:
   % ------
-  % VBR    the VBR structure, with new VBR.out.anelastic.eBurgers structure
+  % VBR    the VBR structure, with new VBR.out.anelastic.eburgers_psp structure
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % angular frequency
@@ -27,8 +27,8 @@ function [VBR] = Q_eBurgers_f(VBR)
   w_vec = 2*pi.*f_vec ;
 
   % unrelaxed compliance and density
-  if isfield(VBR.in.elastic,'poro_Takei')
-   Mu = VBR.out.elastic.poro_Takei.Gu ;
+  if isfield(VBR.in.elastic,'anh_poro')
+   Mu = VBR.out.elastic.anh_poro.Gu ;
   elseif isfield(VBR.in.elastic,'anharmonic')
    Mu = VBR.out.elastic.anharmonic.Gu ;
   end
@@ -46,8 +46,8 @@ function [VBR] = Q_eBurgers_f(VBR)
   tau=Q_eBurgers_mxwll(VBR,Mu);
 
   % Read in parameters needed for integration
-  Burger_params=VBR.in.anelastic.eBurgers;
-  bType=Burger_params.eBurgerMethod;
+  Burger_params=VBR.in.anelastic.eburgers_psp;
+  bType=Burger_params.eBurgerFit;
   alf = Burger_params.(bType).alf ;
   DeltaB = Burger_params.(bType).DeltaB ; % relaxation strength of background
   DeltaP=Burger_params.(bType).DeltaP; % relaxation strength of peak
@@ -151,15 +151,16 @@ function [VBR] = Q_eBurgers_f(VBR)
   end
 
   % Store relevant values
-  VBR.out.anelastic.eBurgers.J1 = J1;
-  VBR.out.anelastic.eBurgers.J2 = J2;
-  VBR.out.anelastic.eBurgers.Q = Q;
-  VBR.out.anelastic.eBurgers.Qinv = Qinv;
-  VBR.out.anelastic.eBurgers.M=M;
-  VBR.out.anelastic.eBurgers.V=V;
-  VBR.out.anelastic.eBurgers.tau_M=tau.maxwell;
+  onm='eburgers_psp';
+  VBR.out.anelastic.(onm).J1 = J1;
+  VBR.out.anelastic.(onm).J2 = J2;
+  VBR.out.anelastic.(onm).Q = Q;
+  VBR.out.anelastic.(onm).Qinv = Qinv;
+  VBR.out.anelastic.(onm).M=M;
+  VBR.out.anelastic.(onm).V=V;
+  VBR.out.anelastic.(onm).tau_M=tau.maxwell;
 
   % calculate mean velocity along frequency dimension
-  VBR.out.anelastic.eBurgers.Vave = Q_aveVoverf(V,f_vec);
+  VBR.out.anelastic.(onm).Vave = Q_aveVoverf(V,f_vec);
 
 end

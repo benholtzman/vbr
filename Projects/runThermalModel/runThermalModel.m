@@ -10,10 +10,9 @@ clear
 path_to_top_level_vbr='../../';
 addpath(path_to_top_level_vbr)
 vbr_init
-addpath('./extraFun')
 
 % set some  parameters
-settings.Cs0_H20=300;
+settings.Cs0_H20=300; % (will only affect solidus )
 settings.Tpot=1400;
 
 % Mesh

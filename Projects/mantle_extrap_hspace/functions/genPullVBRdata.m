@@ -46,7 +46,7 @@ function VBR = runVBR(SVs,VBRsettings);
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % Load and set shared VBR parameters
-  VBR.in.elastic.methods_list={'anharmonic','poro_Takei'};
+  VBR.in.elastic.methods_list={'anharmonic','anh_poro'};
   VBR.in.viscous.methods_list={'HK2003'};
   VBR.in.anelastic.methods_list=VBRsettings.ane_meths;
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity

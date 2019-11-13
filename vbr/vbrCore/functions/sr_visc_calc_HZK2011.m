@@ -32,15 +32,15 @@ function VBR= sr_visc_calc_HZK2011(VBR)
 
   % calculate strain rate [1/s]
   sr_tot = 0;
-  possible_mechs={'diff';'disl';'gbs'};
+  possible_mechs=params.possible_mechs;
 
-  for ip = 1:3
+  for ip = 1:numel(possible_mechs)
      mech=possible_mechs{ip};
      if isfield(VBR.in.viscous.HZK2011,mech)
         % pull out the flow law parameters
         FLP=params.(mech);
         % check for globalsettings, melt_enhacement fieldnames
-        if VBR.in.GlobalSettings.melt_enhacement==0
+        if VBR.in.GlobalSettings.melt_enhancement==0
            FLP.x_phi_c=1;
         end
         % calculate strain rate

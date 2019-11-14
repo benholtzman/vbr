@@ -39,10 +39,24 @@ function plot_Bayes(posterior, sweep, obs_name, q_method)
   i_best = find(posterior(:) == max_val);
   fields = sweep.state_names;
   
-  gs_ind = find(strcmp('gs', fields));
-  if ~isempty(gs_ind)
-      sweep.(fields{gs_ind}) = sweep.(fields{gs_ind}) ./ 1e6;
+  fnames{length(fields)} = '';
+  units{length(fields)} = '';
+  for n = 1:length(fields)
+      switch fields{n}
+          case 'T'
+              fnames{n} = 'Temperature';
+              units{n} = '\circC';
+          case 'phi'
+              fnames{n} = 'Melt Fraction, \phi';
+              units{n} = '';
+          case 'gs'
+              fnames{n} = 'Grain Size';
+              units{n} = 'mm';
+              sweep.(fields{n}) = sweep.(fields{n}) ./ 1e3; % convert to mm
+      end
   end
+  
+              
       
   params = make_param_grid(fields, sweep);
 
@@ -59,23 +73,23 @@ function plot_Bayes(posterior, sweep, obs_name, q_method)
       slice(X, Y, Z, posterior, xslice, yslice, zslice)
       zlabel(fields{3},'FontSize', 14)
       
-      title({['max(p) = ', num2str(max_val),' at ']; ...
-          [fields{2}, ' = ', num2str(X(i_best)), ', ' ...
-          fields{1}, ' = ', num2str(Y(i_best)), ', ', ...
-          fields{3} ' = ', num2str(Z(i_best))]; ...
+      title({sprintf('max(p) = %.2g at', max_val); ...
+          sprintf('%s = %.2g %s', fnames{2}, X(i_best), units{2}); ...
+          sprintf('%s = %.2g %s', fnames{1}, Y(i_best), units{1}); ...
+          sprintf('%s = %.2g %s', fnames{3}, Z(i_best), units{3});
           ['using ', q_method]}, 'FontSize', 14)
       
   else
       imagesc(X(1,:), Y(:,1), posterior);
-      title({['max(P)=', num2str(max_val),' at ']; ...
-          [fields{2}, ' = ', num2str(X(i_best)), ', ' ...
-          fields{1}, ' = ', num2str(Y(i_best))]; ...
+      title({sprintf('max(p) = %.2g at', max_val); ...
+          sprintf('%s = %.2g %s', fnames{2}, X(i_best), units{2}); ...
+          sprintf('%s = %.2g %s', fnames{1}, Y(i_best), units{1}); ...
           ['using ', q_method]}, 'FontSize', 14)
   end
   
   cblabel = ['P(', fields_str, ' | ', obs_name ')'];
-  xlabel(fields{2},'FontSize', 14)
-  ylabel(fields{1},'FontSize', 14)
+  xlabel(sprintf('%s (%s)', fnames{2}, units{2}),'FontSize', 14)
+  ylabel(sprintf('%s (%s)', fnames{1}, units{1}),'FontSize', 14)
   
   hcb = colorbar;
   ylabel(hcb,cblabel,'FontSize', 14)

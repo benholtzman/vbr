@@ -38,9 +38,26 @@ q_method = strrep(q_method, '_', '\_');
 f = figure('position', [400, 200, 1300, 700], 'color', 'w');
 posterior = posterior ./ sum(posterior(:));
 
-if isfield(sweep, 'gs')
-    sweep.gs = sweep.gs * 1e-3; % put in mm rather than microns
+% Write out names and units
+fields = sweep.state_names;
+fnames{length(fields)} = '';
+fnames_short{length(fields)} = '';
+for n = 1:length(fields)
+    switch fields{n}
+        case 'T'
+            fnames{n} = 'Temperature (\circC)';
+            fnames_short{n} = 'T';
+        case 'phi'
+            fnames{n} = 'Melt Fraction, \phi';
+            fnames_short{n} = '\phi';
+        case 'gs'
+            fnames{n} = 'Grain Size (mm)';
+            fnames_short{n} = 'd';
+            sweep.(fields{n}) = sweep.(fields{n}) ./ 1e3; % convert to mm
+    end
 end
+
+sweep.fnames = fnames;
 
 % Plot up panels to show the trade-offs
 
@@ -49,8 +66,8 @@ plot_box(posterior, sweep, 1, 3, 2);
 plot_box(posterior, sweep, 1, 2, 3);
 
 titstr = '';
-for nm = 1:length(sweep.state_names)
-    titstr = [titstr, sweep.state_names{nm}, ', '];
+for nm = 1:length(fnames_short)
+    titstr = [titstr, fnames_short{nm}, ', '];
 end
 titstr = [titstr(1:end-2), ' | ', obs_name];
 tax = axes('position', [0, 0, 1, 1], 'visible', 'off');
@@ -92,8 +109,8 @@ p_marginal_box = repmat(p_marginal, sh(1), sh(2), sh(3));
 p_joint = sum(posterior .* p_marginal_box, i3);
 imagesc(sweep.(sweep.state_names{i2}), sweep.(sweep.state_names{i1}), ...
     reshape(p_joint, sh(i1), sh(i2)));
-xlabel(sweep.state_names{i2})
-ylabel(sweep.state_names{i1});
+xlabel(sweep.fnames{i2})
+ylabel(sweep.fnames{i1});
 set(ax, 'ydir', 'normal')
 caxis([0, joint_sc])
 
@@ -101,7 +118,7 @@ ax2 = axes('position', [xpos, 0.375, 0.225, 0.05]);
 plot(reshape(sweep.(sweep.state_names{i3}), 1, []), ...
     reshape(p_marginal, 1, []))
 set(ax2, 'color', 'none', 'ycolor', 'none', 'box', 'off');
-xlabel(sweep.state_names{i3});
+xlabel(sweep.fnames{i3});
 ylim([0, marg_sc])
 
 ax3 = axes('position', [xpos, 0.15, 0.225, 0.05]);

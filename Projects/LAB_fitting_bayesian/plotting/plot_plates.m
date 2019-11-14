@@ -42,8 +42,10 @@ for i_Tp = 1:size(Box.Box, 1)
         b = Box.Box(i_Tp, i_zPlate);
         z = b.run_info.Z_km;
         t = b.Frames(end).T;
-        vs = mean(VBR.VBR(i_Tp, i_zPlate).out.anelastic.(q_method).V, 2)/1e3;
-        q = mean(VBR.VBR(i_Tp, i_zPlate).out.anelastic.(q_method).Q, 2);
+        % Plot Vs and Q at the frequency closest to T = 80 s.
+        [~, i_f] = min(abs(1 ./ VBR.VBR(i_Tp, i_zPlate).in.SV.f - 80));
+        vs = VBR.VBR(i_Tp, i_zPlate).out.anelastic.(q_method).V(:, i_f) ./1e3;
+        q = VBR.VBR(i_Tp, i_zPlate).out.anelastic.(q_method).Q(:, i_f);
         n_this_combo = sum(b_Tp == i_Tp & b_zPlate == i_zPlate);
         transp_val = min(1, (n_this_combo - min_n_bin) ...
             / (max_n_bin - min_n_bin) * 4);

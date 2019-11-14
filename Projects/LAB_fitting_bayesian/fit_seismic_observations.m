@@ -1,4 +1,4 @@
-function [posterior_T, best_T_g_phi] = fit_seismic_observations()
+function posterior = fit_seismic_observations(filenames, location, q_method)
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % fit_seismic_observations
@@ -31,13 +31,13 @@ function [posterior_T, best_T_g_phi] = fit_seismic_observations()
 %               matrix of posterior probabilities for all combinations of
 %               sweep_params given the constraints from Vs observations
 %
-%      sc_posterior_S_given_Qinv
+%      sc_posterior_S_given_Q
 %               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from Qinv observations
+%               sweep_params given the constraints from Q observations
 %
-%      posterior_S_given_Vs_and_Qinv
+%      posterior_S_given_Vs_and_Q
 %               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from both Vs and Qinv
+%               sweep_params given the constraints from both Vs and Q
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -55,22 +55,17 @@ addpath(genpath('./'))
 % uncertainties.                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-% Set up location information
-location.lat = 40; %lat; % degrees North
-location.lon = 240; %lon; % degrees East
-location.z_min = 100; % averaging min depth for asth.
-location.z_max=150; % averaging max depth for asth.
-location.smooth_rad = 5;
-
-
+        
 ifplot = 1;
-vsfile = './data/vel_models/Shen_Ritzwoller_2016.mat';
-[obs_Vs, sigma_Vs] = process_SeismicModels('Vs', ...
-    location, vsfile, ifplot);
+if isfield(filenames, 'Vs')
+    [obs_Vs, sigma_Vs] = process_SeismicModels('Vs', ...
+        location, filenames.Vs, ifplot);
+end
 
-qfile = './data/Qinv_models/Gung_Romanowicz_2002.mat';
-[obs_Qinv, sigma_Qinv] = process_SeismicModels('Qinv', ...
-    location, qfile, ifplot);
+if isfield(filenames, 'Q')
+    [obs_Q, sigma_Q] = process_SeismicModels('Q', ...
+        location, filenames.Q, ifplot);
+end
 
 
 %% %%%%%%%%%%%%%%%%%% Get prior for State Variables %%%%%%%%%%%%%%%%%%% %%
@@ -96,14 +91,14 @@ if ~exist(fname, 'file')
 end
 
 load(fname, 'sweep');
-% Extract the relevant values for the input depth range.
-% Need to choose the attenuation method used for anelastic calculations
-%       see possible methods by running vbrListMethods()
-q_method = 'andrade_psp';
-[sweep.meanVs, sweep.z_inds] = extract_calculated_values_in_depth_range(...
-    sweep, 'Vs', q_method, [location.z_min, location.z_max]);
-sweep.meanQinv = extract_calculated_values_in_depth_range(sweep, ...
-    'Qinv', q_method, [location.z_min, location.z_max]);
+if isfield(filenames, 'Vs')
+    [sweep.meanVs, sweep.z_inds] = extract_calculated_values_in_depth_range(...
+        sweep, 'Vs', q_method, [location.z_min, location.z_max]);
+end
+if isfield(filenames, 'Q')
+    sweep.meanQ = extract_calculated_values_in_depth_range(sweep, ...
+        'Q', q_method, [location.z_min, location.z_max]);
+end
 
 % For each of the variables in sweep, set the mean and std
 % Default is to calculate these based on the ranges set in sweep_params
@@ -113,8 +108,7 @@ params = make_param_grid(sweep.state_names, sweep);
 
 % Calculate the prior for either a normal or uniform distribution
 pdf_type = {'uniform'};
-[prior_statevars, sigma_statevars] = priorModelProbs( ...
-    params, sweep.state_names, pdf_type);
+prior_statevars = priorModelProbs(params, sweep.state_names, pdf_type);
 
 
 %% %%%%%%%%%%%%%%%%%%%%% Get likelihood for Vs, Q %%%%%%%%%%%%%%%%%%%%%% %%
@@ -130,54 +124,69 @@ pdf_type = {'uniform'};
 % variable values.                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-
-likelihood_Vs = probability_distributions('likelihood from residuals', ...
-    obs_Vs, sigma_Vs, sweep.meanVs);
-
-likelihood_Qinv = probability_distributions('likelihood from residuals', ...
-    obs_Qinv, sigma_Qinv, sweep.meanQinv);
-
+if isfield(filenames, 'Vs')
+    likelihood_Vs = probability_distributions('likelihood from residuals', ...
+        obs_Vs, sigma_Vs, sweep.meanVs);
+end
+   
+if isfield(filenames, 'Q')
+    likelihood_Q = probability_distributions('likelihood from residuals', ...
+        obs_Q, sigma_Q, sweep.meanQ);
+end
+    
 %% %%%%%%%%%%%%%%%% Get posterior for State Variables %%%%%%%%%%%%%%%%%% %%
 % The posterior probability distribution is calculated in a Bayesian way  %
 %       p(S | D) ? p(D | S) * p(S)                                        %
 % The probability of the state variables given the observed Q and Vs.     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-posterior_S_given_Vs = probability_distributions('A|B', ...
-    likelihood_Vs, prior_statevars, 1);
+if isfield(filenames, 'Vs')
+    posterior_S_given_Vs = probability_distributions('A|B', ...
+        likelihood_Vs, prior_statevars, 1);
+    vs_str = sprintf(['Vs = %.3g ', 177, ' %.2g km/s'], obs_Vs, sigma_Vs);
+    plot_Bayes(posterior_S_given_Vs, sweep, vs_str, q_method)
+    plot_tradeoffs_posterior(posterior_S_given_Vs, sweep, vs_str, q_method)
+    posterior.pS = posterior_S_given_Vs;
+end
 
-posterior_S_given_Qinv =  probability_distributions('A|B', ...
-    likelihood_Qinv, prior_statevars, 1);
+if isfield(filenames, 'Q')
+    posterior_S_given_Q =  probability_distributions('A|B', ...
+        likelihood_Q, prior_statevars, 1);
+    q_str = sprintf(['Q = %.2g ', 177, ' %.2g '], obs_Q, sigma_Q);
+    plot_Bayes(posterior_S_given_Q, sweep, q_str, q_method)
+    plot_tradeoffs_posterior(posterior_S_given_Q, sweep, q_str, q_method)
+    posterior.pS = posterior_S_given_Q;
+end
 
 
-vs_str = sprintf(['Vs = %.3g ', 177, ' %.2g km/s'], obs_Vs, sigma_Vs);
-plot_Bayes(posterior_S_given_Vs, sweep, vs_str, q_method)
-q_str = sprintf(['Qinv = %.2g ', 177, ' %.2g '], obs_Qinv, sigma_Qinv);
-plot_Bayes(posterior_S_given_Qinv, sweep, q_str, q_method)
-plot_tradeoffs_posterior(posterior_S_given_Vs, sweep, vs_str, q_method)
-plot_tradeoffs_posterior(posterior_S_given_Qinv, sweep, q_str, q_method)
 
 %% %%%%%%% Get posterior for State Variables given both Vs and Q %%%%%%% %%
 % The measurement uncertainties in Vs and Q are assumed to be             %
 % uncorrelated.  As such, we can simplify                                 %
-%    p(S | (Vs, Qinv)) ? (p(Vs | S) * p(Qinv | S) * p(S))                 %
+%    p(S | (Vs, Q)) ? (p(Vs | S) * p(Q | S) * p(S))                 %
 % The probability of the state variables being correct given constraints  %
 % from both Vs and Q.                                                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-posterior_S_given_Vs_and_Qinv = probability_distributions(...
-    'C|A,B conditionally independent', likelihood_Vs, likelihood_Qinv, ...
-    prior_statevars, 1);
+if isfield(filenames, 'Vs') && isfield(filenames, 'Q')
+    posterior_S_given_Vs_and_Q = probability_distributions(...
+        'C|A,B conditionally independent', likelihood_Vs, likelihood_Q, ...
+        prior_statevars, 1);
+    
+    vs_q_str = [vs_str, ', ', q_str];
+    plot_Bayes(posterior_S_given_Vs_and_Q, sweep, vs_q_str, q_method)
+    
+    plot_tradeoffs_posterior(posterior_S_given_Vs_and_Q, sweep, ...
+        vs_q_str, q_method)
+    
+    posterior.pS = posterior_S_given_Vs_and_Q;
+    
+end
 
-vs_q_str = [vs_str, ', ', q_str];
-plot_Bayes(posterior_S_given_Vs_and_Qinv, sweep, vs_q_str, q_method)
-
-plot_tradeoffs_posterior(posterior_S_given_Vs_and_Qinv, sweep, vs_q_str, q_method)
-
-
-% Identify the best combinations of T, g, and phi across T
-[best_T_phi_g, posterior_T] = find_best_state_var_combo( ...
-    posterior_S_given_Vs_and_Qinv, sweep);
+posterior.state_names = sweep.state_names;
+for nm = sweep.state_names
+    posterior.(nm{1}) = sweep.(nm{1});
+end
 
 
 end
@@ -283,4 +292,4 @@ end
 % 
 % posterior_vars_given_LAB = probability_distributions('A|B', ...
 %     likelihood_LAB, prior_vars, prior_LAB);
-% plot_Bayes(posterior_vars_given_LAB, LABsweep, 'Vs, Qinv, LAB')
+% plot_Bayes(posterior_vars_given_LAB, LABsweep, 'Vs, Q, LAB')

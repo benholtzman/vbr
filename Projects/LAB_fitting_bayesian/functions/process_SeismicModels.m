@@ -148,8 +148,8 @@ switch field_name
         constant_error = 0.05;
     case 'LAB_Depth'
         constant_error = 5;
-    case 'Qinv'
-        constant_error = 0.005;
+    case 'Q'
+        constant_error = 10;
 end
 
 fprintf(['\nError field does not exist for %s - \n\t\t', ...

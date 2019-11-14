@@ -1,3 +1,5 @@
+function posterior = fit_plate(filenames, location, q_method, prior_S)
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % fit_plate
@@ -90,18 +92,16 @@ end
 
 
 % Set range for Potential Temperature, Tp
-sweep.TpC = sweep.T ...
+TpC = prior_S.T ...
     - defaults.dTdz_ad * mean([location.z_min, location.z_max]) * 1e3;
-
-% Set the phi and g to use for every Tp in the VBR calculations
-Tp_phi_g = [sweep.TpC', best_T_phi_g(:, 2:end)];
-
 
 % Interpolate p(T) as a function of the asthenospheric sweep in T
 % (sweep.TpC) into the sweep of TpC used for the geotherm modelling
 % (LABsweep.TpC).
-Tp_vals = linspace(min(LABsweep.TpC), max(LABsweep.TpC), 100);
-p_Tp = interp1(sweep.TpC, posterior_T, Tp_vals);
+i_notT = find(~strcmp(prior_S.state_names, 'T'));
+marginal_T = sum(sum(prior_S.pS, i_notT(1)), i_notT(2));
+Tp_vals = LABsweep.TpC;%linspace(min(LABsweep.TpC), max(LABsweep.TpC), 100);
+p_Tp = interp1(TpC, marginal_T, Tp_vals);
 
 
 
@@ -114,12 +114,12 @@ p_Tp = interp1(sweep.TpC, posterior_T, Tp_vals);
 % Calculating VBR on 360 plate models takes ~ 30 s, but you can avoid
 % recalculating if you set VBRSettings.recalc_VBR = 0 and give the file
 % name of a previously calculated VBR box (Files.VBR_Box).
-VBRSettings.recalc_VBR=1;
-Files.VBR_Box='./data/plate_VBR/thermalEvolution_1.mat';
+VBRSettings.recalc_VBR=0;
+Files.VBR_Box='./data/plate_VBR/thermalEvolution1.mat';
 VBRSettings.freq = logspace(-2.8,-1,4);
 
 if ~exist(Files.VBR_Box,'file') || VBRSettings.recalc_VBR==1
-    process_ThermalEvolution_vbr(Files,VBRSettings.freq, Tp_phi_g);
+    process_ThermalEvolution_vbr(Files,VBRSettings.freq);
 else
     fprintf(['\nVBR Box already exists, delete following file to ' ...
         'recalculate\n    %s\n'], Files.VBR_Box)
@@ -135,6 +135,11 @@ predicted_vals = calc_LAB_Vs(Files.VBR_Box, LAB_settings);
 [zPlate_grid, Tp_grid] = meshgrid(LABsweep.zPlatekm, LABsweep.TpC);
 zLAB_grid = predicted_vals.zLAB_Q;
 
+figure;
+imagesc(LABsweep.zPlatekm, LABsweep.TpC, zLAB_grid);
+xlabel('zPlate (km)'); ylabel('Tp (C)'); set(gca, 'ydir', 'normal')
+c = colorbar; ylabel(c, 'zLAB (km)')
+title('zLAB as a function of zPlate and Tp')
 
 
 %% %%%%%%%%%%%%%%%%%%%% Get prior for LAB from RFs %%%%%%%%%%%%%%%%%%%%% %%
@@ -142,9 +147,8 @@ zLAB_grid = predicted_vals.zLAB_Q;
 % uncertainties.                                                          %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-labfile = './data/LAB_models/HopperFischer2018.mat';
 [obs_LAB, sigma_LAB] = process_SeismicModels('LAB_Depth', ...
-    location, labfile);
+    location, filenames.LAB);
 
 zLAB_vals = linspace(min(predicted_vals.zLAB_Q(:)), ...
     max(predicted_vals.zLAB_Q(:)), 100);
@@ -167,11 +171,38 @@ F = scatteredInterpolant(Tp_grid(:), zLAB_grid(:), zPlate_grid(:));
 
 n_MC_trials = 1e5;
 res_zPlate = zeros(1, n_MC_trials);
+res_Tp = zeros(1, n_MC_trials);
+res_zLAB = zeros(1, n_MC_trials);
 r_Tp = rand(1, n_MC_trials) .* max(cdf_Tp);
 r_zLAB = rand(1, n_MC_trials) .* max(cdf_zLAB);
 for n = 1:n_MC_trials
     [~, i_Tp] = min(abs(cdf_Tp - r_Tp(n)));
     [~, i_zLAB] = min(abs(cdf_zLAB - r_zLAB(n)));
-    res_zPlate(n) = F(Tp_vals(i_Tp), LAB_vals(i_zLAB));
+    res_zPlate(n) = F(Tp_vals(i_Tp), zLAB_vals(i_zLAB));
+    res_Tp(n) = Tp_vals(i_Tp);
+    res_zLAB(n) = zLAB_vals(i_zLAB);
     
+end
+
+posterior.p_zPlate = histc(res_zPlate, ...
+    LABsweep.zPlatekm + [-10, diff(LABsweep.zPlatekm) / 2]) ...
+    ./ n_MC_trials;
+
+posterior.p_Tp = p_Tp;
+posterior.p_zLAB = p_zLAB;
+posterior.zPlate = LABsweep.zPlatekm;
+posterior.Tp = Tp_vals;
+posterior.zLAB = zLAB_vals;
+posterior.MC_zPlate = res_zPlate;
+posterior.MC_Tp = res_Tp;
+posterior.MC_zLAB = res_zLAB;
+posterior.zLAB_grid = zLAB_grid;
+
+posterior.Files = Files;
+posterior.obs_zLAB = obs_LAB;
+posterior.sigma_zLAB = sigma_LAB;
+
+plot_plates(posterior, q_method)
+
+
 end

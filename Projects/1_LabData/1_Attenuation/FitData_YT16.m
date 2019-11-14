@@ -33,20 +33,28 @@ T_C_vec
 
 
 VBR.in.elastic.methods_list={'anharmonic'};
-VBR.in.viscous.methods_list={'HK2003';'HZK2011'};
-VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp';'andrade_mxw';'xfit_premelt'};
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+VBR.in.elastic.anharmonic.Gu_0_ol = 2.5 ; %2.6 estimated from Fig 6 (YT16)
+VBR.in.elastic.anharmonic.dG_dT = -5.0e4 ; % -13600000 % Below about -5e4, this makes no difference..
+% so it must be anelastic.
+%VBR.in.elastic.anharmonic.dG_dP = 1.800 ;
+%VBR.in.elastic.anharmonic.T_K_ref = 25 ;
 
+VBR.in.viscous.methods_list={'HK2003';'HZK2011';'xfit_premelt'}; %VBR.in.viscous.methods_list={'xfit_premelt'};
+VBR.in.viscous.xfit_premelt=SetBorneolParams();
+
+VBR.in.anelastic.methods_list={'xfit_premelt'};
 % VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
 % fit_type='bg_peak';
 % VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
+
 VBR.in.GlobalSettings.melt_enhacement = 0 ;
 
 % ==================================================
 %  frequencies to calculate at
 f_data = data.YT16(1).exptCond.f ;
 
-VBR.in.SV.f = logspace(10*min(f_data),10*max(f_data),30);
+VBR.in.SV.f = logspace(log10(min(f_data)),log10(max(f_data)),30);
 
 %  size of the state variable arrays. arrays can be any shape
 %  but all arays must be the same shape.
@@ -113,12 +121,13 @@ for iT = 1:nlines
     %LineW = LineW_vec(j);
     clr = colorscale(iT,:) ;
 
+    % Plot model
     Q = squeeze(VBR.out.anelastic.xfit_premelt.Q(1,iT,:)) ;
-    % if plot_vs_freq
-    %   plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
-    % else
-    %   plot(log10(1./f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
-    % end
+    if plot_vs_freq
+      plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+    else
+      plot(log10(1./f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
+    end
 
   % PLOT DATA
   data_log10_Qinv = data.YT16(iT).Results.log10_Qinv ;
@@ -151,13 +160,13 @@ for iT = 1:nlines
   %LineW = LineW_vec(j);
   clr = colorscale(iT,:) ;
 
-  M = squeeze(VBR.out.anelastic.eburgers_psp.M(1,iT,:)./1e9) ;
-  %
-  % if plot_vs_freq
-  %   plot(log10(f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
-  % else
-  %   plot(log10(1./f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
-  % end
+  % Plot model
+  M = squeeze(VBR.out.anelastic.xfit_premelt.M(1,iT,:)./1e9) ;
+  if plot_vs_freq
+    plot(log10(f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
+  else
+    plot(log10(1./f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
+  end
 
   % PLOT DATA
   data_M = data.YT16(iT).Results.G ;
@@ -183,8 +192,23 @@ set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
 %set(gca,'XTickLabel', [])
 
+function params=SetBorneolParams()
+  % set the viscous parameters for borneol
+  % near-solidus and melt effects
+  params.alpha=0;
+  params.T_eta=0.94; % eqn 17,18- T at which homologous T for premelting.
+  params.gamma=5;
+  % flow law constants for YT2016
+  params.Tr_K=8+273; % p7817 of YT2016, second paragraph
+  params.Pr_Pa=1000; % p7817 of YT2016, second paragraph
+  params.eta_r=565e12; % figure 20 of reference paper Table 2 @ 8 degrees
+  params.H=141*1e3; % activation energy [J/mol], figure 20 of YT2016
+  params.V=0; % activation vol [m3/mol], figure 20 of YT2016
+  params.R=8.314; % gas constant [J/mol/K]
+  params.m=2.56; % grain size exponent
+  params.dg_um_r=34.2 ; % caption of Fig 9. % 24.4; % reference grain size [um]
+end
 
-
-% ===================
-return
-% ===================
+% % ===================
+% return
+% % ===================

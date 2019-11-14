@@ -169,7 +169,7 @@ end
 axis tight
 % xlim([1.8e1 3e2])
 ylim([-2.1,.5])
-title(['Andrade scaled by Maxwell'],'fontname','Times New Roman','fontsize',LBLFNT);
+title(['Bunton/Cooper, 2001 data; Andrade-Maxwell fit'],'fontname','Times New Roman','fontsize',LBLFNT);
 xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
 ylabel('log_{10} Q^{-1}, attenuation', 'fontname','Times New Roman','fontsize', LBLFNT)
 %ylabel('log_{10} Q^{-1}, (J_1/J_2)', 'fontname','Times New Roman','fontsize', LBLFNT)

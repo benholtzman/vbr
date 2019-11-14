@@ -8,36 +8,47 @@ function posterior = fit_seismic_observations(filenames, location, q_method)
 %
 % Parameters:
 % -----------
+%       filenames   structure with the paths to observational data saved
+%                   as .mat files in the required format.  Depending on
+%                   the fields in filenames, this code will return a 
+%                   posterior given Vs, Q, or Vs and Q.
+%       
+%
 %       location    structure with the following required fields
 %           lat         latitude [degrees North]
 %           lon         longitude - assumed to be positive [degrees East]
 %           z_min       minimum depth for observation range [km]
 %           z_max       maximum depth for observation range [km]
+%          (smooth_rad  radius (in degrees) to smooth over observations)
 %
-%       Vs, Q, and LAB model file names
-%           currently hardwired in in the calls to process_SeismicModels()
-%
-%       Name of a previously calculated parameter sweep (fname), or adjust
-%       sweep_params       structure with the following required fields
+% Hardwired variables most worth playing with:
+% -------------------------------------------
+%       sweep_params        lines 91-97
+%                           structure with the following required fields
 %               T               vector of temperature values [deg C]
 %               phi             vector of melt fractions [vol fraction]
 %               gs              vector of grain sizes [micrometres]
 %               per_bw_max      maximum period (min. freq.) considered [s]
 %               per_bw_min      minimum period (max. freq.) considered [s]
 %
+%       pdf_type            line 121
+%                           shape of prior distribution assumed for 
+%                           (independent priors) - can be set to 
+%                               'uniform' (currently hardwired)
+%                               'normal' (mean, std calculated from range)
+%                               'input' (assumes there is a field in
+%                                        params, [varname]_pdf)
+%
 % Output:
 % -------
-%      sc_posterior_S_given_Vs
-%               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from Vs observations
-%
-%      sc_posterior_S_given_Q
-%               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from Q observations
-%
-%      posterior_S_given_Vs_and_Q
-%               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from both Vs and Q
+%       posterior           structure with the following fields
+%               pS              posterior probability of S
+%               state_names     as state_names in sweep - that is, a list
+%                               of the state variables that have been 
+%                               varied in this calculation
+%               [SV name]       for each state variable listed in 
+%                               state_names, a vector of the values used
+%      
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -136,7 +147,7 @@ end
     
 %% %%%%%%%%%%%%%%%% Get posterior for State Variables %%%%%%%%%%%%%%%%%% %%
 % The posterior probability distribution is calculated in a Bayesian way  %
-%       p(S | D) ? p(D | S) * p(S)                                        %
+%       p(S | D)    proportional to    p(D | S) * p(S)                    %
 % The probability of the state variables given the observed Q and Vs.     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -163,7 +174,7 @@ end
 %% %%%%%%% Get posterior for State Variables given both Vs and Q %%%%%%% %%
 % The measurement uncertainties in Vs and Q are assumed to be             %
 % uncorrelated.  As such, we can simplify                                 %
-%    p(S | (Vs, Q)) ? (p(Vs | S) * p(Q | S) * p(S))                 %
+%    p(S | (Vs, Q))    proportional to    (p(Vs | S) * p(Q | S) * p(S))   %
 % The probability of the state variables being correct given constraints  %
 % from both Vs and Q.                                                     %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -190,106 +201,3 @@ end
 
 
 end
-
-% 
-% %% %%%%%%%%%%%%%%%%%%%% Get prior for LAB from RFs %%%%%%%%%%%%%%%%%%%%% %%
-% % LAB depth is constrained by seismic observations and their              %
-% % uncertainties.                                                          %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% labfile = './data/LAB_models/HopperFischer2018.mat';
-% [obs_LAB, sigma_LAB] = process_SeismicModels('LAB_Depth', ...
-%     location, labfile);
-% 
-% 
-% %% %%%%%%%%%%%%%%%% Get prior for Tpot, zPlate %%%%%%%%%%%%%%%%%%%%%%%%% %%
-% % The prior probability distribution for these variables can be assumed   %
-% % to be either uniform or normal across the input range given.            %
-% % The probability that the given variable is actually correct.            %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% %%%%%%%% Generate geotherms and VBR boxes  %%%%%%%%
-% Files.SV_Box='./data/plate_VBR/BigBox.mat';
-% Files.VBR_Box='./data/plate_VBR/thermalEvolution_1.mat';
-% defaults = init_settings;
-% 
-% recalc_SV = 0;
-% 
-% % Thermal model sweep for thermodynamic state variables
-% if ~exist(Files.SV_Box,'file') || recalc_SV==1
-%     LABsweep.TpC = 1350:25:1500;
-%     LABsweep.zPlatekm = 60:20:160;
-%     generate_boxes_ThermalEvolution(Files.SV_Box, LABsweep.TpC,...
-%         LABsweep.zPlatekm); % builds T(z,t)
-% else
-%     Box = load(Files.SV_Box, 'Box');
-%     LABsweep.TpC = Box.Box(1, 1).info.var1range;
-%     LABsweep.zPlatekm = Box.Box(1, 1).info.var2range;
-%     LABsweep.state_names = {'TpC', 'zPlatekm'};
-%     fprintf(['\nSV Box already exists, delete following file to ' ...
-%         'recalculate\n    %s\n'], Files.SV_Box)
-% end
-% 
-% % Calculating VBR on BigBox takes < 1 minute
-% VBRSettings.freq = logspace(-2.8,-1,4);
-% VBRSettings.recalc_VBR=1;
-% sweep.TpC = sweep.T ...
-%     - defaults.dTdz_ad * mean([location.z_min, location.z_max]) * 1e3;
-% best_Tp_phi_g = best_T_phi_g;
-% best_Tp_phi_g(:, 1) = sweep.TpC; % Replace T with Tp
-% 
-% if ~exist(Files.VBR_Box,'file') || VBRSettings.recalc_VBR==1
-%     process_ThermalEvolution_vbr(Files,VBRSettings.freq, best_Tp_phi_g);
-% else
-%     fprintf(['\nVBR Box already exists, delete following file to ' ...
-%         'recalculate\n    %s\n'], Files.VBR_Box)
-% end
-% %%%%%%%%%%%%%%%%%% end VBR box calculations   %%%%%%%%%%%%%%%%%%
-% 
-% % Set period filter for calculating the LAB depth
-% LAB_settings.per_bw_max = 30;  % max period to use for fitting (s)
-% LAB_settings.per_bw_min = 10;  % min period to use for fitting (s)
-% LAB_settings.q_method = q_method; % match Q method above
-% predicted_vals = calc_LAB_Vs(Files.VBR_Box, LAB_settings);
-% 
-% 
-% % For each of the variables in sweep, set the mean and std
-% % Default is to calculate these based on the ranges set in sweep_params
-% params = make_param_grid(LABsweep.state_names, LABsweep);
-% % Replace default PDF for TpC with the posterior calculated from Vs and Q
-% params.TpC_pdf = repmat(...
-%     interp1(sweep.TpC, posterior_T, LABsweep.TpC)', ...
-%     1, length(LABsweep.zPlatekm));
-% 
-% pdf_types = {'input', 'uniform'};
-% [prior_vars, sigma_vars] = priorModelProbs( ...
-%     params, LABsweep.state_names, {'input', 'uniform'});
-% 
-% %% %%%%%%%%%%%%%%%%%%%%%% Get likelihood for LAB %%%%%%%%%%%%%%%%%%%%%%% %%
-% % The likelihood p(D|A), e.g., P(Vs | T, phi, gs), is calculated using    %
-% % the residual (See manual, Menke book Ch 11):                            %
-% %       p(D|A) = 1 / sqrt(2 * pi * residual) * exp(-residual / 2)         %
-% % residual(k) here is a chi-squared residual. Given chi-square, the PDF   %
-% % of data with a normal distribution:                                     %
-% %       P = 1 / sqrt(2 * pi * sigma^2) * exp(-0.5 * chi-square)           %
-% % where sigma = std of data, chi-square=sum((x_obs - x_preds)^2 / sigma^2)%
-% % e.g. www-cdf.fnal.gov/physics/statistics/recommendations/modeling.html  %
-% % The probability of getting the observed LAB given the assumed state     %
-% % variable values.                                                        %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% 
-% % chi^2 = sum( (observed - predicted)^2) / sigma ^ 2)
-% likelihood_LAB = probability_distributions('likelihood from residuals', ...
-%     obs_LAB, sigma_LAB, predicted_vals.zLAB_Q);
-% 
-% %% %%%%%%%%%%%%%%%%%%% Get posterior for Variables %%%%%%%%%%%%%%%%%%%%% %%
-% % The posterior probability distribution is calculated in a Bayesian way  %
-% %       p(V | D) = p(D | V) * p(V) / p(D)                                 %
-% % The probability of the state variables given the observed LAB and the   %
-% % observed Vs and Q informing the prior for the potential temperature.    %
-% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 
-% posterior_vars_given_LAB = probability_distributions('A|B', ...
-%     likelihood_LAB, prior_vars, prior_LAB);
-% plot_Bayes(posterior_vars_given_LAB, LABsweep, 'Vs, Q, LAB')

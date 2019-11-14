@@ -20,36 +20,57 @@ function posterior = fit_plate(filenames, location, q_method, prior_S)
 %
 % Parameters:
 % -----------
+%       filenames   structure with the paths to observational data saved
+%                   as .mat files in the required format.  For this, only
+%                   need to know LAB depth data.
+%
 %       location    structure with the following required fields
 %           lat         latitude [degrees North]
 %           lon         longitude - assumed to be positive [degrees East]
 %           z_min       minimum depth for observation range [km]
 %           z_max       maximum depth for observation range [km]
+%  
+%       q_method    the anelastic method assumed for VBR calculations.
+%                   Should be the same as in the previous step
+%                   (i.e. fit_seismic_observables) for consistency.
 %
-%       Vs, Q, and LAB model file names
-%           currently hardwired in in the calls to process_SeismicModels()
+%       prior_S     the output of fit_seismic_observables
 %
-%       Name of a previously calculated parameter sweep (fname), or adjust
-%       sweep_params       structure with the following required fields
-%               T               vector of temperature values [deg C]
-%               phi             vector of melt fractions [vol fraction]
-%               gs              vector of grain sizes [micrometres]
-%               per_bw_max      maximum period (min. freq.) considered [s]
-%               per_bw_min      minimum period (max. freq.) considered [s]
+% Hardwired variables most worth playing with:
+% -------------------------------------------
+%       Files.SV_Box        line 86
+%                           Path to a precalculated Box of 1D thermal
+%                           models - defines suite of zPlate and Tp tested.
+%                           Need to change this or set recalc_SV (line 89) 
+%                           to 1 if want to update.
+%       Files.VBR_Box       line 139
+%                           Path to precalculated VBR box - need to change
+%                           this or set VBR Settings.recalc_VBR (line 138)
+%                           to 1 if have altered Files.SV_Box or want
+%                           to update any of the VBR calculation settings
 %
 % Output:
 % -------
-%      sc_posterior_S_given_Vs
-%               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from Vs observations
-%
-%      sc_posterior_S_given_Qinv
-%               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from Qinv observations
-%
-%      posterior_S_given_Vs_and_Qinv
-%               matrix of posterior probabilities for all combinations of
-%               sweep_params given the constraints from both Vs and Qinv
+%       posterior           structure with the following fields
+%               p_zPlate        estimated probability distribution for
+%                               zPlate based on the Monte Carlo analysis
+%               p_Tp            input probability distribution of T
+%                               now in terms of Tp
+%               p_zLAB          estimated probability distribution for
+%                               zLAB given an observation and its
+%                               uncertainties
+%               [zPlate, Tp, or zLAB]
+%                               vector of values corresponding to the 
+%                               vector of probabilities, p_[zPlate, ...]
+%               MC_[zPlate, Tp, or zLAB]
+%                               vector of outcomes of the Monte Carlo
+%                               trials for zPlate, Tp and zLAB
+%               zLAB_grid       values of zLAB calculated for each Tp and
+%                               zPlate combination
+%               Files           names of 1D thermal modelling and VBR box
+%                               files used
+%               obs_zLAB        observed zLAB value
+%               sigma_zLAB      observed zLAB standard deviation
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -100,7 +121,7 @@ TpC = prior_S.T ...
 % (LABsweep.TpC).
 i_notT = find(~strcmp(prior_S.state_names, 'T'));
 marginal_T = sum(sum(prior_S.pS, i_notT(1)), i_notT(2));
-Tp_vals = LABsweep.TpC;%linspace(min(LABsweep.TpC), max(LABsweep.TpC), 100);
+Tp_vals = LABsweep.TpC;
 p_Tp = interp1(TpC, marginal_T, Tp_vals);
 
 

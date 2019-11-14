@@ -1,4 +1,20 @@
-
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Fit asthenospheric Vs and Q (using fit_seismic_observations.m) with the
+% most likely state variables, varying temperature, melt fraction and
+% grain size in the asthenosphere.
+%
+% Then, use this constraint on potential temperature and seismic LAB depth
+% observations to fit a plate model, i.e. thermal plate thickness, zPlate
+% (using fit_plate.m).
+%
+% This wrapper contains only the most commonly varied inputs - the location
+% (lat, lon, depth, smoothing radius) that you would like to fit; the
+% names of your files containing seismic observeables (Vs, Q, LAB depth);
+% and the anelastic framework in which you would like to do your
+% calculations.
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 location.lat = 40; %lat; % degrees North

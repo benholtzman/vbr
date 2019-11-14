@@ -165,7 +165,7 @@ end
 
 axis tight
 % xlim([1.8e1 3e2])
-ylim([-2.3,.5])
+ylim([-2.3,0.5])
 title(['Extended Burgers'],'fontname','Times New Roman','fontsize',LBLFNT);
 xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
 ylabel('log_{10} Q^{-1}, attenuation', 'fontname','Times New Roman','fontsize', LBLFNT)

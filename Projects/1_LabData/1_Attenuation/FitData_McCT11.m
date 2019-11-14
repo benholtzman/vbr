@@ -16,31 +16,38 @@ load('ExptData.mat');
 data = Data ;
 
 % ===========================================
-% LOAD THE VBR or Run it here... not as LUT.
-
-% runVBRwhere='here' % 'LUT'
-%
-% if strcmp(runVBRwhere,'LUT')==1
-%   load('VBR_LUT_labdata');
-% end
+% Run VBR
 
 % if strcmp(runVBRwhere,'here')==1
-for i=1:length(data.BuntonCoop01)
-  T_C_vec(i) = data.BuntonCoop01(i).exptCond.T_C  ;
+for i=1:length(data.McCT11)
+  d_vec(i) = data.McCT11(i).exptCond.dg  ;
 end
-T_C_vec
+d_vec
+
 
 VBR.in.elastic.methods_list={'anharmonic'};
-VBR.in.viscous.methods_list={'HK2003';'HZK2011'};
-VBR.in.anelastic.methods_list={'eburgers_psp';'andrade_psp';'andrade_mxw'};
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+VBR.in.elastic.anharmonic.Gu_0_ol = 2.5 ; %2.6 estimated from Fig 6 (YT16)
+VBR.in.elastic.anharmonic.dG_dT = -5.0e4 ; % -13600000 % Below about -5e4, this makes no difference..
+% so it must be anelastic.
+%VBR.in.elastic.anharmonic.dG_dP = 1.800 ;
+%VBR.in.elastic.anharmonic.T_K_ref = 25 ;
 
+VBR.in.viscous.methods_list={'xfit_premelt'}; %VBR.in.viscous.methods_list={'xfit_premelt'};
+VBR.in.viscous.xfit_premelt=SetBorneolParams();
+VBR.in.viscous.xfit_premelt.eta_r = 150e12 ;  % 565e12 from figure 20 of reference paper Table 2 @ 8 degrees
+% note that the Q_xfit_mxw takes the first viscosity method in the list, so use only that which you want it to use!
+
+VBR.in.anelastic.methods_list={'xfit_mxw'};
+% VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
+% fit_type='bg_peak';
+% VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
+
+VBR.in.GlobalSettings.melt_enhacement = 0 ;
 
 % VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
 % fit_type='bg_peak';
 % VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
-VBR.in.GlobalSettings.melt_enhacement = 0 ;
-
 
 % ===================================================
 % rescale the reference modulus =====================
@@ -62,21 +69,25 @@ VBR.in.GlobalSettings.melt_enhacement = 0 ;
 
 % ==================================================
 %  frequencies to calculate at
-VBR.in.SV.f = 1./logspace(0,3,30);
-% [0.7804 0.2616 0.1561 0.0863 0.0456 0.0214 0.0100 0.0048 0.0021 0.0010]
+f_data = data.McCT11(1).exptCond.f ;
+log10f = log10(f_data) ;
+VBR.in.SV.f = logspace(min(log10f),max(log10f),30);
 
 %  size of the state variable arrays. arrays can be any shape
 %  but all arays must be the same shape.
-VBR.in.SV.T_K = T_C_vec+273 ;
-VBR.in.SV_vectors.T_K_vec_dim1 = VBR.in.SV.T_K ;
-sz=size(VBR.in.SV.T_K) ; % temperature [K]
+
+VBR.in.SV.dg_um= d_vec ; %data.McCT11(1).exptCond.dg_0 .* ones(sz) ;
+VBR.in.SV_vectors.d_vec_dim1 = VBR.in.SV.dg_um ;
+sz=size(VBR.in.SV.dg_um) ; % grain size..
 
 %  remaining state variables (ISV)
-VBR.in.SV.dg_um= data.BuntonCoop01(1).exptCond.dg_0 .* ones(sz);
-VBR.in.SV.P_GPa = data.BuntonCoop01(1).exptCond.P_GPa .* ones(sz); % pressure [GPa]
-VBR.in.SV.rho = data.BuntonCoop01(1).exptCond.rho .* ones(sz); % density [kg m^-3]
-VBR.in.SV.sig_MPa = (data.BuntonCoop01(1).exptCond.sig_0 .* ones(sz))./1e6; % differential stress [MPa]
-VBR.in.SV.phi = data.BuntonCoop01(1).exptCond.phi_0 .* ones(sz); % melt fraction
+VBR.in.SV.T_K = data.McCT11(1).exptCond.T_C +273 .* ones(sz); % pressure [GPa]
+VBR.in.SV.P_GPa = data.McCT11(1).exptCond.P_GPa .* ones(sz); % pressure [GPa]
+VBR.in.SV.rho = data.McCT11(1).exptCond.rho .* ones(sz); % density [kg m^-3]
+VBR.in.SV.sig_MPa = (data.McCT11(1).exptCond.sig_0 .* ones(sz))./1e6; % differential stress [MPa]
+VBR.in.SV.phi = data.McCT11(1).exptCond.phi_0 .* ones(sz); % melt fraction
+
+VBR.in.SV.Tsolidus_K = 43.0 + 273 ;
 
 % run VBR
 [VBR] = VBR_spine(VBR) ;
@@ -118,7 +129,7 @@ else
 end
 
 %% PLOT =======================================================
-nlines = length(data.BuntonCoop01) ; %length(VBR_sols(1).T_params) ;
+nlines = length(data.McCT11) ; %length(VBR_sols(1).T_params) ;
 %cool to warm:
 colorscale(:,1) = linspace(0.5,1,nlines) ;
 colorscale(:,2) = linspace(0,0,nlines) ;
@@ -136,18 +147,7 @@ for iT = 1:nlines
     %LineW = LineW_vec(j);
     clr = colorscale(iT,:) ;
 
-  % if strcmp(runVBRwhere,'LUT')==1
-  %   state = data.FaulJax15(iT).exptCond ;
-  %   [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-  %   Qs = VBR.out.anelastic.eburgers_psp.Q(i_T_d1, i_g_d2, i_P_d3,:) ;
-  %   Q = squeeze(Qs) ;
-  % elseif strcmp(runVBRwhere,'here')==1
-  %   Q = squeeze(VBR.out.anelastic.eburgers_psp.Q(1,iT,:)) ;
-  % end
-
-  Q = squeeze(VBR.out.anelastic.andrade_mxw.Q(1,iT,:)) ;
-
-
+  Q = squeeze(VBR.out.anelastic.xfit_mxw.Q(1,iT,:)) ;
   if plot_vs_freq
     plot(log10(f_vec),log10(1./Q),'k-','LineWidth', LineW, 'Color', clr); hold on;
   else
@@ -155,12 +155,12 @@ for iT = 1:nlines
   end
 
   % PLOT DATA
-  data_log10_Qinv = data.BuntonCoop01(iT).Results.log10_Qinv ;
+  data_log10_Qinv = data.McCT11(iT).Results.log10_Qinv ;
   if plot_vs_freq
-    data_freq = data.BuntonCoop01(iT).exptCond.f ;
+    data_freq = data.McCT11(iT).exptCond.f ;
     plot(log10(data_freq),data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
   else
-    data_logPer = data.BuntonCoop01(iT).exptCond.logPer
+    data_logPer = data.McCT11(iT).exptCond.logPer
     plot(data_logPer,data_log10_Qinv,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
   end
 
@@ -169,12 +169,12 @@ end
 axis tight
 % xlim([1.8e1 3e2])
 ylim([-2.1,.5])
-title(['Bunton/Cooper, 2001 data; Andrade-Maxwell fit'],'fontname','Times New Roman','fontsize',LBLFNT);
+title(['McCarthy et al., 2011 data; xfit-maxwell fit'],'fontname','Times New Roman','fontsize',LBLFNT);
 xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
 ylabel('log_{10} Q^{-1}, attenuation', 'fontname','Times New Roman','fontsize', LBLFNT)
-%ylabel('log_{10} Q^{-1}, (J_1/J_2)', 'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
+
 
 
 % ===================
@@ -258,73 +258,19 @@ set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],
 %set(gca,'XTickLabel', [])
 
 
-
-return
-%
-% %%  Q vs FREQUENCY (AndradePsP) ==================================================
-% axes('Position', plot_row1_B);
-%
-% f = VBR_sols(1).VBR.ISV.f ;
-% % AndradePsP, two frequencies
-% for j = 1:nlines
-%         %LineW = LineW_vec(j);
-%         clr = colorscale(j,:) ;
-%        % f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
-%        % I_fM = find(f>=f_M,1);
-%         Q = VBR_sols(j).VBR.AndradePsP.Qa ;
-%         Qcomp = VBR_sols(j).VBR.AndradePsP.Q_comp ;
-%        % MAT(:,j) = Qs ;
-%
-%         plot(log10(f),log10(Q),'k--','LineWidth', LineW-1, 'Color', clr); hold on;
-%         plot(log10(f),log10(Qcomp),'k-','LineWidth', LineW, 'Color', clr); hold on;
-%         %plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
-%
-%         % PLOT DATA:
-%         %plot(data(j).logf,data(j).logQ,'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-%
-% end
-%
-% axis tight
-% %xlim([1.8e1 3e2])
-% %ylim([1e-6 5e-4])
-% title(['AndradePsP, P=' num2str(P) ' GPa, d=' num2str(d) ' \mum'],'fontname','Times New Roman','fontsize',LBLFNT);
-% xlabel('log frequency', 'fontname','Times New Roman','fontsize', LBLFNT)
-% ylabel('log Q, (J_1/J_2)', 'fontname','Times New Roman','fontsize', LBLFNT)
-% set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
-% set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
-%
-%
-%
-%
-% %%  G vs FREQUENCY (AndradePsP) ==================================================
-% axes('Position', plot_row2_D);
-%
-% f = VBR_sols(1).VBR.ISV.f ;
-% % AndradePsP, two frequencies
-% for j = 1:lines
-%         %LineW = LineW_vec(j);
-%         clr = colorscale(j,:) ;
-%         %f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
-%         %I_fM = find(f>=f_M,1);
-%         Ma = VBR_sols(j).VBR.AndradePsP.Ma ;
-%         Mcomp = VBR_sols(j).VBR.AndradePsP.Mcomp ;
-%         %MAT(:,j) = Qs ;
-%
-%         plot(log10(f),Ma./1e9,'k--','LineWidth', LineW-1, 'Color', clr); hold on;
-%         plot(log10(f),Mcomp./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
-%         %plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
-%
-%         % PLOT DATA:
-%         %plot(data(j).logf,data(j).G,'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-%
-% end
-%
-% axis tight
-% %xlim([1.8e1 3e2])
-% %ylim([1e-6 5e-4])
-%
-% xlabel('log frequency', 'fontname','Times New Roman','fontsize', LBLFNT)
-% ylabel('Modulus, M (GPa)', 'fontname','Times New Roman','fontsize', LBLFNT)
-% set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
-% set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
-% %set(gca,'XTickLabel', [])
+function params=SetBorneolParams()
+  % set the viscous parameters for borneol
+  % near-solidus and melt effects
+  params.alpha=0;
+  params.T_eta=0.94; % eqn 17,18- T at which homologous T for premelting.
+  params.gamma=5;
+  % flow law constants for YT2016
+  params.Tr_K=8+273; % p7817 of YT2016, second paragraph
+  params.Pr_Pa=1000; % p7817 of YT2016, second paragraph
+  params.eta_r=565e12; % figure 20 of reference paper Table 2 @ 8 degrees
+  params.H=141*1e3; % activation energy [J/mol], figure 20 of YT2016
+  params.V=0; % activation vol [m3/mol], figure 20 of YT2016
+  params.R=8.314; % gas constant [J/mol/K]
+  params.m=2.56; % grain size exponent
+  params.dg_um_r=4.3 ; % caption of Fig 9. % 24.4; % reference grain size [um]
+end

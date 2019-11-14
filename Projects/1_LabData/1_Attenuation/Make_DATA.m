@@ -158,7 +158,64 @@ for iT=1:length(T_C_vec)
 
 end
 
+% ======================================================
+% McCARTHY_etal-TAKEI 2011 data
+
+datadir = '../../../../vbrWork/expt_data/3_attenuation/' ;
+McCT_datadir = [datadir,'McCT11/'] ;
+addpath(McCT_datadir) ;
+
+Qinv_filelist = dir([McCT_datadir,'McCT11_fQinv_*']) ;
+%G_filelist = dir([McCT_datadir,'YT16_s40_fE_*']) ;
+
+T_C_vec = [23.0] ; % ideally read these in from the filenames :)
+d_vec = [4.3 6.3] ;
+
+for iT=1:length(d_vec)
+
+  T_C = T_C_vec(1) ;
+  d = d_vec(iT) ;
+
+  % Gfilename = G_filelist(iT).name ;
+  % disp(Gfilename);
+  % data_G = load(Gfilename);
+  % f = transpose(data_G(:,1)) ;
+  % Per = 1./f;
+  % logPer = log10(Per) ;
+
+  Qfilename = Qinv_filelist(iT).name;
+  disp(Qfilename);
+  data_Qinv = load(Qfilename);
+  f = transpose(data_Qinv(:,1)) ;
+  Per = 1./f;
+  logPer = log10(Per) ;
+
+  Data.McCT11(iT).Results.Qinv = data_Qinv(:,2) ;
+  Data.McCT11(iT).Results.log10_Qinv = log10(Data.McCT11(iT).Results.Qinv) ;
+  %Data.YT16(iT).Results.G = data_G(:,2) ;
+
+  Data.McCT11(iT).exptCond.T_C = T_C ;
+  Data.McCT11(iT).exptCond.P_GPa = 101325*1e-9 ; % confining pressure-- Room pressure
+  Data.McCT11(iT).exptCond.Gu = 2.6 ; % reference G ! not sure what this is.. placeholder
+  Data.McCT11(iT).exptCond.rho = 1.011e3 ; % reference density ! not sure what this is.. placeholder
+  Data.McCT11(iT).exptCond.dg = d_vec(iT) ; % grain size, in microns
+  Data.McCT11(iT).exptCond.dg_0 = d_vec(1) ; % grain size, in microns
+  Data.McCT11(iT).exptCond.Ch2o_0 = 0 ; % water content (wt %?)
+  Data.McCT11(iT).exptCond.sig_0 = 1e3 ; % stress,  Pa (cnvrted to MPa in spine)
+  Data.McCT11(iT).exptCond.phi_0 = 0.00 ; % melt fraction
+  Data.McCT11(iT).exptCond.logPer = logPer ; %
+  Data.McCT11(iT).exptCond.f = f ;
+  Data.McCT11(iT).exptCond.logf = log10f ;
+
+end
+
+
+
+
+% ===================
 save('./ExptData.mat', 'Data')
+% ===================
+
 
 % ======================================================
 return

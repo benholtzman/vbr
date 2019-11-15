@@ -15,7 +15,7 @@ iris_files={
  'Gung_Romanowicz_2002':
    {
 	'server_name':'QRLW8_percent.nc',
-	'dQ_field':'dqp','z_field':'depth','lat_field':'latitude',
+	'dQinv_x1000':'dqp','z_field':'depth','lat_field':'latitude',
 	'lon_field':'longitude','dims':'z,lat,lon'
    }
 }
@@ -45,9 +45,10 @@ for fi in iris_files.keys():
                                 120., 130., 140., 150., 160.,  165., 165.,
                                 165., 165., 165., 165., 165., 165.]]]),
                     (91, 180, 1))
-            Q_field = (
-                ds[iris_files[fi]['dQ_field']].values.transpose(1, 2, 0)
-                / 100 * QL6c + QL6c)
+            Qinv_field = (
+                ds[iris_files[fi]['dQinv_x1000']].values.transpose(1, 2, 0)
+                / 1000 * 1 / QL6c + 1 / QL6c)
+            Q_field = 1 /  Qinv_field
         else:
             Q_field = ds[iris_files[fi]['Q_field']].values.transpose(1, 2, 0)
 

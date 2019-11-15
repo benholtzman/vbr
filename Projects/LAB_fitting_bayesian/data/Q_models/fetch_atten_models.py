@@ -15,7 +15,7 @@ iris_files={
  'Gung_Romanowicz_2002':
    {
 	'server_name':'QRLW8_percent.nc',
-	'dQ_field':'dq','z_field':'depth','lat_field':'latitude',
+	'dQ_field':'dqp','z_field':'depth','lat_field':'latitude',
 	'lon_field':'longitude','dims':'z,lat,lon'
    }
 }
@@ -34,20 +34,23 @@ for ref in iris_files.keys():
 for fi in iris_files.keys():
     if os.path.isfile(fi+'.mat') is False:
         ds=xr.open_dataset(fi+'.nc')
-        
+
         if fi is 'Gung_Romanowicz_2002':
             print('ref Q is QL6c.1D')
+            # Values below are at the depths [80, 80, 100, 120, 140, 160, 180
+            # 200, 220, 200, 265, 310, 355, 400, 400, 450, 500, 550, 600, 600,
+            # 635, 670]
             QL6c = np.tile(
-                    np.array([[[70., 70, 70., 70., 80., 90., 100., 120., 130.,  
-                                140., 150., 165., 165., 165., 165., 165., 165.,
-                                165.]]]),
+                    np.array([[[191., 70., 70, 70., 70., 80., 90., 100., 110.,
+                                120., 130., 140., 150., 160.,  165., 165.,
+                                165., 165., 165., 165., 165., 165.]]]),
                     (91, 180, 1))
             Q_field = (
                 ds[iris_files[fi]['dQ_field']].values.transpose(1, 2, 0)
                 / 100 * QL6c + QL6c)
         else:
             Q_field = ds[iris_files[fi]['Q_field']].values.transpose(1, 2, 0)
-        
+
         save_dict={'Latitude':ds[iris_files[fi]['lat_field']].values,
                    'Longitude':ds[iris_files[fi]['lon_field']].values,
                    'Depth':ds[iris_files[fi]['z_field']].values,

@@ -86,15 +86,15 @@ end
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % Preferably, load in a large, pre-calculated box
-fname = 'data/plate_VBR/sweep.mat';
+fname = 'data/plate_VBR/sweep_longperiod.mat';
 if ~exist(fname, 'file')
-    sweep_params.T = 1100:50:1700; %[degrees C]
+    sweep_params.T = 1000:50:1700; %[degrees C]
     sweep_params.phi = (0.0:0.005:0.03); % melt fraction
     sweep_params.gs = linspace(0.001,0.03,10)*1e6; % grain size [micrometres]
     % Set period range for the mask - used to define which calculated
     % velocities go into the returned average Vs for those conditions
-    sweep_params.per_bw_max = 30; % max period of range of mask (s)
-    sweep_params.per_bw_min = 10; % min period of range of mask (s)
+    sweep_params.per_bw_max = 150; % max period of range of mask (s)
+    sweep_params.per_bw_min = 50; % min period of range of mask (s)
 
     sweep = generate_parameter_sweep(sweep_params);
     clear sweep_params

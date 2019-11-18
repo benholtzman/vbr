@@ -13,7 +13,7 @@ function [VBR] = Q_xfit_premelt(VBR)
     has_solidus=1;
   else
     has_solidus=0;
-    disp('To use Q_YT2016_solidus, you must provide VBR.in.SV.Tsolidus_K')
+    disp('To use Q_xfit_premelt, you must provide VBR.in.SV.Tsolidus_K')
   end
 
   if has_solidus

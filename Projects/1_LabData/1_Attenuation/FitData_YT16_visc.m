@@ -41,8 +41,7 @@ function [OutVBR,data]=FitData_YT16_visc()
       VBR.in.viscous.xfit_premelt.dg_um_r=dg;
       VBR.in.viscous.xfit_premelt.Tr_K=T_C(1)+273;
       VBR.in.viscous.xfit_premelt.eta_r=eta(1);
-      % fprintf([num2str(log10(params.eta_r)),',',num2str(params.Tr_K-273),',',num2str(params.dg_um_r),'\n'])
-
+      
       % The pre-melting scaling takes into account the change in activation volume.
       % only want to use the lt 23 value
       VBR.in.viscous.xfit_premelt.H=data.table3_H.(samp_field).lt23.H*1e3;

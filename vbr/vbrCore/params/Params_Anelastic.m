@@ -92,10 +92,12 @@ function params = Params_Anelastic(method)
     params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     params.func_name='Q_xfit_premelt'; % the name of the matlab function
 
-    params.alpha_B=0.38;
-    params.A_B=0.664;
-    params.tau_pp=6*1e-5;
+    % high temp background spectrum
+    params.alpha_B=0.38; % high temp background exponent
+    params.A_B=0.664; % high temp background dissipation strength
 
+    % pre-melting dissipation peak settings:
+    params.tau_pp=6*1e-5; % peak center
     params.Beta=0; %
     params.Ap_fac_1=0.01;
     params.Ap_fac_2=0.4;
@@ -105,6 +107,7 @@ function params = Params_Anelastic(method)
     params.sig_p_fac_3=7;
     params.Ap_Tn_pts=[0.91,0.96,1]; % Tn cuttoff points
     params.sig_p_Tn_pts=[0.92,1]; % Tn cuttoff points
+    params.description='pre-melting scaling';
   end
 
   % melt enhancement effects, used by multiple of the above methods

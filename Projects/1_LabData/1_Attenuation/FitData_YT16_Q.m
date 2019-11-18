@@ -6,17 +6,21 @@ function [OutVBR,data]=FitData_YT16_Q()
   vbr_init
   addpath('./functions')
 
+  % load data if it exists
   viscData = loadYT2016visc();
   Qdata=loadYT2016Q();
-  experimental_Ts=unique(Qdata.Qinv.T_C);
+
 
   figure('DefaultAxesFontSize',12)
   OutVBR=struct();
   if isfield(viscData,'visc') && isfield(Qdata,'Qinv')
 
+    experimental_Ts=unique(Qdata.Qinv.T_C); % the temp conditions at which f was varied
     N=numel(experimental_Ts); % number of experimental P/T conditions
     clrs={'k','r','b','c','m','g','y'};
     samp=41;
+
+    % loop over exp. conditions (T is varied only), calculate Q
     for iexp=1:N
 
       This_T_C=experimental_Ts(iexp);
@@ -39,25 +43,23 @@ function [OutVBR,data]=FitData_YT16_Q()
 
       % set anharmonic conditions
       VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
-      [E_o,dEdT,dEdT_ave]= YT16_E(This_T_C);
-      % [E_o,~]=YT16_E(0);
-      % E_o=2.55;
-      poifac=1;%(2 *( 1 + VBR.in.elastic.anharmonic.nu));
-      % Gu_o=2.618;
-      Gu_o=E_o / poifac;
-      % dGdT_ave=dEdT_ave /poifac;
-      VBR.in.elastic.anharmonic.Gu_0_ol = Gu_o;%2.5 ; %2.6 estimated from Fig 6 (YT16)
-      VBR.in.elastic.anharmonic.dG_dT = 0;%dGdT_ave;
+      [Gu_o,dGdT,dGdT_ave]= YT16_E(This_T_C);
+      Gu_o=Gu_o-0.05;
+
+      % Gu_o is for a given T, set anharmonic derives to 0
+      VBR.in.elastic.anharmonic.Gu_0_ol = Gu_o;
+      VBR.in.elastic.anharmonic.dG_dT = 0;
       VBR.in.elastic.anharmonic.dG_dP = 0;
-      disp(Gu_o)
+      disp(['Calculating for T=',num2str(This_T_C)])
+      disp(sprintf('  Gu(T=%0.1f C)=%0.3f GPa',This_T_C,Gu_o))
+
+      % adjust some anelastic settings
+      VBR.in.anelastic.xfit_premelt.tau_pp=2*1e-5;
 
       % set experimental conditions
       VBR.in.SV.T_K = This_T_C+273 ;
       sz=size(VBR.in.SV.T_K);
-
       VBR.in.SV.dg_um= dg.* ones(sz);
-
-
       VBR.in.SV.P_GPa = 1.0132e-04 .* ones(sz); % pressure [GPa]
       VBR.in.SV.rho =1011 .* ones(sz); % density [kg m^-3]
       VBR.in.SV.sig_MPa =1000 .* ones(sz)./1e6; % differential stress [MPa]
@@ -68,26 +70,15 @@ function [OutVBR,data]=FitData_YT16_Q()
       VBR.in.SV.f=logspace(-4,2,50);
 
       samp_field=['sample_',num2str(samp)];
-      disp(['Calculating for T=',num2str(VBR.in.SV.T_K)])
 
       % The pre-melting scaling takes into account the change in activation volume.
       % only want to use the lt 23 value
       VBR.in.viscous.xfit_premelt.H=viscData.table3_H.(samp_field).lt23.H*1e3;
-      disp([samp_field,' lt: ',num2str(VBR.in.viscous.xfit_premelt.H)])
 
-% VBR.in.anelastic.xfit_premelt.alpha_B=0.35;
       [VBR_bysamp] = VBR_spine(VBR);
       VBR_Q_samp=VBR_bysamp.out.anelastic.xfit_premelt.Qinv;
       VBR_G_samp=VBR_bysamp.out.anelastic.xfit_premelt.M/1e9;
       OutVBR(iexp).sampleVBR=VBR_bysamp;
-
-      % relalc for global fit of flow law params
-      % VBR.in.viscous.xfit_premelt=setBorneolParams();
-      % VBR.in.anelastic.xfit_premelt=Params_Anelastic('xfit_premelt');
-      % [VBR] = VBR_spine(VBR);
-      % OutVBR(iexp).fullVBR=VBR;
-      % VBR_Q_glob=VBR.out.anelastic.xfit_premelt.Qinv;
-      % VBR_G_glob=VBR.out.anelastic.xfit_premelt.M/1e9;
 
       Q_obs=Qdata.Qinv.Qinv(Qdata.Qinv.T_C==This_T_C);
       Q_obs_f=Qdata.Qinv.f(Qdata.Qinv.T_C==This_T_C);
@@ -108,35 +99,15 @@ function [OutVBR,data]=FitData_YT16_Q()
       loglog(Q_obs_f,Q_obs,'.','color',clr,'displayname',[num2str(dg),',',num2str(samp)],'MarkerSize',12)
       loglog(VBR.in.SV.f,VBR_Q_samp,[lnsty,clr],'displayname',[num2str(dg),',',num2str(samp)],'LineWidth',1.5)
 
-      % subplot(2,1,2)
-      % hold on
-      % loglog(Q_obs_f,Q_obs,'.','color',clr,'displayname',[num2str(dg),',',num2str(samp)],'MarkerSize',12)
-      % loglog(VBR.in.SV.f,VBR_Q_glob,[lnsty,clr],'displayname',[num2str(dg),',',num2str(samp)],'LineWidth',1.5)
-      %
       subplot(2,1,1)
       hold on
       semilogx(E_obs_f,E_obs,'.','color',clr,'displayname',[num2str(dg),',',num2str(samp)],'MarkerSize',12)
       semilogx(VBR.in.SV.f,VBR_G_samp,[lnsty,clr],'displayname',[num2str(dg),',',num2str(samp)],'LineWidth',1.5)
 
-      % subplot(2,1,1)
-      % hold on
-      % semilogx(E_obs_f,E_obs,'.','color',clr,'displayname',[num2str(dg),',',num2str(samp)],'MarkerSize',12)
-      % semilogx(VBR.in.SV.f,VBR_G_glob,[lnsty,clr],'displayname',[num2str(dg),',',num2str(samp)],'LineWidth',1.5)
     end
     subplot(2,1,2)
-    % title('visc H, dg\_ref, T\_ref, eta\_r set by sample')
     xlabel('f [Hz]'); ylabel('Q^{-1}')
-    % legend('location','southwest')
     box on
-
-    % subplot(2,2,2)
-    % title('visc H=147 kJ/mol, dg\_ref=34.2 um, T\_ref=23 C, eta\_r=7e13 Pas')
-    % xlabel('f [Hz]'); ylabel('Q^{-1}')
-    % box on
-    %
-    % subplot(2,2,3)
-    % xlabel('f [Hz]'); ylabel('M [GPa]')
-    % box on
 
     subplot(2,1,1)
     xlabel('f [Hz]'); ylabel('M [GPa]')

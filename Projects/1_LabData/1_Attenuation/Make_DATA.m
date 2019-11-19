@@ -166,7 +166,7 @@ McCT_datadir = [datadir,'McCT11/'] ;
 addpath(McCT_datadir) ;
 
 Qinv_filelist = dir([McCT_datadir,'McCT11_fQinv_*']) ;
-%G_filelist = dir([McCT_datadir,'YT16_s40_fE_*']) ;
+E_filelist = dir([McCT_datadir,'McCT11_fE_*']) ;
 
 T_C_vec = [23.0] ; % ideally read these in from the filenames :)
 d_vec = [4.3 6.3] ;
@@ -176,12 +176,9 @@ for iT=1:length(d_vec)
   T_C = T_C_vec(1) ;
   d = d_vec(iT) ;
 
-  % Gfilename = G_filelist(iT).name ;
-  % disp(Gfilename);
-  % data_G = load(Gfilename);
-  % f = transpose(data_G(:,1)) ;
-  % Per = 1./f;
-  % logPer = log10(Per) ;
+  Efilename = E_filelist(iT).name ;
+  disp(Gfilename);
+  data_E = load(Efilename);
 
   Qfilename = Qinv_filelist(iT).name;
   disp(Qfilename);
@@ -192,7 +189,7 @@ for iT=1:length(d_vec)
 
   Data.McCT11(iT).Results.Qinv = data_Qinv(:,2) ;
   Data.McCT11(iT).Results.log10_Qinv = log10(Data.McCT11(iT).Results.Qinv) ;
-  %Data.YT16(iT).Results.G = data_G(:,2) ;
+  Data.McCT11(iT).Results.E = data_E(:,2) ;
 
   Data.McCT11(iT).exptCond.T_C = T_C ;
   Data.McCT11(iT).exptCond.P_GPa = 101325*1e-9 ; % confining pressure-- Room pressure

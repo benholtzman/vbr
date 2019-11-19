@@ -1,6 +1,6 @@
-% PLOT Experimental data from
-% Faul and Jackson, 2015 (Ann. Rev.), compilation of other data datasets
-% and test fit to eburgers_psp (and andrade_psp)
+% PLOT Experimental data from McCarthy and Takei, 2011
+% and fit with xfit_mxw (empirical fit to data, scaled by the maxwell time for diffusion creep)
+
 clear all ; clf;
 
 % put VBR in the path
@@ -17,8 +17,6 @@ data = Data ;
 
 % ===========================================
 % Run VBR
-
-% if strcmp(runVBRwhere,'here')==1
 for i=1:length(data.McCT11)
   d_vec(i) = data.McCT11(i).exptCond.dg  ;
 end
@@ -39,33 +37,8 @@ VBR.in.viscous.xfit_premelt.eta_r = 150e12 ;  % 565e12 from figure 20 of referen
 % note that the Q_xfit_mxw takes the first viscosity method in the list, so use only that which you want it to use!
 
 VBR.in.anelastic.methods_list={'xfit_mxw'};
-% VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
-% fit_type='bg_peak';
-% VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
 
 VBR.in.GlobalSettings.melt_enhacement = 0 ;
-
-% VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
-% fit_type='bg_peak';
-% VBR.in.anelastic.eburgers_psp.eBurgerFit=fit_type; % 'bg_only' or 'bg_peak'
-
-% ===================================================
-% rescale the reference modulus =====================
-
-% % pull out anharmonic scaling
-% dGdT=VBR.in.elastic.anharmonic.dG_dT;
-% dGdP=VBR.in.elastic.anharmonic.dG_dP;
-% Tref=VBR.in.elastic.anharmonic.T_K_ref;
-% Pref=VBR.in.elastic.anharmonic.P_Pa_ref/1e9;
-
-% JF10 ref modulus is for their T/P (900C,.2GPa):
-% Gu0_x=VBR.in.anelastic.eburgers_psp.(fit_type).G_UR;
-% T_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).TR;
-% P_ref_JF10=VBR.in.anelastic.eburgers_psp.(fit_type).PR;
-
-% % back out ref Modlus at STP.
-% Gu_0_ol =  Gu0_x - (T_ref_JF10-Tref) * dGdT/1e9 - (P_ref_JF10-Pref)*dGdP
-% VBR.in.elastic.anharmonic.Gu_0_ol = Gu_0_ol ;% olivine reference shear modulus [GPa]
 
 % ==================================================
 %  frequencies to calculate at
@@ -91,15 +64,6 @@ VBR.in.SV.Tsolidus_K = 43.0 + 273 ;
 
 % run VBR
 [VBR] = VBR_spine(VBR) ;
-% end
-
-% % adjust VBR input and get out eburgers_psp with background + peak
-% VBR.in.anelastic.eburgers_psp=Params_Anelastic('eburgers_psp');
-% VBR.in.anelastic.eburgers_psp.eBurgerFit='bg_peak';
-% % Gu_0_ol = 62.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
-% VBR.in.elastic.anharmonic.Gu_0_ol = 66.5 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP ;
-%
-% [VBR_with_peak] = VBR_spine(VBR) ;
 
 % ===================================
 % PLOTTING
@@ -177,82 +141,41 @@ set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],
 
 
 
-% ===================
-return
-% ===================
-
 %%  G vs FREQUENCY (BURGERS) ==================================================
 axes('Position', plot_row1_B);
 
 
 for iT = 1:nlines
-        %LineW = LineW_vec(j);
-        % clr = colorscale(iT,:) ;
-        % % %f_M = (VBR_sols(j).VBR.Gu_vec(1))/(VBR_sols(j).VBR.eta_total(1)) ;
-        % % %I_fM = find(f>=f_M,1);
-        %
-        % state = data.FaulJax15(iT).exptCond ;
-        % [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-        % G = VBR.out.anelastic.eburgers_psp.M(i_T_d1, i_g_d2, i_P_d3,:) ;
-        % G = squeeze(G) ;
-        %
-        % if plot_vs_freq
-        %   plot(log10(f_vec),G./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
-        % else
-        %   plot(log10(1./f_vec), G./1e9, 'k-','LineWidth', LineW, 'Color', clr); hold on;
-        % end
-        % % plot(log10(f(I_fM)),log10(Qs(I_fM)),'r.', 'MarkerSize',dotsize); hold on;
-        %
-        % % PLOT DATA
-        %
-        % data_G = data.FaulJax15(iT).Results.G ;
-        % if plot_vs_freq
-        %   data_freq = data.FaulJax15(iT).exptCond.f ;
-        %   plot(log10(data_freq),data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-        % else
-        %   logPer = data.FaulJax15(iT).exptCond.logPer ;
-        %   plot(logPer,data_G,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-        % end
-        % %plot(data.TanJax.exptCond.logf,1./(data.TanJax.Results.Qinv),'g.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
-
     %LineW = LineW_vec(j);
-    clr = colorscale(iT,:) ;
+  clr = colorscale(iT,:) ;
 
-  if strcmp(runVBRwhere,'LUT')==1
-    state = data.FaulJax15(iT).exptCond ;
-    [i_T_d1, i_g_d2, i_P_d3] = find_index_f(VBR,state) ;
-    Ms = VBR.out.anelastic.eburgers_psp.M(i_T_d1, i_g_d2, i_P_d3,:)./1e9 ;
-    M = squeeze(Ms) ;
-  elseif strcmp(runVBRwhere,'here')==1
-    M = squeeze(VBR.out.anelastic.eburgers_psp.M(1,iT,:)./1e9) ;
-  end
-
+  E = squeeze(VBR.out.anelastic.xfit_mxw.M(1,iT,:)) ;
   if plot_vs_freq
-    plot(log10(f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
+    plot(log10(f_vec),E./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
   else
-    plot(log10(1./f_vec),M,'k-','LineWidth', LineW, 'Color', clr); hold on;
+    plot(log10(1./f_vec),E./1e9,'k-','LineWidth', LineW, 'Color', clr); hold on;
   end
 
   % PLOT DATA
-  data_M = data.FaulJax15(iT).Results.G ;
+  data_E = data.McCT11(iT).Results.E ;
   if plot_vs_freq
-    data_freq = data.FaulJax15(iT).exptCond.f ;
-    plot(log10(data_freq),data_M,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+    data_freq = data.McCT11(iT).exptCond.f ;
+    plot(log10(data_freq),data_E,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
   else
-    data_logPer = data.FaulJax15(iT).exptCond.logPer
-    plot(data_logPer,data_M,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
+    data_logPer = data.McCT11(iT).exptCond.logPer
+    plot(data_logPer,data_E,'k.', 'MarkerSize',dotsize_D, 'Color', clr); hold on;
   end
 
 
 end
 
 axis tight
-ylim([0,80])
+%ylim([0,80])
 %xlim([1.8e1 3e2])
 %ylim([1e-6 5e-4])
 
 xlabel(xlabel_text, 'fontname','Times New Roman','fontsize', LBLFNT)
-ylabel('Modulus, M (GPa)', 'fontname','Times New Roman','fontsize', LBLFNT)
+ylabel('Youngs Modulus,E (GPa)', 'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'fontname','Times New Roman','fontsize', LBLFNT)
 set(gca,'box','on','xminortick','on','yminortick','on','ticklength',[0.03 0.03],'linewidth',1);
 %set(gca,'XTickLabel', [])
@@ -274,3 +197,8 @@ function params=SetBorneolParams()
   params.m=2.56; % grain size exponent
   params.dg_um_r=4.3 ; % caption of Fig 9. % 24.4; % reference grain size [um]
 end
+
+
+% ===================
+%return
+% ===================

@@ -13,7 +13,7 @@ function [VBR] = Q_xfit_premelt(VBR)
     has_solidus=1;
   else
     has_solidus=0;
-    disp('To use Q_YT2016_solidus, you must provide VBR.in.SV.Tsolidus_K')
+    disp('To use Q_xfit_premelt, you must provide VBR.in.SV.Tsolidus_K')
   end
 
   if has_solidus
@@ -57,6 +57,7 @@ function [VBR] = Q_xfit_premelt(VBR)
       sv_i1=sv_i0+n_SVs-1; % ending linear index of this freq
 
       p_p=period_vec(i)./(2*pi*tau_m);
+      % tau_eta^S= tau_s / (2 pi tau_m);, tau_s = seismic wave period, tau_m = ss maxwell time
       ABppa=A_B*(p_p.^alpha_B);
       lntaupp=log(tau_pp./p_p);
 

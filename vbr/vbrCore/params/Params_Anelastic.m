@@ -77,9 +77,20 @@ function params = Params_Anelastic(method)
     % xfit_mxw parameters
     params.citations={'McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384'};
     params.func_name='Q_xfit_mxw'; % the name of the matlab function
-    params.beta1 = 0.32 ;
+    params.fit='fit1'; % the mantle scaling fit 
+
+    % high temp background at tau_normalized < 1e-11, X = beta2 * tau_n ^ alpha2
+
     params.beta2 = 1853.0 ;
+    params.beta2_fit2=8.476;
     params.alpha2 = 0.5 ;
+
+    % parameters for dissipation spectrum at tau_normalized > 1e-11
+    % Alpha = params.Alpha_a - params.Alpha_b./(1+params.Alpha_c*(tau_norm_vec.^params.Alpha_taun));
+    % X = beta1 * tau_n ^ Alpha
+    params.tau_cutoff=1e-11; % the transition tau from HTB to peak (for fit 1)
+    params.tau_cutoff_fit2=5e-6; % the value for fit 2 (fit 1 used by default)
+    params.beta1 = 0.32 ;
     params.Alpha_a=0.39 ;
     params.Alpha_b=0.28;
     params.Alpha_c=2.6;

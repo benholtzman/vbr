@@ -130,7 +130,7 @@ function VBR = FitData_FJ10()
   end
 end
 
-function data=tryDataLoad()
+function data = tryDataLoad()
   dataDir='../../../../vbrWork/expt_data/3_attenuation/FJ2010_data/';
   data=struct();
   if exist([dataDir,'eBurgersFig1.mat'],'file')

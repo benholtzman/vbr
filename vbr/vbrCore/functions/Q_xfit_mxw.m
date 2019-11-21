@@ -71,15 +71,17 @@ function [VBR] = Q_xfit_mxw(VBR)
       f_norm=tau_mxw*freq; % normalized frequency
       max_tau_norm=1./(2*pi*f_norm); % maximum normalized tau
 
-      tau_norm_f = max_tau_norm;
-      tau_norm_vec_local = linspace(0,tau_norm_f,100) ;
+      tau_norm_f = max_tau_norm;      
+      tau_norm_vec_local = logspace(-30,log10(max_tau_norm),100);
       X_tau = Q_xfit_mxw_xfunc(tau_norm_vec_local,VBR.in.anelastic.xfit_mxw) ;
 
       %FINT1 = trapz(X_tau) ;  %@(taup) (X_tau, taup
       %int1 = Tau_fac.*quad(FINT1, 0, tau_norm_i);
-      int1 = trapz(tau_norm_vec_local,X_tau./tau_norm_f) ; % eq 18 of [1]
+      int1 = trapz(tau_norm_vec_local,X_tau./tau_norm_vec_local) ; % eq 18 of [1]
 
       J1(i_glob) = Ju.*(1 + int1);
+
+      % XJ2= Q_xfit_mxw_xfunc(J2tau_norm,VBR.in.anelastic.xfit_mxw) ;
       J2(i_glob) = Ju.*((pi/2)*X_tau(end) + tau_norm(i)); % eq 18  of [1]
 
       % See McCarthy et al, 2011, Appendix B, Eqns B6 !

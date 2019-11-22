@@ -9,21 +9,22 @@ function FitData_McCT11_all()
   addpath('./functions')
   out_dir='./figures';
 
-  % % viscosity vs grain size plot
-  % Fig1=compare_viscosity(out_dir);
-  %
-  % % normalized relaxation spectrum plot
-  % Fig2=plot_relaxSpectrum(out_dir);
-  %
-  % % normalized J1, J2 plots
-  % Fig3 = plot_J1J2(out_dir);
-  %
-  % % temp dependence of M, Qinv vs freq
-  % Fig4 = plot_MQ_T_Fits('fit2',out_dir);
-  % Fig5 = plot_MQ_T_Fits('fit1',out_dir);
+  % viscosity vs grain size plot
+  Fig1=compare_viscosity(out_dir);
 
-  Fig5 = plot_MQ_dg_Fits('fit1',out_dir);
-  Fig5 = plot_MQ_dg_Fits('fit2',out_dir);
+  % normalized relaxation spectrum plot
+  Fig2=plot_relaxSpectrum(out_dir);
+
+  % normalized J1, J2 plots
+  Fig3 = plot_J1J2(out_dir);
+
+  % temp dependence of M, Qinv vs freq
+  Fig4 = plot_MQ_T_Fits('fit2',out_dir);
+  Fig5 = plot_MQ_T_Fits('fit1',out_dir);
+
+  % grain dependence of M, Qinv vs freq
+  Fig6 = plot_MQ_dg_Fits('fit1',out_dir);
+  Fig7 = plot_MQ_dg_Fits('fit2',out_dir);
 
 end
 

@@ -1,4 +1,4 @@
-function FitData_McCT11_all()
+function FitData_McCT11()
   % generates figures following McCT11. Will plot data if available (data not
   % distributed with public VBR, will run without data).
 

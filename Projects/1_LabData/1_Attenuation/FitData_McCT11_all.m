@@ -1,29 +1,30 @@
 function FitData_McCT11_all()
-  % comparison of maxwell times, viscosities, unrelaxed moduli
+  % generates figures following McCT11. Will plot data if available (data not
+  % distributed with public VBR, will run without data).
 
   % put VBR in the path
   path_to_top_level_vbr='../../../';
   addpath(path_to_top_level_vbr)
   vbr_init
   addpath('./functions')
+  out_dir='./figures';
 
   % viscosity vs grain size plot
-  Fig1=compare_viscosity();
+  Fig1=compare_viscosity(out_dir);
 
   % normalized relaxation spectrum plot
-  Fig2=plot_relaxSpectrum();
+  Fig2=plot_relaxSpectrum(out_dir);
 
   % normalized J1, J2 plots
-  Fig3 = plot_J1J2();
+  Fig3 = plot_J1J2(out_dir);
 
   % temp dependence of M, Qinv vs freq
-  Fig4 = plot_MQ_T_Fits('fit2');
-  Fig5 = plot_MQ_T_Fits('fit1');
-
+  Fig4 = plot_MQ_T_Fits('fit2',out_dir);
+  Fig5 = plot_MQ_T_Fits('fit1',out_dir);
 
 end
 
-function fig = plot_MQ_T_Fits(fit1_fit2)
+function fig = plot_MQ_T_Fits(fit1_fit2,out_dir)
 
   % get data, VBR calculation
   [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2);
@@ -150,6 +151,7 @@ function fig = plot_MQ_T_Fits(fit1_fit2)
   ylim([1e-2,2])
   set(gca,'XMinorTick','on','YMinorTick','on')
 
+  saveas(gcf,[out_dir,'/McCT11_MQ_v_T_',fit1_fit2,'.eps'],'epsc')
 end
 
 function [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2)
@@ -250,7 +252,7 @@ function [VBRs] = calculate_J1J2Fits()
 
 end
 
-function fig = plot_relaxSpectrum()
+function fig = plot_relaxSpectrum(out_dir)
 
   fig = figure();
 
@@ -279,10 +281,11 @@ function fig = plot_relaxSpectrum()
   ylim([1e-4,2])
   xlim([1e-14,1e1])
   set(gca,'Xdir','reverse','XMinorTick','on','YMinorTick','on')
+  saveas(gcf,[out_dir,'/McCT11_relaxation_spectrum.eps'],'epsc')
 end
 
 
-function fig = plot_J1J2(VBRs)
+function fig = plot_J1J2(out_dir)
 
   % get the fit!
   [VBRs] = calculate_J1J2Fits();
@@ -335,9 +338,11 @@ function fig = plot_J1J2(VBRs)
   ylim([1e-4,2])
   set(gca,'XMinorTick','on','YMinorTick','on')
 
+  saveas(gcf,[out_dir,'/McCT11_normalized_J1J2.eps'],'epsc')
+
 end
 
-function fig = compare_viscosity(data)
+function fig = compare_viscosity(out_dir)
   % figure 8 of McCT11: viscosity vs grain size
   % pull the data
   data = tryDataLoadVisc();
@@ -385,6 +390,8 @@ function fig = compare_viscosity(data)
   xlabel('Grain Size [um]')
   ylabel('Viscosity [Pa s]')
   title('T between 22.3, 23.7 C')
+
+  saveas(gcf,[out_dir,'/McCT11_viscosity.eps'],'epsc')
 end
 
 
@@ -443,7 +450,6 @@ function data = tryDataLoadFig9()
   dataDir='../../../../vbrWork/expt_data/3_attenuation/McCT11/McCT11_new/';
   data=struct();
   if exist([dataDir,'sample_15_Tdependence_fig9.csv'],'file')
-    disp('loading')
     d=csvread([dataDir,'sample_15_Tdependence_fig9.csv']);
     d=d(2:end,:);
     data.T_C=d(:,1);
@@ -454,7 +460,6 @@ function data = tryDataLoadFig9()
     data.has_data=1;
   else
     data.has_data=0;
-    disp('not loading')
   end
 
 end

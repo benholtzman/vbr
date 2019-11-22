@@ -1,10 +1,11 @@
 function FitData_FJ10_Andrade()
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % FitData_FJ10_eBurgers()
+  % FitData_FJ10_Andrade()
   %
-  % Reproduces figures 1a-1d from Jackson and Faul, PEPI 2010 (JF10):
+  % Reproduces figures 1e-1f from Jackson and Faul, PEPI 2010 (JF10):
   % moduli and Qinv vs period for a single sample, #6585, using coefficients for
-  % the single sample fit in table 1 of JF10, for 700 to 1200 deg. C
+  % the single sample fit in table 1 of JF10, for 900 to 1200 deg. C for
+  % andrade pseudoperiod fit.
   %
   % Parameters
   % ----------
@@ -20,9 +21,7 @@ function FitData_FJ10_Andrade()
   addpath(path_to_top_level_vbr)
   vbr_init
 
-  %  write method list (these are the things to calculate)
-  %  all methods will end up as output like:
-  %      VBR.out.elastic.anharmonic, VBR.out.anelastic.andrade_psp, etc.
+  % set elastic, anelastic methods, load parameters
   VBR.in.elastic.methods_list={'anharmonic'};
   VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); %
   VBR.in.anelastic.methods_list={'andrade_psp'};
@@ -40,16 +39,12 @@ function FitData_FJ10_Andrade()
   % frequencies to calculate at
   VBR.in.SV.f = 1./logspace(0,3,100);
 
-  %% ====================================================
-  %% Define the Thermodynamic State =====================
-  %% ====================================================
-
-  %  size of the state variable arrays. arrays can be any shape
-  %  but all arays must be the same shape.
+  % set T range
   VBR.in.SV.T_K=900:50:1200;
   VBR.in.SV.T_K=VBR.in.SV.T_K+273;
   sz=size(VBR.in.SV.T_K); % temperature [K]
 
+  % other SV's are constant
   VBR.in.SV.dg_um=3.1*ones(sz);
   VBR.in.SV.P_GPa = 0.2 * ones(sz); % pressure [GPa]
   VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]

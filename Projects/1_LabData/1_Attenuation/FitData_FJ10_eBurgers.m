@@ -20,9 +20,7 @@ function FitData_FJ10_eBurgers()
   addpath(path_to_top_level_vbr)
   vbr_init
 
-  %  write method list (these are the things to calculate)
-  %  all methods will end up as output like:
-  %      VBR.out.elastic.anharmonic, VBR.out.anelastic.eburgers_psp, etc.
+  % set elastic, anelastic methods, load parameters
   VBR.in.elastic.methods_list={'anharmonic'};
   VBR.in.anelastic.methods_list={'eburgers_psp'};
 
@@ -42,17 +40,12 @@ function FitData_FJ10_eBurgers()
   % frequencies to calculate at
   VBR.in.SV.f = 1./logspace(-2,4,100);
 
-  %% ====================================================
-  %% Define the Thermodynamic State =====================
-  %% ====================================================
-
-  %  size of the state variable arrays. arrays can be any shape
-  %  but all arays must be the same shape.
+  % temperature range
   VBR.in.SV.T_K=700:50:1200;
   VBR.in.SV.T_K=VBR.in.SV.T_K+273;
   sz=size(VBR.in.SV.T_K); % temperature [K]
 
-  %  remaining state variables (ISV)
+  %  remaining state variables
   VBR.in.SV.dg_um=3.1*ones(sz);
   VBR.in.SV.P_GPa = 0.2 * ones(sz); % pressure [GPa]
   VBR.in.SV.rho = 3300 * ones(sz); % density [kg m^-3]
@@ -69,15 +62,13 @@ function FitData_FJ10_eBurgers()
   VBR.in.elastic.anharmonic.Gu_0_ol = GUJF10 - (900+273-Tref) * dGdT/1e9 - (0.2-Pref)*dGdP;
   [VBR_with_peak] = VBR_spine(VBR) ;
 
-
   % load data if it exists
   data = tryDataLoad();
 
   %% ====================================================
   %% Display some things ================================
   %% ====================================================
-
-  close all;
+  
   figure;
 
   for iTemp = 1:numel(VBR.in.SV.T_K)

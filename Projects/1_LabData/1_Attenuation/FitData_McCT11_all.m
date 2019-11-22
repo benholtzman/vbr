@@ -9,18 +9,21 @@ function FitData_McCT11_all()
   addpath('./functions')
   out_dir='./figures';
 
-  % viscosity vs grain size plot
-  Fig1=compare_viscosity(out_dir);
+  % % viscosity vs grain size plot
+  % Fig1=compare_viscosity(out_dir);
+  %
+  % % normalized relaxation spectrum plot
+  % Fig2=plot_relaxSpectrum(out_dir);
+  %
+  % % normalized J1, J2 plots
+  % Fig3 = plot_J1J2(out_dir);
+  %
+  % % temp dependence of M, Qinv vs freq
+  % Fig4 = plot_MQ_T_Fits('fit2',out_dir);
+  % Fig5 = plot_MQ_T_Fits('fit1',out_dir);
 
-  % normalized relaxation spectrum plot
-  Fig2=plot_relaxSpectrum(out_dir);
-
-  % normalized J1, J2 plots
-  Fig3 = plot_J1J2(out_dir);
-
-  % temp dependence of M, Qinv vs freq
-  Fig4 = plot_MQ_T_Fits('fit2',out_dir);
-  Fig5 = plot_MQ_T_Fits('fit1',out_dir);
+  Fig5 = plot_MQ_dg_Fits('fit1',out_dir);
+  Fig5 = plot_MQ_dg_Fits('fit2',out_dir);
 
 end
 
@@ -216,7 +219,6 @@ function [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2)
 
 end
 
-
 function [VBRs] = calculate_J1J2Fits()
   % sample 15, constant grain size 8 um
   % exp. conditions given by table 1, sample 15, grain size 7.99 um row
@@ -284,6 +286,183 @@ function fig = plot_relaxSpectrum(out_dir)
   saveas(gcf,[out_dir,'/McCT11_relaxation_spectrum.eps'],'epsc')
 end
 
+
+function fig = plot_MQ_dg_Fits(fit1_fit2,out_dir)
+  % plot of modulus, Qinv vs freq at different grain sizes
+  [VBR,data]=calculate_MQ_dg_Fits(fit1_fit2);
+  ViscData=tryDataLoadVisc();
+  % plot
+  % plotting
+  include_E=1;
+
+  fig=figure();
+  fitval=VBR.in.anelastic.xfit_mxw.fit;
+
+  if include_E==1
+    ax_E=subplot(2,2,1);
+    ax_E_norm=subplot(2,2,2);
+    ax_Qinv=subplot(2,2,3);
+    ax_Qinv_norm=subplot(2,2,4);
+  else
+    ax_Qinv=subplot(1,2,1);
+    ax_Qinv_norm=subplot(1,2,2);
+  end
+
+  clrs={'k';'r';'b';'c';'m';'y';'g'};
+
+  % plot the VBR
+  for idg=1:numel(VBR.in.SV.dg_um)
+
+    This_dg=VBR.in.SV.dg_um(idg);
+    fld=['dg_',num2str(round(This_dg))];
+    clr=clrs{idg};
+    ClrStruct.(fld)=clr;
+
+    fd=VBR.in.SV.f;
+    M=squeeze(VBR.out.anelastic.xfit_mxw.M(1,idg,:))/1e9;
+    Mnorm=squeeze(VBR.out.anelastic.xfit_mxw.M(1,idg,:)./VBR.out.elastic.anharmonic.Gu(1,idg,:));
+    Qinv=squeeze(VBR.out.anelastic.xfit_mxw.Qinv(1,idg,:));
+    fnorm=squeeze(VBR.out.anelastic.xfit_mxw.f_norm(1,idg,:));
+
+    if include_E==1
+      set(fig,'CurrentAxes',ax_E)
+      hold on
+      semilogx(fd,M,clr,'linewidth',1.5);
+
+      set(fig,'CurrentAxes',ax_E_norm)
+      hold on
+      semilogx(fnorm,Mnorm,clr,'linewidth',1.5);
+    end
+
+    set(fig,'CurrentAxes',ax_Qinv)
+    hold on
+    loglog(fd,Qinv,clr,'linewidth',1.5);
+
+    set(fig,'CurrentAxes',ax_Qinv_norm)
+    hold on
+    loglog(fnorm,Qinv,clr,'linewidth',1.5);
+  end
+
+  % plot the data
+  if data.has_data && ViscData.has_data
+    for idg=1:numel(data.d_vec)
+
+      This_dg=data.d_vec(idg);
+      This_T_C=data.McCT11(idg).exptCond.T_C;
+      fd=data.McCT11(idg).exptCond.f;
+      M=data.McCT11(idg).Results.E;
+      Qinv=data.McCT11(idg).Results.Qinv;
+
+      iVisc=find((ViscData.sample==16) & (ViscData.dg_um==This_dg));
+      mxwll=ViscData.tau_m_s(iVisc);
+      fnorm=1./mxwll;
+      Gfac=1./2.47;
+
+      fld=['dg_',num2str(round(This_dg))];
+      clr=ClrStruct.(fld);
+      if include_E==1
+        set(fig,'CurrentAxes',ax_E)
+        hold on
+        semilogx(fd,M,['.',clr],'displayname','none','MarkerSize',10);
+
+        set(fig,'CurrentAxes',ax_E_norm)
+        hold on
+        semilogx(fd/fnorm,M*Gfac,['.',clr],'displayname','none','MarkerSize',10);
+      end
+
+      set(fig,'CurrentAxes',ax_Qinv)
+      hold on
+      loglog(fd,Qinv,['.',clr],'MarkerSize',10);
+
+      set(fig,'CurrentAxes',ax_Qinv_norm)
+      hold on
+      loglog(fd/fnorm,Qinv,['.',clr],'MarkerSize',10);
+    end
+  end
+
+  if include_E==1
+    set(fig,'CurrentAxes',ax_E)
+    box on
+    xlabel('f [Hz]'); ylabel('E [GPa]')
+    ylim([.5,3])
+    xlim([1e-4,10])
+    set(gca,'XMinorTick','on')
+
+    set(fig,'CurrentAxes',ax_E_norm)
+    box on
+    xlabel('f_N'); ylabel('E / E_U')
+    ylim([0,1])
+    xlim([1e-1,1e5])
+    set(gca,'XMinorTick','on')
+  end
+
+  set(fig,'CurrentAxes',ax_Qinv)
+  box on
+  xlabel('f [Hz]'); ylabel('Qinv')
+  xlim([1e-4,10])
+  ylim([1e-2,2])
+  set(gca,'XMinorTick','on','YMinorTick','on')
+
+  set(fig,'CurrentAxes',ax_Qinv_norm)
+  box on
+  xlabel('f_N'); ylabel('Qinv')
+  xlim([1e-1,1e5])
+  ylim([1e-2,2])
+  set(gca,'XMinorTick','on','YMinorTick','on')
+
+  saveas(gcf,[out_dir,'/McCT11_MQ_v_dg_',fit1_fit2,'.eps'],'epsc')
+
+end
+
+function [VBR,data] = calculate_MQ_dg_Fits(fit1_fit2)
+  data = tryDataLoad_MQdg();
+
+  if data.has_data
+    d_vec=data.d_vec;
+    This_T_C=data.McCT11(1).exptCond.T_C;
+  else
+    d_vec=[4.3,6.3];
+    This_T_C=23;
+  end
+
+  % set anharmonic
+  VBR.in.elastic.methods_list={'anharmonic'};
+  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
+  Gu_40=2.4;
+  Gu_20=2.5;
+  dGdT=(Gu_40-Gu_20)/20*1e9;
+  Tref=20;
+  VBR.in.elastic.anharmonic.Gu_0_ol = Gu_40;
+  VBR.in.elastic.anharmonic.dG_dT = dGdT;
+  VBR.in.elastic.anharmonic.T_K_ref = 20+273;
+
+  % set viscous
+  VBR.in.viscous.methods_list={'xfit_premelt'}; %VBR.in.viscous.methods_list={'xfit_premelt'};
+  VBR.in.viscous.xfit_premelt=SetBorneolParamsMcCT_lt7();
+  VBR.in.viscous.xfit_premelt.Tr_K=23.5+273; %
+  VBR.in.viscous.xfit_premelt.eta_r=4.09*1e12; %
+  VBR.in.viscous.xfit_premelt.H=85.4*1e3; % activation energy [J/mol], figure 20 of YT2016
+  VBR.in.viscous.xfit_premelt.m=3; % grain size exponent
+  VBR.in.viscous.xfit_premelt.dg_um_r=4.3 ; % caption of Fig 9. % 24.4; % reference grain size [um]
+
+  % set mxw
+  VBR.in.anelastic.methods_list={'xfit_mxw'};
+
+  VBR.in.SV.f = logspace(-4,1,50);
+  VBR.in.SV.dg_um= d_vec ; %data.McCT11(1).exptCond.dg_0 .* ones(sz) ;
+  VBR.in.SV_vectors.d_vec_dim1 = VBR.in.SV.dg_um ;
+  sz=size(VBR.in.SV.dg_um) ;
+
+  %  remaining state variables (ISV)
+  VBR.in.SV.T_K = This_T_C +273 .* ones(sz); % pressure [GPa]
+  VBR.in.SV.P_GPa = zeros(sz); % pressure [GPa] (no effect)
+  VBR.in.SV.rho = 1000 .* ones(sz); % density [kg m^-3] (no effect on M, Q)
+  VBR.in.SV.phi =zeros(sz); % melt fraction
+  VBR.in.SV.Tsolidus_K = 204.5 + 273 ;
+
+  [VBR] = VBR_spine(VBR) ;
+
+end
 
 function fig = plot_J1J2(out_dir)
 
@@ -400,6 +579,20 @@ function fig = compare_viscosity(out_dir)
   saveas(gcf,[out_dir,'/McCT11_viscosity.eps'],'epsc')
 end
 
+function data = tryDataLoad_MQdg()
+  % load the data
+  if ~exist('ExptData.mat')
+    data.has_data=0;
+  else
+    load('ExptData.mat');
+    data = Data ;
+    data.has_data=1;
+    for i=1:length(data.McCT11)
+      d_vec(i) = data.McCT11(i).exptCond.dg  ;
+    end
+    data.d_vec=d_vec;
+  end
+end
 
 function data = tryDataLoadVisc()
 

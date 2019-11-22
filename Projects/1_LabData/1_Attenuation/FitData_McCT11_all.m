@@ -9,18 +9,18 @@ function FitData_McCT11_all()
   addpath('./functions')
   out_dir='./figures';
 
-  % viscosity vs grain size plot
-  Fig1=compare_viscosity(out_dir);
-
-  % normalized relaxation spectrum plot
-  Fig2=plot_relaxSpectrum(out_dir);
+  % % viscosity vs grain size plot
+  % Fig1=compare_viscosity(out_dir);
+  %
+  % % normalized relaxation spectrum plot
+  % Fig2=plot_relaxSpectrum(out_dir);
 
   % normalized J1, J2 plots
   Fig3 = plot_J1J2(out_dir);
 
-  % temp dependence of M, Qinv vs freq
-  Fig4 = plot_MQ_T_Fits('fit2',out_dir);
-  Fig5 = plot_MQ_T_Fits('fit1',out_dir);
+  % % temp dependence of M, Qinv vs freq
+  % Fig4 = plot_MQ_T_Fits('fit2',out_dir);
+  % Fig5 = plot_MQ_T_Fits('fit1',out_dir);
 
 end
 
@@ -292,7 +292,7 @@ function fig = plot_J1J2(out_dir)
   data=tryDataLoadRelax();
 
   % plotting
-  fig = figure();
+  fig=figure('Position', [10 10 600 300],'PaperPosition',[0,0,6,3],'PaperPositionMode','manual');
   ax_j1=subplot(1,2,1);
   ax_j2=subplot(1,2,2);
 
@@ -314,14 +314,20 @@ function fig = plot_J1J2(out_dir)
     set(gcf,'CurrentAxes',ax_j1)
     hold on;
     semilogx(data.j1_data.fnorm,data.j1_data.j1_data,'.k','MarkerSize',10)
-    semilogx(data.j1_fit1.fnorm,data.j1_fit1.j1_fit1,'.r')
-    semilogx(data.j1_fit2.fnorm,data.j1_fit2.j1_fit2,'.r')
 
     set(gcf,'CurrentAxes',ax_j2)
     hold on
     loglog(data.j2_data.fnorm,data.j2_data.j2_data,'.k','MarkerSize',10)
-    loglog(data.j2_fit1.fnorm,data.j2_fit1.j2_fit1,'.b')
-    loglog(data.j2_fit2.fnorm,data.j2_fit2.j2_fit2,'.b')
+  end
+
+  xticks=-1:1:11;
+  xlabs={};
+  for ix = 1:numel(xticks);
+    if mod(xticks(ix),2)~=0
+      xlabs{ix}=['1e',num2str(xticks(ix))];
+    else
+      xlabs{ix}='';
+    end
   end
 
   set(gcf,'CurrentAxes',ax_j1)
@@ -329,14 +335,14 @@ function fig = plot_J1J2(out_dir)
   ylabel('J1 / Ju')
   xlim([1e-1,1e11])
   ylim([1,3])
-  set(gca,'XMinorTick','on','YMinorTick','on')
+  set(gca,'XMinorTick','on','YMinorTick','on','xticklabel',xlabs)
 
   set(gcf,'CurrentAxes',ax_j2)
   xlabel('normalized frequency')
   ylabel('J2 / Ju')
   xlim([1e-1,1e11])
   ylim([1e-4,2])
-  set(gca,'XMinorTick','on','YMinorTick','on')
+  set(gca,'XMinorTick','on','YMinorTick','on','xticklabel',xlabs)
 
   saveas(gcf,[out_dir,'/McCT11_normalized_J1J2.eps'],'epsc')
 

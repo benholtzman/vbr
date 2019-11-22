@@ -1,9 +1,19 @@
-function VBR = FitData_FJ10()
-%% ===================================================================== %%
-%  Reproduces figures 1a-1d from JF10: moduli and Qinv vs period for
-%  a single sample, #6585, using coefficients for the single sample fit
-%  in table 1 of JF10.
-%% ===================================================================== %%
+function FitData_FJ10_eBurgers()
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % FitData_FJ10_eBurgers()
+  %
+  % Reproduces figures 1a-1d from Jackson and Faul, PEPI 2010 (JF10):
+  % moduli and Qinv vs period for a single sample, #6585, using coefficients for
+  % the single sample fit in table 1 of JF10, for 700 to 1200 deg. C
+  %
+  % Parameters
+  % ----------
+  % None
+  %
+  % Output
+  % ------
+  % figures to screen and to Projects/1_LabData/1_Attenuation/figures/
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   clear
 
   path_to_top_level_vbr='../../';
@@ -83,31 +93,31 @@ function VBR = FitData_FJ10()
     subplot(2,2,1)
     hold on
     plot(logper,M_bg,'color',[R,0,B],'LineWidth',2);
-    ylabel('M [GPa] (background only) '); xlabel('period [s]')
+    ylabel('M [GPa] (bg only) '); xlabel('log10 period [s]')
     ylim([20,80])
 
 
     subplot(2,2,2)
     hold on
     plot(logper,log10(Q_bg),'color',[R,0,B],'LineWidth',2);
-    ylabel('Q^-1 (background only)'); xlabel('period [s]')
+    ylabel('log10 Q^-1 (bg only)'); xlabel('log10 period [s]')
     ylim([-2.5,0.5])
 
     subplot(2,2,3)
     hold on
     plot(logper,M_bg_peak,'color',[R,0,B],'LineWidth',2);
-    ylabel('M [GPa] (background + peak) '); xlabel('period [s]')
+    ylabel('M [GPa] (bg + peak) '); xlabel('period [s]')
     ylim([20,80])
 
     subplot(2,2,4)
     hold on
     plot(logper,log10(Q_bg_peak),'color',[R,0,B],'LineWidth',2);
-    ylabel('Q^-1 (background + peak)'); xlabel('period [s]')
+    ylabel('log10 Q^-1 (bg + peak)'); xlabel('period [s]')
     ylim([-2.5,0.5])
 
     if isfield(data,'Qinv')
-      disp('plotting the data')
       theT=VBR.in.SV.T_K(iTemp);
+      disp(['plotting data for T=',num2str(theT-273)])
       expQinvPer=log10(data.Qinv.period_s(data.Qinv.T_K==theT));
       expQinv=log10(data.Qinv.Qinv(data.Qinv.T_K==theT));
       expGPer=log10(data.G.period_s(data.G.T_K==theT));
@@ -115,22 +125,31 @@ function VBR = FitData_FJ10()
 
       subplot(2,2,1)
       hold on
-      plot(expGPer,expG,'.','color',[0,0,0]);
+      plot(expGPer,expG,'.','color',[R,0,B],'markersize',10);
       subplot(2,2,3)
       hold on
-      plot(expGPer,expG,'.','color',[0,0,0]);
+      plot(expGPer,expG,'.','color',[R,0,B],'markersize',10);
 
       subplot(2,2,2)
       hold on
-      plot(expQinvPer,expQinv,'.','color',[0,0,0]);
+      plot(expQinvPer,expQinv,'.','color',[R,0,B],'markersize',10);
       subplot(2,2,4)
       hold on
-      plot(expQinvPer,expQinv,'.','color',[0,0,0]);
+      plot(expQinvPer,expQinv,'.','color',[R,0,B],'markersize',10);
     end
   end
+
+  for ip=1:4
+    subplot(2,2,ip)
+    box on
+  end
+  saveas(gcf,'./figures/FJ10_eBurgers.eps','epsc')
 end
 
 function data = tryDataLoad()
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads data if available 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   dataDir='../../../../vbrWork/expt_data/3_attenuation/FJ2010_data/';
   data=struct();
   if exist([dataDir,'eBurgersFig1.mat'],'file')

@@ -1,6 +1,15 @@
 function FitData_McCT11()
-  % generates figures following McCT11. Will plot data if available (data not
-  % distributed with public VBR, will run without data).
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % generates figures following McCarthy, Takei, Hiraga, 2011 JGR (McCT11).
+  %
+  % Parameters
+  % ----------
+  % None
+  %
+  % Output
+  % ------
+  % figures to screen and to Projects/1_LabData/1_Attenuation/figures/
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % put VBR in the path
   path_to_top_level_vbr='../../../';
@@ -29,6 +38,10 @@ function FitData_McCT11()
 end
 
 function fig = plot_MQ_T_Fits(fit1_fit2,out_dir)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % plots M, Qinv vs frequency for temperatures of 23.7 and 45.4 C, fixed grain
+  % size of 22 um. see figure 9 of McCT11.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % get data, VBR calculation
   [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2);
@@ -159,7 +172,10 @@ function fig = plot_MQ_T_Fits(fit1_fit2,out_dir)
 end
 
 function [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2)
-  % temperature dependence (fig 9)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % calculations for temperatures of 23.7 and 45.4 C, fixed grain size of 22 um.
+  % see figure 9 of McCT11.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % load the data
   Data.visc = tryDataLoadVisc();
@@ -214,15 +230,15 @@ function [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2)
     VBR.in.SV.f=logspace(-4,1,50);
     [VBR] = VBR_spine(VBR);
     VBRs(iT).VBR=VBR;
-
   end
-
 
 end
 
 function [VBRs] = calculate_J1J2Fits()
-  % sample 15, constant grain size 8 um
-  % exp. conditions given by table 1, sample 15, grain size 7.99 um row
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % calculations for sample 15, fixed grain size of 8 um at exp. conditions
+  % given by table 1 of McCT11. for figure 15 of McCT11
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % anharmonic parameters
   VBR.in.elastic.methods_list={'anharmonic'};
@@ -416,6 +432,11 @@ function fig = plot_MQ_dg_Fits(fit1_fit2,out_dir)
 end
 
 function [VBR,data] = calculate_MQ_dg_Fits(fit1_fit2)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % plots J1 / Ju, J2 / Ju vs frequcny for grain size of 8 um, see figure 15 of
+  % McCT11
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   data = tryDataLoad_MQdg();
 
   if data.has_data
@@ -470,6 +491,10 @@ function [VBR,data] = calculate_MQ_dg_Fits(fit1_fit2)
 end
 
 function fig = plot_J1J2(out_dir)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % plots J1 / Ju, J2 / Ju vs frequcny for grain size of 8 um, see figure 15 of
+  % McCT11
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % get the fit!
   [VBRs] = calculate_J1J2Fits();
@@ -533,7 +558,10 @@ function fig = plot_J1J2(out_dir)
 end
 
 function fig = compare_viscosity(out_dir)
-  % figure 8 of McCT11: viscosity vs grain size
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % plots viscosity vs. grain size, figure 8 of McCT11
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   % pull the data
   data = tryDataLoadVisc();
 
@@ -585,7 +613,10 @@ function fig = compare_viscosity(out_dir)
 end
 
 function data = tryDataLoad_MQdg()
-  % load the data
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads experimental data if available
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   dataDir='../../../../vbrWork/expt_data/3_attenuation/';
   if ~exist([dataDir,'ExptData.mat'],'file')
     data.has_data=0;
@@ -601,7 +632,9 @@ function data = tryDataLoad_MQdg()
 end
 
 function data = tryDataLoadVisc()
-
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads experimental data if available
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   dataDir='../../../../vbrWork/expt_data/3_attenuation/McCT11/McCT11_new/';
   data=struct();
   if exist([dataDir,'McCT11_table1.csv'],'file')
@@ -625,6 +658,9 @@ function data = tryDataLoadVisc()
 end
 
 function data = tryDataLoadRelax();
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads experimental data if available
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   data=struct();
 
   dataDir='../../../../vbrWork/expt_data/3_attenuation/McCT11/McCT11_new/';
@@ -650,7 +686,10 @@ function data = tryDataLoadRelax();
 end
 
 function data = tryDataLoadFig9()
-  % loads data from fig 9: Qinv, E vs freq at constant grain size, varying T
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads experimental data if available from fig 9: Qinv, E vs freq at constant
+  % grain size, varying T
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   dataDir='../../../../vbrWork/expt_data/3_attenuation/McCT11/McCT11_new/';
   data=struct();
@@ -670,11 +709,20 @@ function data = tryDataLoadFig9()
 end
 
 function params = SetBorneolParamsMcCT_gt7()
-  % set the viscous parameters for borneol
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % params = SetBorneolParamsMcCT_gt7()
+  % loads borneol flow law constants for grain sizes greater than 7 um
+  %
+  % the viscosity is calculated using form of YT16, but the solidus of pure
+  % borneol in McCT is sufficiently high compared to experimental conditions
+  % that the melt term reduces to 1.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   % near-solidus and melt effects
   params.alpha=0;
   params.T_eta=0.94; % eqn 17,18- T at which homologous T for premelting.
   params.gamma=5;
+
   % flow law constants for YT2016
   params.Tr_K=22.5+273; %
   params.Pr_Pa=1000; % p7817 of YT2016, second paragraph
@@ -687,7 +735,15 @@ function params = SetBorneolParamsMcCT_gt7()
 end
 
 function params = SetBorneolParamsMcCT_lt7()
-  % set the viscous parameters for borneol
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % params = SetBorneolParamsMcCT_lt7()
+  % loads borneol flow law constants for grain sizes less than 7 um
+  %
+  % the viscosity is calculated using form of YT16, but the solidus of pure
+  % borneol in McCT is sufficiently high compared to experimental conditions
+  % that the melt term reduces to 1.
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
   % near-solidus and melt effects
   params.alpha=0;
   params.T_eta=0.94; % eqn 17,18- T at which homologous T for premelting.

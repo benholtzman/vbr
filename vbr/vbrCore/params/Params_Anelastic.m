@@ -59,7 +59,7 @@ function params = Params_Anelastic(method)
   end
 
   if strcmp(method,'andrade_mxw')
-    % ANDRADE parameters (from Sundberg+Cooper)
+    % ANDRADE parameters (from Sundberg+Cooper). Experimental, do not use.
     params.func_name='Q_Andrade_Mxw_f'; % the name of the matlab function
     params.alf = 1/2 ; % 1/3 ;
     % scaling option:
@@ -77,7 +77,7 @@ function params = Params_Anelastic(method)
     % xfit_mxw parameters
     params.citations={'McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384'};
     params.func_name='Q_xfit_mxw'; % the name of the matlab function
-    params.fit='fit1'; % the mantle scaling fit 
+    params.fit='fit1'; % the mantle scaling fit
 
     % high temp background at tau_normalized < 1e-11, X = beta2 * tau_n ^ alpha2
 

@@ -1,4 +1,18 @@
 function FitData_YT16()
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % FitData_YT16()
+  %
+  % Plots viscosity, modulus, Qinv for borneol near the solidus temperature
+  % following premelting scaling of Yamauchi and Takei, 2016, JGR.
+  %
+  % Parameters
+  % ----------
+  % None
+  %
+  % Output
+  % ------
+  % figures to screen and to Projects/1_LabData/1_Attenuation/figures/
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % put VBR in the path
   path_to_top_level_vbr='../../../';
@@ -12,6 +26,9 @@ function FitData_YT16()
 end
 
 function plot_Q()
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % builds plot of Q for sample 41
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % load data if it exists
   viscData = loadYT2016visc();
   Qdata=loadYT2016Q();
@@ -124,6 +141,10 @@ function plot_Q()
 end
 
 function plot_visc()
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % builds plot of viscosity with parameters set by individual sample and
+  % with a global fit of viscosity parameters
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   data = loadYT2016visc();
   figure('DefaultAxesFontSize',12)
   OutVBR=struct();
@@ -203,6 +224,9 @@ function plot_visc()
 end
 
 function data = loadYT2016visc()
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads experimental data if available
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   dataDir='../../../../vbrWork/expt_data/3_attenuation/Yamauchi2016/';
   data=struct();
   if exist([dataDir,'table3.mat'],'file')
@@ -229,6 +253,9 @@ function data = loadYT2016visc()
 end
 
 function data = loadYT2016Q()
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % loads experimental data if available
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   dataDir='../../../../vbrWork/expt_data/3_attenuation/Yamauchi2016/';
   data=struct();
 
@@ -262,7 +289,7 @@ function data = loadYT2016Q()
   end
 end
 
-function params=setBorneolParams()
+function params = setBorneolParams()
   % set the general viscous parameters for borneol.
   % near-solidus and melt effects
   params.alpha=25;
@@ -277,4 +304,41 @@ function params=setBorneolParams()
   params.R=8.314; % gas constant [J/mol/K]
   params.m=2.56; % grain size exponent
   params.dg_um_r=34.2 ; % eference grain size [um]
+end
+
+function [G,dGdT,dGdT_ave] = YT16_E(T_C)
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  % [G,dGdT,dGdT_ave]= YT16_E(T_C)
+  %
+  % YT2016 Figure 6 caption polynomial fit of E vs T, T in degrees C
+  %
+  % parameters
+  % ----------
+  % T_C   temperature in deg C, any size array
+  %
+  % output
+  % ------
+  % G          modulus, GPa. same size as T_C
+  % dGdT       temperature derivative of G at T_C, same size as T_C. [GPa/C]
+  % dGdT_ave   average temp derivative over range of T_C given, scalar. [GPa/C].
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+  a0=2.5943;
+  a1=2.6911*1e-3;
+  a2=-2.9636*1e-4;
+  a3 =1.4932*1e-5;
+  a4 =-2.9351*1e-7;
+  a5 =1.8997*1e-9;
+  a = [a5,a4,a3,a2,a1,a0];
+
+  G=zeros(size(T_C));
+  dGdT=zeros(size(T_C));
+  for iTC=1:numel(T_C)
+    Gpoly = polyval(a,T_C(iTC));
+    dGdTpoly = polyval(a(1:end-1),T_C(iTC));
+    G(iTC)=sum(Gpoly(:));
+    dGdT(iTC)=sum(dGdTpoly(:));
+  end
+  dGdT_ave=mean(dGdT);
+
 end

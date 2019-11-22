@@ -1,4 +1,4 @@
-function fit_HK2003()
+function plot_HK2003()
   close all;
 
   % put VBR in the path
@@ -22,10 +22,6 @@ function fit_HK2003()
   VBR.in.SV.dg_um = 15*ones(size(stress));
   VBR.in.SV.phi = 0.0*ones(size(stress));
   VBR.in.SV.Ch2o = 0*ones(size(stress));
-
-
-
-
 
   %% write method list (these are the things to calculate)
   VBR.in.viscous.methods_list={'HK2003'};
@@ -107,7 +103,7 @@ function fit_HK2003()
   legend('location','northwest')
 end
 
-function data=tryLoad()
+function data = tryLoad()
   dataDir='../../../../vbrWork/expt_data/2_viscosity/';
 
   data=struct();

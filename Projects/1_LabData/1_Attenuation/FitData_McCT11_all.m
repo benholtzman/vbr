@@ -1,4 +1,4 @@
-function VBRs = FitData_McCT11_all()
+function FitData_McCT11_all()
   % comparison of maxwell times, viscosities, unrelaxed moduli
 
   % put VBR in the path
@@ -7,155 +7,32 @@ function VBRs = FitData_McCT11_all()
   vbr_init
   addpath('./functions')
 
-  ViscData = tryDataLoadVisc();
-  if isfield(ViscData,'T_C')
-    % Fig1=compare_viscosity(ViscData);
-    Fig2=plot_relaxSpectrum();
+  % viscosity vs grain size plot
+  Fig1=compare_viscosity();
 
-    [VBRs] = calculate_Fits();
-    Fig3 = plot_J1J2(VBRs);
-  end
+  % normalized relaxation spectrum plot
+  Fig2=plot_relaxSpectrum();
 
-end
+  % normalized J1, J2 plots
+  Fig3 = plot_J1J2();
 
-function [VBRs] = calculate_Fits()
-  % sample 15, constant grain size 22 um
-  Gu_40=2.4;
-  Gu_20=2.5;
-  dGdT=(Gu_40-Gu_20)/20*1e9;
-  Tref=20;
-
-  % anharmonic parameters
-  VBR.in.elastic.methods_list={'anharmonic'};
-  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticit
-  VBR.in.elastic.anharmonic.Gu_0_ol = Gu_40;
-  VBR.in.elastic.anharmonic.dG_dT = dGdT;
-  VBR.in.elastic.anharmonic.T_K_ref = 20+273;
-  VBR.in.elastic.anharmonic.dG_dP = 0;
-
-  % viscous parameters
-  VBR.in.viscous.methods_list={'xfit_premelt'}; % far enough from solidus, A terms will go to 1
-  VBR.in.viscous.xfit_premelt=SetBorneolParamsMcCT_lt7();
-
-  % anelastic parameters
-  VBR.in.anelastic.methods_list={'xfit_mxw'};
-  % use fit 2! only diff is tau_n_p
-  VBR.in.anelastic.xfit_mxw=Params_Anelastic('xfit_mxw');
-
-  % set state variables
-  VBR.in.SV.T_K = 23 +273 ; % temperature [K]
-  VBR.in.SV.dg_um = 5; % grain size
-  VBR.in.SV.P_GPa = 1000 / 1e9 ; % pressure [GPa] (does not affect this calc)
-  VBR.in.SV.rho = 1000; % density [kg m^-3] (does not affect this calc)
-  VBR.in.SV.sig_MPa = .1; % differential stress [MPa] (does not affect this calc)
-  VBR.in.SV.phi = 0; % melt fraction
-  VBR.in.SV.Tsolidus_K = (204.5 + 273) ; % solidus of pure borneol
-  VBR.in.SV.f=logspace(-6,10,50);
-  [VBR] = VBR_spine(VBR);
-  VBRs.fit1.VBR=VBR;
-
-  VBR.in.anelastic.xfit_mxw.fit='fit2';
-  [VBR] = VBR_spine(VBR);
-  VBRs.fit2.VBR=VBR;
-
-end
-
-function fig = plot_relaxSpectrum()
-
-  fig = figure()
-
-  tau_norm=logspace(-14,1,100);
-  % plot the relexation spectrum
-  params=Params_Anelastic('xfit_mxw');
-  [X_tau] = Q_xfit_mxw_xfunc(tau_norm,params);
-  hold all
-  loglog(tau_norm,X_tau,'LineWidth',1.5,'r');
-
-  params.fit='fit2';
-  [X_tau] = Q_xfit_mxw_xfunc(tau_norm,params);
-  loglog(tau_norm,X_tau,'LineWidth',1.5,'b');
-
-  relaxData=tryDataLoadRelax();
-  if isfield(relaxData,'relax_data_dg3to8')
-    loglog(relaxData.relax_fit1_pts.tau_norm,relaxData.relax_fit1_pts.relax_fit1_pts,'.r')
-    loglog(relaxData.relax_fit2_pts.tau_norm,relaxData.relax_fit2_pts.relax_fit2_pts,'.b')
-    p1=relaxData.relax_PREM_pts.relax_PREM_pts(1);
-    loglog(relaxData.relax_PREM_pts.tau_norm,[p1,p1],'k','linewidth',5)
-    loglog(relaxData.relax_data_dg3to8.tau_norm,relaxData.relax_data_dg3to8.relax_data_dg3to8,'.k','MarkerSize',10)
-  end
-
-  xlabel('normalized time scale')
-  ylabel('normalized relaxation spectrum')
-  ylim([1e-4,2])
-  xlim([1e-14,1e1])
-  set(gca,'Xdir','reverse','XMinorTick','on','YMinorTick','on')
-end
-
-
-function fig = plot_J1J2(VBRs)
-
-
-  fig = figure();
-  ax_j1=subplot(1,2,1);
-  ax_j2=subplot(1,2,2);
-
-  set(gcf,'CurrentAxes',ax_j1)
-  JU=1./VBRs.fit1.VBR.out.elastic.anharmonic.Gu;
-  Fn=VBRs.fit1.VBR.out.anelastic.xfit_mxw.f_norm;
-  semilogx(Fn,VBRs.fit1.VBR.out.anelastic.xfit_mxw.J1/JU,'r','linewidth',1.5)
-
-  hold on;
-  semilogx(Fn,VBRs.fit2.VBR.out.anelastic.xfit_mxw.J1/JU,'--r','linewidth',1.5)
-
-  set(gcf,'CurrentAxes',ax_j2)
-  loglog(Fn,VBRs.fit1.VBR.out.anelastic.xfit_mxw.J2/JU,'b','linewidth',1.5)
-  hold on
-  loglog(Fn,VBRs.fit2.VBR.out.anelastic.xfit_mxw.J2/JU,'--b','linewidth',1.5)
-
-  data=tryDataLoadRelax();
-  if isfield(data,'j1_data')
-
-    set(gcf,'CurrentAxes',ax_j1)
-    hold on;
-    semilogx(data.j1_data.fnorm,data.j1_data.j1_data,'.k','MarkerSize',10)
-    semilogx(data.j1_fit1.fnorm,data.j1_fit1.j1_fit1,'.r')
-    semilogx(data.j1_fit2.fnorm,data.j1_fit2.j1_fit2,'.r')
-
-
-    set(gcf,'CurrentAxes',ax_j2)
-    hold on
-    loglog(data.j2_data.fnorm,data.j2_data.j2_data,'.k','MarkerSize',10)
-    loglog(data.j2_fit1.fnorm,data.j2_fit1.j2_fit1,'.b')
-    loglog(data.j2_fit2.fnorm,data.j2_fit2.j2_fit2,'.b')
-    % loglog(relaxData.relax_fit2_pts.tau_norm,relaxData.relax_fit2_pts.relax_fit2_pts,'.b')
-    % p1=relaxData.relax_PREM_pts.relax_PREM_pts(1);
-    % loglog(relaxData.relax_PREM_pts.tau_norm,[p1,p1],'k','linewidth',5)
-    % loglog(relaxData.relax_data_dg3to8.tau_norm,relaxData.relax_data_dg3to8.relax_data_dg3to8,'.k','MarkerSize',10)
-  end
-
-  set(gcf,'CurrentAxes',ax_j1)
-  xlabel('normalized frequency')
-  ylabel('J1 / Ju')
-  xlim([1e-1,1e11])
-  ylim([1,3])
-  set(gca,'XMinorTick','on','YMinorTick','on')
-
-  set(gcf,'CurrentAxes',ax_j2)
-  xlabel('normalized frequency')
-  ylabel('J2 / Ju')
-  xlim([1e-1,1e11])
-  ylim([1e-4,2])
-  set(gca,'XMinorTick','on','YMinorTick','on')
+  % temp dependence of M, Qinv vs freq
+  Fig4 = plot_MQ_T_Fits('fit2');
+  Fig5 = plot_MQ_T_Fits('fit1');
 
 
 end
 
+function fig = plot_MQ_T_Fits(fit1_fit2)
 
-function fig = plot_EQ_fig9(data,ViscData,VBRs)
+  % get data, VBR calculation
+  [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2);
 
-  include_E=0;
+  % plotting
+  include_E=1;
 
   fig=figure();
+  fitval=VBRs(1).VBR.in.anelastic.xfit_mxw.fit;
 
   if include_E==1
     ax_E=subplot(2,2,1);
@@ -187,30 +64,31 @@ function fig = plot_EQ_fig9(data,ViscData,VBRs)
     if include_E==1
       set(fig,'CurrentAxes',ax_E)
       hold on
-      semilogx(fd,M,clr);
+      semilogx(fd,M,clr,'linewidth',1.5);
 
       set(fig,'CurrentAxes',ax_E_norm)
       hold on
-      semilogx(fnorm,Mnorm,clr);
+      semilogx(fnorm,Mnorm,clr,'linewidth',1.5);
     end
 
     set(fig,'CurrentAxes',ax_Qinv)
     hold on
-    loglog(fd,Qinv,clr);
+    loglog(fd,Qinv,clr,'linewidth',1.5);
 
     set(fig,'CurrentAxes',ax_Qinv_norm)
     hold on
-    loglog(fnorm,Qinv,clr);
+    loglog(fnorm,Qinv,clr,'linewidth',1.5);
   end
 
   % plot the data
-  if isfield(data,'Qinv')
+  if Data.fig9.has_data && Data.visc.has_data
+    data=Data.fig9;
+    ViscData=Data.visc;
     for iT=1:numel(data.T_list)
       This_T_C=data.T_list(iT);
 
       fld=['T_',num2str(round(This_T_C))];
       clr=ClrStruct.(fld);
-
 
       fd=data.f_Hz(data.T_C==This_T_C);
       fd(fd<1e-4)=1e-4; % correction for the data grab
@@ -257,6 +135,7 @@ function fig = plot_EQ_fig9(data,ViscData,VBRs)
     xlim([1e-1,1e5])
     set(gca,'XMinorTick','on')
   end
+
   set(fig,'CurrentAxes',ax_Qinv)
   box on
   xlabel('f [Hz]'); ylabel('Qinv')
@@ -273,18 +152,207 @@ function fig = plot_EQ_fig9(data,ViscData,VBRs)
 
 end
 
+function [VBRs,Data] = calculate_MQ_T_Fits(fit1_fit2)
+  % temperature dependence (fig 9)
+
+  % load the data
+  Data.visc = tryDataLoadVisc();
+  Data.fig9 = tryDataLoadFig9();
+
+  % calculate VBR for expt conditions
+  if Data.fig9.has_data
+    T_list=Data.fig9.T_list;
+  else
+    T_list=[23.7,45.4];
+  end
+
+  for iT=1:numel(T_list)
+    This_T_C=T_list(iT);
+
+    % anharmonic parameters
+    VBR.in.elastic.methods_list={'anharmonic'};
+    VBR.in.elastic.anharmonic=Params_Elastic('anharmonic');
+
+    if Data.visc.has_data
+      % pull ref modulus at elevated T directly from table 1
+      iVisc=find(Data.visc.T_C==This_T_C);
+      VBR.in.elastic.anharmonic.Gu_0_ol = Data.visc.GU_at_T_GPa(iVisc);
+      VBR.in.elastic.anharmonic.dG_dT = 0;
+    else
+      % estimate from figure 9 Eu lines
+      Gu_40=2.4;
+      Gu_20=2.5;
+      dGdT=(Gu_40-Gu_20)/20*1e9;
+      Tref=20;
+      VBR.in.elastic.anharmonic.Gu_0_ol = Gu_40;
+      VBR.in.elastic.anharmonic.dG_dT = dGdT;
+      VBR.in.elastic.anharmonic.T_K_ref = 20+273;
+    end
+    VBR.in.elastic.anharmonic.dG_dP = 0;
+
+    % viscous parameters
+    VBR.in.viscous.methods_list={'xfit_premelt'}; % far enough from solidus, A terms will go to 1
+    VBR.in.viscous.xfit_premelt=SetBorneolParamsMcCT_gt7();
+
+    % anelastic parameters
+    VBR.in.anelastic.methods_list={'xfit_mxw'};
+    VBR.in.anelastic.xfit_mxw.fit=fit1_fit2;
+
+    % set state variables
+    VBR.in.SV.T_K = This_T_C +273 ; % temperature [K]
+    VBR.in.SV.dg_um = 22; % grain size
+    VBR.in.SV.P_GPa = 1000 / 1e9 ; % pressure [GPa] (does not affect this calc)
+    VBR.in.SV.rho = 1000; % density [kg m^-3] (does not affect this calc)
+    VBR.in.SV.phi = 0; % melt fraction
+    VBR.in.SV.Tsolidus_K = (204.5 + 273) ; % solidus of pure borneol
+    VBR.in.SV.f=logspace(-4,1,50);
+    [VBR] = VBR_spine(VBR);
+    VBRs(iT).VBR=VBR;
+
+  end
+
+
+end
+
+
+function [VBRs] = calculate_J1J2Fits()
+  % sample 15, constant grain size 8 um
+  % exp. conditions given by table 1, sample 15, grain size 7.99 um row
+
+  % anharmonic parameters
+  VBR.in.elastic.methods_list={'anharmonic'};
+  VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticit
+  VBR.in.elastic.anharmonic.Gu_0_ol = 1.87; % from table 1 maxwell time / visc
+  VBR.in.elastic.anharmonic.dG_dT = 0;
+  VBR.in.elastic.anharmonic.dG_dP = 0;
+
+  % viscous parameters
+  VBR.in.viscous.methods_list={'xfit_premelt'}; % far enough from solidus, A terms will go to 1
+  VBR.in.viscous.xfit_premelt=SetBorneolParamsMcCT_lt7();
+
+  % anelastic parameters
+  VBR.in.anelastic.methods_list={'xfit_mxw'};
+
+  % set state variables
+  VBR.in.SV.T_K = 22.4 +273 ; % temperature [K], table 1
+  VBR.in.SV.dg_um = 8; % grain size
+  VBR.in.SV.P_GPa = 1000 / 1e9 ; % pressure [GPa] (does not affect this calc)
+  VBR.in.SV.rho = 1000; % density [kg m^-3] (does not affect this calc)
+  VBR.in.SV.phi = 0; % melt fraction
+  VBR.in.SV.Tsolidus_K = (204.5 + 273) ; % solidus of pure borneol
+  VBR.in.SV.f=logspace(-6,10,50);
+  [VBR] = VBR_spine(VBR);
+  VBRs.fit1.VBR=VBR;
+
+  VBR.in.anelastic.xfit_mxw.fit='fit2';
+  [VBR] = VBR_spine(VBR);
+  VBRs.fit2.VBR=VBR;
+
+end
+
+function fig = plot_relaxSpectrum()
+
+  fig = figure();
+
+  tau_norm=logspace(-14,1,100);
+  % plot the relexation spectrum
+  params=Params_Anelastic('xfit_mxw');
+  [X_tau] = Q_xfit_mxw_xfunc(tau_norm,params);
+  hold all
+  loglog(tau_norm,X_tau,'LineWidth',1.5,'r');
+
+  params.fit='fit2';
+  [X_tau] = Q_xfit_mxw_xfunc(tau_norm,params);
+  loglog(tau_norm,X_tau,'LineWidth',1.5,'b');
+
+  relaxData=tryDataLoadRelax();
+  if relaxData.has_data
+    loglog(relaxData.relax_fit1_pts.tau_norm,relaxData.relax_fit1_pts.relax_fit1_pts,'.r')
+    loglog(relaxData.relax_fit2_pts.tau_norm,relaxData.relax_fit2_pts.relax_fit2_pts,'.b')
+    p1=relaxData.relax_PREM_pts.relax_PREM_pts(1);
+    loglog(relaxData.relax_PREM_pts.tau_norm,[p1,p1],'k','linewidth',5)
+    loglog(relaxData.relax_data_dg3to8.tau_norm,relaxData.relax_data_dg3to8.relax_data_dg3to8,'.k','MarkerSize',10)
+  end
+
+  xlabel('normalized time scale')
+  ylabel('normalized relaxation spectrum')
+  ylim([1e-4,2])
+  xlim([1e-14,1e1])
+  set(gca,'Xdir','reverse','XMinorTick','on','YMinorTick','on')
+end
+
+
+function fig = plot_J1J2(VBRs)
+
+  % get the fit!
+  [VBRs] = calculate_J1J2Fits();
+  data=tryDataLoadRelax();
+
+  % plotting
+  fig = figure();
+  ax_j1=subplot(1,2,1);
+  ax_j2=subplot(1,2,2);
+
+  set(gcf,'CurrentAxes',ax_j1)
+  JU=1./VBRs.fit1.VBR.out.elastic.anharmonic.Gu;
+  Fn=VBRs.fit1.VBR.out.anelastic.xfit_mxw.f_norm;
+  semilogx(Fn,VBRs.fit1.VBR.out.anelastic.xfit_mxw.J1/JU,'r','linewidth',1.5)
+
+  hold on;
+  semilogx(Fn,VBRs.fit2.VBR.out.anelastic.xfit_mxw.J1/JU,'--r','linewidth',1.5)
+
+  set(gcf,'CurrentAxes',ax_j2)
+  loglog(Fn,VBRs.fit1.VBR.out.anelastic.xfit_mxw.J2/JU,'b','linewidth',1.5)
+  hold on
+  loglog(Fn,VBRs.fit2.VBR.out.anelastic.xfit_mxw.J2/JU,'--b','linewidth',1.5)
+
+
+  if data.has_data
+    set(gcf,'CurrentAxes',ax_j1)
+    hold on;
+    semilogx(data.j1_data.fnorm,data.j1_data.j1_data,'.k','MarkerSize',10)
+    semilogx(data.j1_fit1.fnorm,data.j1_fit1.j1_fit1,'.r')
+    semilogx(data.j1_fit2.fnorm,data.j1_fit2.j1_fit2,'.r')
+
+    set(gcf,'CurrentAxes',ax_j2)
+    hold on
+    loglog(data.j2_data.fnorm,data.j2_data.j2_data,'.k','MarkerSize',10)
+    loglog(data.j2_fit1.fnorm,data.j2_fit1.j2_fit1,'.b')
+    loglog(data.j2_fit2.fnorm,data.j2_fit2.j2_fit2,'.b')
+  end
+
+  set(gcf,'CurrentAxes',ax_j1)
+  xlabel('normalized frequency')
+  ylabel('J1 / Ju')
+  xlim([1e-1,1e11])
+  ylim([1,3])
+  set(gca,'XMinorTick','on','YMinorTick','on')
+
+  set(gcf,'CurrentAxes',ax_j2)
+  xlabel('normalized frequency')
+  ylabel('J2 / Ju')
+  xlim([1e-1,1e11])
+  ylim([1e-4,2])
+  set(gca,'XMinorTick','on','YMinorTick','on')
+
+end
+
 function fig = compare_viscosity(data)
   % figure 8 of McCT11: viscosity vs grain size
   % pull the data
-  eta=data.eta_a((data.T_C>=22.3)&(data.T_C<=23.7));
-  dg=data.dg_um((data.T_C>=22.3)&(data.T_C<=23.7));
-  dg=dg(eta>0);
-  eta=eta(eta>0);
+  data = tryDataLoadVisc();
 
-  etab=data.eta_b((data.T_C>=22.3)&(data.T_C<=23.7));
-  dgb=data.dg_um((data.T_C>=22.3)&(data.T_C<=23.7));
-  dgb=dgb(etab>0);
-  etab=etab(etab>0);
+  if data.has_data
+    eta=data.eta_a((data.T_C>=22.3)&(data.T_C<=23.7));
+    dg=data.dg_um((data.T_C>=22.3)&(data.T_C<=23.7));
+    dg=dg(eta>0);
+    eta=eta(eta>0);
+
+    etab=data.eta_b((data.T_C>=22.3)&(data.T_C<=23.7));
+    dgb=data.dg_um((data.T_C>=22.3)&(data.T_C<=23.7));
+    dgb=dgb(etab>0);
+    etab=etab(etab>0);
+  end
 
   % VBR calc for dg_um > 7
   T_C=mean([22.3,23.7]);
@@ -301,12 +369,17 @@ function fig = compare_viscosity(data)
   % VBR calc for dg_um < 7
   VBR.in.viscous.xfit_premelt=SetBorneolParamsMcCT_lt7();
   [VBR] = VBR_spine(VBR) ;
-  fig=figure()
-  loglog(dgb(dgb>=7),etab(dgb>=7),'.b','MarkerSize',10);
-  hold on
-  loglog(dgb(dgb<7),etab(dgb<7),'.r','MarkerSize',10);
+
+  % plot it
+  fig=figure();
   loglog(VBR_gt7.in.SV.dg_um,VBR_gt7.out.viscous.xfit_premelt.diff.eta,'b','LineWidth',1.5)
+  hold on
   loglog(VBR.in.SV.dg_um,VBR.out.viscous.xfit_premelt.diff.eta,'r','LineWidth',1.5)
+  if data.has_data
+    loglog(dgb(dgb>=7),etab(dgb>=7),'.b','MarkerSize',10);
+    loglog(dgb(dgb<7),etab(dgb<7),'.r','MarkerSize',10);
+  end
+
   ylim([1e12,1e15])
   xlim([1e0,1e2])
   xlabel('Grain Size [um]')
@@ -320,7 +393,6 @@ function data = tryDataLoadVisc()
   dataDir='../../../../vbrWork/expt_data/3_attenuation/McCT11/McCT11_new/';
   data=struct();
   if exist([dataDir,'McCT11_table1.csv'],'file')
-    disp('loading')
     d=csvread([dataDir,'McCT11_table1.csv']);
     d=d(2:end,:);
     % sample	dg_um	T_C	eta_Pas_a	eta_Pas_b	eta_ave_Pas	tau_m_s	strain	GU_at_T_Gpa
@@ -333,8 +405,9 @@ function data = tryDataLoadVisc()
     data.T_list=unique(data.T_C);
     data.dg_list=unique(data.dg_um);
     data.sample_list=unique(data.sample);
+    data.has_data=1;
   else
-    disp('not loading')
+    data.has_data=0;
   end
 
 end
@@ -345,7 +418,7 @@ function data = tryDataLoadRelax();
   dataDir='../../../../vbrWork/expt_data/3_attenuation/McCT11/McCT11_new/';
   fi_list={'j1_data';'j1_fit1';'j1_fit2';'j2_data';'j2_fit1';'j2_fit2';...
            'relax_fit1_pts';'relax_fit2_pts';'relax_PREM_pts';'relax_data_dg3to8'};
-
+  data.has_data=1;
   for ifi=1:numel(fi_list)
     fl=fi_list{ifi};
     if exist([dataDir,fl,'.csv'])
@@ -357,6 +430,8 @@ function data = tryDataLoadRelax();
         data.(fl).fnorm=d(:,1);
         data.(fl).(fl)=d(:,2);
       end
+    else
+      data.has_data=0;
     end
   end
 
@@ -376,7 +451,9 @@ function data = tryDataLoadFig9()
     data.Qinv=d(:,5);
     data.E_GPa=d(:,6);
     data.T_list=unique(data.T_C);
+    data.has_data=1;
   else
+    data.has_data=0;
     disp('not loading')
   end
 
@@ -396,7 +473,7 @@ function params = SetBorneolParamsMcCT_gt7()
   params.V=0; % activation vol [m3/mol], figure 20 of YT2016
   params.R=8.314; % gas constant [J/mol/K]
   params.m=1; % grain size exponent
-  params.dg_um_r=21.4 ; % caption of Fig 9. % 24.4; % reference grain size [um]
+  params.dg_um_r=21.4 ; % reference grain size [um]
 end
 
 function params = SetBorneolParamsMcCT_lt7()

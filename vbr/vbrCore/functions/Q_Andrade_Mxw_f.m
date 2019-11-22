@@ -35,7 +35,7 @@ function [VBR]=Q_Andrade_Mxw_f(VBR)
   T_K = VBR.in.SV.T_K ;
   dg_um = VBR.in.SV.dg_um ;
   R = 8.314 ;
-  eta0_local = 1.2e-11 % VBR.in.anelastic.andrade_mxw.eta0_local ; % no idea !
+  eta0_local = 1.2e-11; % VBR.in.anelastic.andrade_mxw.eta0_local ; % no idea !
   p = 2.2 ;% add this to params file !
   U_local = 629e3 ; %[J/mol] % add this to params file !
   R = 8.314 ;  % J / mol. K
@@ -68,7 +68,7 @@ function [VBR]=Q_Andrade_Mxw_f(VBR)
   %% calculate material properties
   %% =============================
   %eta_ss = eta_ss_in ;
-  eta_ss = eta_ss_local
+  eta_ss = eta_ss_local;
   %eta_ss = 2*eta_ss ;
 
   Mu_in = 0.65.*Mu_in ; % compliance
@@ -124,6 +124,6 @@ function [VBR]=Q_Andrade_Mxw_f(VBR)
   VBR.out.anelastic.andrade_mxw.V=Va;
 
   % calculate mean velocity along frequency dimension
-  VBR.out.anelastic.AndradePsP.Vave = Q_aveVoverf(Va,f_vec);
+  VBR.out.anelastic.andrade_mxw.Vave = Q_aveVoverf(Va,f_vec);
 
 end

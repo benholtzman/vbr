@@ -42,24 +42,25 @@ function params = Params_Anelastic(method)
     params.Beta = 0.020;
     params.Tau_MR = 10^5.3 ;
     params.E = 303e3 ; %J/mol
+    params.G_UR = 62.2; % GPa, for reference only.
 
     % reference values (uses eBurgers values from above)
-    params.TR = 1173;% Kelvins
+    params.TR = 900+273;% Kelvins
     params.PR = 0.2; % confining pressure of experiments, GPa
-    params.dR = 5 ; % 3.1 microns grain size
-    params.E = 303e3 ; % J/mol
+    params.dR = 3.1 ; % 3.1 microns grain size
     params.R = 8.314 ; % gas constant
     params.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
     params.m = 1 ;
 
-    % the GBS relaxation peak
+    % the GBS relaxation peak (experimental... set params.Delta to near zero,
+    % e.g., params.Delta=1e-30 to turn off)
     params.Te = 0.1 ;
     params.Tgbs = 0.0833 ;% sec
     params.Delta = 0.3 ; % Relaxation strength
   end
 
   if strcmp(method,'andrade_mxw')
-    % ANDRADE parameters (from Sundberg+Cooper)
+    % ANDRADE parameters (from Sundberg+Cooper). Experimental, do not use.
     params.func_name='Q_Andrade_Mxw_f'; % the name of the matlab function
     params.alf = 1/2 ; % 1/3 ;
     % scaling option:
@@ -77,9 +78,20 @@ function params = Params_Anelastic(method)
     % xfit_mxw parameters
     params.citations={'McCarthy, Takei, Hiraga, 2011 JGR http://dx.doi.org/10.1029/2011JB008384'};
     params.func_name='Q_xfit_mxw'; % the name of the matlab function
-    params.beta1 = 0.32 ;
+    params.fit='fit1'; % the mantle scaling fit
+
+    % high temp background at tau_normalized < 1e-11, X = beta2 * tau_n ^ alpha2
+
     params.beta2 = 1853.0 ;
+    params.beta2_fit2=8.476;
     params.alpha2 = 0.5 ;
+
+    % parameters for dissipation spectrum at tau_normalized > 1e-11
+    % Alpha = params.Alpha_a - params.Alpha_b./(1+params.Alpha_c*(tau_norm_vec.^params.Alpha_taun));
+    % X = beta1 * tau_n ^ Alpha
+    params.tau_cutoff=1e-11; % the transition tau from HTB to peak (for fit 1)
+    params.tau_cutoff_fit2=5e-6; % the value for fit 2 (fit 1 used by default)
+    params.beta1 = 0.32 ;
     params.Alpha_a=0.39 ;
     params.Alpha_b=0.28;
     params.Alpha_c=2.6;
@@ -92,10 +104,12 @@ function params = Params_Anelastic(method)
     params.citations={'Yamauchi and Takei, 2016, J. Geophys. Res. Solid Earth, https://doi.org/10.1002/2016JB013316'};
     params.func_name='Q_xfit_premelt'; % the name of the matlab function
 
-    params.alpha_B=0.38;
-    params.A_B=0.664;
-    params.tau_pp=6*1e-5;
+    % high temp background spectrum
+    params.alpha_B=0.38; % high temp background exponent
+    params.A_B=0.664; % high temp background dissipation strength
 
+    % pre-melting dissipation peak settings:
+    params.tau_pp=6*1e-5; % peak center
     params.Beta=0; %
     params.Ap_fac_1=0.01;
     params.Ap_fac_2=0.4;
@@ -105,6 +119,7 @@ function params = Params_Anelastic(method)
     params.sig_p_fac_3=7;
     params.Ap_Tn_pts=[0.91,0.96,1]; % Tn cuttoff points
     params.sig_p_Tn_pts=[0.92,1]; % Tn cuttoff points
+    params.description='pre-melting scaling';
   end
 
   % melt enhancement effects, used by multiple of the above methods
@@ -120,6 +135,15 @@ end
 function params=load_JF10_eBurger_params(params)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % loads fitting parameters
+  %
+  % reminder: reference unrelaxed modulus (G_UR) is not used by elastic methods
+  % and is included here for reference only. To use it, set
+  %
+  %    VBR.in.elastic.anharmonic.Gu_0_ol=params.bg_only.G_UR
+  %
+  % after loading the param file. Note that JF10 define their references at
+  % 900C,0.2GPa so you have to also ajust the anharmonic reference temperature
+  % and pressure or project params.bg_only.G_UR to STP.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % multiple sample best high-temp background only fit:

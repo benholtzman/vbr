@@ -2,8 +2,6 @@
 
 **Licensing**: LICENSE?
 
-**Bug Reporting and Support**: Join our slack channel at vbr-calc.slack.com to let us know if you find bugs or if you need help getting started!
-
 **Citing**: Manuscript in prep. Until publication, email Holtzman and Havlin before using for publishable research.
 
 ## Overview
@@ -11,6 +9,12 @@
 The Very Broadband Rheology (VBR) Calculator provides a useful framework for calculating material properties from thermodynamic state variables (e.g., temperature, pressure, melt fraction) using a wide range of experimental scalings. The main goal is to allow easy comparison between methods for calculating anelastic-dependent seismic properties, but the VBR Calculator can also be used for calculating steady state viscosity, pure elastic (anharmonic) seismic properties and more. The VBR Calculator is nominally for olivine, but may be applied to other compositions (at your own risk).
 
 At present, the code is in Matlab, but it is functional in [GNU Octave](https://www.gnu.org/software/octave/). There are plans for a python release, pending funding.
+
+## Bug Reporting and User Support
+
+Found a bug? Got a question? Join our slack channel at [vbr-calc.slack.com](https://join.slack.com/t/vbr-calc/shared_invite/enQtODI0MTk4NzIxNzkzLTZlYjMwYTc4MTVkOTg2ZDgyNTQxNTAxNjc2NmNkMzA2MmVjOTJkYjYzNjc1ZDJhNzg5ZWU2MzE4OTEyNmMxNGU)!
+
+**Why doesn't the VBR Calculator do X that I need for my project Y?** The code VBR Calculator is intended as a starting point for calculating isotropic material properties that account for anelasticity of earth materials and we expect that you will need to tweak the code for your particular application in ways that we did not anticipate. If you don't know where to start in modifying the code, join our slack channel and tell us more about your project! If you are writing a proposal which would benefit from a modified VBR Calculator, get in touch to discuss a collaboration!   
 
 # Basic Usage
 

@@ -56,23 +56,23 @@ VBR.in.SV.Ch2o = zeros(size(z)); % in PPM!
 VBR.in.SV.rho = 3300 * ones(size(z)); % [Pa]
 VBR.in.SV.chi = ones(size(z));
 VBR.in.SV.f = logspace(-2.2,-1.3,10);
-VBR.in.SV.T_K = 1350 + 273;
-VBR.in.SV.phi = 0;
-VBR.in.SV.dg_um = 1000;
+VBR.in.SV.T_K = (1450 + 273) * ones(size(z));
+VBR.in.SV.phi = zeros(size(z));
+VBR.in.SV.dg_um = 1000 * ones(size(z));
+solidus_C = SoLiquidus(VBR.in.SV.P_GPa, zeros(size(z)),zeros(size(z)),...
+    'hirschmann');
+VBR.in.SV.Tsolidus_K = solidus_C.Tsol + 273;
 % Note, the parameters that we are sweeping through will be 
 % overwritten in calculate_sweep()!
 
 % write method list (these are the things to calculate)
 % Use all available methods except xfit_premelt
 elastic = feval(fetchParamFunction('elastic'), '');
-VBR.in.elastic.methods_list = elastic.possible_methods(...
-    ~strcmp(elastic.possible_methods, 'xfit_premelt')); 
+VBR.in.elastic.methods_list = elastic.possible_methods; 
 viscous = feval(fetchParamFunction('viscous'), '');
-VBR.in.viscous.methods_list = viscous.possible_methods(...
-    ~strcmp(viscous.possible_methods, 'xfit_premelt'));
+VBR.in.viscous.methods_list = viscous.possible_methods;
 anelastic = feval(fetchParamFunction('anelastic'), '');
-VBR.in.anelastic.methods_list = anelastic.possible_methods(...
-    ~strcmp(anelastic.possible_methods, 'xfit_premelt')); 
+VBR.in.anelastic.methods_list = anelastic.possible_methods; 
 
 % load in settings that you might want to overwrite (optional)
 %  (each will be called internally if you don't call them here)
@@ -158,9 +158,12 @@ for i_T = n_T:-1:1  % run backwards so structure is preallocated
             % copy initial VBR structure and overwrite input state
             % variables for asthenospheric depth
             VBR = VBR_init;
-            VBR.in.SV.phi = sweep_params.phi(i_phi);
-            VBR.in.SV.dg_um = sweep_params.gs(i_gs);
-            VBR.in.SV.T_K = sweep_params.T(i_T) + 273;
+            VBR.in.SV.phi = sweep_params.phi(i_phi) ...
+                * ones(size(VBR.in.z));
+            VBR.in.SV.dg_um = sweep_params.gs(i_gs) ...
+                * ones(size(VBR.in.z));
+            VBR.in.SV.T_K = sweep_params.T(i_T) + 273 ...
+                * ones(size(VBR.in.z));
             
             % run VBR for asthenospheric depths (and current phi, gs, T)
             VBR = VBR_spine(VBR);
@@ -211,25 +214,25 @@ freq = VBR.in.SV.f;
 nn_pts = 1000; % number of points to interpolate frequency axis
 
 for i_an = 1:length(anelastic_methods)
-    Qinv_zf = VBR.out.anelastic.(anelastic_methods{i_an}).Qinv;
+    Q_zf = VBR.out.anelastic.(anelastic_methods{i_an}).Q;
     Vs_zf = VBR.out.anelastic.(anelastic_methods{i_an}).V/1000; % m/s to km/s
     
     % 2D interplations of Qinv(z,f) and Vs(z,f) over frequency only
     [Vs_zf, ~, ~] = interp_FreqZ(Vs_zf, freq, nn_pts,...
         VBR.in.z, length(VBR.in.z));
-    [Qinv_zf, freq_interp, ~] = interp_FreqZ(Qinv_zf, freq, nn_pts,...
+    [Q_zf, freq_interp, ~] = interp_FreqZ(Q_zf, freq, nn_pts,...
         VBR.in.z, length(VBR.in.z));
     
     % Mask Vs and Q in frequency and depth
     f_mask = ((freq_interp >= min_freq) & (freq_interp <= max_freq));
     Vs_zf_mask = Vs_zf(:, f_mask);
-    Qinv_zf_mask = Qinv_zf(:, f_mask);
+    Q_zf_mask = Q_zf(:, f_mask);
     
     % Calculate mean Vs and Q of mask
     meanVs = mean(Vs_zf_mask, 2);
-    meanQinv = mean(Qinv_zf_mask, 2);
+    meanQ = mean(Q_zf_mask, 2);
     calculated_vals.(anelastic_methods{i_an}).meanVs = meanVs;
-    calculated_vals.(anelastic_methods{i_an}).meanQinv = meanQinv;
+    calculated_vals.(anelastic_methods{i_an}).meanQ = meanQ;
     
 end
 

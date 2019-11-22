@@ -1,4 +1,4 @@
-function [VBR]=Q_xfit_mxw(VBR)
+function [VBR] = Q_xfit_mxw(VBR)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % [VBR]=Q_xfit_mxw(VBR)
   %
@@ -71,16 +71,18 @@ function [VBR]=Q_xfit_mxw(VBR)
       f_norm=tau_mxw*freq; % normalized frequency
       max_tau_norm=1./(2*pi*f_norm); % maximum normalized tau
 
-      tau_norm_f = max_tau_norm;
-      tau_norm_vec_local = linspace(0,tau_norm_f,100) ;
-      X_tau = X_func(tau_norm_vec_local,VBR.in.anelastic.xfit_mxw) ;
+      tau_norm_f = max_tau_norm;      
+      tau_norm_vec_local = logspace(-30,log10(max_tau_norm),100);
+      X_tau = Q_xfit_mxw_xfunc(tau_norm_vec_local,VBR.in.anelastic.xfit_mxw) ;
 
       %FINT1 = trapz(X_tau) ;  %@(taup) (X_tau, taup
       %int1 = Tau_fac.*quad(FINT1, 0, tau_norm_i);
-      int1 = trapz(tau_norm_vec_local,X_tau./tau_norm_f) ;
+      int1 = trapz(tau_norm_vec_local,X_tau./tau_norm_vec_local) ; % eq 18 of [1]
 
       J1(i_glob) = Ju.*(1 + int1);
-      J2(i_glob) = Ju.*((pi/2)*X_tau(end) + tau_norm(i));
+
+      % XJ2= Q_xfit_mxw_xfunc(J2tau_norm,VBR.in.anelastic.xfit_mxw) ;
+      J2(i_glob) = Ju.*((pi/2)*X_tau(end) + tau_norm(i)); % eq 18  of [1]
 
       % See McCarthy et al, 2011, Appendix B, Eqns B6 !
       % J2_J1_frac=(1+sqrt(1+(J2(i_glob)./J1(i_glob)).^2))/2;
@@ -109,19 +111,5 @@ function [VBR]=Q_xfit_mxw(VBR)
 
   % calculate mean velocity along frequency dimension
   VBR.out.anelastic.(onm).Vave = Q_aveVoverf(V,VBR.in.SV.f);
-
-end
-
-function [X_tau] = X_func(tau_norm_vec,params)
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-  % [X_tau] = X_func(tau_norm_vec,params)
-  % the relaxation spectrum function
-  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-  Beta  = params.beta1 .* ones(size(tau_norm_vec));
-  Alpha = params.Alpha_a - params.Alpha_b./(1+params.Alpha_c*(tau_norm_vec.^params.Alpha_taun));
-  Beta(tau_norm_vec<1e-11)=params.beta2;
-  Alpha(tau_norm_vec<1e-11)=params.alpha2;
-  X_tau = Beta .* tau_norm_vec.^Alpha;
 
 end

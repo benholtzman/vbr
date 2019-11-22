@@ -586,10 +586,11 @@ end
 
 function data = tryDataLoad_MQdg()
   % load the data
-  if ~exist('ExptData.mat')
+  dataDir='../../../../vbrWork/expt_data/3_attenuation/';
+  if ~exist([dataDir,'ExptData.mat'],'file')
     data.has_data=0;
   else
-    load('ExptData.mat');
+    load([dataDir,'ExptData.mat']);
     data = Data ;
     data.has_data=1;
     for i=1:length(data.McCT11)

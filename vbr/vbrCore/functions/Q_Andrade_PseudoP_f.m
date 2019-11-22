@@ -1,4 +1,4 @@
-function [VBR]=Q_Andrade_PseudoP_f(VBR)
+function [VBR] = Q_Andrade_PseudoP_f(VBR)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   %
   % [VBR]=Q_Andrade_PseudoP_f(VBR)
@@ -77,7 +77,7 @@ function [VBR]=Q_Andrade_PseudoP_f(VBR)
 
     % pure andrade model
     J1(ig1:ig2) = Ju_in.*(1 + param1 * (wX_mat.^-n)) ;
-    J2(ig1:ig2) = Ju_in.*(param2 * (wX_mat.^-n) + Xtilde./(Tau_MR.*w));
+    J2(ig1:ig2) = Ju_in.*(param2 * (wX_mat.^-n) + 1./(Tau_MR.*wX_mat));
     Qa(ig1:ig2) = J1(ig1:ig2)./J2(ig1:ig2) ;
     Qinv(ig1:ig2) = 1./Qa(ig1:ig2);
     Ma(ig1:ig2) = (J1(ig1:ig2).^2 + J2(ig1:ig2).^2).^(-1/2) ;

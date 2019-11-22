@@ -18,7 +18,6 @@ function FitData_YT16()
   path_to_top_level_vbr='../../../';
   addpath(path_to_top_level_vbr)
   vbr_init
-  addpath('./functions')
 
   plot_visc();
   plot_Q();
@@ -134,6 +133,8 @@ function plot_Q()
     subplot(2,1,1)
     xlabel('f [Hz]'); ylabel('M [GPa]')
     box on
+
+    saveas(gcf,'./figures/YT16_MQ.eps','epsc')
   else
     disp('This function requires data!')
   end
@@ -217,6 +218,8 @@ function plot_visc()
     title('H=147 kJ/mol, dg\_ref=34.2 um, T\_ref=23 C, eta\_r=7e13 Pas')
     xlabel('T [C]'); ylabel('eta [Pa s]')
     box on
+
+    saveas(gcf,'./figures/YT16_visc.eps','epsc')
   else
     disp('This function requires data!')
   end

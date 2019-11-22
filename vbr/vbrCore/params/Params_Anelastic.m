@@ -42,17 +42,18 @@ function params = Params_Anelastic(method)
     params.Beta = 0.020;
     params.Tau_MR = 10^5.3 ;
     params.E = 303e3 ; %J/mol
+    params.G_UR = 62.2; % GPa, for reference only.
 
     % reference values (uses eBurgers values from above)
-    params.TR = 1173;% Kelvins
+    params.TR = 900+273;% Kelvins
     params.PR = 0.2; % confining pressure of experiments, GPa
-    params.dR = 5 ; % 3.1 microns grain size
-    params.E = 303e3 ; % J/mol
+    params.dR = 3.1 ; % 3.1 microns grain size
     params.R = 8.314 ; % gas constant
     params.Vstar = 10e-6 ; % m^3/mol (Activation Volume? or molar volume?)
     params.m = 1 ;
 
-    % the GBS relaxation peak
+    % the GBS relaxation peak (experimental... set params.Delta to near zero,
+    % e.g., params.Delta=1e-30 to turn off)
     params.Te = 0.1 ;
     params.Tgbs = 0.0833 ;% sec
     params.Delta = 0.3 ; % Relaxation strength
@@ -134,6 +135,15 @@ end
 function params=load_JF10_eBurger_params(params)
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
   % loads fitting parameters
+  %
+  % reminder: reference unrelaxed modulus (G_UR) is not used by elastic methods
+  % and is included here for reference only. To use it, set
+  %
+  %    VBR.in.elastic.anharmonic.Gu_0_ol=params.bg_only.G_UR
+  %
+  % after loading the param file. Note that JF10 define their references at
+  % 900C,0.2GPa so you have to also ajust the anharmonic reference temperature
+  % and pressure or project params.bg_only.G_UR to STP.
   %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
   % multiple sample best high-temp background only fit:

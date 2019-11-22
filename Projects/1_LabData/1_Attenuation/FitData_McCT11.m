@@ -15,7 +15,6 @@ function FitData_McCT11()
   path_to_top_level_vbr='../../../';
   addpath(path_to_top_level_vbr)
   vbr_init
-  addpath('./functions')
   out_dir='./figures';
 
   % viscosity vs grain size plot

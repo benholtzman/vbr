@@ -67,7 +67,7 @@ function FitData_FJ10_Andrade()
   %% ====================================================
 
   close all;
-  figure;
+  fig=figure('Position', [10 10 600 200],'PaperPosition',[0,0,6,3],'PaperPositionMode','manual');
 
   for iTemp = 1:numel(VBR.in.SV.T_K)
 
@@ -79,14 +79,14 @@ function FitData_FJ10_Andrade()
 
     subplot(1,2,1)
     hold on
-    plot(logper,M_bg,'color',[R,0,B],'LineWidth',2);
+    plot(logper,M_bg,'color',[R,0,B],'LineWidth',1.5);
     ylabel('M [GPa] (bg only) '); xlabel('log10 period [s]')
     ylim([0,80])
     xlim([-2,4])
 
     subplot(1,2,2)
     hold on
-    plot(logper,log10(Q_bg),'color',[R,0,B],'LineWidth',2);
+    plot(logper,log10(Q_bg),'color',[R,0,B],'LineWidth',1.5);
     ylabel('log10 Q^-1 (bg only)'); xlabel('log10 period [s]')
     ylim([-2.5,0.5])
     xlim([-2,4])
@@ -101,12 +101,12 @@ function FitData_FJ10_Andrade()
 
       subplot(1,2,1)
       hold on
-      plot(expGPer,expG,'.','color',[R,0,B],'markersize',10);
+      plot(expGPer,expG,'.','color',[R,0,B],'markersize',6);
 
 
       subplot(1,2,2)
       hold on
-      plot(expQinvPer,expQinv,'.','color',[R,0,B],'markersize',10);
+      plot(expQinvPer,expQinv,'.','color',[R,0,B],'markersize',6);
     end
   end
 
@@ -114,7 +114,7 @@ function FitData_FJ10_Andrade()
     subplot(1,2,ip)
     box on
   end
-  saveas(gcf,'./figures/FJ10_eBurgers.eps','epsc')
+  saveas(gcf,'./figures/FJ10_Andrade.eps','epsc')
 end
 
 function data = tryDataLoad()

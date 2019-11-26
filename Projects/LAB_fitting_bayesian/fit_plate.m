@@ -158,9 +158,12 @@ zLAB_grid = predicted_vals.zLAB_Q;
 
 figure;
 imagesc(LABsweep.zPlatekm, LABsweep.TpC, zLAB_grid);
-xlabel('zPlate (km)'); ylabel('Tp (C)'); set(gca, 'ydir', 'normal')
-c = colorbar; ylabel(c, 'zLAB (km)')
-title('zLAB as a function of zPlate and Tp')
+xlabel('Thermal Plate Thickness (km)');
+ylabel('Potential Temperature (\circC)'); 
+set(gca, 'ydir', 'normal', 'fontsize', 14)
+c = colorbar; ylabel(c, 'Seismic Plate Thickness (km)', 'fontsize', 14)
+title(['zLAB as a function of zPlate and Tp using ', strrep(q_method, '_', ' ')], ...
+    'fontsize', 16, 'fontweight', 'normal')
 
 
 %% %%%%%%%%%%%%%%%%%%%% Get prior for LAB from RFs %%%%%%%%%%%%%%%%%%%%% %%

@@ -1,8 +1,8 @@
 # The Very Broadband Rheology (VBR) Calculator
 
-**Licensing**: LICENSE?
+**Licensing**: MIT License (see end of this document)
 
-**Citing**: Manuscript in prep. Until publication, email Holtzman and Havlin before using for publishable research.
+**Citing**: Manuscript in prep. Until publication, email Holtzman (benh@ldeo.columbia.edu) and Havlin (chavlin@gmail.com) before using for publishable research. The VBR calculator has been developed with funding from the following NSF grants (PI Holtzman unless otherwise noted): EAR 1736165 (Earthscope, co-PI C. Havlin), EAR 13-15254 (Geophysics, PI J. Davis), EAR 1056332 (Geophysics- CAREER).  
 
 ## Overview
 
@@ -98,13 +98,13 @@ VBR.in.viscous.HZK2011=Params_Viscous('HZK2011'); % HZK2011 params
 
 ### Run the VBR Calculator
 
-The VBR Calculator begins calculations by passing the ```VBR``` structure to the ``VBR_spine()```:
+The VBR Calculator begins calculations by passing the ```VBR``` structure to the ```VBR_spine()```:
 
 ```Matlab
 [VBR] = VBR_spine(VBR) ;
 ```
 
-### Pulling out results
+### Extracting results
 
 Results are stored in ```VBR.out``` for each property type and method:
 
@@ -121,3 +121,25 @@ The VBR Calculator nominally works in GNU Octave, but you may find that you need
 https://octave.sourceforge.io/io/index.html
 https://octave.sourceforge.io/statistics/index.html
 https://octave.org/doc/interpreter/Installing-and-Removing-Packages.html
+
+## MIT License ##
+
+Copyright (c) 2019-2020 Benjamin Holtzman, Christopher Havlin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

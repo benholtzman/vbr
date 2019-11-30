@@ -37,7 +37,7 @@ that contains a single variable (name irrelevant, as it is renamed to Model)
           the Vs or Q profile and picking the depth range on the figure
       - filenames.Vs, filenames.Q - the filenames of the saved seismic
           observations in the format described above
-      - If you only want to fit Vs or Q, delete the innapropriate fieldname
+      - If you only want to fit Vs or Q, delete the inappropriate fieldname
           from the filenames structure.
 --- Functions called:
       - functions/process_SeismicModels()
@@ -274,7 +274,7 @@ is not available in Octave.
           that geotherm given the Monte Carlo analysis - black squares on these
           profiles mark the depth of the calculated seismic LAB.
 --- Returns:
-      - posterior     strucutre containing the estimated distribution and
+      - posterior     structure containing the estimated distribution and
                       results of the Monte Carlo analysis
       - Plots showing the estimated pdfs and likeliest T, Vs, and Q profiles
 

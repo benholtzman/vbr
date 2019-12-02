@@ -3,7 +3,7 @@ function plot_slice(sweep, fieldname, fixed_vals)
 
 
 
-f = figure('position', [400, 400, 1700, 500], 'color', 'w');
+f = figure('position', [400, 400, 2050, 600], 'color', 'w');
 
 % Write out names and units
 fields = sweep.state_names;
@@ -56,7 +56,7 @@ titstr = sprintf('%s as a function of %s  (%.1g GPa, %.0f - %.0f s)', ...
     fieldname, titstr(1:end-2), mean(sweep.P_GPa(sweep.z_inds)), ...
     sweep.per_bw_min, sweep.per_bw_max);
 axes('position', [0, 0, 1, 1], 'visible', 'off');
-text(0.37, 0.95, titstr, 'fontsize', 16, 'fontweight', 'bold')
+text(0.37, 0.95, titstr, 'fontsize', 20, 'fontweight', 'bold')
 
 
 
@@ -74,7 +74,7 @@ fields = sweep.state_names;
 imagesc(sweep.(fields{i2}), sweep.(fields{i1}), value);
 xlabel(sweep.fnames{i2})
 ylabel(sweep.fnames{i1});
-set(ax, 'ydir', 'normal')
+set(ax, 'ydir', 'normal', 'fontsize', 18)
 titstr = strsplit(sweep.fnames{order(end)}, '(');
 if length(titstr) > 1
     title(sprintf('%s fixed at %g %s', titstr{1}, ...

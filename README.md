@@ -1,12 +1,12 @@
 # The Very Broadband Rheology (VBR) Calculator
 
-**Licensing**: LICENSE?
+**Licensing**: MIT License (see end of this document)
 
-**Citing**: Manuscript in prep. Until publication, email Holtzman and Havlin before using for publishable research.
+**Citing**: Manuscript in prep. Until publication, email Ben Holtzman (benh@ldeo.columbia.edu) and Chris Havlin (chris.havlin@gmail.com) before using for publishable research. The VBR calculator has been developed with funding from the following NSF grants (PI Holtzman unless otherwise noted): EAR 1736165 (Earthscope, co-PI C. Havlin), EAR 13-15254 (Geophysics, PI J. Davis), EAR 1056332 (Geophysics- CAREER).  
 
 ## Overview
 
-The Very Broadband Rheology (VBR) Calculator provides a useful framework for calculating material properties from thermodynamic state variables (e.g., temperature, pressure, melt fraction) using a wide range of experimental scalings. The main goal is to allow easy comparison between methods for calculating anelastic-dependent seismic properties, but the VBR Calculator can also be used for calculating steady state viscosity, pure elastic (anharmonic) seismic properties and more. The VBR Calculator is nominally for olivine, but may be applied to other compositions (at your own risk).
+The Very Broadband Rheology (VBR) Calculator provides a useful framework for calculating material properties from thermodynamic state variables (e.g., temperature, pressure, melt fraction, grain size) using a wide range of experimental scalings. The VBR Calculator at present contains constitutive models only for olivine, but may be applied to other compositions (at your own risk). The main goal is to allow easy comparison between methods for calculating anelastic-dependent seismic properties, but the VBR Calculator can also be used for calculating steady state viscosity, pure elastic (anharmonic) seismic properties and more. It can be used to fit and analyze experimental data, infer thermodynamic state from seismic measurements, predict measurable properties from geodynamic models, for example.  
 
 At present, the code is in Matlab, but it is functional in [GNU Octave](https://www.gnu.org/software/octave/). There are plans for a python release, pending funding.
 
@@ -14,7 +14,7 @@ At present, the code is in Matlab, but it is functional in [GNU Octave](https://
 
 Found a bug? Got a question? Join our slack channel at [vbr-calc.slack.com](https://join.slack.com/t/vbr-calc/shared_invite/enQtODI0MTk4NzIxNzkzLTZlYjMwYTc4MTVkOTg2ZDgyNTQxNTAxNjc2NmNkMzA2MmVjOTJkYjYzNjc1ZDJhNzg5ZWU2MzE4OTEyNmMxNGU)!
 
-**Why doesn't the VBR Calculator do X that I need for my project Y?** The VBR Calculator is intended as a starting point for calculating isotropic material properties that account for anelasticity of earth materials and we expect that you will need to tweak the code for your particular application in ways that we did not anticipate. If you don't know where to start in modifying the code, join our slack channel and tell us more about your project! If you are writing a proposal which would benefit from a modified VBR Calculator, get in touch to discuss a collaboration!   
+**Why doesn't the VBR Calculator do X that I need for my project Y?** The code VBR Calculator is intended as a starting point for calculating isotropic material properties that account for anelasticity of earth materials and we expect that you will need to tweak the code for your particular application in ways that we did not anticipate. If you don't know where to start in modifying the code, join our slack channel and tell us more about your project! If you are writing a proposal which would benefit from a modified VBR Calculator, get in touch to discuss a collaboration!   
 
 # Basic Usage
 
@@ -29,7 +29,7 @@ The code is divided into two primary subdirectories: `vbr` and `Projects`.
  * `mantle_extrap_*`: 3 directories demonstrating how to call VBR for a range of mantle conditions by (1) generating a look up table (LUT, `mantle_extrap_LUT`), (2) using an the analytical solution for half space cooling (`mantle_extrap_hspace`) and (3) using a numerical solution of half space cooling (`mantle_extrap_FM`) .
  * `LAB_fitting_bayesian` a demonstration of how one can use the VBR Calculator in a forward modeling framework to investigate seismic observations.
 
- Note that you should write your code that uses vbr in directories outside the vbr github repository, unless you plan on submitting them to the repository (see the `DevelopmentGuide.md` if that's the case).
+Note that you should write your code that uses vbr in directories outside the vbr github repository, unless you plan on submitting them to the repository (see the `DevelopmentGuide.md` if that's the case).
 
 ### Initialize VBR
 
@@ -117,7 +117,7 @@ The VBR Calculator executes calculations by passing the ```VBR``` structure to t
 [VBR] = VBR_spine(VBR) ;
 ```
 
-### Pulling out results
+### Extracting results
 
 Results are stored in ```VBR.out``` for each property type and method:
 
@@ -134,3 +134,25 @@ The VBR Calculator nominally works in GNU Octave, but you may find that you need
 https://octave.sourceforge.io/io/index.html
 https://octave.sourceforge.io/statistics/index.html
 https://octave.org/doc/interpreter/Installing-and-Removing-Packages.html
+
+## MIT License ##
+
+Copyright (c) 2019-2020 Benjamin Holtzman, Christopher Havlin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

@@ -20,6 +20,17 @@ Found a bug? Got a question? Join our slack channel at [vbr-calc.slack.com](http
 
 The following outlines the basic usage for the VBR calculator. Additionally, there is a growing number of examples in  Projects/ to illustrate more complex usage, particularly in developing a statistical framework for comparing predicted mechanical properties to observed properties.  
 
+### Directory structure
+The code is divided into two primary subdirectories: `vbr` and `Projects`.
+* `./vbr`: the inner guts of the VBR calculator. The subdirectory `./vbr/vbrCore/functions/` contains the functions in which the actual methods are coded. For example, functions beginning `Q_` are functions related to anelastic methods.
+* `./Projects`: each subdirectory within this directory is an example of using the VBR Calculator in a wider "Project." These projects are self-contained codes that use the VBR Calculator in a broader context:
+ * `vbr_core_examples`: scripts that simply call VBR in different ways
+ * `1_LabData`: functions that call VBR for experimental conditions and materials
+ * `mantle_extrap_*`: 3 directories demonstrating how to call VBR for a range of mantle conditions by (1) generating a look up table (LUT, `mantle_extrap_LUT`), (2) using an the analytical solution for half space cooling (`mantle_extrap_hspace`) and (3) using a numerical solution of half space cooling (`mantle_extrap_FM`) .
+ * `LAB_fitting_bayesian` a demonstration of how one can use the VBR Calculator in a forward modeling framework to investigate seismic observations.
+
+Note that you should write your code that uses vbr in directories outside the vbr github repository, unless you plan on submitting them to the repository (see the `DevelopmentGuide.md` if that's the case).
+
 ### Initialize VBR
 
 To start, add the top level directory to your Matlab path (relative or absolute path) and run vbr_init to add all the required directories to your path:
@@ -89,16 +100,18 @@ VBR.in.elastic.anharmonic.Gu_0_ol = 75.5; % olivine reference shear modulus [GPa
 VBR.in.viscous.HZK2011.diff.Q=350e3; % diffusion creep activation energy
 ```
 
-The default parameters are stored in ```vbr/4_VBR/VBR_v0p95/params/``` and can be loaded and explored with
+The default parameters are stored in ```vbr/vbrCore/params/``` and can be loaded and explored with
 
 ```Matlab
 VBR.in.elastic.anharmonic=Params_Elastic('anharmonic'); % unrelaxed elasticity
 VBR.in.viscous.HZK2011=Params_Viscous('HZK2011'); % HZK2011 params
 ```
 
+When changing parameters from those loaded by default, you can either load all the parameters then overwrite them or in most cases you can simply set the parameters without loading the full set of parameters.
+
 ### Run the VBR Calculator
 
-The VBR Calculator begins calculations by passing the ```VBR``` structure to the ```VBR_spine()```:
+The VBR Calculator executes calculations by passing the ```VBR``` structure to the ``VBR_spine()```:
 
 ```Matlab
 [VBR] = VBR_spine(VBR) ;

@@ -1,4 +1,5 @@
 # The Very Broadband Rheology (VBR) Calculator
+# [PUBLIC REPO MOVED TO https://vbr-calc.github.io/vbr/ ]
 
 **Licensing**: MIT License (see end of this document)
 

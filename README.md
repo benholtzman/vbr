@@ -3,7 +3,7 @@
 
 **Licensing**: MIT License (see end of this document)
 
-**Citing**: Manuscript in prep. Until publication, email Ben Holtzman (benh@ldeo.columbia.edu) and Chris Havlin (chris.havlin@gmail.com) before using for publishable research. The VBR calculator has been developed with funding from the following NSF grants (PI Holtzman unless otherwise noted): EAR 1736165 (Earthscope, co-PI C. Havlin), EAR 13-15254 (Geophysics, PI J. Davis), EAR 1056332 (Geophysics- CAREER).  
+**Citing**: Manuscript in prep. Until publication, email Ben Holtzman and Chris Havlin before using for publishable research. The VBR calculator has been developed with funding from the following NSF grants (PI Holtzman unless otherwise noted): EAR 1736165 (Earthscope, co-PI C. Havlin), EAR 13-15254 (Geophysics, PI J. Davis), EAR 1056332 (Geophysics- CAREER).  
 
 ## Overview
 
